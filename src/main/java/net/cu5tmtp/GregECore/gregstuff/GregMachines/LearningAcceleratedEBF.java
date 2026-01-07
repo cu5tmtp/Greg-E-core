@@ -72,21 +72,24 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     @Override
     public void afterWorking() {
+
+        int currentBoost = LearningAcceleratedEBFmanager.getParallelBoost();
+
         if (recipeTemp >= 11000) {
-            tier5++;
-            LearningAcceleratedEBFmanager.addTierProgress(5, 1 * LearningAcceleratedEBFmanager.getParallelBoost());
+            tier5 = tier5 + currentBoost;
+            LearningAcceleratedEBFmanager.addTierProgress(5, currentBoost);
         } else if (recipeTemp >= 9000) {
-            tier4++;
-            LearningAcceleratedEBFmanager.addTierProgress(4, 1 * LearningAcceleratedEBFmanager.getParallelBoost());
+            tier4 = tier4 + currentBoost;
+            LearningAcceleratedEBFmanager.addTierProgress(4, currentBoost);
         } else if (recipeTemp >= 7000) {
-            tier3++;
-            LearningAcceleratedEBFmanager.addTierProgress(3, 1 * LearningAcceleratedEBFmanager.getParallelBoost());
+            tier3 = tier3 + currentBoost;
+            LearningAcceleratedEBFmanager.addTierProgress(3, currentBoost);
         } else if (recipeTemp >= 3000) {
-            tier2++;
-            LearningAcceleratedEBFmanager.addTierProgress(2, 1 * LearningAcceleratedEBFmanager.getParallelBoost());
+            tier2 = tier2 + currentBoost;
+            LearningAcceleratedEBFmanager.addTierProgress(2, currentBoost);
         } else if (recipeTemp >= 1) {
-            tier1++;
-            LearningAcceleratedEBFmanager.addTierProgress(1, 1 * LearningAcceleratedEBFmanager.getParallelBoost());
+            tier1 = tier1 + currentBoost;
+            LearningAcceleratedEBFmanager.addTierProgress(1, currentBoost);
         }
         super.afterWorking();
     }
