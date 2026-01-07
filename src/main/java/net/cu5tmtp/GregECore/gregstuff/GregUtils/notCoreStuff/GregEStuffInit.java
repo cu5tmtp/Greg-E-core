@@ -1,6 +1,7 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFmanager;
 import net.cu5tmtp.GregECore.item.ModItems;
 
 public class GregEStuffInit {
@@ -10,6 +11,7 @@ public class GregEStuffInit {
         GiantChemicalReactor.init();
         DysonSwarmLauncher.init();
         DysonSwarmEnergyCollector.init();
+        LearningAcceleratedEBF.init();
 
     }
 }

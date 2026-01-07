@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFmanager;
 import org.slf4j.Logger;
 
 public class GregEModifiers {
@@ -112,6 +113,19 @@ public class GregEModifiers {
 
         return ModifierFunction.builder()
                 .eutMultiplier(DysonSwarmManager.getBoost())
+                .build();
+    }
+
+    public static ModifierFunction learningEBF(MetaMachine machine, GTRecipe recipe){
+        if(!(machine instanceof LearningAcceleratedEBF laebf)){
+            return ModifierFunction.NULL;
+        }
+
+        return ModifierFunction.builder()
+                .modifyAllContents(ContentModifier.multiplier(LearningAcceleratedEBFmanager.getParallelBoost()))
+                .eutMultiplier(LearningAcceleratedEBFmanager.getEnergyBoost())
+                .durationMultiplier(LearningAcceleratedEBFmanager.getSpeedBoost())
+                .parallels(LearningAcceleratedEBFmanager.getParallelBoost())
                 .build();
     }
 }
