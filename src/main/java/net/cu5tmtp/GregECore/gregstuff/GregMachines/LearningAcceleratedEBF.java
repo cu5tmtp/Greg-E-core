@@ -80,21 +80,31 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
     @Override
     public void afterWorking() {
 
-        if (recipeTemp >= 9000 && tier5 < 1000) {
-            tier5 = Math.min(1000, tier5 + currentBoost);
-            LearningAcceleratedEBFManager.addTierProgress(5, currentBoost);
-        } else if (recipeTemp >= 7000 && tier4 < 2000) {
-            tier4 = Math.min(2000, tier4 + currentBoost);
-            LearningAcceleratedEBFManager.addTierProgress(4, currentBoost);
-        } else if (recipeTemp >= 5000 && tier3 < 4000) {
-            tier3 = Math.min(4000, tier3 + currentBoost);
-            LearningAcceleratedEBFManager.addTierProgress(3, currentBoost);
-        } else if (recipeTemp >= 3000 && tier2 < 10000) {
-            tier2 = Math.min(10000, tier2 + currentBoost);
-            LearningAcceleratedEBFManager.addTierProgress(2, currentBoost);
-        } else if (recipeTemp >= 1 && tier1 < 15000) {
-            tier1 = Math.min(15000, tier1 + currentBoost);
-            LearningAcceleratedEBFManager.addTierProgress(1, currentBoost);
+        if (recipeTemp >= 9000) {
+            if (tier5 <= 1000) {
+                tier5 = Math.min(1000, tier5 + currentBoost);
+                LearningAcceleratedEBFManager.addTierProgress(5, currentBoost);
+            }
+        } else if (recipeTemp >= 7000) {
+            if (tier4 <= 2000) {
+                tier4 = Math.min(2000, tier4 + currentBoost);
+                LearningAcceleratedEBFManager.addTierProgress(4, currentBoost);
+            }
+        } else if (recipeTemp >= 5000) {
+            if (tier3 <= 4000) {
+                tier3 = Math.min(4000, tier3 + currentBoost);
+                LearningAcceleratedEBFManager.addTierProgress(3, currentBoost);
+            }
+        } else if (recipeTemp >= 3000) {
+            if (tier2 <= 10000) {
+                tier2 = Math.min(10000, tier2 + currentBoost);
+                LearningAcceleratedEBFManager.addTierProgress(2, currentBoost);
+            }
+        } else if (recipeTemp >= 1) {
+            if (tier1 <= 15000) {
+                tier1 = Math.min(15000, tier1 + currentBoost);
+                LearningAcceleratedEBFManager.addTierProgress(1, currentBoost);
+            }
         }
         super.afterWorking();
     }
