@@ -7,7 +7,7 @@ All added items will not have recipes, you will have to add them yourself.
 
 You can use this in your modpack.
 
-!!! THIS MOD IS DISABLING NETHER PORTAL !!!
+!!! THIS MOD IS DISABLING NETHER PORTAL !!! - I will make it a separate mod, but I don't have time for it now.
 
 Currently it adds: 
 Accelerated EBF, with custom coils, that are faster than normal EBF.
