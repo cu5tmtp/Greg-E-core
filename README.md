@@ -9,12 +9,13 @@ You can use this in your modpack.
 
 !!! THIS MOD IS DISABLING NETHER PORTAL !!! - I will make it a separate mod, but I don't have time for it now.
 
-Currently it adds: 
-Accelerated EBF, with custom coils, that are faster than normal EBF.
-Giant Accelerated EBF, with custom coil, it needs Deionized Water to run. It has new custom coils.
-Learning Accelerated EBF, lategame EBF that gets energy reductions, speed boosts and parallels with the amount of blasted items.
-Giant Chemical Reactor, gets abilities depending on the bacteria put into it.
-Dyson Swarm Launcher and Energy Collector, launch solar sails into space and get huge amount of energy back! Also rewards huge amount of sails shot up!
+***
+Currently it adds: <br/>
+Accelerated EBF, with custom coils, that are faster than normal EBF. <br/>
+Giant Accelerated EBF, with custom coil, it needs Deionized Water to run. It has new custom coils. <br/>
+Learning Accelerated EBF, lategame EBF that gets energy reductions, speed boosts and parallels with the amount of blasted items. <br/>
+Giant Chemical Reactor, gets abilities depending on the bacteria put into it. <br/>
+Dyson Swarm Launcher and Energy Collector, launch solar sails into space and get huge amount of energy back! Also rewards huge amount of sails shot up! <br/>
 
 For GTCEu - 7.2.1
 
