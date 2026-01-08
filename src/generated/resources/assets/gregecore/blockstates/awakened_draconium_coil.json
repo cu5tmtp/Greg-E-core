@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gregecore:block/awakened_draconium_coil"
+    },
+    "active=true": {
+      "model": "gregecore:block/awakened_draconium_coil_active"
+    }
+  }
+}

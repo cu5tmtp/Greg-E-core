@@ -60,6 +60,12 @@ public class GreggyBlocks {
     public static final BlockEntry<ActiveBlock> PTFE_FIREBOX = createActiveBlock("ptfe_firebox_casing",
             GregECore.id("block/firebox/ptfe_firebox"));
 
+    public static final BlockEntry<ActiveBlock> SHOCKPROOF_ENGINE = createActiveBlock("shockproof_engine",
+            GregECore.id("block/engines/shockproof_engine_intake"));
+
+    public static final BlockEntry<ActiveBlock> AW_DRACONIUM_COIL = createActiveBlock("awakened_draconium_coil",
+            GregECore.id("block/coils/machine_coil_aw_draconium"));
+
     public static final void init(){}
 }
 

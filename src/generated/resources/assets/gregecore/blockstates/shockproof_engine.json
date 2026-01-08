@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gregecore:block/shockproof_engine"
+    },
+    "active=true": {
+      "model": "gregecore:block/shockproof_engine_active"
+    }
+  }
+}

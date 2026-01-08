@@ -32,6 +32,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(GiantChemicalReactor.GIANTCHR.getItem());
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());
+                        pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
                     })
                     .build());
 

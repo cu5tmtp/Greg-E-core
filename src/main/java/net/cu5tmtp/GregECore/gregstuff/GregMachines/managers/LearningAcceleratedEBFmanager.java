@@ -1,6 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines.managers;
 
-public class LearningAcceleratedEBFmanager {
+public class LearningAcceleratedEBFManager {
 
     //start from int[1] to better illustrate tier levels
     private static final int[] tiers = new int[6];
@@ -19,7 +19,7 @@ public class LearningAcceleratedEBFmanager {
         double mod = 0;
         if (tiers[1] > 15000) mod += 0.5;
         if (tiers[2] > 10000) mod += 0.3;
-        if (tiers[3] > 8000)  mod += 0.15;
+        if (tiers[3] > 4000)  mod += 0.15;
         return 1 - mod;
     }
 
@@ -27,15 +27,15 @@ public class LearningAcceleratedEBFmanager {
         double mod = 0;
         if (tiers[2] > 10000) mod += 0.5;
         if (tiers[3] > 4000)  mod += 0.3;
-        if (tiers[4] > 6000)  mod += 0.15;
+        if (tiers[4] > 2000)  mod += 0.15;
         return 1 - mod;
     }
 
     public static int getParallelBoost() {
         int mod = 0;
-        if (tiers[3] > 8000) mod += 16;
-        if (tiers[4] > 4000) mod += 80;
-        if (tiers[5] > 2000) mod += 160;
+        if (tiers[3] > 4000) mod += 16;
+        if (tiers[4] > 2000) mod += 80;
+        if (tiers[5] > 1000) mod += 160;
         return (mod == 0) ? 1 : mod;
     }
 }

@@ -58,6 +58,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         List<IFluidHandler> coolantContainers = new ArrayList<>();
         Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
 
+        //This part of the code is the same as HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
             IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
             if (io == IO.NONE || io == IO.OUT) continue;

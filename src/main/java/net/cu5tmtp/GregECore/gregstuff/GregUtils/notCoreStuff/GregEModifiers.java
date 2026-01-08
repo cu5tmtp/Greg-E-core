@@ -6,11 +6,9 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFmanager;
-import org.slf4j.Logger;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFManager;
 
 public class GregEModifiers {
 
@@ -121,11 +119,21 @@ public class GregEModifiers {
             return ModifierFunction.NULL;
         }
 
+        int blastFurnaceTemperature = laebf.getMaxTemp();
+        int recipeTemp = recipe.data.contains("ebf_temp") ? recipe.data.getInt("ebf_temp") : 0;
+
+        if (recipeTemp > blastFurnaceTemperature) {
+            return ModifierFunction.NULL;
+        }
+
+        int parallelsAvailableLEBF = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, LearningAcceleratedEBFManager.getParallelBoost()));
+        LearningAcceleratedEBF.setCurrentBoost(parallelsAvailableLEBF);
+
         return ModifierFunction.builder()
-                .modifyAllContents(ContentModifier.multiplier(LearningAcceleratedEBFmanager.getParallelBoost()))
-                .eutMultiplier(LearningAcceleratedEBFmanager.getEnergyBoost())
-                .durationMultiplier(LearningAcceleratedEBFmanager.getSpeedBoost())
-                .parallels(LearningAcceleratedEBFmanager.getParallelBoost())
+                .modifyAllContents(ContentModifier.multiplier(parallelsAvailableLEBF))
+                .eutMultiplier(LearningAcceleratedEBFManager.getEnergyBoost())
+                .durationMultiplier(LearningAcceleratedEBFManager.getSpeedBoost())
+                .parallels(parallelsAvailableLEBF)
                 .build();
     }
 }

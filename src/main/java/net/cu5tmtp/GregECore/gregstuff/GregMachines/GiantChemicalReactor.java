@@ -52,6 +52,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
 
         Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
 
+        //This part of the code is adaptation of HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
             IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
             if (io == IO.NONE || io == IO.OUT) continue;

@@ -4,6 +4,7 @@
   "block.gregecore.giantchr": "§lGiant Chemical Reactor§g",
   "block.gregecore.dysonswarmenergycollector": "§lDyson Swarm Energy Collector§g",
   "block.gregecore.dysonswarmlauncher": "§lDyson Swarm Launcher§g",
+  "block.gregecore.learning_acc_ebf": "§lLearning Accelerated EBF§g",
 
   "block.gregecore.linearaccelerator": "Linear Accelerator",
   "block.gregecore.conveyorbelt": "Conveyor Belt",
@@ -13,9 +14,11 @@
   "block.gregecore.twilight_coil": "Twilight Coil",
   "block.gregecore.desh_coil": "Desh Coil",
   "block.gregecore.forgotten_coil": "Forgotten Ingot Coil",
+  "block.gregecore.awakened_draconium_coil": "Awakened Draconium Coil",
   "block.gregecore.ptfe_engine_intake": "PTFE Engine Intake",
   "block.gregecore.ptfe_firebox_casing": "PTFE Firebox Casing",
   "block.gregecore.vibration_engine_intake": "Vibration Engine Intake",
+  "block.gregecore.shockproof_engine": "Shockproof Engine Intake",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",
