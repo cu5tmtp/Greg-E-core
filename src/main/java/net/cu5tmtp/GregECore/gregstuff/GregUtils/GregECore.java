@@ -83,22 +83,7 @@ public class GregECore {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
     }
-
-    //due to the mod that disables nether portal also disabling undergarden portal, this is needed
-    @Mod.EventBusSubscriber(modid = GregECore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class ForgeEvents {
-        @SubscribeEvent
-        public static void onPortalIgnition(BlockEvent.PortalSpawnEvent event) {
-            PortalShape shape = event.getPortalSize();
-
-            if (shape != null) {
-                if (event.getLevel().getBlockState(event.getPos().below()).is(Blocks.OBSIDIAN)) {
-                    event.setCanceled(true);
-                }
-            }
-        }
-    }
-
+    
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
