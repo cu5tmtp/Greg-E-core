@@ -13,6 +13,7 @@ Giant Accelerated EBF, with custom coil, it needs Deionized Water to run. It has
 Learning Accelerated EBF, lategame EBF that gets energy reductions, speed boosts and parallels with the amount of blasted items. <br/>
 Giant Chemical Reactor, gets abilities depending on the bacteria put into it. <br/>
 Dyson Swarm Launcher and Energy Collector, launch solar sails into space and get huge amount of energy back! Also rewards huge amount of sails shot up! <br/>
+Also adds some materials, fluids, engine and firebox blocks.
 
 For GTCEu - 7.2.1
 
