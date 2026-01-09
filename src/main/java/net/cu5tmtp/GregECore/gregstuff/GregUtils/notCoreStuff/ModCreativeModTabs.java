@@ -24,6 +24,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.ENERGY_BACTERIA.get());
                         pOutput.accept(ModItems.SPEED_BACTERIA.get());
                         pOutput.accept(ModItems.PARALLEL_BACTERIA.get());
+                        pOutput.accept(ModItems.ULTIMATE_BACTERIA.get());
                         pOutput.accept(ModItems.SOLAR_ACTIVATOR.get());
                         pOutput.accept(ModItems.SOLAR_SAIL.get());
                         pOutput.accept(ModItems.SOLAR_SAIL_CASE.get());

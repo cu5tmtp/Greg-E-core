@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -90,11 +91,17 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                     this.energyBoost = 1.0;
                     this.parallelBoost = 1;
                     return super.beforeWorking(recipe);
+                } else if (stack.is(ULTIMATE_BACTERIA.get())) {
+                    this.speedBoost = 0.1;
+                    this.energyBoost = 0.1;
+                    this.parallelBoost = 64;
+                    return super.beforeWorking(recipe);
                 } else {
                     this.speedBoost = 1.0;
                     this.energyBoost = 1.0;
                     this.parallelBoost = 1;
                 }
+
             }
         }
 
@@ -104,7 +111,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
     public static MachineDefinition GIANTCHR = REGISTRATE
             .multiblock("giantchr", GiantChemicalReactor::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeTypes(GTRecipeTypes.LARGE_CHEMICAL_RECIPES)
+            .recipeTypes(GTRecipeTypes.LARGE_CHEMICAL_RECIPES, GTRecipeTypes.CHEMICAL_RECIPES)
             .recipeModifiers(GregEModifiers::giantChemicalReactor, GTRecipeModifiers.OC_PERFECT)
             .appearanceBlock(CASING_STEEL_SOLID)
             .pattern(definition -> {
@@ -151,6 +158,8 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Parallel bacteria: ").withStyle(s -> s.withColor(0x90EE90))
                     .append(Component.literal("64").withStyle(s -> s.withColor(0xFF0000)))
                     .append(Component.literal(" parallels.").withStyle(s -> s.withColor(0x90EE90))))
+            .tooltips(Component.literal("Ultimate bacteria: ").withStyle(s -> s.withColor(0x90EE90))
+                    .append(Component.literal("All of the boosts above.").withStyle(s -> s.withColor(0xFF0000))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The machine can only have 1 active bacteria boost, " +
                     "it chooses the bacteria closest to the top left input hatch item slot.").withStyle(style -> style.withColor(0x90EE90)))

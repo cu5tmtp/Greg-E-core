@@ -151,7 +151,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
                     GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Learning").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock and Learning").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This machine is able to optimize its processes, " +
                     "greatly increasing its capabilities by reducing the energy usage, speeding the recipes up and adding more parallels.").withStyle(style -> style.withColor(0x90EE90)))

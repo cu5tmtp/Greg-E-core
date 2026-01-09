@@ -25,6 +25,9 @@ public class ModItems {
     public static final RegistryObject<Item> SPEED_BACTERIA = ITEMS.register("speed_bacteria",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> ULTIMATE_BACTERIA = ITEMS.register("ultimate_bacteria",
+            () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> SOLAR_SAIL = ITEMS.register("solar_sail",
             () -> new Item(new Item.Properties()));
 
