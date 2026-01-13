@@ -6,7 +6,7 @@ public class LearningAcceleratedEBFManager {
     private static final int[] tiers = new int[6];
 
     public static void setTierBoosts(int... tierValues) {
-        System.arraycopy(tierValues, 1, tiers, 1, Math.min(tierValues.length - 1, 5));
+        System.arraycopy(tierValues, 0, tiers, 1, Math.min(tierValues.length, 5));
     }
 
     public static void addTierProgress(int tierIndex, int value) {
