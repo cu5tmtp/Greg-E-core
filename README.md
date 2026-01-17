@@ -9,7 +9,7 @@
 > [!IMPORTANT]  
 > **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods. This is because I lock these machines behind other mod progression, you might want to do it differently.
 
-* **GTCEu Version:** Optimized for `7.2.1`
+* **GTCEu Version:** `7.2.1`
 * **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
 * **Modpack Usage:** You are free to use this core mod in your own modpacks.
 
