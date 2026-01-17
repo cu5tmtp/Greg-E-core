@@ -4,6 +4,17 @@
 
 ---
 
+## 🏗 Developer Info
+
+> [!IMPORTANT]  
+> **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods.
+
+* **GTCEu Version:** Optimized for `7.2.1`.
+* **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
+* **Modpack Usage:** You are free to use this core mod in your own modpacks.
+
+---
+
 ## 🛠 Features
 
 ### Advanced Blast Furnaces (EBF)
@@ -25,16 +36,3 @@
 ### Content & Materials
 * Adds custom materials and fluids.
 * Includes new Engine and Firebox blocks.
-
----
-
-## 🏗 Developer Info
-
-> [!IMPORTANT]  
-> **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods.
-
-* **GTCEu Version:** Optimized for `7.2.1`.
-* **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
-* **Modpack Usage:** You are free to use this core mod in your own modpacks.
-
----
