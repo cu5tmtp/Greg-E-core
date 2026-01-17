@@ -26,11 +26,11 @@
 * **Giant Chemical Reactor:** A versatile multiblock that gains unique abilities and bonuses depending on the **Bacteria** used within the process.
 * **Enhanced Fusion Reactor:** A heat-management-focused reactor. Maintain specific heat levels to unlock boosted fusion recipes.
     * **Recipe Type:** `advanced_fusion`
-    * **Recipe Creation:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3...).
+    * **Recipe Creation:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the required heat level, it creates it in ranges X and X - 500).
 
 ### Dyson Swarm System
 * **Launcher & Energy Collector:** Launch solar sails into space to generate massive amounts of energy.
-* **Recipe Types:** Use `launch_sails` and `get_solar_sail_energy`.
+* **Recipe Types:** `launch_sails` and `get_solar_sail_energy`.
 
 ### Content & Materials
 * Adds custom materials and fluids.
