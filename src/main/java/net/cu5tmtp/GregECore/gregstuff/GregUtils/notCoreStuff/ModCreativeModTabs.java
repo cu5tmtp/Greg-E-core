@@ -30,6 +30,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SOLAR_SAIL_CASE.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
+                        pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());
                         pOutput.accept(GiantChemicalReactor.GIANTCHR.getItem());
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());

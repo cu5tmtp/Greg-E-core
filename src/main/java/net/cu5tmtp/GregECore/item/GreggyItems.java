@@ -8,8 +8,9 @@ import com.gregtechceu.gtceu.common.data.GTElements;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 
 public class GreggyItems {
+
     public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE;
-    public static Material MOLTEN_MYTHRIL, MOLTEN_FRANKLINITE, DEIONIZED_WATER, XENOZENE, NOBARULEIUM, QUDRACTIK, JELENOGAS, VERCI_54, MANOPERED_36, QUENZIN;
+    public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
 
     public static Material buildFluidMaterial(String name, int color, String formula) {
         return new Material.Builder(GregECore.id(name))
@@ -72,6 +73,14 @@ public class GreggyItems {
                 .formula("H₂O")
                 .buildAndRegister();
 
+        SUPERHEATED_SOLAR = new Material.Builder(GregECore.id("superheated_solar"))
+                .fluid()
+                .color(0xFDDA0D)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+                .formula("H₄He₂So*⁺")
+                .buildAndRegister();
+
         //₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
 
         buildFluidMaterial("molten_mythril", 0x63A2B0, "Mt");
@@ -83,6 +92,5 @@ public class GreggyItems {
         buildFluidMaterial("verci_54", 0x9F2B68, "Vr₅₄He₂");
         buildFluidMaterial("manopered_36", 0x5D3FD3,"Mp₃₆ArLi");
         buildFluidMaterial("quenzin", 0x770737, "Qz₂N₄");
-        buildFluidMaterial("superheated_solar", 0xFDDA0D, "H₄He₂So*⁺");
     }
 }

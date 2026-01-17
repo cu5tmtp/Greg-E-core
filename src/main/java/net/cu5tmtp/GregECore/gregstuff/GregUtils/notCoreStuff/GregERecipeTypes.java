@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
+import net.minecraft.ChatFormatting;
 
 public class GregERecipeTypes {
     public static GTRecipeType LAUNCH_SAILS = GTRecipeTypes.register("launch_sails", GTRecipeTypes.MULTIBLOCK)
@@ -19,6 +20,19 @@ public class GregERecipeTypes {
             .setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
+
+    public static GTRecipeType ADVANCED_FUSION = GTRecipeTypes.register("advanced_fusion", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3,3,3,3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.TURBINE)
+            .addDataInfo(data -> {
+                if (data.contains("heat_level")) {
+                    int heat = data.getInt("heat_level");
+                    return ChatFormatting.GOLD + "Heat: " + ChatFormatting.WHITE + (heat - 500) + "K - " + heat + "K";
+                }
+                return null;
+            });
 
     public static void init(){
     }

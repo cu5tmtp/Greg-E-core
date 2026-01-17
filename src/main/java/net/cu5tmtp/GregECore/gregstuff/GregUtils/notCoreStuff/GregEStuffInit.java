@@ -10,5 +10,6 @@ public class GregEStuffInit {
         DysonSwarmLauncher.init();
         DysonSwarmEnergyCollector.init();
         LearningAcceleratedEBF.init();
+        EnhancedFusionReactor.init();
     }
 }
