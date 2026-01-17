@@ -26,12 +26,10 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.GreggyItems;
-import net.cu5tmtp.GregECore.tag.ModTag;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -43,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_INVAR_HEATPROOF;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine implements IRedstoneSignalMachine {
