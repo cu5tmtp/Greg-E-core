@@ -12,6 +12,7 @@
 
   "block.gregecore.linearaccelerator": "Linear Accelerator",
   "block.gregecore.conveyorbelt": "Conveyor Belt",
+  "block.gregecore.draconiumfusion": "Draconium Fusion Casing",
   "block.gregecore.itemtranslocator": "Chute",
   "block.gregecore.malachite_coil": "Malachite Coil",
   "block.gregecore.manasteel_coil": "Manasteel Coil",
@@ -23,6 +24,7 @@
   "block.gregecore.ptfe_firebox_casing": "PTFE Firebox Casing",
   "block.gregecore.vibration_engine_intake": "Vibration Engine Intake",
   "block.gregecore.shockproof_engine": "Shockproof Engine Intake",
+  "block.gregecore.atomic_engine_intake": "Atomic Engine Intake",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",

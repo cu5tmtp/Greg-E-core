@@ -15,21 +15,27 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.tag.ModTag;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -194,37 +200,47 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GregERecipeTypes.ADVANCED_FUSION)
             .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
-            .appearanceBlock(CASING_INVAR_HEATPROOF)
+            .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
-                        .aisle("BBB", "DDD", "DDD", "BBB")
-                        .aisle("BBB", "D D", "D D", "BCB")
-                        .aisle("BAB", "DDD", "DDD", "BBB")
+                        .aisle("             ", "    GGEGG    ", "    HHEHH    ", "    GGEGG    ", "             ")
+                        .aisle("    GGEGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGEGG    ")
+                        .aisle("   GHHEHHG   ", "  D       D  ", "  H  FFF  H  ", "  D       D  ", "   GHHEHHG   ")
+                        .aisle("  GHGGEGGHG  ", " G         G ", " H  F   F  H ", " G         G ", "  GHGGEGGHG  ")
+                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H  F GEG F  H", "G    GEG    G", " GHGG   GGHG ")
+                        .aisle(" GHG     GHG ", "G   G   G   G", "H F G   G F H", "G   G   G   G", " GHG     GHG ")
+                        .aisle(" EEE     EEE ", "E   E   E   E", "E F E   E F E", "E   E   E   E", " EEE     EEE ")
+                        .aisle(" GHG     GHG ", "G   G   G   G", "H F G   G F H", "G   G   G   G", " GHG     GHG ")
+                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H  F GEG F  H", "G    GEG    G", " GHGG   GGHG ")
+                        .aisle("  GHGGEGGHG  ", " G         G ", " H  F   F  H ", " G         G ", "  GHGGBGGHG  ")
+                        .aisle("   GHHEHHG   ", "  D       D  ", "  H  FFF  H  ", "  D       D  ", "   GHHBHHG   ")
+                        .aisle("    GGCGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGBGG    ")
+                        .aisle("             ", "    GGAGG    ", "    HHBHH    ", "    GGBGG    ", "             ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
-                        .where('B', Predicates.blocks(CASING_INVAR_HEATPROOF.get())
-                                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
-                        .where('C', Predicates.abilities(PartAbility.MUFFLER).setMaxGlobalLimited(1))
-                        .where('D', Predicates.blockTag(ModTag.Blocks.MAGICAL_COILS_T1))
+                        .where('B', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:draconiumfusion")))
+                                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2)))
+                        .where('C', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:draconiumfusion")))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1)))
+                        .where('D', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:atomic_engine_intake"))))
+                        .where('E', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:draconiumfusion"))))
+                        .where('F', Predicates.blocks(GTBlocks.FUSION_COIL.get()))
+                        .where('G', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                        .where('H', Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
                         .where(' ', Predicates.any())
-
                         .build();
             })
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_heatproof"),
+            .workableCasingModel(GregECore.id("block/draconium_fusion"),
                                  GTCEu.id("block/multiblock/fusion_reactor"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Heat Managment").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Heat Management").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Due to an engineering mistake, this reactor needs a ")
+            .tooltips(Component.literal("Due to an engineering mistake, this reactor needs a ").withStyle(style -> style.withColor(0x90EE90))
                     .append(Component.literal("working recipe").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" or ")).withStyle(style -> style.withColor(0x90EE90))
-                    .append(Component.literal("Superheated Plasma").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" to maintain heat. Somehow that heat from Superheated Plasma allows this machine to " +
-                            "take in huge amounts of resources and fuse them way faster than conventional fusion reactors.")).withStyle(style -> style.withColor(0x90EE90)))
+                    .append(Component.literal(" or ").withStyle(style -> style.withColor(0x90EE90)))
+                    .append(Component.literal("Superheated Solar Plasma").withStyle(ChatFormatting.RED))
+                    .append(Component.literal(" to maintain heat. Somehow that heat from Superheated Solar Plasma allows this machine to " +
+                            "take in huge amounts of resources and fuse them way faster than conventional fusion reactors.").withStyle(style -> style.withColor(0x90EE90))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("When the reactor is idle: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("Loses ").withStyle(style -> style.withColor(0x90EE90)))
@@ -242,7 +258,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                     .append(Component.literal(".").withStyle(style -> style.withColor(0x90EE90))))
             .tooltips(Component.literal("Maximum heat of the reactor is 7500K.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(style -> style.withColor(0x90EE90))
+            .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
                     .append(Component.literal(" per ").withStyle(style -> style.withColor(0x90EE90)))
                     .append(Component.literal("500K").withStyle(ChatFormatting.RED))

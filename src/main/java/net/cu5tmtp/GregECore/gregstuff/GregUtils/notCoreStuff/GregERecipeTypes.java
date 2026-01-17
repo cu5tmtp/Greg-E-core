@@ -25,11 +25,11 @@ public class GregERecipeTypes {
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.TURBINE)
+            .setSound(GTSoundEntries.SCIENCE)
             .addDataInfo(data -> {
                 if (data.contains("heat_level")) {
                     int heat = data.getInt("heat_level");
-                    return ChatFormatting.GOLD + "Heat: " + ChatFormatting.WHITE + (heat - 500) + "K - " + heat + "K";
+                    return ChatFormatting.RED + "Heat: " + ChatFormatting.WHITE + (heat - 500) + "K - " + heat + "K";
                 }
                 return null;
             });

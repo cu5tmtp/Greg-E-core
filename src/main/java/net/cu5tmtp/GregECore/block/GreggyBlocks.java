@@ -66,6 +66,9 @@ public class GreggyBlocks {
     public static final BlockEntry<ActiveBlock> AW_DRACONIUM_COIL = createActiveBlock("awakened_draconium_coil",
             GregECore.id("block/coils/machine_coil_aw_draconium"));
 
+    public static final BlockEntry<ActiveBlock> ATOMIC_ENGINE_INTAKE = createActiveBlock("atomic_engine_intake",
+            GregECore.id("block/engines/atomic_engine_intake"));
+
     public static final void init(){}
 }
 
