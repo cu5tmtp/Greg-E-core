@@ -233,7 +233,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
             .workableCasingModel(GregECore.id("block/draconium_fusion"),
                                  GTCEu.id("block/multiblock/fusion_reactor"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Heat Management").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Heat Management and Perfect Overclock").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Due to an engineering mistake, this reactor needs a ").withStyle(style -> style.withColor(0x90EE90))
                     .append(Component.literal("working recipe").withStyle(ChatFormatting.RED))

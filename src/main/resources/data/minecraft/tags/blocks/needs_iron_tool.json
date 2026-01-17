@@ -1,5 +1,8 @@
 {
   "values": [
-    "gregecore:linearaccelerator"
+    "gregecore:linearaccelerator",
+    "gregecore:conveyorbelt",
+    "gregecore:draconiumfusion",
+    "gregecore:itemtranslocator"
   ]
 }
