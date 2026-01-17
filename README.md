@@ -1,20 +1,40 @@
 # GregE-core
-This is a core mod for modpack GregE.
 
-All added machines will be able to work without the modpack.
+**GregE-core** is a core mod developed for the **GregE** modpack. It introduces high-tier multiblock machinery, advanced materials, and unique energy production systems to the GregTech ecosystem.
 
-All added items will not have recipes, you will have to add them yourself.
+---
 
-You can use this in your modpack.
-***
-Currently it adds: <br/>
-Accelerated EBF, with custom coils, that are faster than normal EBF. <br/><br/>
-Giant Accelerated EBF, with custom coil, it needs Deionized Water to run. It has new custom coils. <br/><br/>
-Learning Accelerated EBF, lategame EBF that gets energy reductions, speed boosts and parallels with the amount of blasted items. <br/><br/>
-Giant Chemical Reactor, gets abilities depending on the bacteria put into it. <br/><br/>
-Dyson Swarm Launcher and Energy Collector, launch solar sails into space and get huge amount of energy back! Also rewards huge amount of sails shot up! <br/>Use launch_sails and get_solar_sail_energy recipe type.<br/><br/>
-Enhanced Fusion Reactor, manage heat to access boosted fusion recipes! <br/>Use advanced_fusion recipe type to add recipes to this machine. When making a recipe, add .addData('heat_level', X), and instead of X add your wanted heat level. Use full numbers (1, 2, 3...), not decimals (1.2, 2.3...). <br/><br/>
-Also adds some materials, fluids, engine and firebox blocks.
+## 🛠 Features
 
-For GTCEu - 7.2.1
+### Advanced Blast Furnaces (EBF)
+* **Accelerated EBF:** Faster than the standard EBF, featuring its own set of custom coils.
+* **Giant Accelerated EBF:** A massive multiblock that requires **Deionized Water** to operate. Includes a dedicated tier of custom coils.
+* **Learning Accelerated EBF:** A specialized late-game machine that "levels up." It gains energy reductions, speed boosts, and increased parallelism based on the total volume of items processed.
 
+### Advanced Machinery
+* **Giant Chemical Reactor:** A versatile multiblock that gains unique abilities and bonuses depending on the **Bacteria** used within the process.
+* **Enhanced Fusion Reactor:** A heat-management-focused reactor. Maintain specific heat levels to unlock boosted fusion recipes.
+    * **Recipe Type:** `advanced_fusion`
+    * **Usage:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3...).
+
+### Dyson Swarm System
+* **Launcher & Collector:** Launch solar sails into space to generate massive amounts of energy.
+* **Rewards:** Large-scale launches are rewarded with increased energy yields.
+* **Recipe Types:** Use `launch_sails` and `get_solar_sail_energy`.
+
+### Content & Materials
+* Adds custom materials and fluids.
+* Includes new Engine and Firebox blocks.
+
+---
+
+## 🏗 Developer Info
+
+> [!IMPORTANT]  
+> **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods.
+
+* **GTCEu Version:** Optimized for `7.2.1`.
+* **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
+* **Modpack Usage:** You are free to use this core mod in your own modpacks.
+
+---
