@@ -35,3 +35,15 @@
 ### Content & Materials
 * Adds custom materials and fluids.
 * Includes new Engine and Firebox blocks.
+
+---
+
+## 📜 Credits
+* Thank you GTCEu team on discord for the active responding.
+* Most of the textures are from GTCEu, I added the general firebox/engine intake texture on it.
+* Thank you StarT team for having the core mod on github, I spent some hours learning from that.
+* Links to their githubs:
+    * <a href = https://github.com/StarT-Dev-Team/StarT-Core> StarT github </a>
+    * <a href = https://github.com/GregTechCEu/GregTech-Modern> GTCEu github </a>
+
+
