@@ -20,7 +20,7 @@
 ### Advanced Blast Furnaces (EBF)
 * **Accelerated EBF:** Faster than the standard EBF, featuring its own set of custom coils.
 * **Giant Accelerated EBF:** A massive multiblock that requires **Deionized Water** to operate. Includes a dedicated tier of custom coils.
-* **Learning Accelerated EBF:** A specialized late-game machine that "levels up." It gains energy reductions, speed boosts, and increased parallels based on the total volume of items processed.
+* **Learning Accelerated EBF:** A specialized late-game machine that "levels up". It gains energy reductions, speed boosts, and increased parallels based on the total volume of items processed.
 
 ### Advanced Machinery
 * **Giant Chemical Reactor:** A versatile multiblock that gains unique abilities and bonuses depending on the **Bacteria** used within the process.
