@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "gregecore:enhanced_fusion_ring"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "gregecore:enhancedfr",
   "texture_overrides": {

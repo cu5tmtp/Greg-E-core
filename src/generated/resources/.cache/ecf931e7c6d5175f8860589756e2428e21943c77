@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-17T23:45:43.0065025	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-01-19T20:56:52.3132563	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 a897d6c9f0c54882d4ac108317b0132888d46faf assets/gregecore/blockstates/atomic_engine_intake.json
 d39974070ab0633c779fa72e45bf9636d9dc4b2f assets/gregecore/blockstates/awakened_draconium_coil.json
@@ -30,7 +30,7 @@ a52a23211b0c63b8cce990584963eb2e160cf898 assets/gregecore/models/block/forgotten
 fea4368454b99832d361890c89a0560cfb9aede1 assets/gregecore/models/block/machine/acceleratedebf.json
 595cb1fffd6fd98e836ee02c15631330fcdff000 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
 41b900a2b1b16ce1af3314b529e243d24ceb42c2 assets/gregecore/models/block/machine/dysonswarmlauncher.json
-9510a0be90626f7d754c7602e53019d4418fe7db assets/gregecore/models/block/machine/enhancedfr.json
+f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
 a469d923f7f9582a84352686aae72373f9539205 assets/gregecore/models/block/machine/giantacceleratedebf.json
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
 562d0f1f989fd82e943f98b8c701a878a3fb793d assets/gregecore/models/block/machine/learning_acc_ebf.json

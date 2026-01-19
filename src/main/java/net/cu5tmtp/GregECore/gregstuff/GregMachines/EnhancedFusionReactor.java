@@ -23,6 +23,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.GreggyItems;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine implements IRedstoneSignalMachine {
@@ -63,6 +65,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
+    public static final ResourceLocation ID = new ResourceLocation("gregecore", "enhanced_fusion_ring");
 
     @Override
     public void onStructureFormed() {
@@ -84,10 +87,12 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         }
         this.coolantHandler = new FluidHandlerList(coolantContainers);
 
-        //connect to tickSubscription
-        if (!isRemote()) {
-            heatSubscription = subscribeServerTick(this::manageHeat);
+        if (heatSubscription != null) {
+            heatSubscription.unsubscribe();
+            heatSubscription = null;
         }
+
+        heatSubscription = this.subscribeServerTick(this::manageHeat);
     }
 
     @Override
@@ -99,12 +104,15 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         }
     }
 
+
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         assert recipe != null;
         recipeTemp = recipe.data.getInt("heat_level");
 
-        if(heat > recipeTemp || heat < (recipeTemp - 500)) return false;
+        if(heat > recipeTemp || heat < (recipeTemp - 500)) {
+            return false;
+        }
 
         return super.beforeWorking(recipe);
     }
@@ -202,15 +210,15 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                 return FactoryBlockPattern.start()
                         .aisle("             ", "    GGEGG    ", "    HHEHH    ", "    GGEGG    ", "             ")
                         .aisle("    GGEGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGEGG    ")
-                        .aisle("   GHHEHHG   ", "  D       D  ", "  H  FFF  H  ", "  D       D  ", "   GHHEHHG   ")
-                        .aisle("  GHGGEGGHG  ", " G         G ", " H  F   F  H ", " G         G ", "  GHGGEGGHG  ")
-                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H  F GEG F  H", "G    GEG    G", " GHGG   GGHG ")
-                        .aisle(" GHG     GHG ", "G   G   G   G", "H F G   G F H", "G   G   G   G", " GHG     GHG ")
+                        .aisle("   GHHEHHG   ", "  D       D  ", "  H   F   H  ", "  D       D  ", "   GHHEHHG   ")
+                        .aisle("  GHGGEGGHG  ", " G         G ", " H         H ", " G         G ", "  GHGGEGGHG  ")
+                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H    GEG    H", "G    GEG    G", " GHGG   GGHG ")
+                        .aisle(" GHG     GHG ", "G   G   G   G", "H   G   G   H", "G   G   G   G", " GHG     GHG ")
                         .aisle(" EEE     EEE ", "E   E   E   E", "E F E   E F E", "E   E   E   E", " EEE     EEE ")
-                        .aisle(" GHG     GHG ", "G   G   G   G", "H F G   G F H", "G   G   G   G", " GHG     GHG ")
-                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H  F GEG F  H", "G    GEG    G", " GHGG   GGHG ")
-                        .aisle("  GHGGEGGHG  ", " G         G ", " H  F   F  H ", " G         G ", "  GHGGBGGHG  ")
-                        .aisle("   GHHEHHG   ", "  D       D  ", "  H  FFF  H  ", "  D       D  ", "   GHHBHHG   ")
+                        .aisle(" GHG     GHG ", "G   G   G   G", "H   G   G   H", "G   G   G   G", " GHG     GHG ")
+                        .aisle(" GHGG   GGHG ", "G    GEG    G", "H    GEG    H", "G    GEG    G", " GHGG   GGHG ")
+                        .aisle("  GHGGEGGHG  ", " G         G ", " H         H ", " G         G ", "  GHGGBGGHG  ")
+                        .aisle("   GHHEHHG   ", "  D       D  ", "  H   F   H  ", "  D       D  ", "   GHHBHHG   ")
                         .aisle("    GGCGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGBGG    ")
                         .aisle("             ", "    GGAGG    ", "    HHBHH    ", "    GGBGG    ", "             ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
@@ -227,8 +235,10 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                         .where(' ', Predicates.any())
                         .build();
             })
-            .workableCasingModel(GregECore.id("block/draconium_fusion"),
-                                 GTCEu.id("block/multiblock/fusion_reactor"))
+            .model(createWorkableCasingMachineModel(
+                    GregECore.id("block/draconium_fusion"),
+                    GTCEu.id("block/multiblock/fusion_reactor"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createEnhancedFusionRingRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Heat Management and Perfect Overclock").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
@@ -272,5 +282,10 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         }
     }
 
-    public static void init() {}
+    public int getColor() {
+        return 0xFFA9A9A9;
+    }
+
+    public static void init() {
+    }
 }
