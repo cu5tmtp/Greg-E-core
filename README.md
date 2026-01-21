@@ -27,7 +27,7 @@
 * **Enhanced Fusion Reactor:** A heat-management-focused reactor. Maintain specific heat levels to unlock boosted fusion recipes.
     * **Recipe Type:** `advanced_fusion`
     * **Recipe Creation:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the required heat level, it creates it in ranges X and X - 500).
-* **Star Maykr** A endgame machine that creates a star that you have to feed. Recipes have a weight cost, if star weight goes below 0 or 500, the machine explodes.
+* **Star Maykr:** A endgame machine that creates a star that you have to feed. Recipes have a weight cost, if star weight goes below 0 or 500, the machine explodes.
     * **Recipe Type:** `star_maykr_singularities`
     * **Recipe Creation:** Add `.addData('weight', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the weight that will be deducted from the star weight).
 
