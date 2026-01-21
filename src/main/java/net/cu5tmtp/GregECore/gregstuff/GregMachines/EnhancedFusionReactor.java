@@ -65,7 +65,6 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
-    public static final ResourceLocation ID = new ResourceLocation("gregecore", "enhanced_fusion_ring");
 
     @Override
     public void onStructureFormed() {

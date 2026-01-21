@@ -1,0 +1,241 @@
+package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
+import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
+
+public class StarMaykr extends WorkableElectricMultiblockMachine implements IRedstoneSignalMachine {
+
+    public StarMaykr(IMachineBlockEntity holder, Object... args) {
+        super(holder, args);
+    }
+
+    @Persisted
+    private double weight = 1;
+    private double recipeWeight = 0;
+    private final List<IItemHandler> cachedStarFeederHandler = new ArrayList<>();
+    private TickableSubscription weightSubscription;
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            StarMaykr.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        this.cachedStarFeederHandler.clear();
+
+        for (IMultiPart part : getParts()) {
+
+            if (!(part instanceof StarFeederPartMachine)) {
+                continue;
+            }
+
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
+                handlerList.getCapability(ItemRecipeCapability.CAP).stream()
+                        .filter(IItemHandler.class::isInstance)
+                        .map(IItemHandler.class::cast)
+                        .forEach(this.cachedStarFeederHandler::add);
+            }
+        }
+
+        if (weightSubscription != null) {
+            weightSubscription.unsubscribe();
+            weightSubscription = null;
+        }
+
+        weightSubscription = this.subscribeServerTick(this::manageWeight);
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        assert recipe != null;
+        recipeWeight = recipe.data.getDouble("weight");
+
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public void afterWorking() {
+        weight -= recipeWeight;
+        super.afterWorking();
+    }
+
+    private void manageWeight() {
+        if (getOffsetTimer() % 5 != 0) return;
+
+        if (getRecipeLogic().isActive()) {
+            applyWorkingWeightLogic();
+        } else {
+            applyIdleWeightLogic();
+        }
+    }
+
+    private void applyWorkingWeightLogic(){
+        tryAddWeight();
+        if(weight < 0 || weight > 500){
+            explodeMachine();
+        }
+    }
+
+    private void applyIdleWeightLogic(){
+        tryAddWeight();
+        if(weight < 0 || weight > 500){
+            explodeMachine();
+        }
+    }
+
+    private void tryAddWeight() {
+        for (IItemHandler handler : this.cachedStarFeederHandler) {
+            for (int i = 0; i < handler.getSlots(); i++) {
+                ItemStack stack = handler.getStackInSlot(i);
+
+                if (stack.isEmpty()) continue;
+                if (stack.is(Items.COBBLESTONE)) {
+
+                    ItemStack simulated = handler.extractItem(i, 1, true);
+                    if (!simulated.isEmpty()) {
+                        handler.extractItem(i, 1, false);
+                        this.weight += 0.01;
+                        this.markDirty();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    private void explodeMachine() {
+        Level level = getLevel();
+        if (level != null && !level.isClientSide) {
+            var pos = getPos();
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7.0F, Level.ExplosionInteraction.BLOCK);
+        }
+    }
+
+    @Override
+    public int getOutputSignal(@Nullable Direction side) {
+        int signal = (int) (weight / 30);
+        return Math.min(15, signal);
+    }
+
+    @Override
+    public int getAnalogOutputSignal() {
+        return getOutputSignal(null);
+    }
+
+    @Override
+    public boolean canConnectRedstone(Direction side) {
+        return true;
+    }
+
+    public static MachineDefinition STAR_MAYKR = REGISTRATE
+            .multiblock("starmaykr", StarMaykr::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GregERecipeTypes.STAR_MAYKR_SINGULARITIES)
+            .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
+            .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
+            .pattern(definition -> {
+                return FactoryBlockPattern.start()
+                        .aisle("  CCCCCCC  ", " CCDDDDDCC ", "CCDFFFFFDCC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CCDFFFFFDCC", " CCDDDDDCC ", "  CCCCCCC  ")
+                        .aisle(" CCDDDDDCC ", "CEE     EEC", "CE       EC", "D         D", "D         D", "D         D", "D         D", "D         D", "CE       EC", "CEE     EEC", " CCDDDDDCC ")
+                        .aisle("CCDFFFFFDCC", "CE       EC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CE       EC", "CCDFFFFFDCC")
+                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
+                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
+                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
+                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
+                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
+                        .aisle("CCDFFFFFDCC", "CE       EC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CE       EC", "CCDFFFFFDCC")
+                        .aisle(" CCDDDDDCC ", "CEE     EEC", "CE       EC", "D         D", "D         D", "D         D", "D         D", "D         D", "CE       EC", "CEE     EEC", " CCDDDDDCC ")
+                        .aisle("  BBBABBB  ", " CCDDDDDCC ", "CCDFFFFFDCC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CCDFFFFFDCC", " CCDDDDDCC ", "  CCCCCCC  ")
+                        .where('A', Predicates.controller(blocks(definition.getBlock())))
+                        .where('B', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get())
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
+                                .or(Predicates.abilities(StarFeederPartMachine.getPartAbility()).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1)))
+                        .where('C', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
+                        .where('D', Predicates.blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
+                        .where('E', Predicates.blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get()))
+                        .where('F', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("connectedglass:clear_glass"))))
+                        .where(' ', Predicates.air())
+                        .build();
+            })
+            .model(createWorkableCasingMachineModel(
+                    GTCEu.id("block/casings/gcym/atomic_casing"),
+                    GTCEu.id("block/multiblock/fusion_reactor"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createStarMaykrRender)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Abilities: Singularity Forging").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("You have done it. You made a machine capable of making and sustaining stars. While some might say its useful for energy," +
+                    " you have different ideas. Using the immense gravitational forces inside a stars core, you just might forge unthinkable items.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Star starts with 100 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
+                    "due to the star fusing some of its own weight into it whenever it forms a singularity. " +
+                    "You can increase the weight of the star if you feed it correct items to increase its weight. The correct items are shown below with their weight value.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Cobblestone: 0.01 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
+                    .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
+                    .append(Component.literal(" per ").withStyle(style -> style.withColor(0x90EE90)))
+                    .append(Component.literal("30 x 10³⁰").withStyle(ChatFormatting.RED))
+                    .append(Component.literal(" tons.").withStyle(style -> style.withColor(0x90EE90))))
+            .register();
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+            textList.add(Component.translatable("Weight: " + (int) weight + " x 10³⁰").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
+        }
+    }
+
+    public static void init() {
+    }
+}

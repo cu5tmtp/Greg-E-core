@@ -2,6 +2,7 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.core.registries.Registries;
@@ -31,10 +32,12 @@ public class ModCreativeModTabs {
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());
+                        pOutput.accept(StarMaykr.STAR_MAYKR.getItem());
                         pOutput.accept(GiantChemicalReactor.GIANTCHR.getItem());
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
+                        pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                     })
                     .build());
 

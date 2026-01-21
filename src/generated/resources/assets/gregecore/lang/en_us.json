@@ -6,6 +6,8 @@
   "block.gregecore.dysonswarmlauncher": "§lDyson Swarm Launcher§g",
   "block.gregecore.learning_acc_ebf": "§lLearning Accelerated EBF§g",
   "block.gregecore.enhancedfr": "§lEnhanced Fusion Reactor§g",
+  "block.gregecore.starmaykr": "§lStar Maykr§g",
+  "gtceu.star_maykr_singularities": "Star Maykr",
   "gtceu.launch_sails": "Launch Sails",
   "gtceu.get_solar_sail_energy": "Solar Energy Return",
   "gtceu.advanced_fusion": "Advanced Fusion",
@@ -25,6 +27,7 @@
   "block.gregecore.vibration_engine_intake": "Vibration Engine Intake",
   "block.gregecore.shockproof_engine": "Shockproof Engine Intake",
   "block.gregecore.atomic_engine_intake": "Atomic Engine Intake",
+  "block.gregecore.star_feeder": "Star Feeder",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",

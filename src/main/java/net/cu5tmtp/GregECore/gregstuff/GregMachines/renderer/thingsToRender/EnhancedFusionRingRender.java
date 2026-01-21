@@ -27,6 +27,7 @@ public class EnhancedFusionRingRender extends DynamicRender<EnhancedFusionReacto
     protected float delta = 0;
     protected int lastColor = -1;
 
+    //Modified render file from GTCEu fusion reactor arc renderer, thanks for making it public!
     public EnhancedFusionRingRender() {}
 
     @Override

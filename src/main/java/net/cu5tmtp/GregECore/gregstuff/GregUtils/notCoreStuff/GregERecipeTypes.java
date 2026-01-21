@@ -20,6 +20,18 @@ public class GregERecipeTypes {
             .setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
+    public static GTRecipeType STAR_MAYKR_SINGULARITIES = GTRecipeTypes.register("star_maykr_singularities", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(9,1,0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.JET_ENGINE)
+            .addDataInfo(data -> {
+                if (data.contains("weight")) {
+                    double weight = data.getDouble("weight");
+                    return ChatFormatting.GOLD+ "Star weight cost: " + ChatFormatting.WHITE + (int) weight;
+                }
+                return null;
+            });
 
     public static GTRecipeType ADVANCED_FUSION = GTRecipeTypes.register("advanced_fusion", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
