@@ -151,7 +151,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
         if (level != null && !level.isClientSide) {
             var pos = getPos();
             level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7.0F, Level.ExplosionInteraction.BLOCK);
+            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15.0F, Level.ExplosionInteraction.BLOCK);
         }
     }
 
@@ -193,9 +193,9 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get())
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
-                                .or(Predicates.abilities(StarFeederPartMachine.getPartAbility()).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setPreviewCount(1)))
+                                .or(Predicates.abilities(StarFeederPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('C', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
                         .where('D', Predicates.blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
                         .where('E', Predicates.blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get()))
@@ -213,8 +213,8 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
             .tooltips(Component.literal("You have done it. You made a machine capable of making and sustaining stars. While some might say its useful for energy," +
                     " you have different ideas. Using the immense gravitational forces inside a stars core, you just might forge unthinkable items.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Star starts with 100 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
-                    "due to the star fusing some of its own weight into it whenever it forms a singularity. " +
+            .tooltips(Component.literal("Star starts with 1 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
+                    " due to the star fusing some of its own weight into it whenever it forms a singularity. " +
                     "You can increase the weight of the star if you feed it correct items to increase its weight. The correct items are shown below with their weight value.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Cobblestone: 0.01 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))

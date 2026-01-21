@@ -23,12 +23,12 @@ public class GregERecipeTypes {
     public static GTRecipeType STAR_MAYKR_SINGULARITIES = GTRecipeTypes.register("star_maykr_singularities", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_CIRCUIT_ASSEMBLER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_HAMMER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.JET_ENGINE)
             .addDataInfo(data -> {
                 if (data.contains("weight")) {
                     double weight = data.getDouble("weight");
-                    return ChatFormatting.GOLD+ "Star weight cost: " + ChatFormatting.WHITE + (int) weight;
+                    return ChatFormatting.DARK_PURPLE+ "Star weight cost: " + ChatFormatting.WHITE + (int) weight;
                 }
                 return null;
             });

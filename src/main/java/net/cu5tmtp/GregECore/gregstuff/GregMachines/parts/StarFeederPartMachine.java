@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
@@ -29,6 +31,7 @@ public class StarFeederPartMachine extends ItemBusPartMachine {
             .rotationState(RotationState.ALL)
             .abilities(StarFeederPartMachine.STAR_FEEDER)
             .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to feed the star items. Items are inserted every 5 ticks.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 
