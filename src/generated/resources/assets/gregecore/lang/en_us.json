@@ -48,6 +48,12 @@
   "material.gregecore.molten_franklinite": "Molten Franklinite",
   "material.gregecore.molten_mythril": "Molten Mythril",
 
+  "material.gregecore.manasteel_cable": "Manasteel Cable",
+  "material.gregecore.malachite_cable": "Malachite Cable",
+  "material.gregecore.desh_cable": "Desh Cable",
+  "material.gregecore.forgotten_ingot_cable": "Forgotten Ingot Cable",
+  "material.gregecore.twilight_alloy_cable": "Twilight Alloy Cable",
+
   "material.gregecore.quadractik_gas": "Quadractik Gas",
   "material.gregecore.quenzin": "Quenzin Gas",
   "material.gregecore.verci_54": "Verci-54 Gas",

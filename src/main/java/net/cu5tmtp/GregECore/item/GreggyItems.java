@@ -1,5 +1,6 @@
 package net.cu5tmtp.GregECore.item;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -11,6 +12,8 @@ public class GreggyItems {
 
     public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE;
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
+
+    public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE;
 
     public static Material buildFluidMaterial(String name, int color, String formula) {
         return new Material.Builder(GregECore.id(name))
@@ -62,6 +65,37 @@ public class GreggyItems {
                 .dust()
                 .color(0x141414)
                 .formula("PuF₆")
+                .buildAndRegister();
+
+        //cables
+        MANASTEEL_CABLE = new Material.Builder(GregECore.id("manasteel_cable"))
+                .cableProperties(GTValues.V[GTValues.LV], 4, 0, true)
+                .color(0x6495ED)
+                .formula("Mana₂FE")
+                .buildAndRegister();
+
+        TWILIGHT_ALLOY_CABLE = new Material.Builder(GregECore.id("twilight_alloy_cable"))
+                .cableProperties(GTValues.V[GTValues.MV], 8, 0, true)
+                .color(0x4F7942)
+                .formula("☠🐍⚔🍄")
+                .buildAndRegister();
+
+        DESH_CABLE = new Material.Builder(GregECore.id("desh_cable"))
+                .cableProperties(GTValues.V[GTValues.HV], 12, 0, true)
+                .color(0xF28C28)
+                .formula("Dh")
+                .buildAndRegister();
+
+        MALACHITE_CABLE = new Material.Builder(GregECore.id("malachite_cable"))
+                .cableProperties(GTValues.V[GTValues.EV], 16, 0, true)
+                .color(0x0BDA51)
+                .formula("Ml")
+                .buildAndRegister();
+
+        FORGOTTEN_INGOT_CABLE = new Material.Builder(GregECore.id("forgotten_ingot_cable"))
+                .cableProperties(GTValues.V[GTValues.IV], 20, 0, true)
+                .color(0x7DF9FF)
+                .formula("???")
                 .buildAndRegister();
 
         //fluids
