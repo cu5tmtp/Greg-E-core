@@ -3,6 +3,7 @@ package net.cu5tmtp.GregECore.item;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.common.data.GTElements;
@@ -10,7 +11,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 
 public class GreggyItems {
 
-    public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE;
+    public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE, SUPERELEMENT27;
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
 
     public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE;
@@ -65,6 +66,15 @@ public class GreggyItems {
                 .dust()
                 .color(0x141414)
                 .formula("PuF₆")
+                .buildAndRegister();
+
+        SUPERELEMENT27 = new Material.Builder(GregECore.id("superelement27"))
+                .ingot()
+                .liquid(59999)
+                .formula("(Qz₂Mp)+(C₉HeVr),(NbQt₆ZnMnFe)+(XeJeQt)")
+                .color(0x023020)
+                .cableProperties(GTValues.V[GTValues.LuV], 24, 0, true)
+                .flags(MaterialFlags.GENERATE_FOIL)
                 .buildAndRegister();
 
         //cables
