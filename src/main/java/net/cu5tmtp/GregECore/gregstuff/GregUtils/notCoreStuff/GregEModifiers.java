@@ -72,6 +72,14 @@ public class GregEModifiers {
             default -> 2;
         };
 
+        int parallelBoost = switch (ebf.parallelBooster){
+            case 1 -> 2;
+            case 2 -> 4;
+            default -> 1;
+        };
+
+        parallelsMax = parallelBoost * parallelsMax;
+
         //This part of the code is a inspiration from StarT core - Throughput Boosting, I modified it to work with my custom coils.
         int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, parallelsMax));
 

@@ -14,24 +14,24 @@ import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class StarFeederPartMachine extends ItemBusPartMachine {
+public class BacteriaInputPartMachine extends ItemBusPartMachine {
 
-    public static final PartAbility STAR_FEEDER = new PartAbility("star_feeder");
+    public static final PartAbility BACTERIA_INPUT = new PartAbility("bacteria_input");
 
-    public StarFeederPartMachine(IMachineBlockEntity holder, int tier) {
+    public BacteriaInputPartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.BOTH);
     }
 
     public static PartAbility getPartAbility() {
-        return STAR_FEEDER;
+        return BACTERIA_INPUT;
     }
 
-    public static final MachineDefinition STAR_FEEDER_MACHINE = REGISTRATE.machine("star_feeder", (holder) ->
-                    new StarFeederPartMachine(holder, GTValues.UHV))
+    public static final MachineDefinition BACTERIAL_INPUT_MACHINE = REGISTRATE.machine("bacteria_input_machine", (holder) ->
+                    new BacteriaInputPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
-            .abilities(StarFeederPartMachine.STAR_FEEDER)
-            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this to feed the star items. Items are inserted every 5 ticks.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .abilities(BacteriaInputPartMachine.BACTERIA_INPUT)
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to input bacteria, which will be used to boost recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

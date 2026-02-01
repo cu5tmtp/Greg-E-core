@@ -19,6 +19,8 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.tag.ModTag;
@@ -51,6 +53,8 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
     private int coilTemp = 0;
     private IFluidHandler coolantHandler;
 
+    public int parallelBooster = 0;
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
@@ -60,6 +64,15 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
         //This part of the code is the same as HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
+
+            if(part instanceof ParallelBoosterPartMachine){
+                parallelBooster = 1;
+            }
+
+            if(part instanceof AdvancedParallelBoosterPartMachine){
+                parallelBooster = 2;
+            }
+
             IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
             if (io == IO.NONE || io == IO.OUT) continue;
             var handlerLists = part.getRecipeHandlers();
@@ -71,7 +84,10 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                         .forEach(coolantContainers::add);
             }
         }
+
         this.coolantHandler = new FluidHandlerList(coolantContainers);
+
+
     }
 
     @Override
@@ -162,9 +178,15 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         this.coilTemp = switch (registryName) {
             case "gregecore:malachite_coil" -> 7400;
             case "gregecore:forgotten_coil" -> 9200;
-            case "gregecore:desh_coil"      -> 11000;
+            case "gregecore:superelement_coil" -> 11000;
             default -> 0;
         };
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        parallelBooster = 0;
+        super.onStructureInvalid();
     }
 
     public int getMaxTemp() {
@@ -181,24 +203,26 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 return FactoryBlockPattern.start()
                         .aisle("BFFFB", "G   G", "G   G", "G   G", "G   G", "G   G", "BFFFB")
                         .aisle("BBBBB", " DDD ", " DDD ", " EEE ", " DDD ", " DDD ", "BBBBB")
-                        .aisle("BBBBB", " D D ", " D D ", " E E ", " D D ", " D D ", "BBCBB")
+                        .aisle("BBBBH", " D D ", " D D ", " E E ", " D D ", " D D ", "BBCBB")
                         .aisle("BBBBB", " DDD ", " DDD ", " EEE ", " DDD ", " DDD ", "BBBBB")
                         .aisle("BFAFB", "G   G", "G   G", "G   G", "G   G", "G   G", "BFFFB")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(CASING_TUNGSTENSTEEL_ROBUST.get())
-                                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
                         .where('C', Predicates.abilities(PartAbility.MUFFLER).setMaxGlobalLimited(1))
                         .where('D', Predicates.blockTag(ModTag.Blocks.MAGICAL_COILS_T2))
                         .where('E', Predicates.blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
                         .where('F', Predicates.blocks(FIREBOX_TUNGSTENSTEEL.get()))
                         .where('G', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tungsten_carbide_frame"))))
+                        .where('H', Predicates.blocks(CASING_TUNGSTENSTEEL_ROBUST.get())
+                                .or(Predicates.abilities(ParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1))
+                                .or(Predicates.abilities(AdvancedParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1)))
                         .where(' ', Predicates.any())
-
                         .build();
             })
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
@@ -229,6 +253,11 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 case 9200 -> textList.add(Component.translatable("Recipes are shortened by 40% and     4 parallels are applied.").withStyle(ChatFormatting.GREEN));
                 case 11000 -> textList.add(Component.translatable("Recipes are shortened by 60% and     8 parallels are applied.").withStyle(ChatFormatting.GREEN));
                 default -> textList.add(Component.translatable("Different coils detected!").withStyle(ChatFormatting.RED));
+            }
+            switch (parallelBooster){
+                case 1 -> textList.add(Component.translatable("Parallels are multiplied by 2." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 2 -> textList.add(Component.translatable("Parallels are multiplied by 4." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                default -> textList.add(Component.translatable("No parallel multiplication." ).withStyle(ChatFormatting.LIGHT_PURPLE));
             }
         }
     }

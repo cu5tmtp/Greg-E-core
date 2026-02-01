@@ -2,6 +2,8 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
@@ -38,6 +40,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
+                        pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());
+                        pOutput.accept(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER_MACHINE.getItem());
                     })
                     .build());
 

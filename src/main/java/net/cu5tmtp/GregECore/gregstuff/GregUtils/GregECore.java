@@ -57,6 +57,7 @@ public class GregECore {
     }
 
     private void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
+        GregEStuffInit.initGregParts();
         GregEStuffInit.initGregEMulti();
     }
     private void addMaterialRegistries(MaterialRegistryEvent event) {

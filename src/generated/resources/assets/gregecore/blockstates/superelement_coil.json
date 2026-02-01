@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gregecore:block/superelement_coil"
+    },
+    "active=true": {
+      "model": "gregecore:block/superelement_coil_active"
+    }
+  }
+}
