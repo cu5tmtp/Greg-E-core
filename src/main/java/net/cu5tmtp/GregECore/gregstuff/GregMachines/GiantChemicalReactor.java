@@ -1,7 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -15,8 +14,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.BacteriaInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -50,16 +48,15 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
         this.cachedBoosterHandlers.clear();
 
-        Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
-
         //This part of the code is adaptation of HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
-            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
-            if (io == IO.NONE || io == IO.OUT) continue;
+
+            if(!(part instanceof BacteriaInputPartMachine)){
+                continue;
+            }
 
             var handlerLists = part.getRecipeHandlers();
             for (var handlerList : handlerLists) {
-                if (!handlerList.isValid(io)) continue;
                 handlerList.getCapability(ItemRecipeCapability.CAP).stream()
                         .filter(IItemHandler.class::isInstance)
                         .map(IItemHandler.class::cast)
@@ -70,6 +67,11 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
+
+        this.energyBoost = 1.0;
+        this.parallelBoost = 1;
+        this.speedBoost = 1.0;
+
         for (IItemHandler handler : this.cachedBoosterHandlers) {
             for (int i = 0; i < handler.getSlots(); i++) {
                 ItemStack stack = handler.getStackInSlot(i);
@@ -95,12 +97,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                     this.energyBoost = 0.1;
                     this.parallelBoost = 64;
                     return super.beforeWorking(recipe);
-                } else {
-                    this.speedBoost = 1.0;
-                    this.energyBoost = 1.0;
-                    this.parallelBoost = 1;
                 }
-
             }
         }
 
@@ -122,7 +119,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                         .aisle(" GGG ", " EEE ", " EFE ", " EEE ", " HIH ", " EEE ", " EFE ", " EEE ", " GGG ")
                         .aisle("     ", "     ", "     ", "     ", "  I  ", "     ", "     ", "     ", "     ")
                         .aisle(" CCC ", " BIB ", " BIB ", "  I  ", "  I  ", "     ", "     ", "     ", "     ")
-                        .aisle(" CCC ", " BAB ", " BBB ", "     ", "     ", "     ", "     ", "     ", "     ")
+                        .aisle(" CCC ", " BAB ", " BJB ", "     ", "     ", "     ", "     ", "     ", "     ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(CASING_STEEL_SOLID.get())
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
@@ -137,6 +134,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                         .where('G', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:ptfe_engine_intake"))))
                         .where('H', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:ptfe_firebox_casing"))))
                         .where('I', Predicates.blocks(CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                        .where('J', Predicates.abilities(BacteriaInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
                         .where(' ', Predicates.any())
                         .build();
             })

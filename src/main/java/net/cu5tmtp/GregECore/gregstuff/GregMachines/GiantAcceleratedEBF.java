@@ -3,7 +3,6 @@ package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -17,9 +16,8 @@ import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.item.GreggyItems;
@@ -60,7 +58,6 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         super.onStructureFormed();
         this.checkCoil();
         List<IFluidHandler> coolantContainers = new ArrayList<>();
-        Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
 
         //This part of the code is the same as HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
@@ -73,11 +70,12 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 parallelBooster = 2;
             }
 
-            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
-            if (io == IO.NONE || io == IO.OUT) continue;
+            if(!(part instanceof CoolantInputPartMachine)){
+                continue;
+            }
+
             var handlerLists = part.getRecipeHandlers();
             for (var handlerList : handlerLists) {
-                if (!handlerList.isValid(io)) continue;
                 handlerList.getCapability(FluidRecipeCapability.CAP).stream()
                         .filter(IFluidHandler.class::isInstance)
                         .map(IFluidHandler.class::cast)
@@ -203,9 +201,9 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 return FactoryBlockPattern.start()
                         .aisle("BFFFB", "G   G", "G   G", "G   G", "G   G", "G   G", "BFFFB")
                         .aisle("BBBBB", " DDD ", " DDD ", " EEE ", " DDD ", " DDD ", "BBBBB")
-                        .aisle("BBBBH", " D D ", " D D ", " E E ", " D D ", " D D ", "BBCBB")
+                        .aisle("BBBBB", " D D ", " D D ", " E E ", " D D ", " D D ", "BBCBB")
                         .aisle("BBBBB", " DDD ", " DDD ", " EEE ", " DDD ", " DDD ", "BBBBB")
-                        .aisle("BFAFB", "G   G", "G   G", "G   G", "G   G", "G   G", "BFFFB")
+                        .aisle("BHAIB", "G   G", "G   G", "G   G", "G   G", "G   G", "BFFFB")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(CASING_TUNGSTENSTEEL_ROBUST.get())
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
@@ -219,13 +217,14 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                         .where('E', Predicates.blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
                         .where('F', Predicates.blocks(FIREBOX_TUNGSTENSTEEL.get()))
                         .where('G', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tungsten_carbide_frame"))))
-                        .where('H', Predicates.blocks(CASING_TUNGSTENSTEEL_ROBUST.get())
+                        .where('H', Predicates.blocks(FIREBOX_TUNGSTENSTEEL.get())
                                 .or(Predicates.abilities(ParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1))
-                                .or(Predicates.abilities(AdvancedParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1)))
+                                .or(Predicates.abilities(AdvancedParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
+                        .where('I', Predicates.abilities(CoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1))
                         .where(' ', Predicates.any())
                         .build();
             })
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
+            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Perfect Overclock and Magical Coils").withStyle(style -> style.withColor(0xFFD700)))

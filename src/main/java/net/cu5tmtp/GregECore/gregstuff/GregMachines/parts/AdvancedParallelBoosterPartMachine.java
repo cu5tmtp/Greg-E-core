@@ -32,10 +32,10 @@ public class AdvancedParallelBoosterPartMachine extends TieredPartMachine {
                     new AdvancedParallelBoosterPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER)
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), GregECore.id("block/overlay/advanced_parallel_booster"))
+            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/advanced_parallel_booster"))
             .tooltips(Component.literal("Use this to quadruple the parallels that the machine can achieve.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .editableUI(new EditableMachineUI("advanced_parallel_booster", GregECore.id("advanced_parallel_booster"), WidgetGroup::new, (group, machine) -> {
-                group.addWidget(new LabelWidget(-4, 1, "Parallel multiplier: 4"));
+                group.addWidget(new LabelWidget(-24, 1, "Parallel multiplier: 4"));
             }))
             .register();
 

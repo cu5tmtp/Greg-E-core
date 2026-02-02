@@ -1,9 +1,7 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 
 public class GregEStuffInit {
@@ -22,6 +20,9 @@ public class GregEStuffInit {
         StarFeederPartMachine.init();
         ParallelBoosterPartMachine.init();
         AdvancedParallelBoosterPartMachine.init();
+        AdvancedCoolantInputPartMachine.init();
+        BacteriaInputPartMachine.init();
+        CoolantInputPartMachine.init();
     }
 
     public static void initGregERenderRegistries(){

@@ -2,9 +2,7 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.core.registries.Registries;
@@ -42,6 +40,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                         pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());
                         pOutput.accept(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER_MACHINE.getItem());
+                        pOutput.accept(CoolantInputPartMachine.COOLANT_INPUT_MACHINE.getItem());
+                        pOutput.accept(BacteriaInputPartMachine.BACTERIAL_INPUT_MACHINE.getItem());
+                        pOutput.accept(AdvancedCoolantInputPartMachine.ADVANCED_COOLANT_INPUT_MACHINE.getItem());
                     })
                     .build());
 

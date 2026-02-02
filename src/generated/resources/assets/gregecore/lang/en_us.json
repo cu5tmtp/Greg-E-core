@@ -31,6 +31,9 @@
   "block.gregecore.star_feeder": "Star Feeder",
   "block.gregecore.parallel_booster_machine": "Parallel Booster",
   "block.gregecore.advanced_parallel_booster_machine": "Advanced Parallel Booster",
+  "block.gregecore.advanced_coolant_input_machine": "Advanced Coolant Input",
+  "block.gregecore.bacteria_input_machine": "Bacteria Input",
+  "block.gregecore.coolant_input_machine": "Coolant Input",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",

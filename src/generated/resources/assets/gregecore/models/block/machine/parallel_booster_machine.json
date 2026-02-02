@@ -3,14 +3,14 @@
   "loader": "gtceu:machine",
   "machine": "gregecore:parallel_booster_machine",
   "texture_overrides": {
-    "all": "gtceu:block/casings/solid/machine_casing_robust_tungstensteel"
+    "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel"
   },
   "variants": {
     "recipe_logic_status=idle": {
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "gtceu:block/casings/solid/machine_casing_robust_tungstensteel",
+          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
           "overlay_front": "gregecore:block/overlay/parallel_booster/overlay_front"
         }
       }
@@ -19,7 +19,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "gtceu:block/casings/solid/machine_casing_robust_tungstensteel",
+          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
           "overlay_front": "gregecore:block/overlay/parallel_booster/overlay_front"
         }
       }
@@ -28,7 +28,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "gtceu:block/casings/solid/machine_casing_robust_tungstensteel",
+          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
           "overlay_front": "gregecore:block/overlay/parallel_booster/overlay_front_active"
         }
       }
@@ -37,7 +37,7 @@
       "model": {
         "parent": "gtceu:block/machine/template/cube_all/sided",
         "textures": {
-          "all": "gtceu:block/casings/solid/machine_casing_robust_tungstensteel",
+          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
           "overlay_front": "gregecore:block/overlay/parallel_booster/overlay_front_active"
         }
       }

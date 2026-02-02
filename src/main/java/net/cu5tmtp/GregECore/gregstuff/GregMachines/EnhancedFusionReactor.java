@@ -2,7 +2,6 @@ package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -21,8 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
@@ -70,14 +68,15 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
     public void onStructureFormed() {
         super.onStructureFormed();
         List<IFluidHandler> coolantContainers = new ArrayList<>();
-        Long2ObjectMap<IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
 
         for (IMultiPart part : getParts()) {
-            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
-            if (io == IO.NONE || io == IO.OUT) continue;
+
+            if(!(part instanceof AdvancedCoolantInputPartMachine)){
+                continue;
+            }
+
             var handlerLists = part.getRecipeHandlers();
             for (var handlerList : handlerLists) {
-                if (!handlerList.isValid(io)) continue;
                 handlerList.getCapability(FluidRecipeCapability.CAP).stream()
                         .filter(IFluidHandler.class::isInstance)
                         .map(IFluidHandler.class::cast)
@@ -219,7 +218,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                         .aisle("  GHGGBGGHG  ", " G         G ", " H         H ", " G         G ", "  GHGGBGGHG  ")
                         .aisle("   GHHBHHG   ", "  D       D  ", "  H   F   H  ", "  D       D  ", "   GHHBHHG   ")
                         .aisle("    GGBGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGBGG    ")
-                        .aisle("             ", "    GGAGG    ", "    HHBHH    ", "    GGBGG    ", "             ")
+                        .aisle("             ", "    GGAGG    ", "    HHIHH    ", "    GGBGG    ", "             ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:draconiumfusion")))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2))
@@ -230,6 +229,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                         .where('F', Predicates.blocks(GTBlocks.FUSION_COIL.get()))
                         .where('G', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
                         .where('H', Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
+                        .where('I', Predicates.abilities(AdvancedCoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
                         .where(' ', Predicates.any())
                         .build();
             })
