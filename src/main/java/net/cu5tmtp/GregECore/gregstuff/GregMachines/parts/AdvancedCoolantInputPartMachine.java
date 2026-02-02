@@ -33,7 +33,7 @@ public class AdvancedCoolantInputPartMachine extends FluidHatchPartMachine {
                     new AdvancedCoolantInputPartMachine(holder, GTValues.UHV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(AdvancedCoolantInputPartMachine.ADVANCED_COOLANT_INPUT)
-            .workableCasingModel(GTCEu.id("draconium_fusion"), GregECore.id("block/overlay/feeder"))
+            .workableCasingModel(GregECore.id("block/draconium_fusion"), GregECore.id("block/overlay/feeder"))
             .tooltips(Component.literal("Use this to input coolant into advanced machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
