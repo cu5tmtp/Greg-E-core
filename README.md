@@ -38,7 +38,7 @@
 ### Content & Materials
 * Adds custom input machines for multiblocks.
 * Adds custom materials and fluids.
-* Add custom superconducting wires.
+* Adds custom superconducting wires.
 * Includes new Engine and Firebox blocks.
 
 ---
