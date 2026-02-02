@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T19:57:29.1716413	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-02-02T22:37:57.7418347	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
@@ -11,6 +11,7 @@ c48b3a1afecf8664dec91c5b7bb5b2f2a454b25b assets/gregecore/blockstates/coolant_in
 4f2b4889da1bc77fbb01045b6cc718cf6f465579 assets/gregecore/blockstates/dysonswarmlauncher.json
 b0c6bd2063350bdce5ef763d448d046ecc27f1d0 assets/gregecore/blockstates/enhancedfr.json
 cc0bd4fffcdaef0d7c4b1c4c4ef865e1c771b64b assets/gregecore/blockstates/forgotten_coil.json
+2e0a1936e7405f9a9055e02cec660c0c7a11c67f assets/gregecore/blockstates/fornaxuniversi.json
 01debd1f715479fc162486cc4620f189df521e2e assets/gregecore/blockstates/giantacceleratedebf.json
 1ae3ca08c6e27bc3953f07e2df79eceff40ed203 assets/gregecore/blockstates/giantchr.json
 b9c0d68b43534efa7595687f85ee572158a59334 assets/gregecore/blockstates/learning_acc_ebf.json
@@ -25,8 +26,8 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-44e3e3f8597041a7a608d7983cd3be12f2e09b2d assets/gregecore/lang/en_ud.json
-48ac5fe8bd7ed1a88ea1dfb56f46418ac927af32 assets/gregecore/lang/en_us.json
+1e73effa070a066864d192eeb28d230a3bcd68e4 assets/gregecore/lang/en_ud.json
+b0f9acb41577a5475f4e28020975dade76495448 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -43,6 +44,7 @@ dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/a
 595cb1fffd6fd98e836ee02c15631330fcdff000 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
 41b900a2b1b16ce1af3314b529e243d24ceb42c2 assets/gregecore/models/block/machine/dysonswarmlauncher.json
 f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
+b2c0626217760784ad2e9aeb1f1a5300bda99e63 assets/gregecore/models/block/machine/fornaxuniversi.json
 a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/giantacceleratedebf.json
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
 562d0f1f989fd82e943f98b8c701a878a3fb793d assets/gregecore/models/block/machine/learning_acc_ebf.json
@@ -77,6 +79,7 @@ a27b515e873c9531e2f679d4a6351fbc3f5903bf assets/gregecore/models/item/dysonswarm
 229d1251f9a000b6206da87bffa09bfd4eef11f3 assets/gregecore/models/item/dysonswarmlauncher.json
 ff3bee43c480143493944e7c9ff85d2f4039b7a8 assets/gregecore/models/item/enhancedfr.json
 04ebd1d56259bd9f49206fd9d078c33d75ff9a93 assets/gregecore/models/item/forgotten_coil.json
+5099ab81b347b99bed18791a384c518d6c31a279 assets/gregecore/models/item/fornaxuniversi.json
 9272526de3a4d31b124064fad01d64e6344fcc71 assets/gregecore/models/item/giantacceleratedebf.json
 be1797a4eca45df31dbeaf2c2dcd738e6436abe2 assets/gregecore/models/item/giantchr.json
 27f225bacb88ee4d8b3c90f2c957534338e95c62 assets/gregecore/models/item/learning_acc_ebf.json

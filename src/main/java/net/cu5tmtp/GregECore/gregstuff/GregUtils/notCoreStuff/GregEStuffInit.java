@@ -14,6 +14,7 @@ public class GregEStuffInit {
         LearningAcceleratedEBF.init();
         EnhancedFusionReactor.init();
         StarMaykr.init();
+        FornaxUniversi.init();
     }
 
     public static void initGregEParts(){

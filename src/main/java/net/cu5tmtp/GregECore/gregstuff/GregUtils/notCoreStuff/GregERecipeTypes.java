@@ -33,6 +33,12 @@ public class GregERecipeTypes {
                 return null;
             });
 
+    public static GTRecipeType FORNAX_UNIVERSI_ACCELERETION = GTRecipeTypes.register("fornax_universi_acceleration", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(9,1,0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_HAMMER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.JET_ENGINE);
+
     public static GTRecipeType ADVANCED_FUSION = GTRecipeTypes.register("advanced_fusion", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
