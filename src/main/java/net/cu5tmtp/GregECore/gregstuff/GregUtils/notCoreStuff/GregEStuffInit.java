@@ -16,12 +16,15 @@ public class GregEStuffInit {
         LearningAcceleratedEBF.init();
         EnhancedFusionReactor.init();
         StarMaykr.init();
-        GregERenederRegistries.init();
     }
 
     public static void initGregParts(){
         StarFeederPartMachine.init();
         ParallelBoosterPartMachine.init();
         AdvancedParallelBoosterPartMachine.init();
+    }
+
+    public static void initGregRenderRegistries(){
+        GregERenederRegistries.init();
     }
 }
