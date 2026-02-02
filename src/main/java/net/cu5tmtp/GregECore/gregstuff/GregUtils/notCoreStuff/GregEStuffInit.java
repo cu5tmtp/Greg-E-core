@@ -18,13 +18,13 @@ public class GregEStuffInit {
         StarMaykr.init();
     }
 
-    public static void initGregParts(){
+    public static void initGregEParts(){
         StarFeederPartMachine.init();
         ParallelBoosterPartMachine.init();
         AdvancedParallelBoosterPartMachine.init();
     }
 
-    public static void initGregRenderRegistries(){
+    public static void initGregERenderRegistries(){
         GregERenederRegistries.init();
     }
 }
