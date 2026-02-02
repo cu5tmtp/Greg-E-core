@@ -36,7 +36,9 @@
 * **Recipe Types:** `launch_sails` and `get_solar_sail_energy`.
 
 ### Content & Materials
+* Adds custom input machines for multiblocks.
 * Adds custom materials and fluids.
+* Adds custom superconducting wires.
 * Includes new Engine and Firebox blocks.
 
 ---
