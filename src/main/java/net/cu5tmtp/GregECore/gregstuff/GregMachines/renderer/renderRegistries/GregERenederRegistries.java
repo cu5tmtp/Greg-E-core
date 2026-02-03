@@ -8,7 +8,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.thingsToRender.Forn
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.thingsToRender.StarMaykrRender;
 import net.minecraft.resources.ResourceLocation;
 
-
+@SuppressWarnings("removal")
 public class GregERenederRegistries {
 
     public static final ResourceLocation ENHANCED_FUSION_RING_ID =

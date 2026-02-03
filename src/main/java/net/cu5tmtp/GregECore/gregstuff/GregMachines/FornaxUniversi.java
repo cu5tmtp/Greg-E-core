@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -55,32 +56,32 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
-                        .aisle("  CCCCCCC  ", " CCDDDDDCC ", "CCDFFFFFDCC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CCDFFFFFDCC", " CCDDDDDCC ", "  CCCCCCC  ")
-                        .aisle(" CCDDDDDCC ", "CEE     EEC", "CE       EC", "D         D", "D         D", "D         D", "D         D", "D         D", "CE       EC", "CEE     EEC", " CCDDDDDCC ")
-                        .aisle("CCDFFFFFDCC", "CE       EC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CE       EC", "CCDFFFFFDCC")
-                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
-                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
-                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
-                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
-                        .aisle("CDFFFFFFFDC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CDFFFFFFFDC")
-                        .aisle("CCDFFFFFDCC", "CE       EC", "D         D", "F         F", "F         F", "F         F", "F         F", "F         F", "D         D", "CE       EC", "CCDFFFFFDCC")
-                        .aisle(" CCDDDDDCC ", "CEE     EEC", "CE       EC", "D         D", "D         D", "D         D", "D         D", "D         D", "CE       EC", "CEE     EEC", " CCDDDDDCC ")
-                        .aisle("  BBBABBB  ", " CCDDDDDCC ", "CCDFFFFFDCC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CDFFFFFFFDC", "CCDFFFFFDCC", " CCDDDDDCC ", "  CCCCCCC  ")
+                        .aisle("             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "C           C", "E           E", "C           C", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                        .aisle("             ", "             ", "             ", "             ", "             ", "             ", " C         C ", " E         E ", "             ", "             ", "             ", " E         E ", " C         C ", "             ", "             ", "             ", "             ", "             ", "             ")
+                        .aisle("  DDD   DDD  ", "             ", "             ", "             ", "  C       C  ", "  E       E  ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "  E       E  ", "  C       C  ", "             ", "             ", "             ", "  DDD   DDD  ")
+                        .aisle("  DDDBBBDDD  ", "   C     C   ", "   C     C   ", "   E     E   ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "   E     E   ", "   C     C   ", "   C     C   ", "  DDDCCCDDD  ")
+                        .aisle("  DDDBBBDDD  ", "     C C     ", "     C C     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "     C C     ", "     C C     ", "  DDDCCCDDD  ")
+                        .aisle("   BBBBBBB   ", "    C   C    ", "    C   C    ", "     C C     ", "     C C     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "     C C     ", "     C C     ", "    C   C    ", "    C   C    ", "   CCCCCCC   ")
+                        .aisle("   BBBBBBB   ", "      C      ", "      G      ", "      G      ", "      C      ", "      C      ", "      F      ", "             ", "             ", "             ", "             ", "             ", "             ", "      F      ", "      C      ", "      G      ", "      G      ", "      C      ", "   CCCCCCC   ")
+                        .aisle("   BBBBBBB   ", "    C   C    ", "    C   C    ", "     C C     ", "     C C     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "     C C     ", "     C C     ", "    C   C    ", "    C   C    ", "   CCCCCCC   ")
+                        .aisle("  DDDBBBDDD  ", "     C C     ", "     C C     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "     C C     ", "     C C     ", "  DDDCCCDDD  ")
+                        .aisle("  DDDBABDDD  ", "   C     C   ", "   C     C   ", "   E     E   ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "   E     E   ", "   C     C   ", "   C     C   ", "  DDDCCCDDD  ")
+                        .aisle("  DDD   DDD  ", "             ", "             ", "             ", "  C       C  ", "  E       E  ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "  E       E  ", "  C       C  ", "             ", "             ", "             ", "  DDD   DDD  ")
+                        .aisle("             ", "             ", "             ", "             ", "             ", "             ", " C         C ", " E         E ", "             ", "             ", "             ", " E         E ", " C         C ", "             ", "             ", "             ", "             ", "             ", "             ")
+                        .aisle("             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "C           C", "E           E", "C           C", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
-                        .where('B', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get())
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
-                                .or(Predicates.abilities(StarFeederPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
-                        .where('C', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
-                        .where('D', Predicates.blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
-                        .where('E', Predicates.blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get()))
-                        .where('F', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("connectedglass:clear_glass"))))
+                        .where('B', Predicates.blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get())
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1)))
+                        .where('C', Predicates.blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()))
+                        .where('D', Predicates.blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
+                        .where('E', Predicates.blocks(GTBlocks.CASING_HSSE_STURDY.get()))
+                        .where('F', Predicates.blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                        .where('G', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:chain"))))
                         .where(' ', Predicates.air())
                         .build();
             })
             .model(createWorkableCasingMachineModel(
-                    GTCEu.id("block/casings/gcym/atomic_casing"),
+                    GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createFornaxUniversiRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

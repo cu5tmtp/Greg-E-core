@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelFile;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
+@SuppressWarnings("removal")
 public class GreggyBlocks {
 
     //Thanks to StarT core for teaching me how to do this

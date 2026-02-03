@@ -22,6 +22,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
+@SuppressWarnings("removal")
 @Mod(GregECore.MOD_ID)
 public class GregECore {
     public static final String MOD_ID = "gregecore";
@@ -31,6 +32,7 @@ public class GregECore {
 
     public GregECore() {
         REGISTRATE.registerRegistrate();
+
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModCreativeModTabs.register(modEventBus);
@@ -48,6 +50,7 @@ public class GregECore {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    @SuppressWarnings("removal")
     public static ResourceLocation id(String path) {
         return new ResourceLocation(MOD_ID, path);
     }

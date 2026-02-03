@@ -27,18 +27,113 @@ import org.joml.Matrix3f;
 import java.util.Random;
 import java.util.function.Function;
 
+@SuppressWarnings("removal")
 public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUniversiRender> {
 
     public static final Codec<FornaxUniversiRender> CODEC = Codec.unit(new FornaxUniversiRender());
     public static final DynamicRenderType<FornaxUniversi, FornaxUniversiRender> TYPE = new DynamicRenderType<>(FornaxUniversiRender.CODEC);
 
+    private static final int FULL_BRIGHT = 15728880;
+    private static final Matrix3f IDENTITY_MATRIX_3F = new Matrix3f();
+
+    private static final float DISK_U = 0.5f;
+    private static final float DISK_V = 0.5f;
+    private static final float DISK_INTENSITY = 0.4f;
+
+
     private static final ResourceLocation WHITE_TEXTURE = new ResourceLocation("minecraft:textures/block/white_concrete.png");
+
     private static final ResourceLocation WHITE_TEXTURE_LOC = new ResourceLocation("minecraft:block/white_concrete");
 
+
     private static final ResourceLocation MAGMA_TEXTURE_LOC = new ResourceLocation("minecraft:block/magma");
+
     private static final ResourceLocation STONE_TEXTURE_LOC = new ResourceLocation("minecraft:block/stone");
+
     private static final ResourceLocation COBBLESTONE_TEXTURE_LOC = new ResourceLocation("minecraft:block/cobblestone");
+
     private static final ResourceLocation LAPIS_TEXTURE_LOC = new ResourceLocation("minecraft:block/lapis_block");
+
+    private static final ResourceLocation[] TEXTURE_POOL = new ResourceLocation[] {
+            MAGMA_TEXTURE_LOC, LAPIS_TEXTURE_LOC, STONE_TEXTURE_LOC,
+            MAGMA_TEXTURE_LOC, COBBLESTONE_TEXTURE_LOC,
+            LAPIS_TEXTURE_LOC, MAGMA_TEXTURE_LOC, STONE_TEXTURE_LOC, MAGMA_TEXTURE_LOC
+    };
+
+    private static final PlanetData[] PLANETS = new PlanetData[9];
+
+    private static final ArcData[] ARCS = new ArcData[] {
+            new ArcData(5.5f, 2.2f, 45.0f, 0.08f, 0.0f),
+            new ArcData(4.0f, 2.6f, 45.0f, 0.1f, 120.0f),
+            new ArcData(2.5f, 3.1f, 45.0f, 0.08f, 240.0f)
+    };
+
+    static {
+        Random r = new Random(42);
+        for (int i = 0; i < 9; i++) {
+            float orbitalSpeed;
+            float radiusBase;
+            float radiusVar;
+
+            if (i < 2) {
+                orbitalSpeed = 8.0f;
+                radiusBase = 2.8f;
+                radiusVar = 0.5f;
+            } else if (i < 5) {
+                orbitalSpeed = 2.0f;
+                radiusBase = 4.5f;
+                radiusVar = 1.0f;
+            } else {
+                orbitalSpeed = 1.5f;
+                radiusBase = 6.5f;
+                radiusVar = 1.5f;
+            }
+
+            float angleOffset = r.nextFloat() * 360.0f;
+            float radius = radiusBase + r.nextFloat() * radiusVar;
+            float bobSpeed = 0.05f + r.nextFloat() * 0.05f;
+            float bobOffset = r.nextFloat() * 10.0f;
+            float scale = 0.2f + r.nextFloat() * 0.2f;
+
+            PLANETS[i] = new PlanetData(orbitalSpeed, angleOffset, radius, bobSpeed, bobOffset, scale, TEXTURE_POOL[i]);
+        }
+    }
+
+    private static class PlanetData {
+        final float speed;
+        final float angleOffset;
+        final float radius;
+        final float bobSpeed;
+        final float bobOffset;
+        final float scale;
+        final ResourceLocation texture;
+
+        PlanetData(float speed, float angleOffset, float radius, float bobSpeed, float bobOffset, float scale, ResourceLocation texture) {
+            this.speed = speed;
+            this.angleOffset = angleOffset;
+            this.radius = radius;
+            this.bobSpeed = bobSpeed;
+            this.bobOffset = bobOffset;
+            this.scale = scale;
+            this.texture = texture;
+        }
+    }
+
+    private static class ArcData {
+        final float speed;
+        final float radius;
+        final float lengthDeg;
+        final float thickness;
+        final float angleOffset;
+
+        ArcData(float speed, float radius, float lengthDeg, float thickness, float angleOffset) {
+            this.speed = speed;
+            this.radius = radius;
+            this.lengthDeg = lengthDeg;
+            this.thickness = thickness;
+            this.angleOffset = angleOffset;
+        }
+    }
 
     public FornaxUniversiRender() {}
 
@@ -63,24 +158,25 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         var back = RelativeDirection.BACK.getRelative(front, upwards, flipped);
         var up = RelativeDirection.UP.getRelative(front, upwards, flipped);
 
-        float posX = (back.getStepX() * 5.0F) + (up.getStepX() * 5.0F) + 0.5F;
-        float posY = (back.getStepY() * 5.0F) + (up.getStepY() * 5.0F) + 0.5F;
-        float posZ = (back.getStepZ() * 5.0F) + (up.getStepZ() * 5.0F) + 0.5F;
-
-        int fullBright = 15728880;
+        float posX = (back.getStepX() * 3.0F) + (up.getStepX() * 9.5F) + 0.5F;
+        float posY = (back.getStepY() * 3.0F) + (up.getStepY() * 9.5F) + 0.5F;
+        float posZ = (back.getStepZ() * 3.0F) + (up.getStepZ() * 9.5F) + 0.5F;
 
         poseStack.pushPose();
         poseStack.translate(posX, posY, posZ);
 
-        TextureAtlasSprite whiteSprite = Minecraft.getInstance()
-                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(WHITE_TEXTURE_LOC);
+        Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance()
+                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
 
-        renderEventHorizon(poseStack, buffer.getBuffer(RenderType.solid()), whiteSprite, fullBright);
+        TextureAtlasSprite whiteSprite = atlas.apply(WHITE_TEXTURE_LOC);
 
-        renderPlanets(machine, partialTick, poseStack, buffer.getBuffer(RenderType.solid()), fullBright);
+        renderEventHorizon(poseStack, buffer.getBuffer(RenderType.solid()), whiteSprite, FULL_BRIGHT);
 
-        renderAccretionDisk(machine, partialTick, poseStack, buffer.getBuffer(RenderType.eyes(WHITE_TEXTURE)), fullBright, posX, posY, posZ);
+        renderPlanets(machine, partialTick, poseStack, buffer.getBuffer(RenderType.solid()), atlas, FULL_BRIGHT);
+
+        renderMotionArcs(machine, partialTick, poseStack, buffer.getBuffer(RenderType.eyes(WHITE_TEXTURE)), FULL_BRIGHT);
+
+        renderAccretionDisk(machine, partialTick, poseStack, buffer.getBuffer(RenderType.eyes(WHITE_TEXTURE)), FULL_BRIGHT, posX, posY, posZ);
 
         poseStack.popPose();
     }
@@ -96,68 +192,24 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderPlanets(FornaxUniversi machine, float partialTicks, PoseStack stack, VertexConsumer buffer, int packedLight) {
+    private void renderPlanets(FornaxUniversi machine, float partialTicks, PoseStack stack, VertexConsumer buffer, Function<ResourceLocation, TextureAtlasSprite> atlas, int packedLight) {
         float time = (machine.getOffsetTimer() + partialTicks);
-        Random r = new Random(42);
-
-        Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance()
-                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-
-        ResourceLocation[] textures = new ResourceLocation[] {
-
-                MAGMA_TEXTURE_LOC,
-                LAPIS_TEXTURE_LOC,
-
-                STONE_TEXTURE_LOC,
-                MAGMA_TEXTURE_LOC,
-                COBBLESTONE_TEXTURE_LOC,
-
-                LAPIS_TEXTURE_LOC,
-                MAGMA_TEXTURE_LOC,
-                STONE_TEXTURE_LOC,
-                MAGMA_TEXTURE_LOC
-        };
 
         stack.pushPose();
         stack.mulPose(Axis.XP.rotationDegrees(5.0F));
 
-        for (int i = 0; i < 9; i++) {
+        for (PlanetData planet : PLANETS) {
             stack.pushPose();
 
-            float orbitalSpeed;
-            float radiusBase;
-            float radiusVar;
-
-            if (i < 2) {
-                orbitalSpeed = 8.0f;
-                radiusBase = 2.8f;
-                radiusVar = 0.5f;
-            } else if (i < 5) {
-                orbitalSpeed = 2.0f;
-                radiusBase = 4.5f;
-                radiusVar = 1.0f;
-            } else {
-                orbitalSpeed = 1.5f;
-                radiusBase = 6.5f;
-                radiusVar = 1.5f;
-            }
-
-            float angleOffset = r.nextFloat() * 360.0f;
-            float currentAngle = (time * orbitalSpeed) + angleOffset;
-
-            float radius = radiusBase + r.nextFloat() * radiusVar;
-
-            float bobSpeed = 0.05f + r.nextFloat() * 0.05f;
-            float bobOffset = r.nextFloat() * 10.0f;
-            float bobHeight = Mth.sin(time * bobSpeed + bobOffset) * 0.3f;
+            float currentAngle = (time * planet.speed) + planet.angleOffset;
+            float bobHeight = Mth.sin(time * planet.bobSpeed + planet.bobOffset) * 0.3f;
 
             stack.mulPose(Axis.YP.rotationDegrees(currentAngle));
-            stack.translate(radius, bobHeight, 0);
+            stack.translate(planet.radius, bobHeight, 0);
 
-            float scale = 0.2f + r.nextFloat() * 0.2f;
-            stack.scale(scale, scale, scale);
+            stack.scale(planet.scale, planet.scale, planet.scale);
 
-            TextureAtlasSprite sprite = atlas.apply(textures[i]);
+            TextureAtlasSprite sprite = atlas.apply(planet.texture);
             renderTexturedSphere(stack, buffer, 1.0f, 16, 16, 1.0f, 1.0f, 1.0f, 1.0f, sprite, packedLight);
 
             stack.popPose();
@@ -166,20 +218,41 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     }
 
     @OnlyIn(Dist.CLIENT)
+    private void renderMotionArcs(FornaxUniversi machine, float partialTicks, PoseStack stack, VertexConsumer buffer, int packedLight) {
+        float time = (machine.getOffsetTimer() + partialTicks);
+
+        stack.pushPose();
+        stack.mulPose(Axis.XP.rotationDegrees(5.0F));
+        stack.scale(1.0F, 0.1F, 1.0F);
+
+        for (ArcData arc : ARCS) {
+            stack.pushPose();
+
+            float currentRotation = (time * arc.speed) + arc.angleOffset;
+            stack.mulPose(Axis.YP.rotationDegrees(currentRotation));
+
+            float lengthRad = arc.lengthDeg * (float)(Math.PI / 180.0);
+
+            renderPartialTorus(stack, buffer, arc.radius, arc.thickness, 0.0f, lengthRad, 30, 8, 0.6f, 0.6f, 0.6f, 1.0f, DISK_U, DISK_V, packedLight);
+
+            stack.popPose();
+        }
+
+        stack.popPose();
+    }
+
+    @OnlyIn(Dist.CLIENT)
     private void renderAccretionDisk(FornaxUniversi machine, float partialTicks, PoseStack stack,
                                      VertexConsumer buffer, int packedLight, float x, float y, float z) {
         float time = (machine.getOffsetTimer() + partialTicks);
 
-        float u = 0.5f;
-        float v = 0.5f;
-        float intensity = 0.4f;
-
         stack.pushPose();
-        stack.mulPose(Axis.YP.rotationDegrees(time * 3.0F));
         stack.mulPose(Axis.XP.rotationDegrees(5.0F));
+        stack.mulPose(Axis.YP.rotationDegrees(time * 3.0F));
+
         stack.scale(1.0F, 0.1F, 1.0F);
 
-        renderTorus(stack, buffer, 2.5F, 1.0F, 50, 20, intensity, intensity, intensity, 1.0f, u, v, packedLight);
+        renderTorus(stack, buffer, 2.5F, 1.0F, 50, 20, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
         stack.popPose();
 
         stack.pushPose();
@@ -204,7 +277,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         stack.scale(1.0F, 0.15F, 1.0F);
 
-        renderTorus(stack, buffer, 2.2F, 0.4F, 40, 20, intensity, intensity, intensity, 1.0f, u, v, packedLight);
+        renderTorus(stack, buffer, 2.2F, 0.4F, 40, 20, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
 
         stack.popPose();
     }
@@ -213,13 +286,23 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     private void renderTorus(PoseStack poseStack, VertexConsumer buffer, float majorRadius, float minorRadius,
                              int majorSegments, int minorSegments, float r, float g, float b, float a,
                              float u, float v, int light) {
+        renderPartialTorus(poseStack, buffer, majorRadius, minorRadius, 0.0f, (float)(Math.PI * 2.0), majorSegments, minorSegments, r, g, b, a, u, v, light);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderPartialTorus(PoseStack poseStack, VertexConsumer buffer, float majorRadius, float minorRadius,
+                                    float startAngle, float sweepAngle,
+                                    int majorSegments, int minorSegments, float r, float g, float b, float a,
+                                    float u, float v, int light) {
         Matrix4f mat = poseStack.last().pose();
-        Matrix3f fixedNormalMat = new Matrix3f();
+        Matrix3f fixedNormalMat = IDENTITY_MATRIX_3F;
 
         for (int i = 0; i < majorSegments; i++) {
-            float uFraction0 = (float) i / majorSegments;
-            float theta0 = uFraction0 * (float) Math.PI * 2.0f;
-            float theta1 = ((float) (i + 1) / majorSegments) * (float) Math.PI * 2.0f;
+            float fraction0 = (float) i / majorSegments;
+            float fraction1 = (float) (i + 1) / majorSegments;
+
+            float theta0 = startAngle + fraction0 * sweepAngle;
+            float theta1 = startAngle + fraction1 * sweepAngle;
 
             float cosTheta0 = Mth.cos(theta0);
             float sinTheta0 = Mth.sin(theta0);
