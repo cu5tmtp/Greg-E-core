@@ -24,6 +24,7 @@ public class GregEStuffInit {
         AdvancedCoolantInputPartMachine.init();
         BacteriaInputPartMachine.init();
         CoolantInputPartMachine.init();
+        RepairPartsInputPartMachine.init();
     }
 
     public static void initGregERenderRegistries(){

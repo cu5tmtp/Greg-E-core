@@ -37,8 +37,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
+                        pOutput.accept(FornaxUniversi.FORNAX_UNIVERSI.getItem());
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                         pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());
+                        pOutput.accept(RepairPartsInputPartMachine.REPAIR_PART_INPUT_MACHINE.getItem());
                         pOutput.accept(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER_MACHINE.getItem());
                         pOutput.accept(CoolantInputPartMachine.COOLANT_INPUT_MACHINE.getItem());
                         pOutput.accept(BacteriaInputPartMachine.BACTERIAL_INPUT_MACHINE.getItem());

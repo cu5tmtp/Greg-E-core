@@ -208,7 +208,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createStarMaykrRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Singularity Forging").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Material Compressing").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("You have done it. You made a machine capable of making and sustaining stars. While some might say its useful for energy," +
                     " you have different ideas. Using the immense gravitational forces inside a stars core, you just might forge unthinkable items.").withStyle(style -> style.withColor(0x90EE90)))

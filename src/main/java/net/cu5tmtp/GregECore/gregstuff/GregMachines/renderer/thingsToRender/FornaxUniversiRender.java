@@ -12,11 +12,16 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
@@ -40,19 +45,14 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     private static final float DISK_V = 0.5f;
     private static final float DISK_INTENSITY = 0.4f;
 
-
     private static final ResourceLocation WHITE_TEXTURE = new ResourceLocation("minecraft:textures/block/white_concrete.png");
-
     private static final ResourceLocation WHITE_TEXTURE_LOC = new ResourceLocation("minecraft:block/white_concrete");
 
-
     private static final ResourceLocation MAGMA_TEXTURE_LOC = new ResourceLocation("minecraft:block/magma");
-
     private static final ResourceLocation STONE_TEXTURE_LOC = new ResourceLocation("minecraft:block/stone");
-
     private static final ResourceLocation COBBLESTONE_TEXTURE_LOC = new ResourceLocation("minecraft:block/cobblestone");
-
     private static final ResourceLocation LAPIS_TEXTURE_LOC = new ResourceLocation("minecraft:block/lapis_block");
+
 
     private static final ResourceLocation[] TEXTURE_POOL = new ResourceLocation[] {
             MAGMA_TEXTURE_LOC, LAPIS_TEXTURE_LOC, STONE_TEXTURE_LOC,
@@ -63,10 +63,12 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     private static final PlanetData[] PLANETS = new PlanetData[9];
 
     private static final ArcData[] ARCS = new ArcData[] {
-            new ArcData(5.5f, 2.2f, 45.0f, 0.08f, 0.0f),
-            new ArcData(4.0f, 2.6f, 45.0f, 0.1f, 120.0f),
-            new ArcData(2.5f, 3.1f, 45.0f, 0.08f, 240.0f)
+            new ArcData(5.5f, 2.2f, 90.0f, 0.08f, 0.0f),
+            new ArcData(4.0f, 2.5f, 90.0f, 0.1f, 120.0f),
+            new ArcData(2.5f, 2.8f, 90.0f, 0.08f, 240.0f)
     };
+
+    private static ItemStack CACHED_ROCKET_STACK = null;
 
     static {
         Random r = new Random(42);
@@ -158,9 +160,9 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         var back = RelativeDirection.BACK.getRelative(front, upwards, flipped);
         var up = RelativeDirection.UP.getRelative(front, upwards, flipped);
 
-        float posX = (back.getStepX() * 3.0F) + (up.getStepX() * 9.5F) + 0.5F;
-        float posY = (back.getStepY() * 3.0F) + (up.getStepY() * 9.5F) + 0.5F;
-        float posZ = (back.getStepZ() * 3.0F) + (up.getStepZ() * 9.5F) + 0.5F;
+        float posX = (back.getStepX() * 3.0F) + (up.getStepX() * 9.0F) + 0.5F;
+        float posY = (back.getStepY() * 3.0F) + (up.getStepY() * 9.0F) + 0.5F;
+        float posZ = (back.getStepZ() * 3.0F) + (up.getStepZ() * 9.0F) + 0.5F;
 
         poseStack.pushPose();
         poseStack.translate(posX, posY, posZ);
@@ -174,11 +176,76 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         renderPlanets(machine, partialTick, poseStack, buffer.getBuffer(RenderType.solid()), atlas, FULL_BRIGHT);
 
+        if (machine.getRecipeLogic().isWorking()) {
+            renderRocket(machine, partialTick, poseStack, buffer, FULL_BRIGHT);
+        }
+
         renderMotionArcs(machine, partialTick, poseStack, buffer.getBuffer(RenderType.eyes(WHITE_TEXTURE)), FULL_BRIGHT);
 
         renderAccretionDisk(machine, partialTick, poseStack, buffer.getBuffer(RenderType.eyes(WHITE_TEXTURE)), FULL_BRIGHT, posX, posY, posZ);
 
         poseStack.popPose();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderRocket(FornaxUniversi machine, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight) {
+        if (CACHED_ROCKET_STACK == null) {
+            Item adAstraRocket = ForgeRegistries.ITEMS.getValue(new ResourceLocation("ad_astra", "tier_1_rocket"));
+            if (adAstraRocket != null && adAstraRocket != Items.AIR) {
+                CACHED_ROCKET_STACK = new ItemStack(adAstraRocket);
+            } else {
+                CACHED_ROCKET_STACK = new ItemStack(Items.FIREWORK_ROCKET);
+            }
+        }
+
+        float totalTime = 600.0f;
+        float time = (machine.getOffsetTimer() + partialTicks) % totalTime;
+        float progress = time / totalTime;
+
+        float radius;
+        float orbitSpeed = 4.0f;
+        float currentAngle = time * orbitSpeed;
+
+        stack.pushPose();
+
+        stack.mulPose(Axis.XP.rotationDegrees(5.0F));
+
+        if (progress < 0.15f) {
+            float t = progress / 0.15f;
+            radius = Mth.lerp(t, 20.0f, 3.8f);
+        } else if (progress > 0.85f) {
+            float t = (progress - 0.85f) / 0.15f;
+            radius = Mth.lerp(t, 3.8f, 20.0f);
+        } else {
+            radius = 3.8f;
+        }
+
+        stack.mulPose(Axis.YP.rotationDegrees(currentAngle));
+        stack.translate(radius, 0, 0);
+
+        stack.mulPose(Axis.YP.rotationDegrees(90.0F));
+
+        stack.mulPose(Axis.ZP.rotationDegrees(-90.0F));
+
+        if (progress < 0.15f) {
+            stack.mulPose(Axis.ZP.rotationDegrees(-20.0F));
+        } else if (progress > 0.85f) {
+            stack.mulPose(Axis.ZP.rotationDegrees(20.0F));
+        }
+
+        stack.scale(1.5f, 1.5f, 1.5f);
+
+        Minecraft.getInstance().getItemRenderer().renderStatic(
+                CACHED_ROCKET_STACK,
+                ItemDisplayContext.FIXED,
+                packedLight,
+                OverlayTexture.NO_OVERLAY,
+                stack,
+                buffer,
+                machine.getLevel(),
+                0);
+
+        stack.popPose();
     }
 
     @OnlyIn(Dist.CLIENT)

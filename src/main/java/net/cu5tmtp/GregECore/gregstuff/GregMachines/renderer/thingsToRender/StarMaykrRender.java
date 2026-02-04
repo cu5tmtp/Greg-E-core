@@ -24,6 +24,7 @@ import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 import org.joml.Matrix3f;
 
+@SuppressWarnings("removal")
 public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
 
     public static final Codec<StarMaykrRender> CODEC = Codec.unit(new StarMaykrRender());

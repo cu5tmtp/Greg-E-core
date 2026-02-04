@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gregecore:block/machine/repair_part_input_machine",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregecore:block/machine/repair_part_input_machine"
+    },
+    "facing=south": {
+      "model": "gregecore:block/machine/repair_part_input_machine",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gregecore:block/machine/repair_part_input_machine",
+      "y": 270
+    }
+  }
+}

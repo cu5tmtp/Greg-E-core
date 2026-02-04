@@ -34,7 +34,7 @@ public class GregERecipeTypes {
             });
 
     public static GTRecipeType FORNAX_UNIVERSI_ACCELERETION = GTRecipeTypes.register("fornax_universi_acceleration", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(9,1,0,0)
+            .setMaxIOSize(6,6,3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_HAMMER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.JET_ENGINE);

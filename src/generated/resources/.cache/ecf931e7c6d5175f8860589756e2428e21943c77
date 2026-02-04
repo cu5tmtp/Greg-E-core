@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-03T19:49:02.4795749	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-02-04T01:23:30.6895891	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
@@ -20,14 +20,15 @@ f2f50b64fdb313df8661ead69ca7f431c3b6aa82 assets/gregecore/blockstates/malachite_
 a7e876cb4b463a8a1ffadae72e404d3bb9d97193 assets/gregecore/blockstates/parallel_booster_machine.json
 7bd70af8a98abd636876644b5e4957da24357850 assets/gregecore/blockstates/ptfe_engine_intake.json
 d60f6d810d134e1c0e2af25212387fdc67dc6095 assets/gregecore/blockstates/ptfe_firebox_casing.json
+87093bfb6445b05e46b1a5f3bc2db6a19b6870c7 assets/gregecore/blockstates/repair_part_input_machine.json
 9187a0fe51287f1724631740a0565b9d86c43255 assets/gregecore/blockstates/shockproof_engine.json
 ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.json
 834ef80b93a9632f5a50db2a1df075c34ac489f8 assets/gregecore/blockstates/star_feeder.json
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-1e73effa070a066864d192eeb28d230a3bcd68e4 assets/gregecore/lang/en_ud.json
-b0f9acb41577a5475f4e28020975dade76495448 assets/gregecore/lang/en_us.json
+8933d3895827e67d9e2ebdec48a097212e7815e9 assets/gregecore/lang/en_ud.json
+7bd4c11a8ace617336040ff6f30cee61842a3ae0 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -49,6 +50,7 @@ a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/g
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
 562d0f1f989fd82e943f98b8c701a878a3fb793d assets/gregecore/models/block/machine/learning_acc_ebf.json
 68af135575aa908d2fe304ed19d8380690a1bd40 assets/gregecore/models/block/machine/parallel_booster_machine.json
+fe4842efb0cbddc85a8f305452e24c01a6657edd assets/gregecore/models/block/machine/repair_part_input_machine.json
 2a8cb70e2cf558f77753166f27363cf92fe6654a assets/gregecore/models/block/machine/starmaykr.json
 0e40643c3f5cbd93a3b3ef2533956344939ca60f assets/gregecore/models/block/machine/star_feeder.json
 6784116963c708d99da2c246d03977144046d000 assets/gregecore/models/block/malachite_coil.json
@@ -88,6 +90,7 @@ be1797a4eca45df31dbeaf2c2dcd738e6436abe2 assets/gregecore/models/item/giantchr.j
 24bd2e34f797b31248f6db8a7a88e2cf2784d171 assets/gregecore/models/item/parallel_booster_machine.json
 dccfb2f5480b6a00145bf441a780874373d1ef27 assets/gregecore/models/item/ptfe_engine_intake.json
 e0d4138a800464ba45744e7ec1c21499abf9720c assets/gregecore/models/item/ptfe_firebox_casing.json
+9a76d2cd706631a1a1096ce6acdb5063b6bbf97b assets/gregecore/models/item/repair_part_input_machine.json
 0796bd2945ac27e0c86b5eaf19addd1fd532a023 assets/gregecore/models/item/shockproof_engine.json
 8e71b7d1c839efce883243874ac7831d170efa83 assets/gregecore/models/item/starmaykr.json
 1fbeffe374660779bdca0d33ed2774722fe39030 assets/gregecore/models/item/star_feeder.json

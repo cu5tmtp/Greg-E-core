@@ -1,0 +1,40 @@
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+
+import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
+
+public class RepairPartsInputPartMachine extends ItemBusPartMachine {
+
+    public static final PartAbility REPAIR_PART_INPUT = new PartAbility("repair_part_bacteria_input");
+
+    public RepairPartsInputPartMachine(IMachineBlockEntity holder, int tier) {
+        super(holder, tier, IO.BOTH);
+    }
+
+    public static PartAbility getPartAbility() {
+        return REPAIR_PART_INPUT;
+    }
+
+    public static final MachineDefinition REPAIR_PART_INPUT_MACHINE = REGISTRATE.machine("repair_part_input_machine", (holder) ->
+                    new RepairPartsInputPartMachine(holder, GTValues.ULV))
+            .rotationState(RotationState.NON_Y_AXIS)
+            .abilities(RepairPartsInputPartMachine.REPAIR_PART_INPUT)
+            .workableCasingModel(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to input repair parts, which will be used to repair the spaceship.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .register();
+
+
+    public static void init() {
+    }
+}

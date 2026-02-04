@@ -35,6 +35,7 @@
   "block.gregecore.advanced_coolant_input_machine": "Advanced Coolant Input",
   "block.gregecore.bacteria_input_machine": "Bacteria Input",
   "block.gregecore.coolant_input_machine": "Coolant Input",
+  "block.gregecore.repair_part_input_machine": "Repair Part Input",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",
