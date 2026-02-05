@@ -29,6 +29,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SOLAR_ACTIVATOR.get());
                         pOutput.accept(ModItems.SOLAR_SAIL.get());
                         pOutput.accept(ModItems.SOLAR_SAIL_CASE.get());
+                        pOutput.accept(ModItems.QUANTUM_ACCELERATOR.get());
+                        pOutput.accept(ModItems.ROCKET_CONE.get());
+                        pOutput.accept(ModItems.SERVER_RACK.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());

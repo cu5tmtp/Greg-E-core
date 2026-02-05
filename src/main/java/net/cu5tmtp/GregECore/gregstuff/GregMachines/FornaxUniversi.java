@@ -15,16 +15,15 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.RepairPartsInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.items.IItemHandler;
@@ -34,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
@@ -52,8 +52,10 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
     private boolean needsRepair = false;
     private boolean hasTriggeredFailureThisRecipe = false;
     private static final int REPAIR_TIME_LIMIT = 100;
-    private static final int FAILURE_TRIGGER_TICK = 100;
-    private static final ItemStack REPAIR_ITEM = new ItemStack(Items.IRON_INGOT);
+    private static final int FAILURE_TRIGGER_TICK = 300;
+    private static ItemStack[] requiredItems;
+    private int whichItem;
+    private final Random random = new Random();
 
     private final List<IItemHandler> cachedRepairPartHandler = new ArrayList<>();
 
@@ -82,11 +84,17 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
             logicSubscription = null;
         }
         logicSubscription = this.subscribeServerTick(this::manageLogic);
+
+        whichItem = 0;
+
+        getRepairItems();
     }
 
     private void manageLogic() {
 
         if (needsRepair) {
+
+            this.updateSignal();
 
             if (repairTimer > 0) {
                 repairTimer--;
@@ -103,6 +111,8 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
 
         if (this.recipeLogic.isWorking()) {
 
+            this.updateSignal();
+
             recipeTicks++;
 
             if (!hasTriggeredFailureThisRecipe && recipeTicks >= FAILURE_TRIGGER_TICK) {
@@ -111,25 +121,32 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
                 this.repairTimer = REPAIR_TIME_LIMIT;
                 this.recipeLogic.setStatus(RecipeLogic.Status.SUSPEND);
             }
-        } else {
-            if (recipeTicks != 0) {
-                recipeTicks = 0;
-                hasTriggeredFailureThisRecipe = false;
-            }
         }
     }
 
     @Override
     public void afterWorking() {
+        this.updateSignal();
+        recipeTicks = 0;
         hasTriggeredFailureThisRecipe = false;
+        getRandomRepairItem();
         super.afterWorking();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        if (logicSubscription != null) {
+            logicSubscription.unsubscribe();
+            logicSubscription = null;
+        }
+        super.onStructureInvalid();
     }
 
     private boolean consumeRepairItem() {
         for (IItemHandler handler : cachedRepairPartHandler) {
             for (int i = 0; i < handler.getSlots(); i++) {
                 ItemStack stackInSlot = handler.getStackInSlot(i);
-                if (ItemStack.isSameItem(stackInSlot, REPAIR_ITEM) && stackInSlot.getCount() >= 1) {
+                if (ItemStack.isSameItem(stackInSlot, requiredItems[whichItem]) && stackInSlot.getCount() >= 1) {
                     handler.extractItem(i, 1, false);
                     return true;
                 }
@@ -137,7 +154,6 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
         }
         return false;
     }
-
 
     private void explodeMachine() {
         Level level = getLevel();
@@ -148,10 +164,34 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
         }
     }
 
+    private void getRandomRepairItem(){
+        whichItem = random.nextInt(3);
+    }
+
+    private void getRepairItems() {
+        if (requiredItems == null) {
+            requiredItems = new ItemStack[] {
+                    new ItemStack(ModItems.SERVER_RACK.get()),
+                    new ItemStack(ModItems.QUANTUM_ACCELERATOR.get()),
+                    new ItemStack(ModItems.ROCKET_CONE.get())
+            };
+        }
+    }
+
     @Override
     public int getOutputSignal(@Nullable Direction side) {
-        if (this.needsRepair) {
-            return 15;
+        if(getRecipeLogic().isSuspend()) {
+            switch (whichItem) {
+                case 0 -> {
+                    return 5;
+                }
+                case 1 -> {
+                    return 10;
+                }
+                case 2 -> {
+                    return 15;
+                }
+            }
         }
         return 0;
     }
@@ -166,14 +206,10 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
         return true;
     }
 
-
-
-
     public static MachineDefinition FORNAX_UNIVERSI = REGISTRATE
             .multiblock("fornaxuniversi", FornaxUniversi::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GregERecipeTypes.FORNAX_UNIVERSI_ACCELERETION)
-            .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -209,21 +245,20 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createFornaxUniversiRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Singularity Forging").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Black Hole Diving").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("One of the mysteries of cosmos lies at your feet." +
+                    " Create a sturdy rocket and make haste for the materials created by the black hole itself.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Star starts with 1 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
-                    " due to the star fusing some of its own weight into it whenever it forms a singularity. " +
-                    "You can increase the weight of the star if you feed it correct items. The correct items are shown below with their weight value.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("The black hole tries to crush your spaceship with inconceivable gravitational forces. You will need to repair " +
+                    "the spaceship mid-flight to survive the voyage and come back home with the spoils. Supply correct items to the machine, you will know which is the correct one by " +
+                    "the redstone signal. Failure to do so results in the machine exploding. " +
+                    "Below are the repair items with their signal strength.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Cobblestone: 0.01 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
-                    .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" per ").withStyle(style -> style.withColor(0x90EE90)))
-                    .append(Component.literal("30 x 10³⁰").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" tons.").withStyle(style -> style.withColor(0x90EE90))))
+            .tooltips(Component.literal("Controller emits redstone.").withStyle(ChatFormatting.GOLD))
+            .tooltips(Component.literal("Server Rack: redstone strength - 5").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Rocket Cone: redstone strength - 10").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Quantum Accelerator: redstone strength - 15").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override

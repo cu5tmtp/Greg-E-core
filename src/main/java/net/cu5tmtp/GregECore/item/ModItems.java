@@ -36,4 +36,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> SOLAR_SAIL_CASE = ITEMS.register("solar_sail_case",
             () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> QUANTUM_ACCELERATOR = ITEMS.register("quantum_accelerator",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> SERVER_RACK = ITEMS.register("server_rack",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> ROCKET_CONE = ITEMS.register("rocket_cone",
+            () -> new Item(new Item.Properties()));
 }

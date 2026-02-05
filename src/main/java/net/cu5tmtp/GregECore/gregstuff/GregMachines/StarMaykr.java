@@ -106,8 +106,10 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
         if (getOffsetTimer() % 5 != 0) return;
 
         if (getRecipeLogic().isActive()) {
+            this.updateSignal();
             applyWorkingWeightLogic();
         } else {
+            this.updateSignal();
             applyIdleWeightLogic();
         }
     }
@@ -219,7 +221,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Cobblestone: 0.01 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
+            .tooltips(Component.literal("Controller emits redstone: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
                     .append(Component.literal(" per ").withStyle(style -> style.withColor(0x90EE90)))
                     .append(Component.literal("30 x 10³⁰").withStyle(ChatFormatting.RED))

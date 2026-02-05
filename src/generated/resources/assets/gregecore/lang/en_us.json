@@ -44,6 +44,9 @@
   "item.gregecore.solar_sail": "Solar Sail",
   "item.gregecore.solar_sail_case": "Solar Sail Empty Case",
   "item.gregecore.solar_activator": "Solar Activator",
+  "item.gregecore.server_rack": "Server Rack",
+  "item.gregecore.rocket_cone": "Rocket Cone",
+  "item.gregecore.quantum_accelerator": "Quantum Accelerator",
 
   "material.gregecore.franklinite": "Franklinite",
   "material.gregecore.mythril": "Mythril",
