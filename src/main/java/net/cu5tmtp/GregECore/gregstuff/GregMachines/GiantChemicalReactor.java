@@ -159,7 +159,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                     .append(Component.literal("All of the boosts above.").withStyle(s -> s.withColor(0xFF0000))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The machine can only have 1 active bacteria boost, " +
-                    "it chooses the bacteria closest to the top left input hatch item slot.").withStyle(style -> style.withColor(0x90EE90)))
+                    "place the bacteria which boost you want in the Bacteria Input.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
