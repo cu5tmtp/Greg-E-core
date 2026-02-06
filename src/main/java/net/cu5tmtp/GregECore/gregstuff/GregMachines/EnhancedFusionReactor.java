@@ -262,6 +262,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                     .append(Component.literal("60K/s").withStyle(ChatFormatting.RED))
                     .append(Component.literal(".").withStyle(style -> style.withColor(0x90EE90))))
             .tooltips(Component.literal("Maximum heat of the reactor is 7500K.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Put the coolant into the Advanced Coolant Input.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
