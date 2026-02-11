@@ -17,7 +17,7 @@ public class DysonSwarmManager {
     }
 
     public static double getBoost() {
-        if (totalSails > 500000) return 500;
+        if (totalSails > 500000) return 250;
         if (totalSails > 150000) return 50;
         if (totalSails > 50000) return 5;
         if (totalSails > 500) return 1;
