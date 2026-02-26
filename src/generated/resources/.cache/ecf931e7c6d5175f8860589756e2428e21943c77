@@ -1,14 +1,16 @@
-// 1.20.1	2026-02-04T01:23:30.6895891	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-02-26T20:22:56.0819136	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
 a897d6c9f0c54882d4ac108317b0132888d46faf assets/gregecore/blockstates/atomic_engine_intake.json
 d39974070ab0633c779fa72e45bf9636d9dc4b2f assets/gregecore/blockstates/awakened_draconium_coil.json
 67c5e302372a8b9604d3d417ca0d0bf169997d93 assets/gregecore/blockstates/bacteria_input_machine.json
+a61cb0a69e1418a9b71d47c3028e0c4046513df5 assets/gregecore/blockstates/bigfreezer.json
 c48b3a1afecf8664dec91c5b7bb5b2f2a454b25b assets/gregecore/blockstates/coolant_input_machine.json
 0aaf2a751d9dfb16aba5881be7eabef3e7b2fe05 assets/gregecore/blockstates/desh_coil.json
 4acb5f34d5cb39be6d717b25f2b285518421feea assets/gregecore/blockstates/dysonswarmenergycollector.json
 4f2b4889da1bc77fbb01045b6cc718cf6f465579 assets/gregecore/blockstates/dysonswarmlauncher.json
+53a2de72fb88c053cf1cab631c94efaccb54a654 assets/gregecore/blockstates/enhancedblastchiller.json
 b0c6bd2063350bdce5ef763d448d046ecc27f1d0 assets/gregecore/blockstates/enhancedfr.json
 cc0bd4fffcdaef0d7c4b1c4c4ef865e1c771b64b assets/gregecore/blockstates/forgotten_coil.json
 2e0a1936e7405f9a9055e02cec660c0c7a11c67f assets/gregecore/blockstates/fornaxuniversi.json
@@ -27,8 +29,8 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-8933d3895827e67d9e2ebdec48a097212e7815e9 assets/gregecore/lang/en_ud.json
-7bd4c11a8ace617336040ff6f30cee61842a3ae0 assets/gregecore/lang/en_us.json
+6dcb07a5d91fe00e885372c11abbc10088c94f7f assets/gregecore/lang/en_ud.json
+957d2a2b5e585335fb38c643dbe3ed0530230092 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -41,9 +43,11 @@ fea4368454b99832d361890c89a0560cfb9aede1 assets/gregecore/models/block/machine/a
 dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/advanced_coolant_input_machine.json
 417ae5bcbfebc8ef4dc05f932cfcd34e41cb6642 assets/gregecore/models/block/machine/advanced_parallel_booster_machine.json
 4f73aa85b869d3598b878e8d73784684b2e20594 assets/gregecore/models/block/machine/bacteria_input_machine.json
+f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/bigfreezer.json
 5538b902b561331f50fb78d572d5731da14b7482 assets/gregecore/models/block/machine/coolant_input_machine.json
 595cb1fffd6fd98e836ee02c15631330fcdff000 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
 41b900a2b1b16ce1af3314b529e243d24ceb42c2 assets/gregecore/models/block/machine/dysonswarmlauncher.json
+cb69e6ee8c47b3cae4a45bbbab6f8c62dcfa6fab assets/gregecore/models/block/machine/enhancedblastchiller.json
 f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
 8a6017c2b18f17b0ae519c822599f9c376e17b5d assets/gregecore/models/block/machine/fornaxuniversi.json
 a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/giantacceleratedebf.json
@@ -75,10 +79,12 @@ fb523a510a85b969b7d184d35ac70f270dcb9612 assets/gregecore/models/item/advanced_p
 d7e23f0b29c4f30f21db5dbd15aac181084c1740 assets/gregecore/models/item/atomic_engine_intake.json
 833f58216cd4eb5c3589406aafa356f35c35daaa assets/gregecore/models/item/awakened_draconium_coil.json
 6d53ccdc67f0f049432b2c29c6358fa0e3889561 assets/gregecore/models/item/bacteria_input_machine.json
+04135f363f7f728a3e658af4f852c46e427836ab assets/gregecore/models/item/bigfreezer.json
 58b2ed0cf8378cb0c11c3470ec06056afef2cc57 assets/gregecore/models/item/coolant_input_machine.json
 07eba2add0796371cb51fd57de3f4c11d5dcd539 assets/gregecore/models/item/desh_coil.json
 a27b515e873c9531e2f679d4a6351fbc3f5903bf assets/gregecore/models/item/dysonswarmenergycollector.json
 229d1251f9a000b6206da87bffa09bfd4eef11f3 assets/gregecore/models/item/dysonswarmlauncher.json
+685432e5d7ff47d77f83f447beb698339be560a4 assets/gregecore/models/item/enhancedblastchiller.json
 ff3bee43c480143493944e7c9ff85d2f4039b7a8 assets/gregecore/models/item/enhancedfr.json
 04ebd1d56259bd9f49206fd9d078c33d75ff9a93 assets/gregecore/models/item/forgotten_coil.json
 5099ab81b347b99bed18791a384c518d6c31a279 assets/gregecore/models/item/fornaxuniversi.json

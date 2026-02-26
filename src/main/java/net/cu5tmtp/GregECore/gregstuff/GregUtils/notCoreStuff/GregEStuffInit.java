@@ -15,6 +15,8 @@ public class GregEStuffInit {
         EnhancedFusionReactor.init();
         StarMaykr.init();
         FornaxUniversi.init();
+        EnhancedBlastChiller.init();
+        BigFreezer.init();
     }
 
     public static void initGregEParts(){

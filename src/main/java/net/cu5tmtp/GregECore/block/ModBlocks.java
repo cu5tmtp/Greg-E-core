@@ -39,6 +39,8 @@ public class ModBlocks {
             registerBlock("itemtranslocator", () -> new HorizontalFacingBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> DRACONIUM_FUSION =
             registerBlock("draconiumfusion", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> FROSTCORE =
+            registerBlock("frostcore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){

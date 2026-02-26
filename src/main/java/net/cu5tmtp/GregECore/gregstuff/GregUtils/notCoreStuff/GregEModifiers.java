@@ -144,5 +144,46 @@ public class GregEModifiers {
                 .parallels(parallelsAvailableLEBF)
                 .build();
     }
+
+    public static ModifierFunction enhancedBlastChillerCoreBoost(MetaMachine machine, GTRecipe recipe){
+
+        if (!(machine instanceof EnhancedBlastChiller ebc)) {
+            return ModifierFunction.NULL;
+        }
+
+        double speedModifier = 1 - ((ebc.getNumberOfCores() * 5) / 100.);
+
+        int parallelsAvailableEBC = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, ebc.getNumberOfCores() * 4));
+
+        return ModifierFunction.builder()
+                .parallels(parallelsAvailableEBC)
+                .modifyAllContents(ContentModifier.multiplier(parallelsAvailableEBC))
+                .durationMultiplier(speedModifier)
+                .build();
+    }
+
+    public static ModifierFunction bigFreezerBoost(MetaMachine machine, GTRecipe recipe){
+
+        if (!(machine instanceof BigFreezer bf)) {
+            return ModifierFunction.NULL;
+        }
+
+        int parallelBoost = bf.getParallelBooster();
+        double speedBoost;
+
+        switch (parallelBoost){
+            case 1 -> speedBoost = 0.2;
+            case 2 -> speedBoost = 0.3;
+            default -> speedBoost = 0.1;
+        }
+
+        int parallelsAvailableEBC = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, parallelBoost * 4));
+
+        return ModifierFunction.builder()
+                .parallels(parallelsAvailableEBC)
+                .modifyAllContents(ContentModifier.multiplier(parallelsAvailableEBC))
+                .durationMultiplier(speedBoost)
+                .build();
+    }
 }
 

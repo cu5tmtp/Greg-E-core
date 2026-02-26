@@ -35,6 +35,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());
+                        pOutput.accept(EnhancedBlastChiller.ENHANCEDBLASTCHILLER.getItem());
+                        pOutput.accept(BigFreezer.BIGFREEZER.getItem());
                         pOutput.accept(StarMaykr.STAR_MAYKR.getItem());
                         pOutput.accept(GiantChemicalReactor.GIANTCHR.getItem());
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
