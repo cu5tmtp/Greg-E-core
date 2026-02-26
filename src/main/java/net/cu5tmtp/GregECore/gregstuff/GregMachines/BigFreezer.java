@@ -140,7 +140,7 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
                 return FactoryBlockPattern.start()
                         .aisle("BBBBB", "GCCCG", "GCCCG", "GCCCG", "BBBBB")
                         .aisle("BBBBB", "C   C", "C   C", "C   C", "BBBBB")
-                        .aisle("BBBBB", "C D C", "C D C", "C D C", "BBCBB")
+                        .aisle("BBBBB", "C D C", "C D C", "C D C", "BBBBB")
                         .aisle("BBBBB", "C   C", "C   C", "C   C", "BBBBB")
                         .aisle("BEAFB", "GCCCG", "GCCCG", "GCCCG", "BBBBB")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
@@ -169,6 +169,9 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Due to the older model of the freezing device, it requires a").withStyle(style -> style.withColor(0x90EE90))
                     .append(Component.literal(" 100mb of Liquid Ice per 10 ticks.").withStyle(style -> style.withColor(0xFF0000))))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("This machine scales with parallels, base version has 4 parallels and 10% speed boost, with 8 parallels has 20% speed boost," +
+                    "with 16 parallels has 30% speed boost.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
@@ -177,8 +180,8 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
         switch (parallelBooster)
         {
-            case 1 -> textList.add(Component.translatable("Parallels: 16, Speed Boost: 20%").withStyle(ChatFormatting.AQUA));
-            case 2 -> textList.add(Component.translatable("Parallels: 8, Speed Boost: 30%").withStyle(ChatFormatting.AQUA));
+            case 1 -> textList.add(Component.translatable("Parallels: 16, Speed Boost: 30%").withStyle(ChatFormatting.AQUA));
+            case 2 -> textList.add(Component.translatable("Parallels: 8, Speed Boost: 20%").withStyle(ChatFormatting.AQUA));
             default -> textList.add(Component.translatable("Parallels: 4, Speed Boost: 10%").withStyle(ChatFormatting.AQUA));
         }
     }
