@@ -32,6 +32,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.QUANTUM_ACCELERATOR.get());
                         pOutput.accept(ModItems.ROCKET_CONE.get());
                         pOutput.accept(ModItems.SERVER_RACK.get());
+                        pOutput.accept(ModItems.BRASS_PELLET.get());
+                        pOutput.accept(ModItems.AMERICIUM_PELLET.get());
+                        pOutput.accept(ModItems.NEUTRONIUM_PELLET.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());

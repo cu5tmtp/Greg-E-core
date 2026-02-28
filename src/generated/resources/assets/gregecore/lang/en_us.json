@@ -50,6 +50,9 @@
   "item.gregecore.server_rack": "Server Rack",
   "item.gregecore.rocket_cone": "Rocket Cone",
   "item.gregecore.quantum_accelerator": "Quantum Accelerator",
+  "item.gregecore.neutronium_pellet": "Neutronium Pellet",
+  "item.gregecore.brass_pellet": "Brass Pellet",
+  "item.gregecore.americium_pellet": "Americium Pellet",
 
   "material.gregecore.franklinite": "Franklinite",
   "material.gregecore.mythril": "Mythril",
@@ -70,6 +73,7 @@
   "material.gregecore.blood_infused_cable": "Blood Infused",
   "material.gregecore.bacterial_matter_cable": "Bacterial Matter",
   "material.gregecore.draconium_cable": "Draconium",
+  "material.gregecore.awakened_draconium_cable": "Awakened Draconium",
 
   "material.gregecore.quadractik_gas": "Quadractik Gas",
   "material.gregecore.quenzin": "Quenzin Gas",

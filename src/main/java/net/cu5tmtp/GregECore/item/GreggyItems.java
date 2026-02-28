@@ -11,7 +11,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 
 public class GreggyItems {
 
-    public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE, SUPERELEMENT27;
+    public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE, SUPERELEMENT27, AWAKENED_DRACONIUM;
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
 
     public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE, BLOOD_INFUSED_CABLE, BACTERIAL_MATTER_CABLE, DRACONIUM_CABLE;
@@ -74,6 +74,13 @@ public class GreggyItems {
                 .formula("(Qz₂Mp)+(C₉HeVr),(NbQt₆ZnMnFe)+(XeJeQt)")
                 .color(0x023020)
                 .cableProperties(GTValues.V[GTValues.LuV], 24, 0, true)
+                .flags(MaterialFlags.GENERATE_FOIL)
+                .buildAndRegister();
+
+        AWAKENED_DRACONIUM = new Material.Builder(GregECore.id("awakened_draconium_cable"))
+                .formula("Dr*")
+                .color(0xF28C28)
+                .cableProperties(GTValues.V[GTValues.UHV], 64, 0, true)
                 .flags(MaterialFlags.GENERATE_FOIL)
                 .buildAndRegister();
 

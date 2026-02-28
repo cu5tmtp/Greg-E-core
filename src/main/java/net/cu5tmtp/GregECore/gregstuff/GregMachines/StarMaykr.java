@@ -20,6 +20,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -134,12 +135,35 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
                 ItemStack stack = handler.getStackInSlot(i);
 
                 if (stack.isEmpty()) continue;
-                if (stack.is(Items.COBBLESTONE)) {
+
+                if (stack.is(ModItems.BRASS_PELLET.get())) {
 
                     ItemStack simulated = handler.extractItem(i, 1, true);
                     if (!simulated.isEmpty()) {
                         handler.extractItem(i, 1, false);
-                        this.weight += 0.01;
+                        this.weight += 0.1;
+                        this.markDirty();
+                        return;
+                    }
+                }
+
+                if (stack.is(ModItems.AMERICIUM_PELLET.get())) {
+
+                    ItemStack simulated = handler.extractItem(i, 1, true);
+                    if (!simulated.isEmpty()) {
+                        handler.extractItem(i, 1, false);
+                        this.weight += 3.;
+                        this.markDirty();
+                        return;
+                    }
+                }
+
+                if (stack.is(ModItems.NEUTRONIUM_PELLET.get())) {
+
+                    ItemStack simulated = handler.extractItem(i, 1, true);
+                    if (!simulated.isEmpty()) {
+                        handler.extractItem(i, 1, false);
+                        this.weight += 10.;
                         this.markDirty();
                         return;
                     }
@@ -219,7 +243,9 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
                     " due to the star fusing some of its own weight into it whenever it forms a singularity. " +
                     "You can increase the weight of the star if you feed it correct items. The correct items are shown below with their weight value.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Cobblestone: 0.01 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Brass Pellet: 0.1 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Americium Pellet: 3 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Neutronium Pellet: 10 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Controller emits redstone: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
