@@ -14,7 +14,7 @@ public class GreggyItems {
     public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE, SUPERELEMENT27;
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
 
-    public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE, BLOOD_INFUSED_CABLE;
+    public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE, BLOOD_INFUSED_CABLE, BACTERIAL_MATTER_CABLE, DRACONIUM_CABLE;
 
     public static Material buildFluidMaterial(String name, int color, String formula) {
         return new Material.Builder(GregECore.id(name))
@@ -111,9 +111,21 @@ public class GreggyItems {
                 .buildAndRegister();
 
         BLOOD_INFUSED_CABLE = new Material.Builder(GregECore.id("blood_infused_cable"))
-                .cableProperties(GTValues.V[GTValues.LuV], 24, 0, true)
+                .cableProperties(GTValues.V[GTValues.ZPM], 24, 0, true)
                 .color(0xA52A2A)
                 .formula("C₂₉₅₂H₄₆₆₄N₈₁₂O₈₃₂S₈Fe₄")
+                .buildAndRegister();
+
+        BACTERIAL_MATTER_CABLE = new Material.Builder(GregECore.id("bacterial_matter_cable"))
+                .cableProperties(GTValues.V[GTValues.UV], 28, 0, true)
+                .color(0x50C878)
+                .formula("CH₁.₈O₀.₅N₀.₂")
+                .buildAndRegister();
+
+        DRACONIUM_CABLE = new Material.Builder(GregECore.id("draconium_cable"))
+                .cableProperties(GTValues.V[GTValues.UHV], 32, 0, true)
+                .color(0x5D3FD3)
+                .formula("Dc")
                 .buildAndRegister();
 
         //fluids

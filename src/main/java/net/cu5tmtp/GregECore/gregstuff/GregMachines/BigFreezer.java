@@ -170,7 +170,7 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Due to the older model of the freezing device, it requires a").withStyle(style -> style.withColor(0x90EE90))
                     .append(Component.literal(" 100mb of Liquid Ice per 10 ticks.").withStyle(style -> style.withColor(0xFF0000))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("This machine scales with parallels, base version has 4 parallels and 10% speed boost, with 8 parallels has 20% speed boost," +
+            .tooltips(Component.literal("This machine scales with parallels, base version has 4 parallels and 10% speed boost, with 8 parallels has 20% speed boost, " +
                     "with 16 parallels has 30% speed boost.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
