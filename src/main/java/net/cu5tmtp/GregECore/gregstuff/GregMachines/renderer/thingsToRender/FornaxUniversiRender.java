@@ -29,6 +29,8 @@ import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 import org.joml.Matrix3f;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -69,6 +71,8 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
     };
 
     private static ItemStack CACHED_ROCKET_STACK = null;
+    private static final Map<Long, Float> ROCKET_ANIMATION_TIMES = new HashMap<>();
+    private static final Map<Long, Long> ROCKET_LAST_TICKS = new HashMap<>();
 
     static {
         Random r = new Random(42);
@@ -149,6 +153,38 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         return machine.isFormed();
     }
 
+    private float getRocketAnimationTime(FornaxUniversi machine, float partialTicks) {
+        boolean isSuspended = machine.getRecipeLogic().isSuspend();
+        boolean isWorking = machine.getRecipeLogic().isWorking();
+        boolean shouldAnimate = isWorking && !isSuspended;
+
+        long posKey = machine.getPos().asLong();
+        long currentTick = machine.getOffsetTimer();
+
+        Long lastTickObj = ROCKET_LAST_TICKS.get(posKey);
+        long lastTick = lastTickObj != null ? lastTickObj : currentTick;
+        float savedTime = ROCKET_ANIMATION_TIMES.getOrDefault(posKey, 0f);
+
+        if (lastTickObj == null || currentTick != lastTick) {
+            if (shouldAnimate) {
+                long delta = currentTick - lastTick;
+                if (delta > 0 && delta < 20) {
+                    savedTime += delta;
+                }
+            }
+
+            if (ROCKET_ANIMATION_TIMES.size() > 1000) {
+                ROCKET_ANIMATION_TIMES.clear();
+                ROCKET_LAST_TICKS.clear();
+            }
+
+            ROCKET_ANIMATION_TIMES.put(posKey, savedTime);
+            ROCKET_LAST_TICKS.put(posKey, currentTick);
+        }
+
+        return shouldAnimate ? savedTime + partialTicks : savedTime;
+    }
+
     @Override
     public void render(FornaxUniversi machine, float partialTick,
                        PoseStack poseStack, MultiBufferSource buffer,
@@ -199,7 +235,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         }
 
         float totalTime = 600.0f;
-        float time = (machine.getOffsetTimer() + partialTicks) % totalTime;
+        float time = getRocketAnimationTime(machine, partialTicks) % totalTime;
         float progress = time / totalTime;
 
         float radius;

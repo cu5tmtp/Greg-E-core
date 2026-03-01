@@ -20,6 +20,7 @@ public class GregERecipeTypes {
             .setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
+    
     public static GTRecipeType STAR_MAYKR_SINGULARITIES = GTRecipeTypes.register("star_maykr_singularities", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
@@ -34,7 +35,7 @@ public class GregERecipeTypes {
             });
 
     public static GTRecipeType FORNAX_UNIVERSI_ACCELERETION = GTRecipeTypes.register("fornax_universi_acceleration", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(6,6,3,3)
+            .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_HAMMER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.JET_ENGINE);
