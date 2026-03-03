@@ -159,7 +159,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge-api:15.20.0.128") { transitive = false }
     runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.128")
 
-    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:7.2.1") { transitive = false }
+    implementation fg.deobf("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:7.5.2") { transitive = false }
 
     implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-1.20.1:1.0.40.b") { transitive = false }
 
