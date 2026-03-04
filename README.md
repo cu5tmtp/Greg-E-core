@@ -9,7 +9,7 @@
 > [!IMPORTANT]  
 > **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods. This is because I lock these machines behind other mod progression, you might want to do it differently.
 
-* **GTCEu Version:** `7.2.1` Use a newer version at your own discretion.
+* **GTCEu Version:** `7.5.2`
 * **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
 * **Modpack Usage:** You are free to use this core mod in your own modpacks.
 
@@ -27,6 +27,8 @@
 * **Enhanced Fusion Reactor:** A heat-management-focused reactor. Maintain specific heat levels to unlock boosted fusion recipes.
     * **Recipe Type:** `advanced_fusion`
     * **Recipe Creation:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the required heat level, it creates it in ranges X and X - 500).
+* **Big Freezer:** Multiblock bit better than default Vacuum Freezer, scales with parallels.
+* **Enhanced Blast Chiller:** Upgraded Blast Chiller, can be from 5 blocks to 16 blocks in leght, depending on that, you get more parallels and recipe time reduction.
 * **Star Maykr:** A endgame machine that creates a star that you have to feed. Recipes have a weight cost, if star weight goes below 0 or 500, the machine explodes.
     * **Recipe Type:** `star_maykr_singularities`
     * **Recipe Creation:** Add `.addData('weight', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the weight that will be deducted from the star weight).
