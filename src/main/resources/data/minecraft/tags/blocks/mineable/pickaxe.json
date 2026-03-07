@@ -1,5 +1,21 @@
 {
   "values": [
-    "gregecore:linearaccelerator"
+    "gregecore:linearaccelerator",
+    "gregecore:conveyorbelt",
+    "gregecore:itemtranslocator",
+    "gregecore:draconiumfusion",
+    "gregecore:frostcore",
+    "gregecore:manasteel_coil",
+    "gregecore:twilight_coil",
+    "gregecore:desh_coil",
+    "gregecore:malachite_coil",
+    "gregecore:forgotten_coil",
+    "gregecore:superelement_coil",
+    "gregecore:ptfe_engine_intake",
+    "gregecore:vibration_engine_intake",
+    "gregecore:ptfe_firebox_casing",
+    "gregecore:shockproof_engine",
+    "gregecore:awakened_draconium_coil",
+    "gregecore:atomic_engine_intake"
   ]
 }
