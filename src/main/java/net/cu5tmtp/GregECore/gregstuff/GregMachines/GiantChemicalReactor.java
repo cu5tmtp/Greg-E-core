@@ -144,7 +144,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Abilities: Perfect Overclock and Bacterial Infestation").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This machine is the pinnacle of bioengineering, thanks to special bred bacteria it can reach new heights." +
-                    " Depending on the bacteria inserted in a input hatch, the machine posseses different abilities.").withStyle(style -> style.withColor(0x90EE90)))
+                    " Depending on the bacteria inserted in a Bacteria Input, the machine posseses different abilities.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Energy bacteria: ").withStyle(s -> s.withColor(0x90EE90))
                     .append(Component.literal("90%").withStyle(s -> s.withColor(0xFF0000)))
