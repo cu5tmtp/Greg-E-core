@@ -151,9 +151,9 @@ public class GregEModifiers {
             return ModifierFunction.NULL;
         }
 
-        double speedModifier = 1 - ((ebc.getNumberOfCores() * 5) / 100.);
+        double speedModifier = 1 - ((ebc.getNumberOfCores() * 6.5) / 100.0);
 
-        int parallelsAvailableEBC = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, ebc.getNumberOfCores() * 4));
+        int parallelsAvailableEBC = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, ebc.getNumberOfCores() * 16));
 
         return ModifierFunction.builder()
                 .parallels(parallelsAvailableEBC)
