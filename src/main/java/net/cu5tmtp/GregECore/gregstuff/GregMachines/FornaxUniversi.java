@@ -255,16 +255,20 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
                     "the redstone signal. Failure to do so results in the machine exploding. " +
                     "Below are the repair items with their signal strength.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Controller emits redstone.").withStyle(ChatFormatting.GOLD))
-            .tooltips(Component.literal("Server Rack: redstone strength - 5").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Rocket Cone: redstone strength - 10").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Quantum Accelerator: redstone strength - 15").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Controller emits redstone:").withStyle(ChatFormatting.GOLD))
+            .tooltips(Component.literal("Server Rack: Redstone strength - 5").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Rocket Cone: Redstone strength - 10").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Quantum Accelerator: Redstone strength - 15").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Tip: After correct formation, the first recipe is always repaired with Server Rack!").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
-
+        
+        if (isFormed()) {
+            textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
+        }
     }
 
     public static void init() {
