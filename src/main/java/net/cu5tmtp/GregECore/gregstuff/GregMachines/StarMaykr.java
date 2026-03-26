@@ -241,7 +241,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Star starts with 1 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
                     " due to the star fusing some of its own weight into it whenever it forms a singularity. " +
-                    "You can increase the weight of the star if you feed it correct items. The correct items are shown below with their weight value.").withStyle(style -> style.withColor(0x90EE90)))
+                    "You can increase the weight of the star if you feed it correct items. The correct items are shown below with their weight value. Place them in the Star Feeder.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Brass Pellet: 0.1 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
             .tooltips(Component.literal("Americium Pellet: 3 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
