@@ -170,8 +170,10 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Due to the older model of the freezing device, it requires a").withStyle(style -> style.withColor(0x90EE90))
                     .append(Component.literal(" 100mb of Liquid Ice per 10 ticks.").withStyle(style -> style.withColor(0xFF0000))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("This machine scales with parallels, base version has 4 parallels and 10% speed boost, with 8 parallels has 20% speed boost, " +
-                    "with 16 parallels has 30% speed boost.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("This machine scales with parallels:").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Base version: 4 parallels and 10% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("With parallel multiplication part: 8 parallels and 20% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("With enhanced parallel multiplication part: 16 parallels and 30% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
             .register();
 
     @Override
@@ -180,9 +182,9 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
         switch (parallelBooster)
         {
-            case 1 -> textList.add(Component.translatable("Parallels: 16, Speed Boost: 30%").withStyle(ChatFormatting.AQUA));
-            case 2 -> textList.add(Component.translatable("Parallels: 8, Speed Boost: 20%").withStyle(ChatFormatting.AQUA));
-            default -> textList.add(Component.translatable("Parallels: 4, Speed Boost: 10%").withStyle(ChatFormatting.AQUA));
+            case 1 -> textList.add(Component.translatable("Parallels: 16, Recipe time reduction: 30%").withStyle(ChatFormatting.AQUA));
+            case 2 -> textList.add(Component.translatable("Parallels: 8, Recipe time reduction: 20%").withStyle(ChatFormatting.AQUA));
+            default -> textList.add(Component.translatable("Parallels: 4, Recipe time reduction: 10%").withStyle(ChatFormatting.AQUA));
         }
     }
 
