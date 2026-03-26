@@ -96,7 +96,7 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("This freezer gets better with every core you supply it. " +
                     "Each core improves the speed at which the machine is chilling the inputs.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("For every Glacial Core in this machine, it gets 4 parallels and 5% faster recipes. " +
+            .tooltips(Component.literal("For every Glacial Core in this machine, it gets 16 parallels and 6.5% faster recipes. " +
                     "Maximum Glacial Cores in a machine is 14, minimum is 3.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
@@ -105,8 +105,8 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         textList.add(Component.translatable("Glacial Cores: " + numberOfCores).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("Recipe time reduction: " + numberOfCores * 5 + "%").withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("Parallels: " + numberOfCores * 4).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("Recipe time reduction: " + numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("Parallels: " + numberOfCores * 16).withStyle(ChatFormatting.AQUA));
     }
 
     public int getNumberOfCores() {
