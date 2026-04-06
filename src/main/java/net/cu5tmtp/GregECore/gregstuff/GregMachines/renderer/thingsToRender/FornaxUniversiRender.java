@@ -153,38 +153,6 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         return machine.isFormed();
     }
 
-    private float getRocketAnimationTime(FornaxUniversi machine, float partialTicks) {
-        boolean isSuspended = machine.getRecipeLogic().isSuspend();
-        boolean isWorking = machine.getRecipeLogic().isWorking();
-        boolean shouldAnimate = isWorking && !isSuspended;
-
-        long posKey = machine.getPos().asLong();
-        long currentTick = machine.getOffsetTimer();
-
-        Long lastTickObj = ROCKET_LAST_TICKS.get(posKey);
-        long lastTick = lastTickObj != null ? lastTickObj : currentTick;
-        float savedTime = ROCKET_ANIMATION_TIMES.getOrDefault(posKey, 0f);
-
-        if (lastTickObj == null || currentTick != lastTick) {
-            if (shouldAnimate) {
-                long delta = currentTick - lastTick;
-                if (delta > 0 && delta < 20) {
-                    savedTime += delta;
-                }
-            }
-
-            if (ROCKET_ANIMATION_TIMES.size() > 1000) {
-                ROCKET_ANIMATION_TIMES.clear();
-                ROCKET_LAST_TICKS.clear();
-            }
-
-            ROCKET_ANIMATION_TIMES.put(posKey, savedTime);
-            ROCKET_LAST_TICKS.put(posKey, currentTick);
-        }
-
-        return shouldAnimate ? savedTime + partialTicks : savedTime;
-    }
-
     @Override
     public void render(FornaxUniversi machine, float partialTick,
                        PoseStack poseStack, MultiBufferSource buffer,
@@ -284,13 +252,45 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
         stack.popPose();
     }
 
+    private float getRocketAnimationTime(FornaxUniversi machine, float partialTicks) {
+        boolean isSuspended = machine.getRecipeLogic().isSuspend();
+        boolean isWorking = machine.getRecipeLogic().isWorking();
+        boolean shouldAnimate = isWorking && !isSuspended;
+
+        long posKey = machine.getPos().asLong();
+        long currentTick = machine.getOffsetTimer();
+
+        Long lastTickObj = ROCKET_LAST_TICKS.get(posKey);
+        long lastTick = lastTickObj != null ? lastTickObj : currentTick;
+        float savedTime = ROCKET_ANIMATION_TIMES.getOrDefault(posKey, 0f);
+
+        if (lastTickObj == null || currentTick != lastTick) {
+            if (shouldAnimate) {
+                long delta = currentTick - lastTick;
+                if (delta > 0 && delta < 20) {
+                    savedTime += delta;
+                }
+            }
+
+            if (ROCKET_ANIMATION_TIMES.size() > 1000) {
+                ROCKET_ANIMATION_TIMES.clear();
+                ROCKET_LAST_TICKS.clear();
+            }
+
+            ROCKET_ANIMATION_TIMES.put(posKey, savedTime);
+            ROCKET_LAST_TICKS.put(posKey, currentTick);
+        }
+
+        return shouldAnimate ? savedTime + partialTicks : savedTime;
+    }
+
     @OnlyIn(Dist.CLIENT)
     private void renderEventHorizon(PoseStack stack, VertexConsumer buffer, TextureAtlasSprite sprite, int packedLight) {
         stack.pushPose();
         float radius = 1.8F;
         float u = sprite.getU(0.5f);
         float v = sprite.getV(0.5f);
-        renderSphere(stack, buffer, radius, 32, 32, 0.0f, 0.0f, 0.0f, 1.0f, u, v, packedLight);
+        renderSphere(stack, buffer, radius, 16, 16, 0.0f, 0.0f, 0.0f, 1.0f, u, v, packedLight);
         stack.popPose();
     }
 
@@ -313,7 +313,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
             stack.scale(planet.scale, planet.scale, planet.scale);
 
             TextureAtlasSprite sprite = atlas.apply(planet.texture);
-            renderTexturedSphere(stack, buffer, 1.0f, 16, 16, 1.0f, 1.0f, 1.0f, 1.0f, sprite, packedLight);
+            renderTexturedSphere(stack, buffer, 1.0f, 12, 12, 1.0f, 1.0f, 1.0f, 1.0f, sprite, packedLight);
 
             stack.popPose();
         }
@@ -336,7 +336,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
             float lengthRad = arc.lengthDeg * (float)(Math.PI / 180.0);
 
-            renderPartialTorus(stack, buffer, arc.radius, arc.thickness, 0.0f, lengthRad, 30, 8, 0.6f, 0.6f, 0.6f, 1.0f, DISK_U, DISK_V, packedLight);
+            renderPartialTorus(stack, buffer, arc.radius, arc.thickness, 0.0f, lengthRad, 16, 8, 0.6f, 0.6f, 0.6f, 1.0f, DISK_U, DISK_V, packedLight);
 
             stack.popPose();
         }
@@ -355,7 +355,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         stack.scale(1.0F, 0.1F, 1.0F);
 
-        renderTorus(stack, buffer, 2.5F, 1.0F, 50, 20, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
+        renderTorus(stack, buffer, 2.5F, 1.0F, 16, 8, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
         stack.popPose();
 
         stack.pushPose();
@@ -380,7 +380,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         stack.scale(1.0F, 0.15F, 1.0F);
 
-        renderTorus(stack, buffer, 2.2F, 0.4F, 40, 20, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
+        renderTorus(stack, buffer, 2.2F, 0.4F, 16, 8, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
 
         stack.popPose();
     }

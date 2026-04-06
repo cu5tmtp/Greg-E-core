@@ -78,7 +78,7 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
 
         int fullBright = 15728880;
 
-        renderTexturedSphere(stack, buffer, x, y, z, 1.2F, 32, 32, 1.0f, 1.0f, 1.0f, alpha, lavaSprite, fullBright);
+        renderTexturedSphere(stack, buffer, x, y, z, 1.2F, 16, 16, 1.0f, 1.0f, 1.0f, alpha, lavaSprite, fullBright);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -100,14 +100,14 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
         stack.translate(x, y, z);
         stack.mulPose(Axis.YP.rotationDegrees(time * 2.0F));
         stack.mulPose(Axis.XP.rotationDegrees(45.0F));
-        renderTorus(stack, ringBuffer, 2.5F, 0.15F, 40, 15, r, g, b, 1.0f, whiteSprite, packedLight);
+        renderTorus(stack, ringBuffer, 2.5F, 0.15F, 24, 8, r, g, b, 1.0f, whiteSprite, packedLight);
         stack.popPose();
 
         stack.pushPose();
         stack.translate(x, y, z);
         stack.mulPose(Axis.ZP.rotationDegrees(time * -1.5F));
         stack.mulPose(Axis.XP.rotationDegrees(-45.0F));
-        renderTorus(stack, ringBuffer, 3.2F, 0.12F, 40, 15, r, g, b, 1.0f, whiteSprite, packedLight);
+        renderTorus(stack, ringBuffer, 3.2F, 0.12F, 24, 8, r, g, b, 1.0f, whiteSprite, packedLight);
         stack.popPose();
     }
 
