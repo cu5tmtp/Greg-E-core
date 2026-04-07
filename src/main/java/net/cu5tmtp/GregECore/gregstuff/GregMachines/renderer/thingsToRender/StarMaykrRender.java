@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluids;
@@ -24,6 +25,8 @@ import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 import org.joml.Matrix3f;
 
+import static net.minecraft.world.level.block.Blocks.WHITE_CONCRETE;
+
 @SuppressWarnings("removal")
 public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
 
@@ -32,6 +35,9 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
 
     public static final float FADEOUT = 60;
     protected float delta = 0;
+
+    private static TextureAtlasSprite LAVA_SPRITE_CACHE;
+    private static TextureAtlasSprite WHITE_SPRITE_CACHE;
 
     public StarMaykrRender() {}
 
@@ -49,6 +55,14 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
     public void render(StarMaykr machine, float partialTick,
                        PoseStack poseStack, MultiBufferSource buffer,
                        int packedLight, int packedOverlay) {
+
+        if (LAVA_SPRITE_CACHE == null) {
+            IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(Fluids.LAVA);
+            LAVA_SPRITE_CACHE = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(props.getStillTexture());
+        }
+        if (WHITE_SPRITE_CACHE == null) {
+            WHITE_SPRITE_CACHE = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(new ResourceLocation("minecraft:block/white_concrete"));
+        }
 
         VertexConsumer lavaBuffer = buffer.getBuffer(RenderType.cutout());
 
@@ -70,25 +84,15 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
     private void renderLavaSphere(StarMaykr machine, float partialTicks, PoseStack stack,
                                   VertexConsumer buffer, float x, float y, float z) {
         var alpha = 1f;
-
-        IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(Fluids.LAVA);
-        TextureAtlasSprite lavaSprite = Minecraft.getInstance()
-                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(props.getStillTexture());
-
         int fullBright = 15728880;
 
-        renderTexturedSphere(stack, buffer, x, y, z, 1.2F, 16, 16, 1.0f, 1.0f, 1.0f, alpha, lavaSprite, fullBright);
+        renderTexturedSphere(stack, buffer, x, y, z, 1.2F, 16, 16, 1.0f, 1.0f, 1.0f, alpha, LAVA_SPRITE_CACHE, fullBright);
     }
 
     @OnlyIn(Dist.CLIENT)
     private void renderRotatingRings(StarMaykr machine, float partialTicks, PoseStack stack,
                                      MultiBufferSource bufferSource, float x, float y, float z, int packedLight) {
         float time = (machine.getOffsetTimer() + partialTicks);
-
-        TextureAtlasSprite whiteSprite = Minecraft.getInstance()
-                .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(new net.minecraft.resources.ResourceLocation("minecraft:block/white_concrete"));
 
         VertexConsumer ringBuffer = bufferSource.getBuffer(RenderType.cutout());
 
@@ -100,14 +104,14 @@ public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {
         stack.translate(x, y, z);
         stack.mulPose(Axis.YP.rotationDegrees(time * 2.0F));
         stack.mulPose(Axis.XP.rotationDegrees(45.0F));
-        renderTorus(stack, ringBuffer, 2.5F, 0.15F, 24, 8, r, g, b, 1.0f, whiteSprite, packedLight);
+        renderTorus(stack, ringBuffer, 2.5F, 0.15F, 24, 8, r, g, b, 1.0f, WHITE_SPRITE_CACHE, packedLight);
         stack.popPose();
 
         stack.pushPose();
         stack.translate(x, y, z);
         stack.mulPose(Axis.ZP.rotationDegrees(time * -1.5F));
         stack.mulPose(Axis.XP.rotationDegrees(-45.0F));
-        renderTorus(stack, ringBuffer, 3.2F, 0.12F, 24, 8, r, g, b, 1.0f, whiteSprite, packedLight);
+        renderTorus(stack, ringBuffer, 3.2F, 0.12F, 24, 8, r, g, b, 1.0f, WHITE_SPRITE_CACHE, packedLight);
         stack.popPose();
     }
 

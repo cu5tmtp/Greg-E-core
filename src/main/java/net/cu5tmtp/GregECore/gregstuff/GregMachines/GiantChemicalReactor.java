@@ -165,9 +165,9 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (isFormed()) {
-            textList.add(Component.translatable("Energy multiplier: " + energyBoost).withStyle(ChatFormatting.AQUA));
-            textList.add(Component.translatable("Speed multiplier: " + speedBoost).withStyle(ChatFormatting.AQUA));
-            textList.add(Component.translatable("Parallels: " + parallelBoost).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Energy multiplier: " + energyBoost).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Speed multiplier: " + speedBoost).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Parallels: " + parallelBoost).withStyle(ChatFormatting.AQUA));
         }
         super.addDisplayText(textList);
     }

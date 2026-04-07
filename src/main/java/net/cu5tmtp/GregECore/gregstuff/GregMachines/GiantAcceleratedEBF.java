@@ -247,17 +247,17 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.translatable("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
             switch (coilTemp){
-                case 7400 -> textList.add(Component.translatable("Recipes are shortened by 20% and     2 parallels are applied." ).withStyle(ChatFormatting.GREEN));
-                case 9200 -> textList.add(Component.translatable("Recipes are shortened by 40% and     4 parallels are applied.").withStyle(ChatFormatting.GREEN));
-                case 11000 -> textList.add(Component.translatable("Recipes are shortened by 60% and     8 parallels are applied.").withStyle(ChatFormatting.GREEN));
-                default -> textList.add(Component.translatable("Different coils detected!").withStyle(ChatFormatting.RED));
+                case 7400 -> textList.add(Component.literal("Recipes are shortened by 20% and     2 parallels are applied." ).withStyle(ChatFormatting.GREEN));
+                case 9200 -> textList.add(Component.literal("Recipes are shortened by 40% and     4 parallels are applied.").withStyle(ChatFormatting.GREEN));
+                case 11000 -> textList.add(Component.literal("Recipes are shortened by 60% and     8 parallels are applied.").withStyle(ChatFormatting.GREEN));
+                default -> textList.add(Component.literal("Different coils detected!").withStyle(ChatFormatting.RED));
             }
             switch (parallelBooster){
-                case 1 -> textList.add(Component.translatable("Parallels are multiplied by 2." ).withStyle(ChatFormatting.LIGHT_PURPLE));
-                case 2 -> textList.add(Component.translatable("Parallels are multiplied by 4." ).withStyle(ChatFormatting.LIGHT_PURPLE));
-                default -> textList.add(Component.translatable("No parallel multiplication." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 1 -> textList.add(Component.literal("Parallels are multiplied by 2." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 2 -> textList.add(Component.literal("Parallels are multiplied by 4." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                default -> textList.add(Component.literal("No parallel multiplication." ).withStyle(ChatFormatting.LIGHT_PURPLE));
             }
         }
     }

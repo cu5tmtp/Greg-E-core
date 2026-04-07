@@ -182,9 +182,9 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
         switch (parallelBooster)
         {
-            case 1 -> textList.add(Component.translatable("Parallels: 16, Recipe time reduction: 30%").withStyle(ChatFormatting.AQUA));
-            case 2 -> textList.add(Component.translatable("Parallels: 8, Recipe time reduction: 20%").withStyle(ChatFormatting.AQUA));
-            default -> textList.add(Component.translatable("Parallels: 4, Recipe time reduction: 10%").withStyle(ChatFormatting.AQUA));
+            case 1 -> textList.add(Component.literal("Parallels: 16, Recipe time reduction: 30%").withStyle(ChatFormatting.AQUA));
+            case 2 -> textList.add(Component.literal("Parallels: 8, Recipe time reduction: 20%").withStyle(ChatFormatting.AQUA));
+            default -> textList.add(Component.literal("Parallels: 4, Recipe time reduction: 10%").withStyle(ChatFormatting.AQUA));
         }
     }
 

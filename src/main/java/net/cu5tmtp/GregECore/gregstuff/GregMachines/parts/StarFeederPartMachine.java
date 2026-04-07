@@ -27,7 +27,7 @@ public class StarFeederPartMachine extends ItemBusPartMachine {
     }
 
     public static final MachineDefinition STAR_FEEDER_MACHINE = REGISTRATE.machine("star_feeder", (holder) ->
-                    new StarFeederPartMachine(holder, GTValues.UHV))
+                    new StarFeederPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(StarFeederPartMachine.STAR_FEEDER)
             .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))

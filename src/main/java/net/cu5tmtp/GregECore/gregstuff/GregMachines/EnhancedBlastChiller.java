@@ -104,9 +104,9 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
-        textList.add(Component.translatable("Glacial Cores: " + numberOfCores).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("Recipe time reduction: " + numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("Parallels: " + numberOfCores * 16).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Glacial Cores: " + numberOfCores).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Recipe time reduction: " + numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Parallels: " + numberOfCores * 16).withStyle(ChatFormatting.AQUA));
     }
 
     public int getNumberOfCores() {

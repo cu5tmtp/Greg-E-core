@@ -276,7 +276,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.translatable("Heat: " + (int) heat + "K").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Heat: " + (int) heat + "K").withStyle(ChatFormatting.AQUA));
             textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
         }
     }

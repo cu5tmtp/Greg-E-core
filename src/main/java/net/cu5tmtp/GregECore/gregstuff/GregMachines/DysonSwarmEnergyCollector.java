@@ -79,7 +79,7 @@ public class DysonSwarmEnergyCollector extends WorkableElectricMultiblockMachine
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.translatable("Energy generation boost: " + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Energy generation boost: " + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
         }
     }
 

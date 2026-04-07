@@ -131,12 +131,12 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.translatable("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
             switch (coilTemp){
-                case 1800 -> textList.add(Component.translatable("Recipes are shortened by 15%." ).withStyle(ChatFormatting.GREEN));
-                case 3600 -> textList.add(Component.translatable("Recipes are shortened by 30%.").withStyle(ChatFormatting.GREEN));
-                case 5400 -> textList.add(Component.translatable("Recipes are shortened by 45%.").withStyle(ChatFormatting.GREEN));
-                default -> textList.add(Component.translatable("Different coils detected!").withStyle(ChatFormatting.RED));
+                case 1800 -> textList.add(Component.literal("Recipes are shortened by 15%." ).withStyle(ChatFormatting.GREEN));
+                case 3600 -> textList.add(Component.literal("Recipes are shortened by 30%.").withStyle(ChatFormatting.GREEN));
+                case 5400 -> textList.add(Component.literal("Recipes are shortened by 45%.").withStyle(ChatFormatting.GREEN));
+                default -> textList.add(Component.literal("Different coils detected!").withStyle(ChatFormatting.RED));
             }
         }
     }

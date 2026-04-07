@@ -49,6 +49,8 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
     @Persisted
     private double weight = 1;
     private double recipeWeight = 0;
+
+    double weightGain = 0;
     private final List<IItemHandler> cachedStarFeederHandler = new ArrayList<>();
     private TickableSubscription weightSubscription;
 
@@ -134,40 +136,21 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
             for (int i = 0; i < handler.getSlots(); i++) {
                 ItemStack stack = handler.getStackInSlot(i);
 
-                if (stack.isEmpty()) continue;
+                Item item = stack.getItem();
 
-                if (stack.is(ModItems.BRASS_PELLET.get())) {
+                if (item == ModItems.BRASS_PELLET.get()) weightGain = 0.1;
+                else if (item == ModItems.AMERICIUM_PELLET.get()) weightGain = 3.0;
+                else if (item == ModItems.NEUTRONIUM_PELLET.get()) weightGain = 10.0;
 
-                    ItemStack simulated = handler.extractItem(i, 1, true);
-                    if (!simulated.isEmpty()) {
-                        handler.extractItem(i, 1, false);
-                        this.weight += 0.1;
-                        this.markDirty();
+                if (weightGain > 0) {
+                    ItemStack extracted = handler.extractItem(i, 1, false);
+                    if (!extracted.isEmpty()) {
+                        this.weight += weightGain;
                         return;
                     }
                 }
 
-                if (stack.is(ModItems.AMERICIUM_PELLET.get())) {
-
-                    ItemStack simulated = handler.extractItem(i, 1, true);
-                    if (!simulated.isEmpty()) {
-                        handler.extractItem(i, 1, false);
-                        this.weight += 3.;
-                        this.markDirty();
-                        return;
-                    }
-                }
-
-                if (stack.is(ModItems.NEUTRONIUM_PELLET.get())) {
-
-                    ItemStack simulated = handler.extractItem(i, 1, true);
-                    if (!simulated.isEmpty()) {
-                        handler.extractItem(i, 1, false);
-                        this.weight += 10.;
-                        this.markDirty();
-                        return;
-                    }
-                }
+                weightGain = 0;
             }
         }
     }
@@ -259,7 +242,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.translatable("Weight: " + (int) weight + " x 10³⁰").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Weight: " + (int) weight + " x 10³⁰").withStyle(ChatFormatting.AQUA));
             textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
         }
     }
