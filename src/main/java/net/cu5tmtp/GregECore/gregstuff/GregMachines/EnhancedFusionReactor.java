@@ -95,11 +95,11 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
         if (heatSubscription != null) {
             heatSubscription.unsubscribe();
             heatSubscription = null;
         }
+        super.onStructureInvalid();
     }
 
 

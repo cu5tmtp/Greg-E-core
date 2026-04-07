@@ -92,6 +92,15 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
     }
 
     @Override
+    public void onStructureInvalid() {
+        if (weightSubscription != null) {
+            weightSubscription.unsubscribe();
+            weightSubscription = null;
+        }
+        super.onStructureInvalid();
+    }
+
+    @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         assert recipe != null;
         recipeWeight = recipe.data.getDouble("weight");
