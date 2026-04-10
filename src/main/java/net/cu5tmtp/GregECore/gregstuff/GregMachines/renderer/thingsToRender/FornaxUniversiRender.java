@@ -313,7 +313,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
             stack.scale(planet.scale, planet.scale, planet.scale);
 
             TextureAtlasSprite sprite = atlas.apply(planet.texture);
-            renderTexturedSphere(stack, buffer, 1.0f, 12, 12, 1.0f, 1.0f, 1.0f, 1.0f, sprite, packedLight);
+            renderTexturedSphere(stack, buffer, 1.0f, 24, 24, 1.0f, 1.0f, 1.0f, 1.0f, sprite, packedLight);
 
             stack.popPose();
         }
@@ -336,7 +336,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
             float lengthRad = arc.lengthDeg * (float)(Math.PI / 180.0);
 
-            renderPartialTorus(stack, buffer, arc.radius, arc.thickness, 0.0f, lengthRad, 16, 8, 0.6f, 0.6f, 0.6f, 1.0f, DISK_U, DISK_V, packedLight);
+            renderPartialTorus(stack, buffer, arc.radius, arc.thickness, 0.0f, lengthRad, 24, 16, 0.6f, 0.6f, 0.6f, 1.0f, DISK_U, DISK_V, packedLight);
 
             stack.popPose();
         }
@@ -355,7 +355,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         stack.scale(1.0F, 0.1F, 1.0F);
 
-        renderTorus(stack, buffer, 2.5F, 1.0F, 16, 8, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
+        renderTorus(stack, buffer, 2.5F, 1.0F, 24, 16, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
         stack.popPose();
 
         stack.pushPose();
@@ -380,7 +380,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
         stack.scale(1.0F, 0.15F, 1.0F);
 
-        renderTorus(stack, buffer, 2.2F, 0.4F, 16, 8, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
+        renderTorus(stack, buffer, 2.2F, 0.4F, 24, 16, DISK_INTENSITY, DISK_INTENSITY, DISK_INTENSITY, 1.0f, DISK_U, DISK_V, packedLight);
 
         stack.popPose();
     }
@@ -529,7 +529,7 @@ public class FornaxUniversiRender extends DynamicRender<FornaxUniversi, FornaxUn
 
     @Override
     public int getViewDistance() {
-        return 96;
+        return 64;
     }
 
     @Override
