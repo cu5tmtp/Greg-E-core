@@ -41,10 +41,27 @@ public class GregERecipeTypes {
             .setSound(GTSoundEntries.JET_ENGINE);
 
     public static GTRecipeType ASCENCION_ALTAR_DONATION = GTRecipeTypes.register("ascention_altar_donation", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(5,1,0,0)
+            .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .addDataInfo(data -> {
+                if (data.contains("tome")){
+                    int tome = data.getInt("tome");
+
+                    String tomeName = switch (tome) {
+                        case 1 -> "Forbidden Tome Of" + "\n" + "Extraterrestrial Planets";
+                        case 2 -> "Forbidden Tome Of" + "\n" + "Mighty Beings";
+                        case 3 -> "Forbidden Tome Of" + "\n" + "Hidden Lifeforms";
+                        case 4 -> "Forbidden Tome Of Rare Blocks";
+                        case 5 -> "Forbidden Tome Of Rare Items";
+                        default -> throw new IllegalStateException("Unexpected value: " + tome);
+                    };
+
+                    return ChatFormatting.LIGHT_PURPLE + "Tome Needed: "+ "\n" + ChatFormatting.BLUE + tomeName;
+                }
+                return null;
+            });
 
     public static GTRecipeType ADVANCED_FUSION = GTRecipeTypes.register("advanced_fusion", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AscencionPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.RepairPartsInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
@@ -34,8 +36,10 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
@@ -49,11 +53,13 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
     }
 
     private final List<IItemHandler> cachedAscencionHandler = new ArrayList<>();
+    public boolean[] areTomesIn = new boolean[5];
+    String[] tomeNames = {"Forbidden Tome Of Extraterrestrial Planets", "Forbidden Tome Of Mighty Beings", "Forbidden Tome Of Hidden Lifeforms", "Forbidden Tome Of Rare Blocks", "Forbidden Tome Of Rare Items"};
 
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
+    int neededBook;
+    private int animationTick = 0;
+
+    private TickableSubscription checkingSubscription;
 
     @Override
     public void onStructureFormed() {
@@ -62,7 +68,7 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
 
         for (IMultiPart part : getParts()) {
 
-            if (!(part instanceof StarFeederPartMachine)) {
+            if (!(part instanceof AscencionPartMachine)) {
                 continue;
             }
 
@@ -72,6 +78,73 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
                         .filter(IItemHandler.class::isInstance)
                         .map(IItemHandler.class::cast)
                         .forEach(this.cachedAscencionHandler::add);
+            }
+        }
+
+        if (checkingSubscription != null) {
+            checkingSubscription.unsubscribe();
+            checkingSubscription = null;
+        }
+        checkingSubscription = this.subscribeServerTick(this::checkWhichTomesAreIn);
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+
+        assert recipe != null;
+        // -1 because if there is 0 in addData in kubejs, recipe crashes
+        int neededBook = recipe.data.getInt("tome") - 1;
+
+        if (neededBook >= 0 && neededBook < areTomesIn.length) {
+            if (!areTomesIn[neededBook]) {
+                return false;
+            }
+        }
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public boolean onWorking() {
+
+        if (neededBook >= 0 && neededBook < areTomesIn.length) {
+            if (!areTomesIn[neededBook]) {
+                return false;
+            }
+        }
+
+        animationTick++;
+
+        return super.onWorking();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        animationTick = 0;
+        if (checkingSubscription != null) {
+            checkingSubscription.unsubscribe();
+            checkingSubscription = null;
+        }
+        super.onStructureInvalid();
+    }
+
+    private void checkWhichTomesAreIn() {
+
+        if (getOffsetTimer() % 10 == 0){
+            return;
+        }
+
+        Arrays.fill(areTomesIn, false);
+
+        for (IItemHandler handler : this.cachedAscencionHandler) {
+            for (int i = 0; i < handler.getSlots(); i++) {
+                ItemStack stack = handler.getStackInSlot(i);
+                Item item = stack.getItem();
+
+                if (item == ModItems.TOME1.get()) areTomesIn[0] = true;
+                else if (item == ModItems.TOME2.get()) areTomesIn[1] = true;
+                else if (item == ModItems.TOME3.get()) areTomesIn[2] = true;
+                else if (item == ModItems.TOME4.get()) areTomesIn[3] = true;
+                else if (item == ModItems.TOME5.get()) areTomesIn[4] = true;
             }
         }
     }
@@ -88,9 +161,9 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
                         .aisle("aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaacaa", "aaaaaaacaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
                         .aisle("aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaacccga", "aaaacfccaa", "aaaacaaaaa", "aaacaaaaaa", "aaaiaaaaaa", "aaaaaaaaaa")
                         .aisle("aaaaacccaa", "aaaaacccaa", "aaaaacecaa", "aaaaacccaa", "aaaaccccca", "aaccccaaaa", "afcaaaaaaa", "caaaaaaaaa", "iaaaaaaaaa", "aaaaaaaaaa")
-                        .aisle("aaaagcccca", "aaaacaaafa", "aaaacaaaca", "aaaaccccca", "aaaccccaaa", "aaadcaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
+                        .aisle("aaaagcccca", "aaaacaaafa", "aaaacaaaca", "aaaaccccca", "aaacccjaaa", "aaadcaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
                         .aisle("aaaaccccca", "aaaacaaaca", "aaaacaaaca", "aaaaecccca", "aaaccchaaa", "aacccaaaaa", "accaaaaaaa", "caaaaaaaaa", "caaaaaaaaa", "iaaaaaaaaa")
-                        .aisle("aaaaacccaa", "aaaaaeccaa", "aaaaaccfaa", "aaaaacccga", "aaacccgaaa", "aaaccaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
+                        .aisle("aaaaacccaa", "aaaaaeccaa", "aaaaaccfaa", "aaaaacccga", "aaacccjaaa", "aaaccaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
                         .aisle("aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaacccaa", "aaaaccaaaa", "aaacdaaaaa", "aaecaaaaaa", "acaaaaaaaa", "aiaaaaaaaa", "aaaaaaaaaa")
                         .aisle("aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa", "aaaaaaaaaa")
                         .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:air"))))
@@ -101,6 +174,9 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
                         .where("g", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("bloodmagic:altarcapacityrune"))))
                         .where('h', Predicates.controller(blocks(definition.getBlock())))
                         .where('i', Predicates.abilities(AscencionPartMachine.getPartAbility()).setMaxGlobalLimited(5).setPreviewCount(5))
+                        .where("j", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("bloodmagic:sacrificerune")))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .build();
             })
             .model(createWorkableCasingMachineModel(
@@ -112,14 +188,20 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Last hurdle stands between you and godhood. The ancient skyblock gods say to give them their toll.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Find the lost tomes of skyblock knowledge. Each shard has its own riddle to solve. You can get clues on them in EMI. " +
-                    "Then place them in the altars, one on each finger.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Once you place the items in, step back, and enjoy the coolest animation you have ever seen in Minecraft.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Find the lost tomes of skyblock knowledge. Each tome has its own riddle to solve. You can get clues on them in EMI. " +
+                    "Then place them in the altars, one in each finger. Each craft needs a different tome.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
+
+        for (int i = 0; i < areTomesIn.length; i++) {
+            ChatFormatting color = areTomesIn[i] ? ChatFormatting.GREEN : ChatFormatting.RED;
+            String status = areTomesIn[i] ? " is present." : " is missing.";
+
+            textList.add(Component.literal(tomeNames[i] + status).withStyle(color));
+        }
+
         super.addDisplayText(textList);
     }
 

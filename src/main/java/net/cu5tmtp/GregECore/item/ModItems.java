@@ -54,4 +54,22 @@ public class ModItems {
 
     public static final RegistryObject<Item> AMERICIUM_PELLET = ITEMS.register("americium_pellet",
             () -> new Item(new Item.Properties()));
+
+    //Tomes
+    public static final RegistryObject<Item> TOME1 = ITEMS.register("tome1",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> TOME2 = ITEMS.register("tome2",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> TOME3 = ITEMS.register("tome3",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> TOME4 = ITEMS.register("tome4",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> TOME5 = ITEMS.register("tome5",
+            () -> new Item(new Item.Properties()));
+
 }
+
