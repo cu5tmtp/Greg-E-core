@@ -1,7 +1,9 @@
-// 1.20.1	2026-02-28T18:05:08.2468908	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-04-10T23:35:45.5219564	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
+726326d671897042e823b83cb72be4fbe0de2d9e assets/gregecore/blockstates/ascencionaltar.json
+fa1ed1eb42dd798735383fe48ddf907fcd0c1d76 assets/gregecore/blockstates/ascencion_holder.json
 a897d6c9f0c54882d4ac108317b0132888d46faf assets/gregecore/blockstates/atomic_engine_intake.json
 d39974070ab0633c779fa72e45bf9636d9dc4b2f assets/gregecore/blockstates/awakened_draconium_coil.json
 67c5e302372a8b9604d3d417ca0d0bf169997d93 assets/gregecore/blockstates/bacteria_input_machine.json
@@ -29,8 +31,8 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-ff9b17e92c6ab5bfec0eb8135e85224fec60c4a9 assets/gregecore/lang/en_ud.json
-316aa96e9b144f1b1434606943e1514bc019a52b assets/gregecore/lang/en_us.json
+89b4ca6fb7726543978bb36edcc8fc78980e4659 assets/gregecore/lang/en_ud.json
+0f7a72cb5d5022928baeda03b502f8197faf3ed9 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -42,6 +44,8 @@ a52a23211b0c63b8cce990584963eb2e160cf898 assets/gregecore/models/block/forgotten
 fea4368454b99832d361890c89a0560cfb9aede1 assets/gregecore/models/block/machine/acceleratedebf.json
 dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/advanced_coolant_input_machine.json
 417ae5bcbfebc8ef4dc05f932cfcd34e41cb6642 assets/gregecore/models/block/machine/advanced_parallel_booster_machine.json
+e40839a13984cb2bbe1a6d3e2ccb96a14d9a4e43 assets/gregecore/models/block/machine/ascencionaltar.json
+703a8e6f9e49eec70192f537a945407cd63a5420 assets/gregecore/models/block/machine/ascencion_holder.json
 4f73aa85b869d3598b878e8d73784684b2e20594 assets/gregecore/models/block/machine/bacteria_input_machine.json
 f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/bigfreezer.json
 5538b902b561331f50fb78d572d5731da14b7482 assets/gregecore/models/block/machine/coolant_input_machine.json
@@ -76,6 +80,8 @@ e0de3f7b665892549797a81109a946be4bc32553 assets/gregecore/models/block/vibration
 2608050db5422140ce9f9829c8ad525c49af819d assets/gregecore/models/item/acceleratedebf.json
 3b671fdc5a1bde80585a1b7d677e32ce23f95122 assets/gregecore/models/item/advanced_coolant_input_machine.json
 fb523a510a85b969b7d184d35ac70f270dcb9612 assets/gregecore/models/item/advanced_parallel_booster_machine.json
+7e1a34ee686afa62ced013c8e27a4e5943919628 assets/gregecore/models/item/ascencionaltar.json
+d1bf4e678a67018fda9cf6dc124a9860127e7144 assets/gregecore/models/item/ascencion_holder.json
 d7e23f0b29c4f30f21db5dbd15aac181084c1740 assets/gregecore/models/item/atomic_engine_intake.json
 833f58216cd4eb5c3589406aafa356f35c35daaa assets/gregecore/models/item/awakened_draconium_coil.json
 6d53ccdc67f0f049432b2c29c6358fa0e3889561 assets/gregecore/models/item/bacteria_input_machine.json

@@ -17,6 +17,7 @@ public class GregEStuffInit {
         FornaxUniversi.init();
         EnhancedBlastChiller.init();
         BigFreezer.init();
+        AscencionAltar.init();
     }
 
     public static void initGregEParts(){
@@ -27,6 +28,7 @@ public class GregEStuffInit {
         BacteriaInputPartMachine.init();
         CoolantInputPartMachine.init();
         RepairPartsInputPartMachine.init();
+        AscencionPartMachine.init();
     }
 
     public static void initGregERenderRegistries(){

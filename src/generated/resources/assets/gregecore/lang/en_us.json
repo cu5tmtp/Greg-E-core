@@ -10,11 +10,13 @@
   "block.gregecore.fornaxuniversi": "§lFornax Universi§g",
   "block.gregecore.enhancedblastchiller": "§lEnhanced Blast Chiller§g",
   "block.gregecore.bigfreezer": "§lBig Freezer§g",
+  "block.gregecore.ascencionaltar": "§lAscension Altar§g",
   "gtceu.star_maykr_singularities": "Star Maykr",
   "gtceu.fornax_universi_acceleration": "Black Hole Diving",
   "gtceu.launch_sails": "Launch Sails",
   "gtceu.get_solar_sail_energy": "Solar Energy Return",
   "gtceu.advanced_fusion": "Advanced Fusion",
+  "gtceu.ascention_altar_donation": "Toll to the gods",
 
   "block.gregecore.linearaccelerator": "Linear Accelerator",
   "block.gregecore.conveyorbelt": "Conveyor Belt",
@@ -40,6 +42,7 @@
   "block.gregecore.bacteria_input_machine": "Bacteria Input",
   "block.gregecore.coolant_input_machine": "Coolant Input",
   "block.gregecore.repair_part_input_machine": "Repair Part Input",
+  "block.gregecore.ascencion_holder": "Donation Altar",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",
