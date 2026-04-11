@@ -34,9 +34,6 @@ public class ModItems {
     public static final RegistryObject<Item> SOLAR_ACTIVATOR = ITEMS.register("solar_activator",
             () -> new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> SOLAR_SAIL_CASE = ITEMS.register("solar_sail_case",
-            () -> new Item(new Item.Properties()));
-
     public static final RegistryObject<Item> QUANTUM_ACCELERATOR = ITEMS.register("quantum_accelerator",
             () -> new Item(new Item.Properties()));
 

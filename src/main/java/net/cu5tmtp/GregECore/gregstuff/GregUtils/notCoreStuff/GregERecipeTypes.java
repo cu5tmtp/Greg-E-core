@@ -49,16 +49,18 @@ public class GregERecipeTypes {
                 if (data.contains("tome")){
                     int tome = data.getInt("tome");
 
+                    String blue = ChatFormatting.BLUE.toString();
+
                     String tomeName = switch (tome) {
-                        case 1 -> "Forbidden Tome Of" + "\n" + "Extraterrestrial Planets";
-                        case 2 -> "Forbidden Tome Of" + "\n" + "Mighty Beings";
-                        case 3 -> "Forbidden Tome Of" + "\n" + "Hidden Lifeforms";
+                        case 1 -> "Forbidden Tome Of" + "\n" + blue + "Extraterrestrial Planets";
+                        case 2 -> "Forbidden Tome Of" + "\n" + blue + "Mighty Beings";
+                        case 3 -> "Forbidden Tome Of" + "\n" + blue + "Hidden Lifeforms";
                         case 4 -> "Forbidden Tome Of Rare Blocks";
                         case 5 -> "Forbidden Tome Of Rare Items";
                         default -> throw new IllegalStateException("Unexpected value: " + tome);
                     };
 
-                    return ChatFormatting.LIGHT_PURPLE + "Tome Needed: "+ "\n" + ChatFormatting.BLUE + tomeName;
+                    return ChatFormatting.LIGHT_PURPLE + "Tome Needed: " + "\n" + ChatFormatting.BLUE + tomeName.replace("\n", "\n" + ChatFormatting.BLUE);
                 }
                 return null;
             });
