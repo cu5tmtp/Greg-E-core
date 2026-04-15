@@ -42,6 +42,7 @@
   "block.gregecore.bacteria_input_machine": "Bacteria Input",
   "block.gregecore.coolant_input_machine": "Coolant Input",
   "block.gregecore.repair_part_input_machine": "Repair Part Input",
+  "block.gregecore.advanced_heater_input_machine": "Advanced Heater Input",
   "block.gregecore.ascencion_holder": "Donation Altar",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",

@@ -58,6 +58,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(CoolantInputPartMachine.COOLANT_INPUT_MACHINE.getItem());
                         pOutput.accept(BacteriaInputPartMachine.BACTERIAL_INPUT_MACHINE.getItem());
                         pOutput.accept(AdvancedCoolantInputPartMachine.ADVANCED_COOLANT_INPUT_MACHINE.getItem());
+                        pOutput.accept(AdvancedHeaterInputPartMachine.ADVANCED_HEATER_INPUT_MACHINE.getItem());
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
                     })
                     .build());

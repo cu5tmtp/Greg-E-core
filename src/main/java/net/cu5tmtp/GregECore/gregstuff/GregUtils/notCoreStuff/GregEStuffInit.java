@@ -29,6 +29,7 @@ public class GregEStuffInit {
         CoolantInputPartMachine.init();
         RepairPartsInputPartMachine.init();
         AscencionPartMachine.init();
+        AdvancedHeaterInputPartMachine.init();
     }
 
     public static void initGregERenderRegistries(){

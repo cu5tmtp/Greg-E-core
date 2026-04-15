@@ -1,6 +1,7 @@
-// 1.20.1	2026-04-10T23:35:45.5219564	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-04-14T17:27:24.8225283	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
+b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
 726326d671897042e823b83cb72be4fbe0de2d9e assets/gregecore/blockstates/ascencionaltar.json
 fa1ed1eb42dd798735383fe48ddf907fcd0c1d76 assets/gregecore/blockstates/ascencion_holder.json
@@ -31,8 +32,8 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-89b4ca6fb7726543978bb36edcc8fc78980e4659 assets/gregecore/lang/en_ud.json
-0f7a72cb5d5022928baeda03b502f8197faf3ed9 assets/gregecore/lang/en_us.json
+cca1e778a87abd2d982365155393bf54b0196c72 assets/gregecore/lang/en_ud.json
+60faff19d7057b3e8e2efa72e692f4943f239f55 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -43,6 +44,7 @@ f4b25d044657f738d6b8814a4bbe5c3ed397a69f assets/gregecore/models/block/awakened_
 a52a23211b0c63b8cce990584963eb2e160cf898 assets/gregecore/models/block/forgotten_coil_active.json
 fea4368454b99832d361890c89a0560cfb9aede1 assets/gregecore/models/block/machine/acceleratedebf.json
 dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/advanced_coolant_input_machine.json
+da48b50d50be64f428088895fe185c18e077b81d assets/gregecore/models/block/machine/advanced_heater_input_machine.json
 417ae5bcbfebc8ef4dc05f932cfcd34e41cb6642 assets/gregecore/models/block/machine/advanced_parallel_booster_machine.json
 e40839a13984cb2bbe1a6d3e2ccb96a14d9a4e43 assets/gregecore/models/block/machine/ascencionaltar.json
 703a8e6f9e49eec70192f537a945407cd63a5420 assets/gregecore/models/block/machine/ascencion_holder.json
@@ -79,6 +81,7 @@ cc750b0815100e33009bb25f330cc5063f450a7d assets/gregecore/models/block/twilight_
 e0de3f7b665892549797a81109a946be4bc32553 assets/gregecore/models/block/vibration_engine_intake_active.json
 2608050db5422140ce9f9829c8ad525c49af819d assets/gregecore/models/item/acceleratedebf.json
 3b671fdc5a1bde80585a1b7d677e32ce23f95122 assets/gregecore/models/item/advanced_coolant_input_machine.json
+679c2b851379f502d358bf7535a9c5c4a696281e assets/gregecore/models/item/advanced_heater_input_machine.json
 fb523a510a85b969b7d184d35ac70f270dcb9612 assets/gregecore/models/item/advanced_parallel_booster_machine.json
 7e1a34ee686afa62ced013c8e27a4e5943919628 assets/gregecore/models/item/ascencionaltar.json
 d1bf4e678a67018fda9cf6dc124a9860127e7144 assets/gregecore/models/item/ascencion_holder.json

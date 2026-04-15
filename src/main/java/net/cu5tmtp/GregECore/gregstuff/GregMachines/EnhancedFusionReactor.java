@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedCoolantInputPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedHeaterInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
@@ -71,7 +72,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
 
         for (IMultiPart part : getParts()) {
 
-            if(!(part instanceof AdvancedCoolantInputPartMachine)){
+            if(!(part instanceof AdvancedCoolantInputPartMachine || part instanceof AdvancedHeaterInputPartMachine)){
                 continue;
             }
 
@@ -218,7 +219,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                         .aisle("  GHGGBGGHG  ", " G         G ", " H         H ", " G         G ", "  GHGGBGGHG  ")
                         .aisle("   GHHBHHG   ", "  D       D  ", "  H   F   H  ", "  D       D  ", "   GHHBHHG   ")
                         .aisle("    GGBGG    ", "   G     G   ", "   H     H   ", "   G     G   ", "    GGBGG    ")
-                        .aisle("             ", "    GGAGG    ", "    HHIHH    ", "    GGBGG    ", "             ")
+                        .aisle("             ", "    GGAGG    ", "    HHIHH    ", "    GGJGG    ", "             ")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:draconiumfusion")))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2))
@@ -230,6 +231,7 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                         .where('G', Predicates.blocks(GCYMBlocks.CASING_ATOMIC.get()))
                         .where('H', Predicates.blocks(GTBlocks.FUSION_GLASS.get()))
                         .where('I', Predicates.abilities(AdvancedCoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
+                        .where('J', Predicates.abilities(AdvancedHeaterInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
                         .where(' ', Predicates.any())
                         .build();
             })
@@ -262,7 +264,8 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                     .append(Component.literal("60K/s").withStyle(ChatFormatting.RED))
                     .append(Component.literal(".").withStyle(style -> style.withColor(0x90EE90))))
             .tooltips(Component.literal("Maximum heat of the reactor is 7500K.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Put the coolant into the Advanced Coolant Input.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Put the coolant fluid into the Advanced Coolant Input.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Put the heater fluid into the Advanced Heater Input.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Reactor controller emits redstone: ").withStyle(ChatFormatting.GOLD)
                     .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
