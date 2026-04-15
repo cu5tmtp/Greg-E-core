@@ -37,7 +37,7 @@ public class EnhancedFusionRingRender extends DynamicRender<EnhancedFusionReacto
 
     @Override
     public boolean shouldRender(EnhancedFusionReactor machine, Vec3 cameraPos) {
-        return machine.getRecipeLogic().isWorking() || delta > 0;
+        return machine.getRecipeLogic().isWorking();
     }
 
     @Override
@@ -90,7 +90,7 @@ public class EnhancedFusionRingRender extends DynamicRender<EnhancedFusionReacto
 
     @Override
     public boolean shouldRenderOffScreen(EnhancedFusionReactor machine) {
-        return machine.getRecipeLogic().isWorking() || delta > 0;
+        return machine.getRecipeLogic().isWorking();
     }
 
     @Override

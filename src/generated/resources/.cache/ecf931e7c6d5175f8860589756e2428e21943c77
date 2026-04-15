@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-14T17:27:24.8225283	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-04-15T22:57:20.4045027	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -51,8 +51,8 @@ e40839a13984cb2bbe1a6d3e2ccb96a14d9a4e43 assets/gregecore/models/block/machine/a
 4f73aa85b869d3598b878e8d73784684b2e20594 assets/gregecore/models/block/machine/bacteria_input_machine.json
 f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/bigfreezer.json
 5538b902b561331f50fb78d572d5731da14b7482 assets/gregecore/models/block/machine/coolant_input_machine.json
-595cb1fffd6fd98e836ee02c15631330fcdff000 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
-41b900a2b1b16ce1af3314b529e243d24ceb42c2 assets/gregecore/models/block/machine/dysonswarmlauncher.json
+25c66a6b47c88b127323e89b2cb096eef504d965 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
+70c33d76ff12a02bc84734c00e6c3cad95fb82e9 assets/gregecore/models/block/machine/dysonswarmlauncher.json
 cb69e6ee8c47b3cae4a45bbbab6f8c62dcfa6fab assets/gregecore/models/block/machine/enhancedblastchiller.json
 f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
 8a6017c2b18f17b0ae519c822599f9c376e17b5d assets/gregecore/models/block/machine/fornaxuniversi.json

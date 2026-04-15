@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
@@ -66,11 +68,11 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
                         .aisle("GGGGGGG", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
-                        .aisle("GGGGGGG", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", "       ", "       ", "       ", "       ", "  NNN  ", "       ", "       ", "  NNN  ", "       ", "       ", "  NNN  ", "       ", "       ", "       ", "       ")
-                        .aisle("GGGGGGG", "  III  ", "  IJI  ", "  III  ", "   I   ", "       ", "       ", "  H H  ", "  H H  ", "       ", "       ", " N   N ", "       ", "       ", " N   N ", "       ", "       ", " N   N ", "       ", "       ", "       ", "       ")
-                        .aisle("GGGGGGG", "  III  ", "  JKJ  ", "  IKI  ", "  IKI  ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ", " N L N ", "   K   ", "   K   ", " N L N ", "   K   ", "   K   ", " N L N ", "   K   ", "   K   ", "   K   ", "   M   ")
-                        .aisle("GGGGGGG", "  III  ", "  IJI  ", "  III  ", "   I   ", "       ", "       ", "  H H  ", "  H H  ", "       ", "       ", " N   N ", "       ", "       ", " N   N ", "       ", "       ", " N   N ", "       ", "       ", "       ", "       ")
-                        .aisle("GGGGGGG", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", "       ", "       ", "       ", "       ", "  NNN  ", "       ", "       ", "  NNN  ", "       ", "       ", "  NNN  ", "       ", "       ", "       ", "       ")
+                        .aisle("GGGGGGG", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                        .aisle("GGGGGGG", "  III  ", "  IJI  ", "  III  ", "   I   ", "       ", "       ", "  H H  ", "  H H  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                        .aisle("GGGGGGG", "  III  ", "  JKJ  ", "  IKI  ", "  IKI  ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ", "   L   ", "   K   ", "   K   ", "   L   ", "   K   ", "   K   ", "   L   ", "   K   ", "   K   ", "   K   ", "   M   ")
+                        .aisle("GGGGGGG", "  III  ", "  IJI  ", "  III  ", "   I   ", "       ", "       ", "  H H  ", "  H H  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                        .aisle("GGGGGGG", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", " H   H ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
                         .aisle("GGGGGGG", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
                         .aisle("GGGGGGG", " BFFFB ", " BFFFB ", " BFFFB ", " BBBBB ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
                         .aisle("GGGGGGG", " BEEEB ", " BADDB ", " BDDDB ", " BBBBB ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
@@ -91,12 +93,13 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
                         .where('K', Predicates.blocks(FUSION_CASING.get()))
                         .where('L', Predicates.blocks(FUSION_COIL.get()))
                         .where('M', Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
-                        .where('N', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:cyan_stained_glass"))))
                         .where(' ', Predicates.any())
                         .build();
             })
-            .workableCasingModel(GTCEu.id("block/casings/hpca/computer_casing/front"),
+            .model(createWorkableCasingMachineModel(
+                    GTCEu.id("block/casings/hpca/computer_casing/front"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createDysonSwarmLauncherRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Dyson Swarm Launcher").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

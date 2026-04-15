@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class DysonSwarmEnergyCollector extends WorkableElectricMultiblockMachine {
@@ -64,8 +66,10 @@ public class DysonSwarmEnergyCollector extends WorkableElectricMultiblockMachine
                         .where(' ', Predicates.any())
                         .build();
             })
-            .workableCasingModel(GTCEu.id("block/casings/hpca/computer_casing/front"),
+            .model(createWorkableCasingMachineModel(
+                    GTCEu.id("block/casings/hpca/computer_casing/front"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createDysonSwarmEnergyCollectorRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Dyson Swarm Energy Collector").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
