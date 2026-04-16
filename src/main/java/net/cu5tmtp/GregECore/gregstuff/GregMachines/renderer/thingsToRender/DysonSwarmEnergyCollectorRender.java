@@ -94,9 +94,9 @@ public class DysonSwarmEnergyCollectorRender extends DynamicRender<DysonSwarmEne
             float g = 1.0f + (TARGET_G - 1.0f) * progress;
             float b = 1.0f + (TARGET_B - 1.0f) * progress;
 
-            float posX = 0.5F + (up.getStepX() * (16.0F - currentDist)) + (back.getStepX() * 3.0F) + (left.getStepX() * 3.0F);
-            float posY = 0.5F + (up.getStepY() * (16.0F - currentDist)) + (back.getStepY() * 3.0F) + (left.getStepY() * 3.0F);
-            float posZ = 0.5F + (up.getStepZ() * (16.0F - currentDist)) + (back.getStepZ() * 3.0F) + (left.getStepZ() * 3.0F);
+            float posX = 0.5F + (up.getStepX() * (16.0F - currentDist)) + (back.getStepX() * 4.0F) + (left.getStepX() * 3.0F);
+            float posY = 0.5F + (up.getStepY() * (16.0F - currentDist)) + (back.getStepY() * 4.0F) + (left.getStepY() * 3.0F);
+            float posZ = 0.5F + (up.getStepZ() * (16.0F - currentDist)) + (back.getStepZ() * 4.0F) + (left.getStepZ() * 3.0F);
 
             stack.pushPose();
             stack.translate(posX, posY, posZ);
