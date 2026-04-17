@@ -1,4 +1,4 @@
-# GregE-core
+# Greg-E-core
 
 **GregE-core** is a core mod developed for the **GregE** modpack. It introduces high-tier multiblock machinery, advanced materials, and unique energy production systems to the GregTech ecosystem.
 
