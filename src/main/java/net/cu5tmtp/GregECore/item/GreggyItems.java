@@ -84,8 +84,6 @@ public class GreggyItems {
                 .flags(MaterialFlags.GENERATE_FOIL)
                 .buildAndRegister();
 
-
-
         //cables
         MANASTEEL_CABLE = new Material.Builder(GregECore.id("manasteel_cable"))
                 .cableProperties(GTValues.V[GTValues.LV], 4, 0, true)
@@ -131,6 +129,7 @@ public class GreggyItems {
 
         DRACONIUM_CABLE = new Material.Builder(GregECore.id("draconium_cable"))
                 .cableProperties(GTValues.V[GTValues.UHV], 32, 0, true)
+                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_SMALL_GEAR, MaterialFlags.GENERATE_DENSE)
                 .color(0x5D3FD3)
                 .formula("Dc")
                 .buildAndRegister();

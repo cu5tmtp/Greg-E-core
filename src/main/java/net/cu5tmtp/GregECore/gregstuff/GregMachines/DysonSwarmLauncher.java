@@ -113,8 +113,10 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.literal("Number of solar sails in orbit: " + (int) DysonSwarmManager.getTotalSails()).withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Energy generation boost: " + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Solar sails in orbit:").withStyle(ChatFormatting.GREEN));
+            textList.add(Component.literal("" + (int) DysonSwarmManager.getTotalSails()).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Energy generation boost:").withStyle(ChatFormatting.GREEN));
+            textList.add(Component.literal("" + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
         }
     }
 
