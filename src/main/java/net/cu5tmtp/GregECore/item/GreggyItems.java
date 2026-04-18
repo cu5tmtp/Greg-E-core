@@ -1,12 +1,9 @@
 package net.cu5tmtp.GregECore.item;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
-import com.gregtechceu.gtceu.common.data.GTElements;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 
 public class GreggyItems {
@@ -129,7 +126,7 @@ public class GreggyItems {
 
         DRACONIUM_CABLE = new Material.Builder(GregECore.id("draconium_cable"))
                 .cableProperties(GTValues.V[GTValues.UHV], 32, 0, true)
-                .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_ROUND, MaterialFlags.GENERATE_FRAME, MaterialFlags.GENERATE_BOLT_SCREW, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_SMALL_GEAR, MaterialFlags.GENERATE_DENSE)
+                .flags(MaterialFlags.GENERATE_DENSE, MaterialFlags.GENERATE_PLATE)
                 .color(0x5D3FD3)
                 .formula("Dc")
                 .buildAndRegister();
