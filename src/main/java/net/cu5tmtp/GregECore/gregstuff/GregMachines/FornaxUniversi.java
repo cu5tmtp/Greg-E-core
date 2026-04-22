@@ -92,12 +92,12 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
 
     private void manageLogic() {
 
-        if (needsRepair) {
+        if (this.needsRepair) {
 
             this.updateSignal();
 
-            if (repairTimer > 0) {
-                repairTimer--;
+            if (this.repairTimer > 0) {
+                this.repairTimer--;
                 if (consumeRepairItem()) {
                     this.needsRepair = false;
                     this.repairTimer = 0;
@@ -113,9 +113,9 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
 
             this.updateSignal();
 
-            recipeTicks++;
+            this.recipeTicks++;
 
-            if (!hasTriggeredFailureThisRecipe && recipeTicks >= FAILURE_TRIGGER_TICK) {
+            if (!this.hasTriggeredFailureThisRecipe && this.recipeTicks >= FAILURE_TRIGGER_TICK) {
                 this.needsRepair = true;
                 this.hasTriggeredFailureThisRecipe = true;
                 this.repairTimer = REPAIR_TIME_LIMIT;
@@ -127,8 +127,8 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
     @Override
     public void afterWorking() {
         this.updateSignal();
-        recipeTicks = 0;
-        hasTriggeredFailureThisRecipe = false;
+        this.recipeTicks = 0;
+        this.hasTriggeredFailureThisRecipe = false;
         getRandomRepairItem();
         super.afterWorking();
     }

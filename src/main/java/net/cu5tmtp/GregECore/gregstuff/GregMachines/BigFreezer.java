@@ -130,6 +130,12 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
         return super.beforeWorking(recipe);
     }
 
+    @Override
+    public void onStructureInvalid() {
+        this.parallelBooster = 0;
+        super.onStructureInvalid();
+    }
+
     public static MachineDefinition BIGFREEZER = REGISTRATE
             .multiblock("bigfreezer", BigFreezer::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -182,9 +188,18 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
         switch (parallelBooster)
         {
-            case 1 -> textList.add(Component.literal("Parallels: 16, Recipe time reduction: 30%").withStyle(ChatFormatting.AQUA));
-            case 2 -> textList.add(Component.literal("Parallels: 8, Recipe time reduction: 20%").withStyle(ChatFormatting.AQUA));
-            default -> textList.add(Component.literal("Parallels: 4, Recipe time reduction: 10%").withStyle(ChatFormatting.AQUA));
+            case 2 -> {
+                textList.add(Component.literal("Parallels: 16").withStyle(ChatFormatting.AQUA));
+                textList.add(Component.literal("Recipe time reduction: 30%").withStyle(ChatFormatting.AQUA));
+            }
+            case 1 -> {
+                textList.add(Component.literal("Parallels: 8").withStyle(ChatFormatting.AQUA));
+                textList.add(Component.literal("Recipe time reduction: 20%").withStyle(ChatFormatting.AQUA));
+            }
+            default -> {
+                textList.add(Component.literal("Parallels: 4").withStyle(ChatFormatting.AQUA));
+                textList.add(Component.literal("Recipe time reduction: 10%").withStyle(ChatFormatting.AQUA));
+            }
         }
     }
 

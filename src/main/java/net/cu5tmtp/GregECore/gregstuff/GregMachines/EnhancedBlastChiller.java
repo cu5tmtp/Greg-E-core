@@ -58,7 +58,7 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
             }
 
             if (blockId.equals("Block{gregecore:frostcore}")) {
-                numberOfCores++;
+                this.numberOfCores++;
             }
         }
     }
@@ -104,13 +104,13 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
-        textList.add(Component.literal("Glacial Cores: " + numberOfCores).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.literal("Recipe time reduction: " + numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
-        textList.add(Component.literal("Parallels: " + numberOfCores * 16).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Glacial Cores: " + this.numberOfCores).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Recipe time reduction: " + this.numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
+        textList.add(Component.literal("Parallels: " + this.numberOfCores * 16).withStyle(ChatFormatting.AQUA));
     }
 
     public int getNumberOfCores() {
-        return numberOfCores;
+        return this.numberOfCores;
     }
 
     public static void init() {}
