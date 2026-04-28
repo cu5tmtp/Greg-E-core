@@ -1,0 +1,25 @@
+{
+  "animation": {
+    "frametime": 16,
+    "frames": [
+      {
+        "index": 0,
+        "time": 22
+      },
+      1,
+      {
+        "index": 2,
+        "time": 18
+      },
+      3,
+      {
+        "index": 4,
+        "time": 22
+      }
+    ],
+    "interpolate": true
+  },
+  "ldlib": {
+    "connection": "gregecore:block/coils/machine_coil_superelement_ctm"
+  }
+}
