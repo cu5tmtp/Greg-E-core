@@ -1,0 +1,9 @@
+{
+  "ldlib": {
+    "connection": "gregecore:block/coils/machine_coil_malachite_active_ctm",
+    "emissive": true
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

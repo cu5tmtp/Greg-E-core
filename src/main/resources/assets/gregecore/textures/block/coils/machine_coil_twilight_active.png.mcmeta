@@ -1,0 +1,13 @@
+{
+  "animation": {
+    "frametime": 28,
+    "interpolate": true
+  },
+  "ldlib": {
+    "connection": "gregecore:block/coils/machine_coil_twilight_active_ctm",
+    "emissive": true
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}
