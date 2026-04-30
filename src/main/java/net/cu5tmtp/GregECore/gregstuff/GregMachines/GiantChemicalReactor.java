@@ -68,9 +68,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
 
-        this.energyBoost = 1.0;
-        this.parallelBoost = 1;
-        this.speedBoost = 1.0;
+        resetBoosts();
 
         for (IItemHandler handler : this.cachedBoosterHandlers) {
             for (int i = 0; i < handler.getSlots(); i++) {
@@ -102,6 +100,12 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
         }
 
         return super.beforeWorking(recipe);
+    }
+
+    private void resetBoosts(){
+        this.energyBoost = 1.0;
+        this.parallelBoost = 1;
+        this.speedBoost = 1.0;
     }
 
     public static MachineDefinition GIANTCHR = REGISTRATE
@@ -165,8 +169,8 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (isFormed()) {
-            textList.add(Component.literal("Energy multiplier: " + energyBoost).withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Speed multiplier: " + speedBoost).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Recipe time reduction: " + (int) (100 - (speedBoost * 100)) + "%").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Energy reduction: " + (int) (100 - (energyBoost * 100)) + "%").withStyle(ChatFormatting.AQUA));
             textList.add(Component.literal("Parallels: " + parallelBoost).withStyle(ChatFormatting.AQUA));
         }
         super.addDisplayText(textList);

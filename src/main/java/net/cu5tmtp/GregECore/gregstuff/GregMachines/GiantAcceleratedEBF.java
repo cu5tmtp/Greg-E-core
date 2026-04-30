@@ -90,11 +90,11 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     @Override
     public boolean onWorking() {
-        int amountToDrain = 1;
+        int amountToDrain = 10;
         Fluid coolant = GreggyItems.DEIONIZED_WATER.getFluid();
         FluidStack resource = new FluidStack(coolant, amountToDrain);
 
-        if (getOffsetTimer() % 40 == 0) {
+        if (getOffsetTimer() % 20 == 0) {
 
             FluidStack simulation = GTTransferUtils.drainFluidAccountNotifiableList(
                     coolantHandler,
@@ -235,7 +235,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                     " Depending on the coil, the machine speeds up faster. The coils tell you the exact amount of recipe time reduction.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The power of the coils grow. Now they are able to work in parallel, but due to the intense heat generated," +
-                    " they require ").withStyle(style -> style.withColor(0x90EE90)).append(Component.literal("1mb of Deionized Water per 40 ticks.").withStyle(style -> style.withColor(0xFF0000))))
+                    " they require ").withStyle(style -> style.withColor(0x90EE90)).append(Component.literal("10mb of Deionized Water per 20 ticks.").withStyle(style -> style.withColor(0xFF0000))))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The machine only accepts 32 of the same coil. Do not mix them. After the machine forms, " +
                     "you can see activated Magical Coil abilities in the controller.").withStyle(style -> style.withColor(0x90EE90)))
@@ -249,9 +249,18 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         if (isFormed()) {
             textList.add(Component.literal("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
             switch (coilTemp){
-                case 7400 -> textList.add(Component.literal("Recipes are shortened by 20% and     2 parallels are applied." ).withStyle(ChatFormatting.GREEN));
-                case 9200 -> textList.add(Component.literal("Recipes are shortened by 40% and     4 parallels are applied.").withStyle(ChatFormatting.GREEN));
-                case 11000 -> textList.add(Component.literal("Recipes are shortened by 60% and     8 parallels are applied.").withStyle(ChatFormatting.GREEN));
+                case 7400 -> {
+                    textList.add(Component.literal("Recipe time reduction: 20%").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.literal("Parallels: 2" ).withStyle(ChatFormatting.GREEN));
+                }
+                case 9200 -> {
+                    textList.add(Component.literal("Recipe time reduction: 40%").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.literal("Parallels: 4").withStyle(ChatFormatting.GREEN));
+                }
+                case 11000 -> {
+                    textList.add(Component.literal("Recipe time reduction: 60%").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.literal("Parallels: 8").withStyle(ChatFormatting.GREEN));
+                }
                 default -> textList.add(Component.literal("Different coils detected!").withStyle(ChatFormatting.RED));
             }
             switch (parallelBooster){

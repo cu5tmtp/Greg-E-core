@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFManager;
 
 public class GregEModifiers {
 
@@ -134,13 +133,13 @@ public class GregEModifiers {
             return ModifierFunction.NULL;
         }
 
-        int parallelsAvailableLEBF = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, LearningAcceleratedEBFManager.getParallelBoost()));
-        LearningAcceleratedEBF.setCurrentBoost(parallelsAvailableLEBF);
+        int parallelsAvailableLEBF = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, laebf.getParallelBoost()));
+        laebf.setCurrentBoost(parallelsAvailableLEBF);
 
         return ModifierFunction.builder()
                 .modifyAllContents(ContentModifier.multiplier(parallelsAvailableLEBF))
-                .eutMultiplier(LearningAcceleratedEBFManager.getEnergyBoost())
-                .durationMultiplier(LearningAcceleratedEBFManager.getSpeedBoost())
+                .eutMultiplier(laebf.getEnergyBoost())
+                .durationMultiplier(laebf.getSpeedBoost())
                 .parallels(parallelsAvailableLEBF)
                 .build();
     }

@@ -19,7 +19,7 @@ public class ModCreativeModTabs {
 
     public static final RegistryObject<CreativeModeTab> GREGE_TAB = CREATIVE_MODE_TABS.register("gregecoretab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.LINEARACCELERATOR.get()))
-                    .title(Component.translatable("GregE core"))
+                    .title(Component.literal("Greg-E-core"))
                     .displayItems((pParameters, pOutput) -> {
                         ModBlocks.TAB_BLOCKS.forEach(block -> pOutput.accept(block.get()));
                         pOutput.accept(ModItems.ENERGY_BACTERIA.get());

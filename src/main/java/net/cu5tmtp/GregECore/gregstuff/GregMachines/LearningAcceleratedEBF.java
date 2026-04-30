@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.LearningAcceleratedEBFManager;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -40,6 +39,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
             LearningAcceleratedEBF.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER
     );
+
     @Persisted
     protected int tier1 = 0;
     @Persisted
@@ -52,18 +52,12 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
     protected int tier5 = 0;
 
     int recipeTemp = 0;
-    static int currentBoost = 0;
+    int currentBoost = 0;
     int coilTemp = 12000;
 
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
-    }
-
-    @Override
-    public void onLoad() {
-        LearningAcceleratedEBFManager.setTierBoosts(tier1, tier2, tier3, tier4, tier5);
-        super.onLoad();
     }
 
     @Override
@@ -75,34 +69,53 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     @Override
     public void afterWorking() {
-
         if (recipeTemp >= 9000) {
-            if (tier5 <= 1000) {
+            if (tier5 < 1000) {
                 tier5 = Math.min(1000, tier5 + currentBoost);
-                LearningAcceleratedEBFManager.addTierProgress(5, currentBoost);
             }
         } else if (recipeTemp >= 7000) {
-            if (tier4 <= 2000) {
+            if (tier4 < 2000) {
                 tier4 = Math.min(2000, tier4 + currentBoost);
-                LearningAcceleratedEBFManager.addTierProgress(4, currentBoost);
             }
         } else if (recipeTemp >= 5000) {
-            if (tier3 <= 4000) {
+            if (tier3 < 4000) {
                 tier3 = Math.min(4000, tier3 + currentBoost);
-                LearningAcceleratedEBFManager.addTierProgress(3, currentBoost);
             }
         } else if (recipeTemp >= 3000) {
-            if (tier2 <= 10000) {
+            if (tier2 < 10000) {
                 tier2 = Math.min(10000, tier2 + currentBoost);
-                LearningAcceleratedEBFManager.addTierProgress(2, currentBoost);
             }
         } else if (recipeTemp >= 1) {
-            if (tier1 <= 15000) {
+            if (tier1 < 15000) {
                 tier1 = Math.min(15000, tier1 + currentBoost);
-                LearningAcceleratedEBFManager.addTierProgress(1, currentBoost);
             }
         }
         super.afterWorking();
+    }
+
+
+    public double getEnergyBoost() {
+        double mod = 0;
+        if (this.tier1 >= 15000) mod += 0.5;
+        if (this.tier2 >= 10000) mod += 0.3;
+        if (this.tier3 >= 4000)  mod += 0.15;
+        return 1.0 - mod;
+    }
+
+    public double getSpeedBoost() {
+        double mod = 0;
+        if (this.tier2 >= 10000) mod += 0.5;
+        if (this.tier3 >= 4000)  mod += 0.3;
+        if (this.tier4 >= 2000)  mod += 0.15;
+        return 1.0 - mod;
+    }
+
+    public int getParallelBoost() {
+        int mod = 0;
+        if (this.tier3 >= 4000) mod += 16;
+        if (this.tier4 >= 2000) mod += 80;
+        if (this.tier5 >= 1000) mod += 160;
+        return (mod == 0) ? 1 : mod;
     }
 
     public static MachineDefinition LEARNING_ACC_EBF = REGISTRATE
@@ -191,8 +204,8 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
         return this.coilTemp + (100 * Math.max(0, getTier() - GTValues.MV));
     }
 
-    public static void setCurrentBoost(int currentBoostEBF) {
-        currentBoost = currentBoostEBF;
+    public void setCurrentBoost(int currentBoostEBF) {
+        this.currentBoost = currentBoostEBF;
     }
 
     public static void init() {}
