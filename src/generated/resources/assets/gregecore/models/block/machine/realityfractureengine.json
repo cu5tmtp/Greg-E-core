@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "gregecore:realityenigne_eye"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "gregecore:realityfractureengine",
   "texture_overrides": {
