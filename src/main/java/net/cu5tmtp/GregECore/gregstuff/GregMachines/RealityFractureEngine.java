@@ -1,21 +1,35 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.RealityFractureEnginePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
@@ -27,6 +41,87 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
     public RealityFractureEngine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            RealityFractureEngine.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    private TickableSubscription checkingSubscription;
+
+    private final List<IItemHandler> cachedFractureHandler = new ArrayList<>();
+
+    @DescSynced
+    public boolean[] areEyesIn = new boolean[3];
+
+    @Override
+    public FieldManagedStorage getSyncStorage() {
+        return super.getSyncStorage();
+    }
+
+    String[] eyeNames = {"Eye of the Red Menace, Ysha'lotha", "Eye of the Purple Stalker, Kal'dora", "Eye of the Green Soldier, Ar'thas"};
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        this.cachedFractureHandler.clear();
+
+        for (IMultiPart part : getParts()) {
+
+            if (!(part instanceof RealityFractureEnginePartMachine)) {
+                continue;
+            }
+
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
+                handlerList.getCapability(ItemRecipeCapability.CAP).stream()
+                        .filter(IItemHandler.class::isInstance)
+                        .map(IItemHandler.class::cast)
+                        .forEach(this.cachedFractureHandler::add);
+            }
+        }
+
+        if (this.checkingSubscription != null) {
+            this.checkingSubscription.unsubscribe();
+            this.checkingSubscription = null;
+        }
+        this.checkingSubscription = this.subscribeServerTick(this::checkWhichEyesAreIn);
+    }
+
+
+    private void checkWhichEyesAreIn() {
+
+        if (getOffsetTimer() % 10 == 0){
+            return;
+        }
+
+        Arrays.fill(areEyesIn, false);
+
+        for (IItemHandler handler : this.cachedFractureHandler) {
+            for (int i = 0; i < handler.getSlots(); i++) {
+                ItemStack stack = handler.getStackInSlot(i);
+                Item item = stack.getItem();
+
+                if (item == ModItems.GREENEYE.get()) {
+                    areEyesIn[0] = true;
+                    this.markDirty();
+                }
+                else if (item == ModItems.REDEYE.get()) {
+                    areEyesIn[1] = true;
+                    this.markDirty();
+                }
+                else if (item == ModItems.PURPLEEYE.get()) {
+                    areEyesIn[2] = true;
+                    this.markDirty();
+                }
+            }
+        }
+    }
+
     public static MachineDefinition REALITYFRACTUREENGINE = REGISTRATE
             .multiblock("realityfractureengine", RealityFractureEngine::new)
             .rotationState(RotationState.NON_Y_AXIS)
@@ -87,28 +182,24 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createRealityEngineRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Material Compressing").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Rift Opening").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("You have done it. You made a machine capable of making and sustaining stars. While some might say its useful for energy," +
-                    " you have different ideas. Using the immense gravitational forces inside a stars core, you just might forge unthinkable items.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Welcome to the last challenge of this modpack. Make the 3 eyes of the forgotten ones and place them in the rift holders. " +
+                    "A rip in the space-time is gonna open in the middle of the machine.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Star starts with 1 x 10³⁰ tons. If your star drops below 0 or over 500 x 10³⁰ tons, the multiblock explodes. Each crafting recipe has some sort of weight cost," +
-                    " due to the star fusing some of its own weight into it whenever it forms a singularity. " +
-                    "You can increase the weight of the star if you feed it correct items. The correct items are shown below with their weight value. Place them in the Star Feeder.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Brass Pellet: 0.1 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Americium Pellet: 3 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Neutronium Pellet: 10 x 10³⁰ tons").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Controller emits redstone: ").withStyle(ChatFormatting.GOLD)
-                    .append(Component.literal("1 redstone strength").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" per ").withStyle(style -> style.withColor(0x90EE90)))
-                    .append(Component.literal("30 x 10³⁰").withStyle(ChatFormatting.RED))
-                    .append(Component.literal(" tons.").withStyle(style -> style.withColor(0x90EE90))))
+            .tooltips(Component.literal("Do not enter without full infinity gear. The dimension you are stepping into will kill you without it.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
+
+        for (int i = 0; i < areEyesIn.length; i++) {
+            ChatFormatting color = areEyesIn[i] ? ChatFormatting.GREEN : ChatFormatting.RED;
+            String status = areEyesIn[i] ? " is present." : " is missing.";
+
+            textList.add(Component.literal(eyeNames[i] + status).withStyle(color));
+        }
+
         super.addDisplayText(textList);
     }
 

@@ -61,7 +61,7 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
 
         VertexConsumer solidBuffer = buffer.getBuffer(RenderType.entitySolid(InventoryMenu.BLOCK_ATLAS));
         int fullBright = 15728880;
-
+        
         var frontDir = machine.getFrontFacing();
         var upwardsDir = machine.getUpwardsFacing();
         var flipped = machine.isFlipped();
@@ -81,31 +81,43 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
         Vec3 blockCenter = new Vec3(0.5, 0.5, 0.5);
 
         Vec3 lightningDirCenter = vFront;
-        Vec3 lightningDirRight = vFront.add(vRight.scale(90.0)).normalize();
-        Vec3 lightningDirLeft = vFront.add(vLeft.scale(90.0)).normalize();
+        Vec3 lightningDirRight = vFront.add(vRight.scale(90)).normalize();
+        Vec3 lightningDirLeft = vFront.add(vLeft.scale(90)).normalize();
 
         Vec3 eyeLookCenter = vFront;
         Vec3 eyeLookRight = lightningDirRight.reverse();
         Vec3 eyeLookLeft = lightningDirLeft.reverse();
 
-        Vec3 posEye1 = blockCenter.add(vUp.scale(15.0).add(vBack.scale(21.0)));
-        Vec3 posEye2 = blockCenter.add(vUp.scale(15.0)).add(vLeft.scale(17.0)).add(vBack.scale(4.0));
-        Vec3 posEye3 = blockCenter.add(vUp.scale(15.0)).add(vRight.scale(17.0)).add(vBack.scale(4.0));
+        Vec3 posEyeRed = blockCenter.add(vUp.scale(15.0).add(vBack.scale(21.0))); // Center
+        Vec3 posEyeGreen = blockCenter.add(vUp.scale(15.0)).add(vLeft.scale(17.0)).add(vBack.scale(4.0)); // Left
+        Vec3 posEyePurple = blockCenter.add(vUp.scale(15.0)).add(vRight.scale(17.0)).add(vBack.scale(4.0)); // Right
 
-        renderEye(poseStack, solidBuffer, posEye1, 0.6f, 0.2f, 1.0f, 0.2f, fullBright, eyeLookCenter);
-        renderEye(poseStack, solidBuffer, posEye2, 0.5f, 1.0f, 0.3f, 0.3f, fullBright, eyeLookRight);
-        renderEye(poseStack, solidBuffer, posEye3, 0.5f, 0.6f, 0.6f, 1.0f, fullBright, eyeLookLeft);
+        boolean showLightning = machine.getOffsetTimer() % 8 < 3;
+        VertexConsumer lightningBuffer = showLightning ? buffer.getBuffer(RenderType.lightning()) : null;
+        if (showLightning) random.setSeed((long) (machine.getOffsetTimer() / 3));
 
-        if (machine.getOffsetTimer() % 8 < 3) {
-            VertexConsumer lightningBuffer = buffer.getBuffer(RenderType.lightning());
-            random.setSeed((long) (machine.getOffsetTimer() / 3));
+        float lLen = 12.0f;
+        float lOff = 2.0f;
 
-            float lightningLength = 12.0f;
-            float startOffset = 2.0f;
+        if (machine.areEyesIn[0]) {
+            renderEye(poseStack, solidBuffer, posEyeRed, 0.6f, 0.2f, 1.0f, 0.2f, fullBright, eyeLookCenter);
+            if (showLightning) {
+                renderPrismLightning(poseStack, lightningBuffer, posEyeRed.add(lightningDirCenter.scale(lOff)), lightningDirCenter, lLen, 0.4f, 1.0f, 0.4f);
+            }
+        }
 
-            renderPrismLightning(poseStack, lightningBuffer, posEye1.add(lightningDirCenter.scale(startOffset)), lightningDirCenter, lightningLength, 0.4f, 1.0f, 0.4f);
-            renderPrismLightning(poseStack, lightningBuffer, posEye2.add(lightningDirRight.scale(startOffset)), lightningDirRight, lightningLength, 1.0f, 0.3f, 0.3f);
-            renderPrismLightning(poseStack, lightningBuffer, posEye3.add(lightningDirLeft.scale(startOffset)), lightningDirLeft, lightningLength, 0.6f, 0.6f, 1.0f);
+        if (machine.areEyesIn[1]) {
+            renderEye(poseStack, solidBuffer, posEyeGreen, 0.5f, 1.0f, 0.3f, 0.3f, fullBright, eyeLookRight);
+            if (showLightning) {
+                renderPrismLightning(poseStack, lightningBuffer, posEyeGreen.add(lightningDirRight.scale(lOff)), lightningDirRight, lLen, 1.0f, 0.3f, 0.3f);
+            }
+        }
+
+        if (machine.areEyesIn[2]) {
+            renderEye(poseStack, solidBuffer, posEyePurple, 0.5f, 0.6f, 0.6f, 1.0f, fullBright, eyeLookLeft);
+            if (showLightning) {
+                renderPrismLightning(poseStack, lightningBuffer, posEyePurple.add(lightningDirLeft.scale(lOff)), lightningDirLeft, lLen, 0.6f, 0.6f, 1.0f);
+            }
         }
     }
 
@@ -117,7 +129,7 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
         poseStack.scale(scale, scale, scale);
         renderTexturedSphere(poseStack, buffer, 0, 0, 0, 1.0f, 16, 16, r, g, b, 1.0f, WHITE_SPRITE_CACHE, light);
         poseStack.popPose();
-        
+
         poseStack.pushPose();
         Vector3f look = new Vector3f((float)lookDir.x, (float)lookDir.y, (float)lookDir.z).normalize();
         Quaternionf rotation = new Quaternionf().lookAlong(look, new Vector3f(0, 1, 0));

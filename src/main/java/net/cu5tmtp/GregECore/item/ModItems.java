@@ -68,5 +68,14 @@ public class ModItems {
     public static final RegistryObject<Item> TOME5 = ITEMS.register("tome5",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> PURPLEEYE = ITEMS.register("purpleeye",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> REDEYE = ITEMS.register("redeye",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> GREENEYE = ITEMS.register("greeneye",
+            () -> new Item(new Item.Properties()));
+
 }
 
