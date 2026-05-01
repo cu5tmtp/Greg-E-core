@@ -18,6 +18,7 @@ public class GregEStuffInit {
         EnhancedBlastChiller.init();
         BigFreezer.init();
         AscencionAltar.init();
+        RealityFractureEngine.init();
     }
 
     public static void initGregEParts(){
@@ -25,6 +26,7 @@ public class GregEStuffInit {
         ParallelBoosterPartMachine.init();
         AdvancedParallelBoosterPartMachine.init();
         AdvancedCoolantInputPartMachine.init();
+        RealityFractureEnginePartMachine.init();
         BacteriaInputPartMachine.init();
         CoolantInputPartMachine.init();
         RepairPartsInputPartMachine.init();

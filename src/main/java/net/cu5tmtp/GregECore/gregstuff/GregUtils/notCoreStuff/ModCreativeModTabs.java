@@ -45,6 +45,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(EnhancedBlastChiller.ENHANCEDBLASTCHILLER.getItem());
                         pOutput.accept(BigFreezer.BIGFREEZER.getItem());
                         pOutput.accept(StarMaykr.STAR_MAYKR.getItem());
+                        pOutput.accept(RealityFractureEngine.REALITYFRACTUREENGINE.getItem());
                         pOutput.accept(AscencionAltar.ASCENCION_ALTAR.getItem());
                         pOutput.accept(GiantChemicalReactor.GIANTCHR.getItem());
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
@@ -60,6 +61,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(AdvancedCoolantInputPartMachine.ADVANCED_COOLANT_INPUT_MACHINE.getItem());
                         pOutput.accept(AdvancedHeaterInputPartMachine.ADVANCED_HEATER_INPUT_MACHINE.getItem());
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
+                        pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
                     })
                     .build());
 

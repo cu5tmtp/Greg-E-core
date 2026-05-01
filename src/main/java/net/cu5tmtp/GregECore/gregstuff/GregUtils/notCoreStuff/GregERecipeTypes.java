@@ -78,6 +78,12 @@ public class GregERecipeTypes {
                 return null;
             });
 
+    public static GTRecipeType OPEN_THE_RIFT = GTRecipeTypes.register("open_rift", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1,1, 0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.SCIENCE);
+
     public static void init(){
     }
 }
