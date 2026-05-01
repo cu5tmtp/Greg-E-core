@@ -1,0 +1,18 @@
+{
+  "type": "gregecore:fracture_dim_type",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "layers": [
+        {
+          "block": "minecraft:air",
+          "height": 1
+        }
+      ],
+      "biome": "gregecore:void_plains",
+      "lakes": false,
+      "features": false,
+      "structure_overrides": []
+    }
+  }
+}

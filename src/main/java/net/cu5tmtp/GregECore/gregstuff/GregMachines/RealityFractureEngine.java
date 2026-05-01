@@ -7,26 +7,34 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.FieldManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.RealityFractureEnginePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,10 +66,8 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
     @DescSynced
     public boolean[] areEyesIn = new boolean[3];
 
-    @Override
-    public FieldManagedStorage getSyncStorage() {
-        return super.getSyncStorage();
-    }
+    @Persisted
+    private boolean portalOpen = false;
 
     String[] eyeNames = {"Eye of the Red Menace, Ysha'lotha", "Eye of the Purple Stalker, Kal'dora", "Eye of the Green Soldier, Ar'thas"};
 
@@ -92,6 +98,40 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
         this.checkingSubscription = this.subscribeServerTick(this::checkWhichEyesAreIn);
     }
 
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        if (!(areEyesIn[0] && areEyesIn[1] && areEyesIn[2])) {
+            return false;
+        }
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
+    public boolean onWorking() {
+        if (!portalOpen) {
+            spawnPortal();
+            portalOpen = true;
+        }
+        return super.onWorking();
+    }
+
+    @Override
+    public void afterWorking() {
+        if (portalOpen) {
+            removePortal();
+            portalOpen = false;
+        }
+        super.afterWorking();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        if (portalOpen) {
+            removePortal();
+            portalOpen = false;
+        }
+        super.onStructureInvalid();
+    }
 
     private void checkWhichEyesAreIn() {
 
@@ -119,6 +159,27 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
                     this.markDirty();
                 }
             }
+        }
+    }
+
+    private void spawnPortal() {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            BlockPos portalPos = getPos()
+                    .above(15)
+                    .relative(getFrontFacing().getOpposite(), 4);
+
+            if (serverLevel.isEmptyBlock(portalPos)) {
+                serverLevel.setBlockAndUpdate(portalPos, ModBlocks.REALITY_PORTAL.getDefaultState());
+            }
+        }
+    }
+
+    private void removePortal() {
+        if (getLevel() instanceof ServerLevel serverLevel) {
+            BlockPos portalPos = getPos()
+                    .above(15)
+                    .relative(getFrontFacing().getOpposite(), 4);
+            serverLevel.setBlockAndUpdate(portalPos, Blocks.AIR.defaultBlockState());
         }
     }
 
@@ -153,7 +214,7 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
                         .aisle("cbbbbcaaabbbbaaaacbbbbbcaaaabbbbaaacbbbbc", "baaaababbaaaabbaabaanaabaabbaaaabbabaaaab", "bbbbbbbaaaaaaaabbbaanaabbbaaaaaaaabbbbbbb", "baaaabaaaaaaaaaaabaanaabaaaaaaaaaaabaaaab", "baaaabaaabbbbaaaabaanaabaaaabbbbaaabaaaab", "baaaababbaaaabbaabaanaabaabbaaaabbabaaaab", "caaaabcaaaaaaaabbbaanaabbbaaaaaaaabcaaaac", "abbbbbaaaaaaaaaaacbbbbbcaaaaaaaaaaabbbbba", "ebaaabeaaaaaaaaaaabaaabaaaaaaaaaaaebaaabe", "afbbbfaaaaaaaaaaaafbbbfaaaaaaaaaaaafbbbfa", "afaaafaaaaaaaaaaaafaaafaaaaaaaaaaaafaaafa", "afaaafaaaaaaaaaaaafaaafaaaaaaaaaaaafaaafa", "ebbbbbeaaaaaaaaaaabbbbbaaaaaaaaaaaebbbbbe", "abaaabaaaaaaaaaaabaaaaabaaaaaaaaaaabaaaba", "agaaagaaaaaaaaaaagaaaaagaaaaaaaaaaagaaaga", "agaaagaaaaaaaaaaagaaaaagaaaaaaaaaaagaaaga", "agaaagaaaaaaaaaaagaaaaagaaaaaaaaaaagaaaga", "abaaabaaaaaaaaaaabaaaaabaaaaaaaaaaabaaaba", "ebbbbbeaaaaaaaaaaabbbbbaaaaaaaaaaaebbbbbe", "afaaafaaaaaaaaaaaafaaafaaaaaaaaaaaafaaafa", "afaaafaaaaaaaaaaaafaaafaaaaaaaaaaaafaaafa", "afaaafaaaaaaaaaaaafaaafaaaaaaaaaaaafaaafa", "ebaaabeaaaaaaaaaaabaaabaaaaaaaaaaaebaaabe", "abbbbbaaaaaaaaaaacbbbbbcaaaaaaaaaaabbbbba", "caaaaacaaaaaaaabbbaanaabbbaaaaaaaabcaaaac", "baaaababbaaaabbaabaanaabaabbaaaabbabaaaab", "baaaabaaabbbbaaaabaanaabaaaabbbbaaabaaaab", "baaaabaaaaaaaaaaabaanaabaaaaaaaaaaabaaaab", "baaaabbaaaaaaaabbbaanaabbbaaaaaaaabbbbbbb", "baaaababbaaaabbaabaanaabaabbaaaabbabaaaab", "cbbbbcaaabbbbaaaacbbbbbcaaaabbbbaaacbbbbc")
                         .aisle("acbbbcaaaaaaaaaaacbbbbbcaaaaaaaaaaacbbbca", "abaaabaaabbbbaaaabaaaaabaaaabbbbaaabaaaba", "abbbbbabbbmmbbbaabaaaaabaabbbmmbbbabbbbba", "abaaabbbbbbbbbbbbbaaaaabbbbbbbbbbbbbaaaba", "abaaabbbbaaaabbbbbaaaaabbbbbaaaabbbbaaaba", "abaaabbaaaaaaaabbbaaaaabbbaaaaaaaabbaaaba", "acaaacaaaaaaaaaaabaaaaabaaaaaaaaaaacaaaca", "aabcbaaaaaaaaaaaaacbbbcaaaaaaaaaaaaabcbaa", "aebbbeaaaaaaaaaaaaabjbaaaaaaaaaaaaaebbbea", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aebbbeaaaaaaaaaaaaabbbaaaaaaaaaaaaaebbbea", "aabbbaaaaaaaaaaaaabaaabaaaaaaaaaaaaabbbaa", "aagggaaaaaaaaaaaabaaaaabaaaaaaaaaaaagggaa", "aagggaaaaaaaaaaaaeaaaaaeaaaaaaaaaaaagggaa", "aagggaaaaaaaaaaaabaaaaabaaaaaaaaaaaagggaa", "aabbbaaaaaaaaaaaaabaaabaaaaaaaaaaaaabbbaa", "aebbbeaaaaaaaaaaaaabbbaaaaaaaaaaaaaebbbea", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aafffaaaaaaaaaaaaaafffaaaaaaaaaaaaaafffaa", "aebbbeaaaaaaaaaaaaabbbaaaaaaaaaaaaaebbbea", "aabcbaaaaaaaaaaaaacbbbcaaaaaaaaaaaaabcbaa", "acaaacaaaaaaaaaaabaaaaabaaaaaaaaaaacaaaca", "abaaabbaaaaaaaabbbaaaaabbbaaaaaaaabbaaaba", "abaaabbbbaaaabbbbbaaaaabbbbbaaaabbbbaaaba", "abaaabbbbbbbbbbbbbaaaaabbbbbbbbbbbbbaaaba", "abaaababbbmmbbbaabaaaaabaabbbmmbbbabbbbba", "abaaabaaabbbbaaaabaaaaabaaaabbbbaaabaaaba", "acbbbcaaaaaaaaaaacbbbbbcaaaaaaaaaaacbbbca")
                         .aisle("aacccaaaaaaaaaaaaacbbbcaaaaaaaaaaaaacccaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aacccaaaaaaaaaaaaacaaacaaaaaaaaaaaaacccaa", "aaaaaaaaaaaaaaaaaaacccaaaaaaaaaaaaaaaaaaa", "aaeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaabaaabaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaeaaaeaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaabaaabaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeeaa", "aaaaaaaaaaaaaaaaaaacccaaaaaaaaaaaaaaaaaaa", "aacccaaaaaaaaaaaaacaaacaaaaaaaaaaaaacccaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aabcbaaaaaaaaaaaaacaaacaaaaaaaaaaaaabcbaa", "aacccaaaaaaaaaaaaacbbbcaaaaaaaaaaaaacccaa")
-                        .aisle("aaaaaaaaaaaaaaaaaaacocaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaacccaaaaaaaaaaaaaaaaaaa")
+                        .aisle("aaaaaaaaaaaaaaaaaaapopaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabmbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaacccaaaaaaaaaaaaaaaaaaa")
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
@@ -161,7 +222,7 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaababaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                         .aisle("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaabbbaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                        .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:air"))))
+                        .where("a", Predicates.any())
                         .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:atomic_casing"))))
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:high_temperature_smelting_casing"))))
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing"))))
@@ -175,6 +236,9 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
                         .where("m", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:fusion_glass"))))
                         .where("n", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:superconducting_coil"))))
                         .where("o", Predicates.controller(blocks(definition.getBlock())))
+                        .where('p', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:high_temperature_smelting_casing")))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .build();
             })
             .model(createWorkableCasingMachineModel(

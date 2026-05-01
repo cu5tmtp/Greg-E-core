@@ -82,7 +82,9 @@ public class GregERecipeTypes {
             .setMaxIOSize(1,1, 0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE);
+            .setSound(GTSoundEntries.SCIENCE)
+            .addDataInfo(data -> ChatFormatting.RED + "Needs all 3 eyes inserted.")
+            ;
 
     public static void init(){
     }

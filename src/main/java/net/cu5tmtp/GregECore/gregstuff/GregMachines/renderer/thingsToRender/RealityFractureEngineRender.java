@@ -33,6 +33,8 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
 
     private static TextureAtlasSprite WHITE_SPRITE_CACHE;
     private static TextureAtlasSprite BLACK_SPRITE_CACHE;
+    private static final ResourceLocation RIFT_TEXTURE = new ResourceLocation("minecraft", "textures/entity/end_portal.png");
+
     private final RandomSource random = RandomSource.create();
 
     public RealityFractureEngineRender() {}
@@ -61,7 +63,7 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
 
         VertexConsumer solidBuffer = buffer.getBuffer(RenderType.entitySolid(InventoryMenu.BLOCK_ATLAS));
         int fullBright = 15728880;
-        
+
         var frontDir = machine.getFrontFacing();
         var upwardsDir = machine.getUpwardsFacing();
         var flipped = machine.isFlipped();
@@ -79,6 +81,13 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
         Vec3 vFront = new Vec3(dirFront.getStepX(), dirFront.getStepY(), dirFront.getStepZ());
 
         Vec3 blockCenter = new Vec3(0.5, 0.5, 0.5);
+
+        Vec3 posRift = blockCenter.add(vUp.scale(15.0)).add(vBack.scale(4.0));
+
+        if(machine.getRecipeLogic().isWorking()) {
+            renderRift(poseStack, buffer, posRift, fullBright);
+        }
+
 
         Vec3 lightningDirCenter = vFront;
         Vec3 lightningDirRight = vFront.add(vRight.scale(90)).normalize();
@@ -101,24 +110,60 @@ public class RealityFractureEngineRender extends DynamicRender<RealityFractureEn
 
         if (machine.areEyesIn[0]) {
             renderEye(poseStack, solidBuffer, posEyeRed, 0.6f, 0.2f, 1.0f, 0.2f, fullBright, eyeLookCenter);
-            if (showLightning) {
+            if (showLightning && machine.getRecipeLogic().isWorking()) {
                 renderPrismLightning(poseStack, lightningBuffer, posEyeRed.add(lightningDirCenter.scale(lOff)), lightningDirCenter, lLen, 0.4f, 1.0f, 0.4f);
             }
         }
 
         if (machine.areEyesIn[1]) {
             renderEye(poseStack, solidBuffer, posEyeGreen, 0.5f, 1.0f, 0.3f, 0.3f, fullBright, eyeLookRight);
-            if (showLightning) {
+            if (showLightning && machine.getRecipeLogic().isWorking()) {
                 renderPrismLightning(poseStack, lightningBuffer, posEyeGreen.add(lightningDirRight.scale(lOff)), lightningDirRight, lLen, 1.0f, 0.3f, 0.3f);
             }
         }
 
         if (machine.areEyesIn[2]) {
             renderEye(poseStack, solidBuffer, posEyePurple, 0.5f, 0.6f, 0.6f, 1.0f, fullBright, eyeLookLeft);
-            if (showLightning) {
+            if (showLightning && machine.getRecipeLogic().isWorking()) {
                 renderPrismLightning(poseStack, lightningBuffer, posEyePurple.add(lightningDirLeft.scale(lOff)), lightningDirLeft, lLen, 0.6f, 0.6f, 1.0f);
             }
         }
+    }
+
+    private void renderRift(PoseStack poseStack, MultiBufferSource buffer, Vec3 center, int light) {
+        VertexConsumer riftBuffer = buffer.getBuffer(RenderType.entityTranslucentCull(RIFT_TEXTURE));
+
+        poseStack.pushPose();
+        poseStack.translate(center.x, center.y, center.z);
+
+        Matrix4f matrix = poseStack.last().pose();
+        Matrix3f normalMat = poseStack.last().normal();
+
+        float radius = 1.0f;
+        int lats = 16;
+        int lngs = 16;
+
+        for (int i = 0; i < lats; i++) {
+            float fL0 = (float) i / lats, fL1 = (float) (i + 1) / lats;
+            float aL0 = (float) Math.PI * (-0.5f + fL0), aL1 = (float) Math.PI * (-0.5f + fL1);
+            for (int j = 0; j < lngs; j++) {
+                float fG0 = (float) j / lngs, fG1 = (float) (j + 1) / lngs;
+                float g0 = (float) (2.0 * Math.PI * fG0), g1 = (float) (2.0 * Math.PI * fG1);
+
+                float tiles = 4.0f;
+                float u0 = fG0 * tiles;
+                float u1 = fG1 * tiles;
+                float v0 = fL0 * tiles;
+                float v1 = fL1 * tiles;
+
+                addVertex(riftBuffer, matrix, normalMat, 0, 0, 0, radius, g0, Mth.sin(aL0), Mth.cos(aL0), u0, v0, 1.0f, 1.0f, 1.0f, 1.0f, light);
+                addVertex(riftBuffer, matrix, normalMat, 0, 0, 0, radius, g0, Mth.sin(aL1), Mth.cos(aL1), u0, v1, 1.0f, 1.0f, 1.0f, 1.0f, light);
+                addVertex(riftBuffer, matrix, normalMat, 0, 0, 0, radius, g1, Mth.sin(aL1), Mth.cos(aL1), u1, v1, 1.0f, 1.0f, 1.0f, 1.0f, light);
+                addVertex(riftBuffer, matrix, normalMat, 0, 0, 0, radius, g1, Mth.sin(aL0), Mth.cos(aL0), u1, v0, 1.0f, 1.0f, 1.0f, 1.0f, light);
+            }
+        }
+
+        poseStack.popPose();
     }
 
     private void renderEye(PoseStack poseStack, VertexConsumer buffer, Vec3 pos, float scale, float r, float g, float b, int light, Vec3 lookDir) {

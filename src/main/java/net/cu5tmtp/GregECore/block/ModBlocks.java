@@ -1,5 +1,6 @@
 package net.cu5tmtp.GregECore.block;
 
+import com.tterrag.registrate.util.entry.BlockEntry;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
+
 @SuppressWarnings("unchecked")
 public class ModBlocks {
 
@@ -41,6 +44,15 @@ public class ModBlocks {
             registerBlock("draconiumfusion", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> FROSTCORE =
             registerBlock("frostcore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final BlockEntry<RealityPortalBlock> REALITY_PORTAL = REGISTRATE
+            .block("reality_portal", RealityPortalBlock::new)
+            .properties(p -> BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .air()
+                    .noCollission()
+            )
+            .register();
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){
