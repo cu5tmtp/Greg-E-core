@@ -251,7 +251,7 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Rift Opening").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Make 3 of following items:").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Make the 3 following items:").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Eye of the Red Menace, Ysha'lotha").withStyle(style -> style.withColor(0xC41E3A)))
             .tooltips(Component.literal("Eye of the Purple Stalker, Kal'dora").withStyle(style -> style.withColor(0x702963)))
             .tooltips(Component.literal("Eye of the Green Soldier, Ar'thas").withStyle(style -> style.withColor(0x228B22)))
