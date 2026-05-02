@@ -42,6 +42,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.REDEYE.get());
                         pOutput.accept(ModItems.GREENEYE.get());
                         pOutput.accept(ModItems.PURPLEEYE.get());
+                        pOutput.accept(ModItems.UNSTABLE.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());

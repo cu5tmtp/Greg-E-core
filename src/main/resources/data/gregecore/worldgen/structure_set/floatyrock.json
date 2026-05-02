@@ -1,0 +1,15 @@
+{
+  "structures": [
+    {
+      "structure": "gregecore:floatyrock",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 25,
+    "separation": 5,
+    "spread_type": "triangular",
+    "salt": 0
+  }
+}

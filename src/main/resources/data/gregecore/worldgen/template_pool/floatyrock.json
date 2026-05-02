@@ -1,0 +1,15 @@
+{
+  "name": "gregecore:floatyrock",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 5,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "projection": "rigid",
+        "location": "gregecore:floatyrock",
+        "processors": "minecraft:empty"
+      }
+    }
+  ]
+}

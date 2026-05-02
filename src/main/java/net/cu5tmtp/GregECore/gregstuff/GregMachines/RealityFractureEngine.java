@@ -108,6 +108,9 @@ public class RealityFractureEngine extends WorkableElectricMultiblockMachine{
 
     @Override
     public boolean onWorking() {
+        if (!(areEyesIn[0] && areEyesIn[1] && areEyesIn[2])) {
+            return false;
+        }
         if (!portalOpen) {
             spawnPortal();
             portalOpen = true;

@@ -77,5 +77,8 @@ public class ModItems {
     public static final RegistryObject<Item> GREENEYE = ITEMS.register("greeneye",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> UNSTABLE = ITEMS.register("unstable",
+            () -> new Item(new Item.Properties()));
+
 }
 
