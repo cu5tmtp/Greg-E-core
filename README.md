@@ -33,6 +33,7 @@
     * **Recipe Type:** `star_maykr_singularities`
     * **Recipe Creation:** Add `.addData('weight', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the weight that will be deducted from the star weight).
 * **Fornax Universi:** A flagship multiblock, full on rendered effects of a black hole with orbiting planets! When working on a recipe, a spaceship will arrive! Also you have to repair the spaceship mid-recipe, or the machine explodes.
+* ...and many more!
 
 ### Dyson Swarm System
 * **Launcher & Energy Collector:** Launch solar sails into space to generate massive amounts of energy.
