@@ -83,8 +83,14 @@ public class GregERecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE)
-            .addDataInfo(data -> ChatFormatting.RED + "Needs all 3 eyes inserted.")
-            ;
+            .addDataInfo(data -> ChatFormatting.RED + "Needs all 3 eyes inserted.");
+
+    public static GTRecipeType SEND_UP_THE_MATS = GTRecipeTypes.register("send_up_the_mats", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(6,6, 6,6)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.SCIENCE)
+            .addDataInfo(data -> ChatFormatting.RED + "Needs to have working" + "\n" + "Deep Space Explorer up in orbit.");
 
     public static void init(){
     }

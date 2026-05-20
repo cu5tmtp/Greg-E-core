@@ -19,6 +19,7 @@ public class GregEStuffInit {
         BigFreezer.init();
         AscencionAltar.init();
         RealityFractureEngine.init();
+        SpaceElevator.init();
     }
 
     public static void initGregEParts(){

@@ -52,6 +52,10 @@ public class ModBlocks {
                     .air()
                     .noCollission()
             )
+            .blockstate((ctx, prov) -> prov.simpleBlock(
+                    ctx.getEntry(),
+                    prov.models().getBuilder(ctx.getName())
+            ))
             .register();
 
 

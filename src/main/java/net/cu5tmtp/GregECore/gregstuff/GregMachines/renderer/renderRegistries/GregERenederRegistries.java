@@ -31,6 +31,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation REALITYENGINE_ID =
             new ResourceLocation("gregecore", "realityenigne_eye");
 
+    public static final ResourceLocation SPACEELEVATOR_ID =
+            new ResourceLocation("gregecore", "spaceelevatorupyougo");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -48,6 +51,7 @@ public class GregERenederRegistries {
     }
     public static DynamicRender<?, ?> createDysonSwarmEnergyCollectorRender() { return new DysonSwarmEnergyCollectorRender(); }
     public static DynamicRender<?, ?> createRealityEngineRender() { return new RealityFractureEngineRender(); }
+    public static DynamicRender<?, ?> createSpaceElevatorRender() { return new SpaceElevatorRender(); }
 
 
 
@@ -60,6 +64,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(DYSONLAUNCHER_ID, DysonSwarmLauncherRender.TYPE);
         DynamicRenderManager.register(DYSONCOLLECTOR_ID, DysonSwarmEnergyCollectorRender.TYPE);
         DynamicRenderManager.register(REALITYENGINE_ID, RealityFractureEngineRender.TYPE);
+        DynamicRenderManager.register(SPACEELEVATOR_ID, SpaceElevatorRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -68,5 +73,6 @@ public class GregERenederRegistries {
         DysonSwarmLauncherRender.init();
         DysonSwarmEnergyCollectorRender.init();
         RealityFractureEngineRender.init();
+        SpaceElevatorRender.init();
     }
 }

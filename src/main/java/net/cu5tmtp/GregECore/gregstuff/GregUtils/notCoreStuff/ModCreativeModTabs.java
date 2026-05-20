@@ -66,6 +66,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(AdvancedHeaterInputPartMachine.ADVANCED_HEATER_INPUT_MACHINE.getItem());
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
                         pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
+                        pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
                     })
                     .build());
 
