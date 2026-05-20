@@ -25,6 +25,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -187,7 +188,7 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
             visualProgress = currentHeight;
         }
 
-        float crateY = 3.5F + (visualProgress * 138.0F);
+        float crateY = 3.5F + (visualProgress * 145.0F);
 
         int lightAtHeight = packedLight;
         if (machine.getLevel() != null) {
@@ -229,7 +230,12 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
 
         float crateAlpha = 1.0F;
         if (crateY > 120.0F) {
-            crateAlpha = Mth.clamp((150.0F - crateY) / 30.0F, 0.0F, 1.0F);
+            crateAlpha = Mth.clamp((140.0F - crateY) / 30.0F, 0.0F, 1.0F);
+        }
+
+        if(crateY > 142){
+            stack.popPose();
+            return;
         }
 
         stack.pushPose();
@@ -258,15 +264,27 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
 
                         stack.translate(offsetX, offsetY, offsetZ);
 
-                        dispatcher.renderSingleBlock(
-                                state,
-                                stack,
-                                alphaBufferSource,
-                                lightAtHeight,
-                                packedOverlay,
-                                net.minecraftforge.client.model.data.ModelData.EMPTY,
-                                null
-                        );
+                        if(crateY < 120) {
+                            dispatcher.renderSingleBlock(
+                                    state,
+                                    stack,
+                                    alphaBufferSource,
+                                    lightAtHeight,
+                                    packedOverlay,
+                                    ModelData.EMPTY,
+                                    null
+                            );
+                        } else {
+                            dispatcher.renderSingleBlock(
+                                    state,
+                                    stack,
+                                    alphaBufferSource,
+                                    lightAtHeight,
+                                    packedOverlay,
+                                    ModelData.EMPTY,
+                                    RenderType.translucent()
+                            );
+                        }
 
                         stack.popPose();
                     }
