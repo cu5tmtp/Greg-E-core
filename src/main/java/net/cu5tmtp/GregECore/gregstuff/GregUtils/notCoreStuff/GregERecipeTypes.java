@@ -90,7 +90,7 @@ public class GregERecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE)
-            .addDataInfo(data -> ChatFormatting.RED + "Needs to have working" + "\n" + "Deep Space Explorer up in orbit.");
+            .addDataInfo(data -> ChatFormatting.RED + "Needs to have working\nDeep Space Explorer\nup in orbit.");
 
     public static void init(){
     }
