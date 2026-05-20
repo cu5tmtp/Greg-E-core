@@ -141,6 +141,12 @@ public class SpaceElevator extends WorkableElectricMultiblockMachine implements 
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createSpaceElevatorRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Abilities: Orbital Extraction").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("No longer a theoretical concept, the Space Elevator bridges the gap between planetary surface and orbit. " +
+                    "Use it to accelerate resource generation.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Each recipe has a target height that needs to be set in the controller before the recipe can start.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
