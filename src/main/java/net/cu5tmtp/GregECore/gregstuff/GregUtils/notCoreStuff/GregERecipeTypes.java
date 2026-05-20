@@ -90,7 +90,14 @@ public class GregERecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE)
-            .addDataInfo(data -> ChatFormatting.RED + "Needs to have working\nDeep Space Explorer\nup in orbit.");
+            .addDataInfo(data -> {
+                if (data.contains("height_level")) {
+                    int height = data.getInt("height_level");
+                    return ChatFormatting.GREEN + "Height Level: " + ChatFormatting.GOLD + (height - 10) + ChatFormatting.GREEN + " KM - " + ChatFormatting.GOLD + height + ChatFormatting.GREEN + " KM";
+                }
+                return null;
+            });
+
 
     public static void init(){
     }

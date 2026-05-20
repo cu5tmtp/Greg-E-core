@@ -1,13 +1,10 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -15,27 +12,22 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
-import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Abilities;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
@@ -46,6 +38,61 @@ public class SpaceElevator extends WorkableElectricMultiblockMachine implements 
 
     public SpaceElevator(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+    }
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            SpaceElevator.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    @DescSynced
+    @Persisted
+    protected int targetHeight = 0;
+
+    private int recipeHeight = 0;
+
+    @Override
+    public Widget createUIWidget() {
+        Widget widget = super.createUIWidget();
+
+        if (widget instanceof WidgetGroup group) {
+
+            group.addWidget(new LabelWidget(-80, 125, Component.literal("Target Height:").withStyle(ChatFormatting.GOLD)));
+
+            var frequencyInput = new TextFieldWidget(
+                    -70, 140, 60, 12,
+                    () -> this.targetHeight == 0 ? "" : String.valueOf(this.targetHeight),
+                    val -> {
+                        if (val.isEmpty()) {
+                            this.targetHeight = 0;
+                        } else {
+                            try {
+                                this.targetHeight = Integer.parseInt(val);
+                            } catch (NumberFormatException ignored) {
+                            }
+                        }
+                    }
+            );
+            group.addWidget(frequencyInput);
+        }
+        return widget;
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+
+        assert recipe != null;
+        recipeHeight = recipe.data.getInt("height_level");
+
+        if(targetHeight > recipeHeight || targetHeight < (recipeHeight - 10)) {
+            return false;
+        }
+
+        return super.beforeWorking(recipe);
     }
 
     public static MachineDefinition SPACE_ELEVATOR = REGISTRATE
