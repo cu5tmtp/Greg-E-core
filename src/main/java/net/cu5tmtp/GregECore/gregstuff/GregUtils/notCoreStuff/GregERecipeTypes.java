@@ -3,6 +3,7 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
@@ -86,14 +87,14 @@ public class GregERecipeTypes {
             .addDataInfo(data -> ChatFormatting.RED + "Needs all 3 eyes inserted.");
 
     public static GTRecipeType SEND_UP_THE_MATS = GTRecipeTypes.register("send_up_the_mats", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(6,6, 6,6)
+            .setMaxIOSize(6,6, 3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE)
             .addDataInfo(data -> {
                 if (data.contains("height_level")) {
                     int height = data.getInt("height_level");
-                    return ChatFormatting.GREEN + "Height Level: " + ChatFormatting.GOLD + (height - 10) + ChatFormatting.GREEN + " KM - " + ChatFormatting.GOLD + height + ChatFormatting.GREEN + " KM";
+                    return ChatFormatting.GREEN + "Height: " + ChatFormatting.GOLD + (height - 10) + ChatFormatting.GREEN + " KM - " + ChatFormatting.GOLD + height + ChatFormatting.GREEN + " KM";
                 }
                 return null;
             });

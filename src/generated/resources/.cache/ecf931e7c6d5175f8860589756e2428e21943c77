@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-20T21:20:40.482091	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-05-21T18:35:55.3546213	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -31,13 +31,14 @@ ab2f3efe2396ceb7b5a363f4e72167dc8d1223c9 assets/gregecore/blockstates/realityfra
 87093bfb6445b05e46b1a5f3bc2db6a19b6870c7 assets/gregecore/blockstates/repair_part_input_machine.json
 9187a0fe51287f1724631740a0565b9d86c43255 assets/gregecore/blockstates/shockproof_engine.json
 3398231fd6e3b4652192ed58b2630cbac69a08f5 assets/gregecore/blockstates/spaceelevator.json
+b6f16e51b41ade060f5a1ff9cfc88f7c47793677 assets/gregecore/blockstates/space_output_machine.json
 ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.json
 834ef80b93a9632f5a50db2a1df075c34ac489f8 assets/gregecore/blockstates/star_feeder.json
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-4845e2c4ab99feba2690930c10c9895a8d4e759e assets/gregecore/lang/en_ud.json
-e6e595f66219e43f9ba2fdff35ade59e757a2b71 assets/gregecore/lang/en_us.json
+1daa88d2f63ea77dbb90e0a6d812005f80522352 assets/gregecore/lang/en_ud.json
+38c45c022ad1222b2a387b401d5fa68d872d3cf6 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -68,6 +69,7 @@ a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/g
 29987e50f951ad629275e6dce6613ee5ec9eb6fc assets/gregecore/models/block/machine/realityfracturepart.json
 fe4842efb0cbddc85a8f305452e24c01a6657edd assets/gregecore/models/block/machine/repair_part_input_machine.json
 d33eca960602abd4c0d8ed082ffe433be95a5a9b assets/gregecore/models/block/machine/spaceelevator.json
+e16e025250e34d539269f2fe8de9e67672289461 assets/gregecore/models/block/machine/space_output_machine.json
 2a8cb70e2cf558f77753166f27363cf92fe6654a assets/gregecore/models/block/machine/starmaykr.json
 0e40643c3f5cbd93a3b3ef2533956344939ca60f assets/gregecore/models/block/machine/star_feeder.json
 6784116963c708d99da2c246d03977144046d000 assets/gregecore/models/block/malachite_coil.json
@@ -118,6 +120,7 @@ a44a0d5e4332fc61082db9d6c19563e6f583288d assets/gregecore/models/item/realityfra
 9a76d2cd706631a1a1096ce6acdb5063b6bbf97b assets/gregecore/models/item/repair_part_input_machine.json
 0796bd2945ac27e0c86b5eaf19addd1fd532a023 assets/gregecore/models/item/shockproof_engine.json
 511d6477bb6b23e59dddb3637d754db3dbc9b8b8 assets/gregecore/models/item/spaceelevator.json
+74012eada451da535be231de13410277d6dec9ec assets/gregecore/models/item/space_output_machine.json
 8e71b7d1c839efce883243874ac7831d170efa83 assets/gregecore/models/item/starmaykr.json
 1fbeffe374660779bdca0d33ed2774722fe39030 assets/gregecore/models/item/star_feeder.json
 17c4677240553012d70c1d4905991c871d72de50 assets/gregecore/models/item/superelement_coil.json

@@ -42,49 +42,102 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
 
     private static final String[][] CABIN_LAYOUT = {
             {
-                    " A ",
-                    "A A",
-                    " A "
+                    "     ",
+                    "     ",
+                    "  C  ",
+                    "     ",
+                    "     "
             },
             {
-                    " A ",
-                    "A A",
-                    " A "
+                    "     ",
+                    "     ",
+                    "  C  ",
+                    "     ",
+                    "     "
             },
             {
-                    "AAA",
-                    "AAA",
-                    "AAA"
+                    "     ",
+                    "  A  ",
+                    " AAA ",
+                    "  A  ",
+                    "     ",
             },
             {
-                    "ABA",
-                    "B B",
-                    "ABA"
+                    "     ",
+                    "  A  ",
+                    " AAA ",
+                    "  A  ",
+                    "     ",
             },
             {
-                    "ABA",
-                    "B B",
-                    "ABA"
+                    "     ",
+                    " AAA ",
+                    " AAA ",
+                    " AAA ",
+                    "     ",
             },
             {
-                    "ABA",
-                    "B B",
-                    "ABA"
+                    " AAA ",
+                    "A   A",
+                    "A   A",
+                    "A   A",
+                    " AAA ",
             },
             {
-                    "AAA",
-                    "AAA",
-                    "AAA"
+                    " ABA ",
+                    "A   A",
+                    "B   B",
+                    "A   A",
+                    " ABA ",
             },
             {
-                    " A ",
-                    "A A",
-                    " A "
+                    " ABA ",
+                    "A   A",
+                    "B   B",
+                    "A   A",
+                    " ABA ",
             },
             {
-                    " A ",
-                    "A A",
-                    " A "
+                    " AAA ",
+                    "AAAAA",
+                    "AAAAA",
+                    "AAAAA",
+                    " AAA ",
+            },
+            {
+                    "     ",
+                    " AAA ",
+                    " AAA ",
+                    " AAA ",
+                    "     ",
+            },
+            {
+                    "     ",
+                    "  A  ",
+                    " AAA ",
+                    "  A  ",
+                    "     ",
+            },
+            {
+                    "     ",
+                    "  A  ",
+                    " AAA ",
+                    "  A  ",
+                    "     ",
+            },
+            {
+                    "     ",
+                    "     ",
+                    "  C  ",
+                    "     ",
+                    "     "
+            },
+            {
+                    "     ",
+                    "     ",
+                    "  C  ",
+                    "     ",
+                    "     "
             }
     };
 
@@ -104,6 +157,7 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
         return switch (c) {
             case 'A' -> getModBlockState("gtceu:atomic_casing", Blocks.SMOOTH_STONE.defaultBlockState());
             case 'B' -> Blocks.GLASS.defaultBlockState();
+            case 'C' -> getModBlockState("gtceu:tungstensteel_gearbox", Blocks.SMOOTH_STONE.defaultBlockState());
             default -> null;
         };
     }
@@ -135,9 +189,9 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
         var back = RelativeDirection.BACK.getRelative(front, upwards, flipped);
         var up = RelativeDirection.UP.getRelative(front, upwards, flipped);
 
-        float posX = (back.getStepX() * 8.0F) + (up.getStepX() * 1.0F) + 0.5F;
-        float posY = (back.getStepY() * 8.0F) + (up.getStepY() * 1.0F) + 0.5F;
-        float posZ = (back.getStepZ() * 8.0F) + (up.getStepZ() * 1.0F) + 0.5F;
+        float posX = (back.getStepX() * 15.0F) + (up.getStepX() * 1.0F) + 0.5F;
+        float posY = (back.getStepY() * 15.0F) + (up.getStepY() * 1.0F) + 0.5F;
+        float posZ = (back.getStepZ() * 15.0F) + (up.getStepZ() * 1.0F) + 0.5F;
 
         renderElevatorCableAndCrate(machine, partialTick, poseStack, buffer, posX, posY, posZ, packedLight, packedOverlay);
     }
@@ -250,17 +304,17 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
         BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
 
         for (int yOffset = 0; yOffset < CABIN_LAYOUT.length; yOffset++) {
-            for (int zOffset = 0; zOffset < 3; zOffset++) {
-                for (int xOffset = 0; xOffset < 3; xOffset++) {
+            for (int zOffset = 0; zOffset < 5; zOffset++) {
+                for (int xOffset = 0; xOffset < 5; xOffset++) {
                     char blockChar = CABIN_LAYOUT[yOffset][zOffset].charAt(xOffset);
                     BlockState state = getBlockStateForChar(blockChar);
 
                     if (state != null) {
                         stack.pushPose();
 
-                        float offsetX = xOffset - 1.5F;
-                        float offsetY = yOffset - 4.0F;
-                        float offsetZ = zOffset - 1.5F;
+                        float offsetX = xOffset - 2.5F;
+                        float offsetY = yOffset - 1.0F;
+                        float offsetZ = zOffset - 2.5F;
 
                         stack.translate(offsetX, offsetY, offsetZ);
 
