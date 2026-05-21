@@ -99,6 +99,11 @@ public class GregERecipeTypes {
                 return null;
             });
 
+    public static GTRecipeType DEEP_SPACE_EXPLORE = GTRecipeTypes.register("deep_space_explore", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(6,6, 3,3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.SCIENCE);
 
     public static void init(){
     }

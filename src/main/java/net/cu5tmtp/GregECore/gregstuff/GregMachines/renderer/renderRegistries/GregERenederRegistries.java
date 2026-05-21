@@ -2,8 +2,6 @@ package net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries;
 
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderManager;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.AscencionAltar;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.FornaxUniversi;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.thingsToRender.*;
 import net.minecraft.resources.ResourceLocation;
 
@@ -34,6 +32,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation SPACEELEVATOR_ID =
             new ResourceLocation("gregecore", "spaceelevatorupyougo");
 
+    public static final ResourceLocation DEEPSPACE_ID =
+            new ResourceLocation("gregecore", "deepspaceexplorego");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -52,6 +53,7 @@ public class GregERenederRegistries {
     public static DynamicRender<?, ?> createDysonSwarmEnergyCollectorRender() { return new DysonSwarmEnergyCollectorRender(); }
     public static DynamicRender<?, ?> createRealityEngineRender() { return new RealityFractureEngineRender(); }
     public static DynamicRender<?, ?> createSpaceElevatorRender() { return new SpaceElevatorRender(); }
+    public static DynamicRender<?, ?> createDeepSpaceRender() { return new DeepSpaceExplorerRender(); }
 
 
 
@@ -65,6 +67,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(DYSONCOLLECTOR_ID, DysonSwarmEnergyCollectorRender.TYPE);
         DynamicRenderManager.register(REALITYENGINE_ID, RealityFractureEngineRender.TYPE);
         DynamicRenderManager.register(SPACEELEVATOR_ID, SpaceElevatorRender.TYPE);
+        DynamicRenderManager.register(DEEPSPACE_ID, DeepSpaceExplorerRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -74,5 +77,6 @@ public class GregERenederRegistries {
         DysonSwarmEnergyCollectorRender.init();
         RealityFractureEngineRender.init();
         SpaceElevatorRender.init();
+        DeepSpaceExplorerRender.init();
     }
 }

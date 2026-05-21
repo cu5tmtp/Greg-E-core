@@ -13,7 +13,9 @@
   "block.gregecore.ascencionaltar": "§lAscension Altar§g",
   "block.gregecore.realityfractureengine": "§lReality Fracture Engine§g",
   "block.gregecore.spaceelevator": "§lSpace Elevator§g",
+  "block.gregecore.deep_space_explorer": "§lDeep Space Explorer§g",
   "gtceu.star_maykr_singularities": "Star Maykr",
+  "gtceu.deep_space_explore": "Deep Space Exploration",
   "gtceu.fornax_universi_acceleration": "Black Hole Diving",
   "gtceu.launch_sails": "Launch Sails",
   "gtceu.get_solar_sail_energy": "Solar Energy Return",
@@ -50,6 +52,7 @@
   "block.gregecore.ascencion_holder": "Donation Altar",
   "block.gregecore.realityfracturepart": "Reality Fracture Holder",
   "block.gregecore.reality_portal": "Reality Portal",
+  "block.gregecore.drone_access_machine": "Drone Access",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",
@@ -72,6 +75,9 @@
   "item.gregecore.purpleeye": "Eye of the Purple Stalker, Kal'dora",
   "item.gregecore.greeneye": "Eye of the Green Soldier, Ar'thas",
   "item.gregecore.unstable": "Unstable Shard",
+  "item.gregecore.spaceship1": "Milano",
+  "item.gregecore.spaceship2": "Bebop",
+  "item.gregecore.spaceship3": "Cepheus",
 
   "material.gregecore.franklinite": "Franklinite",
   "material.gregecore.mythril": "Mythril",

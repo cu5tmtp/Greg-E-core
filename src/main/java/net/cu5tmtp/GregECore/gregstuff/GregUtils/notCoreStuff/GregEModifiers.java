@@ -161,6 +161,26 @@ public class GregEModifiers {
                 .build();
     }
 
+    public static ModifierFunction deepSpaceExplorerRocketBoost(MetaMachine machine, GTRecipe recipe){
+
+        if (!(machine instanceof DeepSpaceExplorer dse)) {
+            return ModifierFunction.NULL;
+        }
+
+        double speedMultiplier;
+        int droneIn = dse.getDroneIn();
+
+        switch(droneIn){
+            case 2 -> speedMultiplier = 0.8;
+            case 3 -> speedMultiplier = 0.6;
+            default -> speedMultiplier = 1;
+        }
+
+        return ModifierFunction.builder()
+                .durationMultiplier(speedMultiplier)
+                .build();
+    }
+
     public static ModifierFunction bigFreezerBoost(MetaMachine machine, GTRecipe recipe){
 
         if (!(machine instanceof BigFreezer bf)) {

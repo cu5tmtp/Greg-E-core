@@ -93,7 +93,7 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
 
         assert recipe != null;
         // -1 because if there is 0 in addData in kubejs, recipe crashes
-        int neededBook = recipe.data.getInt("tome") - 1;
+        neededBook = recipe.data.getInt("tome") - 1;
 
         if (neededBook >= 0 && neededBook < areTomesIn.length) {
             if (!areTomesIn[neededBook]) {

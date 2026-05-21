@@ -43,6 +43,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.GREENEYE.get());
                         pOutput.accept(ModItems.PURPLEEYE.get());
                         pOutput.accept(ModItems.UNSTABLE.get());
+                        pOutput.accept(ModItems.SPACESHIP1.get());
+                        pOutput.accept(ModItems.SPACESHIP2.get());
+                        pOutput.accept(ModItems.SPACESHIP3.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());
@@ -55,8 +58,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(DysonSwarmLauncher.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(DysonSwarmEnergyCollector.DYSON_SWARM_LAUNCHER.getItem());
                         pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
+                        pOutput.accept(DeepSpaceExplorer.DEEPSPACEEXPLORER.getItem());
                         pOutput.accept(FornaxUniversi.FORNAX_UNIVERSI.getItem());
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
+                        pOutput.accept(DroneAccessHatchPartMachine.DRONE_ACCESS_MACHINE.getItem());
                         pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());
                         pOutput.accept(RepairPartsInputPartMachine.REPAIR_PART_INPUT_MACHINE.getItem());
                         pOutput.accept(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER_MACHINE.getItem());

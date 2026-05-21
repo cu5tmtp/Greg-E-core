@@ -80,5 +80,15 @@ public class ModItems {
     public static final RegistryObject<Item> UNSTABLE = ITEMS.register("unstable",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> SPACESHIP1 = ITEMS.register("spaceship1",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACESHIP2 = ITEMS.register("spaceship2",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> SPACESHIP3 = ITEMS.register("spaceship3",
+            () -> new Item(new Item.Properties()));
+
+
 }
 

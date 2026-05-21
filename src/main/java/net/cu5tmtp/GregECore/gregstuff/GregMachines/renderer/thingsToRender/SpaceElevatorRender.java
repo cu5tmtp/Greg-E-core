@@ -30,6 +30,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @SuppressWarnings("removal")
 public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceElevatorRender> {
 
@@ -38,7 +41,7 @@ public class SpaceElevatorRender extends DynamicRender<SpaceElevator, SpaceEleva
 
     private static TextureAtlasSprite CABLE_SPRITE_CACHE;
 
-    private static final java.util.Map<BlockPos, Float> SMOOTH_HEIGHT = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<BlockPos, Float> SMOOTH_HEIGHT = new ConcurrentHashMap<>();
 
     private static final String[][] CABIN_LAYOUT = {
             {
