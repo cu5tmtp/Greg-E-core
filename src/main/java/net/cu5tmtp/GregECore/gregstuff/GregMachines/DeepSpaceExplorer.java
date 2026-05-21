@@ -136,7 +136,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
                         .aisle("aaaaabceeec", "ahhhabcbbbc", "ahhhabcbbbc", "ahhhabcbbbc", "aaaaabcbbbc", "bbbbbbcbbbc", "bbbbbbcbbbc", "bbbbbbcbbbc", "bbbbbbebbbe")
                         .aisle("aaaaabceeec", "aggggggbbbd", "agggabcbbbd", "aggggggbbbd", "aaaaabcbbbd", "bbbbbbcbbbd", "bbbbbbcbbbd", "bbbbbbcbbbc", "bbbbbbebbbe")
                         .aisle("aaaaabceeec", "affgabcbbbc", "affgabcbbbc", "agggabcbbbc", "aaaaabcbbbc", "bbbbbbcbbbc", "bbbbbbcbbbc", "bbbbbbcbbbc", "bbbbbbebbbe")
-                        .aisle("bbbbbbbcccb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcccb", "bbbbbbbeeeb")
+                        .aisle("bbbbbbbcicb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcdcb", "bbbbbbbcccb", "bbbbbbbeeeb")
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:vibration_safe_casing"))))
                         .where("b", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:atomic_casing")))
