@@ -81,7 +81,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
 
         assert recipe != null;
         neededDrone = recipe.data.getInt("drone");
-        if (neededDrone != droneIn){
+        if (neededDrone > droneIn){
             return false;
         }
         return super.beforeWorking(recipe);
@@ -89,7 +89,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
 
     @Override
     public boolean onWorking() {
-        if (neededDrone != droneIn){
+        if (neededDrone > droneIn){
             return false;
         }
         return super.onWorking();
