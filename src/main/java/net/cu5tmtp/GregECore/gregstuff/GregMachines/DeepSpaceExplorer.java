@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AscencionPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.DroneAccessHatchPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
@@ -57,7 +56,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
 
         for (IMultiPart part : getParts()) {
 
-            if (!(part instanceof AscencionPartMachine)) {
+            if (!(part instanceof DroneAccessHatchPartMachine)) {
                 continue;
             }
 
@@ -103,11 +102,12 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
             checkingSubscription = null;
         }
         super.onStructureInvalid();
+        droneIn = 0;
     }
 
     private void checkWhichDroneIsIn() {
 
-        if (getOffsetTimer() % 10 == 0){
+        if (getOffsetTimer() % 20 == 0){
             return;
         }
 
@@ -119,6 +119,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
                 if (item == ModItems.SPACESHIP1.get()) droneIn = 1;
                 else if(item == ModItems.SPACESHIP2.get()) droneIn = 2;
                 else if(item == ModItems.SPACESHIP3.get()) droneIn = 3;
+                else droneIn = 0;
 
             }
         }
@@ -140,9 +141,10 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:vibration_safe_casing"))))
                         .where("b", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:atomic_casing")))
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(DroneAccessHatchPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laminated_glass"))))
                         .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:computer_casing"))))

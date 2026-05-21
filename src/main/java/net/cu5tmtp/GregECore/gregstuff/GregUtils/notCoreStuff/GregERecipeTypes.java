@@ -9,6 +9,9 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import net.minecraft.ChatFormatting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GregERecipeTypes {
     public static GTRecipeType LAUNCH_SAILS = GTRecipeTypes.register("launch_sails", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
@@ -103,7 +106,37 @@ public class GregERecipeTypes {
             .setMaxIOSize(6,6, 3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE);
+            .setSound(GTSoundEntries.SCIENCE)
+            .addDataInfo(data -> {
+                List<String> info = new ArrayList<>();
+
+                if (data.contains("drone")) {
+                    int drone = data.getInt("drone");
+                    String droneName = switch (drone) {
+                        case 1 -> "Milano";
+                        case 2 -> "Bebop";
+                        case 3 -> "Cepheus";
+                        default -> "Unknown";
+                    };
+                    info.add(ChatFormatting.GOLD + "Drone: " + ChatFormatting.GREEN + droneName);
+                }
+
+                if (data.contains("system")) {
+                    int system = data.getInt("system");
+                    String systemName = switch (system) {
+                        case 1 -> "61 Cygni";
+                        case 2 -> "Struve 2398";
+                        case 3 -> "Lacaille 8760";
+                        case 4 -> "Gliese 1";
+                        case 5 -> "70 Ophiuchi";
+                        case 6 -> "Stein 2051";
+                        default -> "Unknown";
+                    };
+                    info.add(ChatFormatting.GOLD + "Solar System: " + ChatFormatting.GREEN + systemName);
+                }
+
+                return info.isEmpty() ? null : String.join("\n", info);
+            });
 
     public static void init(){
     }
