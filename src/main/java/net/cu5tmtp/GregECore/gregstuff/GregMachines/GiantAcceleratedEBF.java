@@ -253,7 +253,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                     textList.add(Component.literal("Recipe time reduction: 20%").withStyle(ChatFormatting.GREEN));
                     textList.add(Component.literal("Parallels: 2" ).withStyle(ChatFormatting.GREEN));
                 }
-                case 9200 -> {
+                case 9300 -> {
                     textList.add(Component.literal("Recipe time reduction: 40%").withStyle(ChatFormatting.GREEN));
                     textList.add(Component.literal("Parallels: 4").withStyle(ChatFormatting.GREEN));
                 }
