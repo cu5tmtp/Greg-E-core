@@ -82,12 +82,12 @@ public class GregEModifiers {
         //This part of the code is a inspiration from StarT core - Throughput Boosting, I modified it to work with my custom coils.
         int parallelsAvailable = Math.max(0, ParallelLogic.getParallelAmountFast(machine, recipe, parallelsMax));
 
-        if (parallelsAvailable >= parallelsMax) {
+        if (parallelsAvailable > 0) {
             return ModifierFunction.builder()
-                    .modifyAllContents(ContentModifier.multiplier(parallelsMax))
+                    .modifyAllContents(ContentModifier.multiplier(parallelsAvailable))
                     .eutMultiplier(speedMultiplier)
                     .durationMultiplier(speedMultiplier)
-                    .parallels(parallelsMax)
+                    .parallels(parallelsAvailable)
                     .build();
         }
         return ModifierFunction.IDENTITY;
