@@ -188,7 +188,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
     }
 
     public int getMaxTemp() {
-        return this.coilTemp + (100 * Math.max(0, getTier() - GTValues.MV));
+        return this.coilTemp;
     }
 
     public static MachineDefinition GIANTACCELERATEDEBF = REGISTRATE

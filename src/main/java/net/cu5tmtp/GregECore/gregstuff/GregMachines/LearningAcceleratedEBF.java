@@ -53,7 +53,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     int recipeTemp = 0;
     int currentBoost = 0;
-    int coilTemp = 12000;
+    int coilTemp = 12500;
 
     @Override
     public ManagedFieldHolder getFieldHolder() {
@@ -201,7 +201,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
     }
 
     public int getMaxTemp() {
-        return this.coilTemp + (100 * Math.max(0, getTier() - GTValues.MV));
+        return this.coilTemp;
     }
 
     public void setCurrentBoost(int currentBoostEBF) {
