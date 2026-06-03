@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-21T23:33:45.8624686	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-03T15:01:55.3621017	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -21,6 +21,8 @@ cc0bd4fffcdaef0d7c4b1c4c4ef865e1c771b64b assets/gregecore/blockstates/forgotten_
 2e0a1936e7405f9a9055e02cec660c0c7a11c67f assets/gregecore/blockstates/fornaxuniversi.json
 01debd1f715479fc162486cc4620f189df521e2e assets/gregecore/blockstates/giantacceleratedebf.json
 1ae3ca08c6e27bc3953f07e2df79eceff40ed203 assets/gregecore/blockstates/giantchr.json
+da898b5945774d8a0559b98deb2d6e7c8f30f816 assets/gregecore/blockstates/grege_computation_component.json
+f59fe7efcd561e6c45447093dcee06d522b09094 assets/gregecore/blockstates/grege_heat_sink_component.json
 b9c0d68b43534efa7595687f85ee572158a59334 assets/gregecore/blockstates/learning_acc_ebf.json
 f2f50b64fdb313df8661ead69ca7f431c3b6aa82 assets/gregecore/blockstates/malachite_coil.json
 7e4b2793f254a358e720ac676a472aee16b9faa8 assets/gregecore/blockstates/manasteel_coil.json
@@ -38,8 +40,8 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-1d84cba760da750da245ca1f0fb1000dc0cdaef6 assets/gregecore/lang/en_ud.json
-b12e0e4fb83269fc1e7700b0a2c377a7a2d34f2f assets/gregecore/lang/en_us.json
+c4bab2b325d958357f0ba1640ef9994646786824 assets/gregecore/lang/en_ud.json
+75c97d4bfb8610aa59ea657bee6fed07a6f9de6e assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -48,6 +50,8 @@ f4b25d044657f738d6b8814a4bbe5c3ed397a69f assets/gregecore/models/block/awakened_
 072590c807254d38c52858b9094d787e27813b8e assets/gregecore/models/block/desh_coil_active.json
 5b77f979fc117ed4e38c3e4a0cca0587d2b5c26c assets/gregecore/models/block/forgotten_coil.json
 a52a23211b0c63b8cce990584963eb2e160cf898 assets/gregecore/models/block/forgotten_coil_active.json
+9c5d7e2d3c461044d77c4492764411cb10da7c94 assets/gregecore/models/block/grege_computation_component_base.json
+edc4616f74d5212e2f8e80be4f782b271fccf6ed assets/gregecore/models/block/grege_heat_sink_component_base.json
 fea4368454b99832d361890c89a0560cfb9aede1 assets/gregecore/models/block/machine/acceleratedebf.json
 dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/advanced_coolant_input_machine.json
 da48b50d50be64f428088895fe185c18e077b81d assets/gregecore/models/block/machine/advanced_heater_input_machine.json
@@ -66,6 +70,8 @@ f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/e
 8a6017c2b18f17b0ae519c822599f9c376e17b5d assets/gregecore/models/block/machine/fornaxuniversi.json
 a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/giantacceleratedebf.json
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
+e8c14e043ee763c69ff33a97e90b2a1907a2d485 assets/gregecore/models/block/machine/grege_computation_component.json
+c4e2b90eaa7a17e5c617ec163d2e7b0b2dd15fb6 assets/gregecore/models/block/machine/grege_heat_sink_component.json
 562d0f1f989fd82e943f98b8c701a878a3fb793d assets/gregecore/models/block/machine/learning_acc_ebf.json
 68af135575aa908d2fe304ed19d8380690a1bd40 assets/gregecore/models/block/machine/parallel_booster_machine.json
 47a165d63add78e78659ee1a2ebe1e6e1ef2309c assets/gregecore/models/block/machine/realityfractureengine.json
@@ -113,6 +119,8 @@ ff3bee43c480143493944e7c9ff85d2f4039b7a8 assets/gregecore/models/item/enhancedfr
 5099ab81b347b99bed18791a384c518d6c31a279 assets/gregecore/models/item/fornaxuniversi.json
 9272526de3a4d31b124064fad01d64e6344fcc71 assets/gregecore/models/item/giantacceleratedebf.json
 be1797a4eca45df31dbeaf2c2dcd738e6436abe2 assets/gregecore/models/item/giantchr.json
+8162d6afb138b8bb68fc3458f75c27cd9cef41b0 assets/gregecore/models/item/grege_computation_component.json
+3183d33f80f8ce48a5b8dcb2a22fdee051c5f69c assets/gregecore/models/item/grege_heat_sink_component.json
 27f225bacb88ee4d8b3c90f2c957534338e95c62 assets/gregecore/models/item/learning_acc_ebf.json
 31cbdec47b241fe7ee1cafe25711fe97de83c6c9 assets/gregecore/models/item/malachite_coil.json
 353f6e86e7040ad58b013ed224447e35e9f6f49c assets/gregecore/models/item/manasteel_coil.json

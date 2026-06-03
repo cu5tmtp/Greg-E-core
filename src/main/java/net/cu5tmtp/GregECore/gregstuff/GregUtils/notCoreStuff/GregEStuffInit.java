@@ -1,6 +1,7 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregEHPCAInit;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 
@@ -35,6 +36,10 @@ public class GregEStuffInit {
         AscencionPartMachine.init();
         AdvancedHeaterInputPartMachine.init();
         DroneAccessHatchPartMachine.init();
+    }
+
+    public static void initHPCAParts(){
+        GregEHPCAInit.init();
     }
 
     public static void initGregERenderRegistries(){

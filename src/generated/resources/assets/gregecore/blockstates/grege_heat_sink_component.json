@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "gregecore:block/machine/grege_heat_sink_component",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "gregecore:block/machine/grege_heat_sink_component",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gregecore:block/machine/grege_heat_sink_component"
+    },
+    "facing=south": {
+      "model": "gregecore:block/machine/grege_heat_sink_component",
+      "y": 180
+    },
+    "facing=up": {
+      "gtceu:z": 180,
+      "model": "gregecore:block/machine/grege_heat_sink_component",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "gregecore:block/machine/grege_heat_sink_component",
+      "y": 270
+    }
+  }
+}

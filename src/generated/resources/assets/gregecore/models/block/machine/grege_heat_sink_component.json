@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "gregecore:grege_heat_sink_component",
+  "variants": {
+    "active=false,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/fine/active_cooler",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/fine/active_cooler",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/broken/damaged_active",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/broken/damaged_active",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/fine/active_cooler_active",
+          "overlay_emissive": "gregecore:block/overlay/cooler/fine/active_cooler_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/fine/active_cooler_active",
+          "overlay_emissive": "gregecore:block/overlay/cooler/fine/active_cooler_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/broken/damaged_active_active",
+          "overlay_emissive": "gregecore:block/overlay/cooler/broken/damaged_active_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_heat_sink_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/cooler/broken/damaged_active_active",
+          "overlay_emissive": "gregecore:block/overlay/cooler/broken/damaged_active_active_emissive"
+        }
+      }
+    }
+  }
+}

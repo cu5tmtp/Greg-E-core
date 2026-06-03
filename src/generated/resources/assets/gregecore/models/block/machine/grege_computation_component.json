@@ -1,0 +1,79 @@
+{
+  "parent": "minecraft:block/block",
+  "loader": "gtceu:machine",
+  "machine": "gregecore:grege_computation_component",
+  "variants": {
+    "active=false,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/fine/advanced_computation",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/fine/advanced_computation",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/broken/advanced_computation_broken",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=false,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/broken/advanced_computation_broken",
+          "overlay_emissive": "gtceu:block/void"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/fine/advanced_computation_active",
+          "overlay_emissive": "gregecore:block/overlay/computation/fine/advanced_computation_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=false,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/fine/advanced_computation_active",
+          "overlay_emissive": "gregecore:block/overlay/computation/fine/advanced_computation_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=false": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/broken/advanced_computation_broken_active",
+          "overlay_emissive": "gregecore:block/overlay/computation/broken/advanced_computation_broken_active_emissive"
+        }
+      }
+    },
+    "active=true,hpca_part_damaged=true,is_formed=true": {
+      "model": {
+        "parent": "gregecore:block/grege_computation_component_base",
+        "textures": {
+          "overlay": "gregecore:block/overlay/computation/broken/advanced_computation_broken_active",
+          "overlay_emissive": "gregecore:block/overlay/computation/broken/advanced_computation_broken_active_emissive"
+        }
+      }
+    }
+  }
+}
