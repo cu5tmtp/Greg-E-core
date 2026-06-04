@@ -26,6 +26,12 @@
   "gtceu.open_rift": "Rift Opening",
   "gtceu.send_up_the_mats": "Space Trade",
 
+  "block.gregecore.terra_input_machine": "Terra Input",
+  "block.gregecore.aer_input_machine": "Aer Input",
+  "block.gregecore.aqua_input_machine": "Aqua Input",
+  "block.gregecore.ignis_input_machine": "Ignis Input",
+  "block.gregecore.ordo_input_machine": "Ordo Input",
+  "block.gregecore.perditio_input_machine": "Perditio Input",
   "block.gregecore.linearaccelerator": "Linear Accelerator",
   "block.gregecore.conveyorbelt": "Conveyor Belt",
   "block.gregecore.draconiumfusion": "Draconium Fusion Casing",
@@ -113,5 +119,12 @@
   "material.gregecore.manopered_36": "Manopered-36",
   "material.gregecore.jelenogas_gas": "Jelenogas Gas",
   "material.gregecore.superheated_solar": "Superheated Solar Plasma",
-  "material.gregecore.superelement27": "Superelement-27"
+  "material.gregecore.superelement27": "Superelement-27",
+
+  "material.gregecore.aer_essentia": "Aer",
+  "material.gregecore.aqua_essentia": "Aqua",
+  "material.gregecore.ignis_essentia": "Ignis",
+  "material.gregecore.ordo_essentia": "Ordo",
+  "material.gregecore.perditio_essentia": "Perditio",
+  "material.gregecore.terra_essentia": "Terra"
 }

@@ -1,6 +1,5 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;

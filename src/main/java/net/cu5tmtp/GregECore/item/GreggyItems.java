@@ -10,8 +10,8 @@ public class GreggyItems {
 
     public static Material MYTHRIL, NOBELIUM, FRANKLINITE, LITHIUM_HYDROXIDE, LITHIUM_AMALGAMATION, PLUTONIUM_HEXAFLUORIDE, SUPERELEMENT27, AWAKENED_DRACONIUM;
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
-
     public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE, BLOOD_INFUSED_CABLE, BACTERIAL_MATTER_CABLE, DRACONIUM_CABLE;
+    public static Material AER, AQUA, IGNIS, TERRA, ORDO, PERDITIO;
 
     public static Material buildFluidMaterial(String name, int color, String formula) {
         return new Material.Builder(GregECore.id(name))
@@ -147,6 +147,56 @@ public class GreggyItems {
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
                 .formula("H₄He₂So*⁺")
                 .buildAndRegister();
+
+        //Essences
+        AER = new Material.Builder(GregECore.id("aer_essentia"))
+                .fluid()
+                .color(0x2aa9d5)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("༄")
+                .buildAndRegister();
+
+        AQUA = new Material.Builder(GregECore.id("aqua_essentia"))
+                .fluid()
+                .color(0x394cc6)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("❛")
+                .buildAndRegister();
+
+        IGNIS = new Material.Builder(GregECore.id("ignis_essentia"))
+                .fluid()
+                .color(0xe21d26)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("♨")
+                .buildAndRegister();
+
+        TERRA = new Material.Builder(GregECore.id("terra_essentia"))
+                .fluid()
+                .color(0x1d8339)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("♣")
+                .buildAndRegister();
+
+        ORDO = new Material.Builder(GregECore.id("ordo_essentia"))
+                .fluid()
+                .color(0xd0d2d2)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("⥀")
+                .buildAndRegister();
+
+        PERDITIO = new Material.Builder(GregECore.id("perditio_essentia"))
+                .fluid()
+                .color(0x434746)
+                .iconSet(MaterialIconSet.FLUID)
+                .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
+                .formula("ϟ")
+                .buildAndRegister();
+
 
         //₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉
 

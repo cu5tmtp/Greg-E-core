@@ -91,7 +91,7 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
         renderOrbitingItems(machine, poseStack, buffer, posX, posY, posZ, time, isWorking, magicalLight, packedOverlay);
 
-        if (isWorking) {
+        if (machine.getRecipeLogic().isWorking()) {
             renderEnergyBeams(machine, poseStack, buffer, posX, posY, posZ, time);
         }
     }
