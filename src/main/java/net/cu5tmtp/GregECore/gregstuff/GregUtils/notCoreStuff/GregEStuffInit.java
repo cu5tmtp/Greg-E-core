@@ -22,6 +22,7 @@ public class GregEStuffInit {
         RealityFractureEngine.init();
         SpaceElevator.init();
         DeepSpaceExplorer.init();
+        InfusionAltar.init();
     }
 
     public static void initGregEParts(){
@@ -36,6 +37,7 @@ public class GregEStuffInit {
         AscencionPartMachine.init();
         AdvancedHeaterInputPartMachine.init();
         DroneAccessHatchPartMachine.init();
+        PedestalPartMachine.init();
     }
 
     public static void initHPCAParts(){

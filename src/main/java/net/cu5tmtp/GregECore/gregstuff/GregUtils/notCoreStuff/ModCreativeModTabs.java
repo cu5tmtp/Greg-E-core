@@ -72,6 +72,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
                         pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
                         pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
+                        pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
+                        pOutput.accept(PedestalPartMachine.PEDESTAL_INF_MACHINE.getItem());
                     })
                     .build());
 

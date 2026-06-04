@@ -35,6 +35,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation DEEPSPACE_ID =
             new ResourceLocation("gregecore", "deepspaceexplorego");
 
+    public static final ResourceLocation INFUSION_ALTAR_ID =
+            new ResourceLocation("gregecore", "infusionrendersocool");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -54,6 +57,7 @@ public class GregERenederRegistries {
     public static DynamicRender<?, ?> createRealityEngineRender() { return new RealityFractureEngineRender(); }
     public static DynamicRender<?, ?> createSpaceElevatorRender() { return new SpaceElevatorRender(); }
     public static DynamicRender<?, ?> createDeepSpaceRender() { return new DeepSpaceExplorerRender(); }
+    public static DynamicRender<?, ?> createInfusionAltarRender() { return new InfusionAltarRender(); }
 
 
 
@@ -68,6 +72,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(REALITYENGINE_ID, RealityFractureEngineRender.TYPE);
         DynamicRenderManager.register(SPACEELEVATOR_ID, SpaceElevatorRender.TYPE);
         DynamicRenderManager.register(DEEPSPACE_ID, DeepSpaceExplorerRender.TYPE);
+        DynamicRenderManager.register(INFUSION_ALTAR_ID, InfusionAltarRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -78,5 +83,6 @@ public class GregERenederRegistries {
         RealityFractureEngineRender.init();
         SpaceElevatorRender.init();
         DeepSpaceExplorerRender.init();
+        InfusionAltarRender.init();
     }
 }

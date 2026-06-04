@@ -24,6 +24,12 @@ public class GregERecipeTypes {
             .setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
+
+    public static GTRecipeType INFUSION_ALTAR_INFUSING = GTRecipeTypes.register("infusion_altar_infusing", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(9,3,6,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FIRE);
     
     public static GTRecipeType STAR_MAYKR_SINGULARITIES = GTRecipeTypes.register("star_maykr_singularities", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
