@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.PedestalPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
@@ -46,7 +45,7 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
         return MANAGED_FIELD_HOLDER;
     }
 
-    protected final List<IItemHandler> cachedInfusionAltarPedestalHandler = new ArrayList<>();
+    protected final List<IItemHandler> cachedEssentiaHandler = new ArrayList<>();
 
     @DescSynced
     public final List<ItemStack> itemsForRenderer = new ArrayList<>();
@@ -56,47 +55,18 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        List<ItemStack> currentInputItems = new ArrayList<>();
-
-        for (IItemHandler handler : cachedInfusionAltarPedestalHandler) {
-            for (int i = 0; i < handler.getSlots(); i++) {
-                ItemStack stackInSlot = handler.getStackInSlot(i);
-
-                if (!stackInSlot.isEmpty()) {
-                    ItemStack renderStack = stackInSlot.copy();
-                    renderStack.setCount(1);
-                    currentInputItems.add(renderStack);
-                }
-            }
-        }
-
-        boolean changed = currentInputItems.size() != this.itemsForRenderer.size();
-        if (!changed) {
-            for (int i = 0; i < currentInputItems.size(); i++) {
-                if (!ItemStack.isSameItemSameTags(currentInputItems.get(i), this.itemsForRenderer.get(i))) {
-                    changed = true;
-                    break;
-                }
-            }
-        }
-
-        if (changed) {
-            this.itemsForRenderer.clear();
-            this.itemsForRenderer.addAll(currentInputItems);
-            this.markDirty();
-        }
-
-        return super.beforeWorking(recipe);
-    }
-
-    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.cachedInfusionAltarPedestalHandler.clear();
+        this.cachedEssentiaHandler.clear();
 
         for (IMultiPart part : getParts()) {
-            if (!(part instanceof PedestalPartMachine)) {
+            if (!(part instanceof AerInputPartMachine
+                    || part instanceof AquaInputPartMachine
+                    || part instanceof IgnisInputPartMachine
+                    || part instanceof OrdoInputPartMachine
+                    || part instanceof PerditioInputPartMachine
+                    || part instanceof TerraInputPartMachine
+            )) {
                 continue;
             }
 
@@ -105,16 +75,16 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
                 handlerList.getCapability(ItemRecipeCapability.CAP).stream()
                         .filter(IItemHandler.class::isInstance)
                         .map(IItemHandler.class::cast)
-                        .forEach(this.cachedInfusionAltarPedestalHandler::add);
+                        .forEach(this.cachedEssentiaHandler::add);
             }
         }
     }
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
-        this.cachedInfusionAltarPedestalHandler.clear();
+        this.cachedEssentiaHandler.clear();
         this.itemsForRenderer.clear();
+        super.onStructureInvalid();
     }
 
     @Override

@@ -10,12 +10,14 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
+import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.material.Fluid;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class OrdoInputPartMachine extends FluidHatchPartMachine {
+public class OrdoInputPartMachine extends EssentiaInputPartMachine {
 
     public static final PartAbility ORDO_INPUT = new PartAbility("ordo_input");
 
@@ -40,5 +42,10 @@ public class OrdoInputPartMachine extends FluidHatchPartMachine {
             .register();
 
     public static void init() {
+    }
+
+    @Override
+    protected Fluid getAcceptedFluid() {
+        return GreggyItems.ORDO.getFluid();
     }
 }

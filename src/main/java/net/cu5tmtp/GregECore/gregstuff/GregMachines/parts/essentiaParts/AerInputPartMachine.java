@@ -10,12 +10,19 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 
 import com.gregtechceu.gtceu.common.machine.multiblock.part.FluidHatchPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
+import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class AerInputPartMachine extends FluidHatchPartMachine {
+public class AerInputPartMachine extends EssentiaInputPartMachine {
 
     public static final PartAbility AER_INPUT = new PartAbility("aer_input");
 
@@ -25,6 +32,11 @@ public class AerInputPartMachine extends FluidHatchPartMachine {
 
     public static PartAbility getPartAbility() {
         return AER_INPUT;
+    }
+
+    @Override
+    public Predicate<FluidStack> getFluidCapFilter(@Nullable Direction side, IO io) {
+        return super.getFluidCapFilter(side, io);
     }
 
     public static final MachineDefinition AER_INPUT_MACHINE = REGISTRATE.machine(
@@ -40,5 +52,10 @@ public class AerInputPartMachine extends FluidHatchPartMachine {
             .register();
 
     public static void init() {
+    }
+
+    @Override
+    protected Fluid getAcceptedFluid() {
+        return GreggyItems.AER.getFluid();
     }
 }
