@@ -1,7 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -113,6 +112,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                     IFluidHandler.FluidAction.EXECUTE
             );
         }
+
         return super.onWorking();
     }
 

@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import net.minecraft.util.Mth;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
     private static TextureAtlasSprite RUNIC_MATRIX_SPRITE;
     private static TextureAtlasSprite GLOW_SPRITE;
     private static TextureAtlasSprite CLAW_SPRITE;
+    private static TextureAtlasSprite WHITE_SPRITE;
     private static final Map<BlockPos, Float> SMOOTH_PROGRESS = new HashMap<>();
     private final Random rand = new Random();
 
@@ -50,6 +52,15 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
             {7, 1}, {7, 0}, {7, -1},
             {3, -3}, {4, -3}, {5, -3},
             {3, 3}, {4, 3}, {5, 3}
+    };
+
+    private static final float[][] ESSENTIA_OFFSETS = {
+            {3, -4, 0.0F, 0.0F, 1.0F},
+            {4, -4, 0.0F, 1.0F, 0.0F},
+            {5, -4, 1.0F, 1.0F, 0.0F},
+            {3, 4, 1.0F, 0.0F, 0.0F},
+            {4, 4, 0.25F, 0.25F, 0.25F},
+            {5, 4, 0.5F, 0.5F, 0.5F}
     };
 
     public InfusionAltarRender() {}
@@ -80,6 +91,10 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
         if (CLAW_SPRITE == null) {
             CLAW_SPRITE = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
                     .getBlockModel(Blocks.POLISHED_BLACKSTONE_BRICKS.defaultBlockState()).getParticleIcon();
+        }
+        if (WHITE_SPRITE == null) {
+            WHITE_SPRITE = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
+                    .getBlockModel(Blocks.WHITE_CONCRETE.defaultBlockState()).getParticleIcon();
         }
 
         var front = machine.getFrontFacing();
@@ -135,7 +150,76 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
         renderFixedItems(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, magicalLight, packedOverlay, machine.itemsForRenderer);
 
         if (recipeLogic.isWorking()) {
+
             renderSequentialBeams(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, machine.itemsForRenderer);
+
+            if (visualProgress > 0.5F) {
+                renderEssentiaArcs(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, magicalLight, packedOverlay);
+            }
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void renderEssentiaArcs(InfusionAltar machine, PoseStack stack, MultiBufferSource bufferSource,
+                                    float matrixX, float matrixY, float matrixZ, float time, float visualProgress,
+                                    int packedLight, int packedOverlay) {
+        if (machine.essentiaToRender == null) return;
+
+        var front = machine.getFrontFacing();
+        var upwards = machine.getUpwardsFacing();
+        var flipped = machine.isFlipped();
+
+        var backDir = RelativeDirection.BACK.getRelative(front, upwards, flipped);
+        var leftDir = RelativeDirection.LEFT.getRelative(front, upwards, flipped);
+        var upDir = RelativeDirection.UP.getRelative(front, upwards, flipped);
+
+        VertexConsumer glowBuffer = bufferSource.getBuffer(RenderType.entityTranslucent(InventoryMenu.BLOCK_ATLAS));
+
+        float targetY = matrixY + 2.53F + (Mth.sin(time * 0.05F) * 0.12F);
+
+        float phaseAlpha = Mth.clamp((visualProgress - 0.5F) * 4.0F, 0.0F, 1.0F);
+
+        for (int i = 0; i < 6; i++) {
+            if (i >= machine.essentiaToRender.length) break;
+            if (!machine.essentiaToRender[i]) continue;
+
+            float offsetBack = ESSENTIA_OFFSETS[i][0];
+            float offsetLeft = ESSENTIA_OFFSETS[i][1];
+
+            float r = ESSENTIA_OFFSETS[i][2];
+            float g = ESSENTIA_OFFSETS[i][3];
+            float b = ESSENTIA_OFFSETS[i][4];
+
+            float offsetUp = 1.0F;
+
+            float startX = 0.5F + (backDir.getStepX() * offsetBack) + (leftDir.getStepX() * offsetLeft) + (upDir.getStepX() * offsetUp);
+            float startY = 0.5F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
+            float startZ = 0.5F + (backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
+
+            int particlesCount = 10;
+            for (int p = 0; p < particlesCount; p++) {
+                float t = (time * 0.035F + (float) p / particlesCount) % 1.0F;
+
+                float easeT = t * t;
+
+                float px = Mth.lerp(easeT, startX, matrixX);
+                float pz = Mth.lerp(easeT, startZ, matrixZ);
+                float py = Mth.lerp(easeT, startY, targetY) + Mth.sin(easeT * (float)Math.PI) * 1.5F;
+
+                stack.pushPose();
+                stack.translate(px, py, pz);
+
+                stack.mulPose(Axis.YP.rotationDegrees(time * 5F + p * 45F));
+                stack.mulPose(Axis.XP.rotationDegrees(time * 3F + p * 30F));
+
+                float baseScale = Mth.sin(t * (float)Math.PI) * 0.12F;
+                float scale = baseScale * phaseAlpha;
+
+                if (scale > 0.01F) {
+                    renderBox(stack, glowBuffer, 0, 0, 0, scale, scale, scale, WHITE_SPRITE, r, g, b, 0.8F * phaseAlpha, packedLight, packedOverlay);
+                }
+                stack.popPose();
+            }
         }
     }
 
@@ -303,51 +387,93 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
             float targetY = matrixY + 2.53F + (Mth.sin(time * 0.05F) * 0.12F);
 
-            drawLightningBeam(stack, beamBuffer, startX, startY, startZ, matrixX, targetY, matrixZ, time, currentIndex);
+            Vec3 start = new Vec3(startX, startY, startZ);
+            Vec3 end = new Vec3(matrixX, targetY, matrixZ);
+
+            renderPrismLightning(stack, beamBuffer, start, end, time, currentIndex, 0.8F, 0.1F, 1.0F);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void drawLightningBeam(PoseStack stack, VertexConsumer buffer,
-                                   float sx, float sy, float sz,
-                                   float ex, float ey, float ez, float time, int index) {
-        Matrix4f mat = stack.last().pose();
+    private void renderPrismLightning(PoseStack poseStack, VertexConsumer buffer, Vec3 start, Vec3 end, float time, int index, float r, float g, float b) {
+        Matrix4f matrix = poseStack.last().pose();
+        Vec3 current = start;
+        int segments = 8;
 
-        int segments = 6;
-        float curX = sx;
-        float curY = sy;
-        float curZ = sz;
+        Vec3 diff = end.subtract(start);
+        double length = diff.length();
+        Vec3 direction = diff.normalize();
+        float segmentLength = (float) (length / segments);
+
+        float deviation = 0.15f;
+        float thickness = 0.035f;
 
         rand.setSeed((long) (index * 1000 + (time * 0.4F)));
 
-        for (int i = 1; i <= segments; i++) {
-            float pct = (float) i / segments;
-
-            float targetX = sx + (ex - sx) * pct;
-            float targetY = sy + (ey - sy) * pct;
-            float targetZ = sz + (ez - sz) * pct;
-
-            if (i < segments) {
-                targetX += (rand.nextFloat() - 0.5F) * 0.15F;
-                targetY += (rand.nextFloat() - 0.5F) * 0.15F;
-                targetZ += (rand.nextFloat() - 0.5F) * 0.15F;
+        for (int i = 0; i < segments; i++) {
+            Vec3 nextBase = start.add(direction.scale((i + 1) * segmentLength));
+            Vec3 next;
+            if (i < segments - 1) {
+                next = nextBase.add(
+                        (rand.nextFloat() - 0.5f) * deviation,
+                        (rand.nextFloat() - 0.5f) * deviation,
+                        (rand.nextFloat() - 0.5f) * deviation
+                );
+            } else {
+                next = nextBase;
             }
 
-            float thickness = 0.03F;
-            buffer.vertex(mat, curX, curY, curZ).color(0.8F, 0.1F, 1.0F, 0.8F).uv(0, 0)
-                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(0, 1, 0).endVertex();
-            buffer.vertex(mat, targetX, targetY, targetZ).color(0.8F, 0.1F, 1.0F, 0.8F).uv(1, 1)
-                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(0, 1, 0).endVertex();
-
-            buffer.vertex(mat, curX, curY + thickness, curZ).color(0.9F, 0.3F, 1.0F, 0.8F).uv(0, 0)
-                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(1, 0, 0).endVertex();
-            buffer.vertex(mat, targetX, targetY + thickness, targetZ).color(0.9F, 0.3F, 1.0F, 0.8F).uv(1, 1)
-                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(1, 0, 0).endVertex();
-
-            curX = targetX;
-            curY = targetY;
-            curZ = targetZ;
+            drawLightningPrism(buffer, matrix, current, next, thickness, r, g, b, 0.8f);
+            current = next;
         }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void drawLightningPrism(VertexConsumer buffer, Matrix4f matrix, Vec3 start, Vec3 end, float thickness, float r, float g, float b, float a) {
+        Vector3f dir = new Vector3f((float)(end.x - start.x), (float)(end.y - start.y), (float)(end.z - start.z));
+
+        Vector3f up = new Vector3f(0, 1, 0);
+        up.cross(dir);
+        if (up.lengthSquared() < 0.001f) up.set(1, 0, 0);
+        up.normalize().mul(thickness);
+
+        Vector3f side = new Vector3f(up);
+        side.cross(dir);
+        side.normalize().mul(thickness);
+
+        Vector3f s1 = new Vector3f((float)start.x, (float)start.y, (float)start.z).add(up).add(side);
+        Vector3f s2 = new Vector3f((float)start.x, (float)start.y, (float)start.z).add(up).sub(side);
+        Vector3f s3 = new Vector3f((float)start.x, (float)start.y, (float)start.z).sub(up).sub(side);
+        Vector3f s4 = new Vector3f((float)start.x, (float)start.y, (float)start.z).sub(up).add(side);
+
+        Vector3f e1 = new Vector3f((float)end.x, (float)end.y, (float)end.z).add(up).add(side);
+        Vector3f e2 = new Vector3f((float)end.x, (float)end.y, (float)end.z).add(up).sub(side);
+        Vector3f e3 = new Vector3f((float)end.x, (float)end.y, (float)end.z).sub(up).sub(side);
+        Vector3f e4 = new Vector3f((float)end.x, (float)end.y, (float)end.z).sub(up).add(side);
+
+        addFace(buffer, matrix, s1, s2, e2, e1, r, g, b, a);
+        addFace(buffer, matrix, s2, s3, e3, e2, r, g, b, a);
+        addFace(buffer, matrix, s3, s4, e4, e3, r, g, b, a);
+        addFace(buffer, matrix, s4, s1, e1, e4, r, g, b, a);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void addFace(VertexConsumer buffer, Matrix4f matrix, Vector3f v1, Vector3f v2, Vector3f v3, Vector3f v4, float r, float g, float b, float a) {
+        addVertexWithData(buffer, matrix, v1.x, v1.y, v1.z, 0, 0, r, g, b, a);
+        addVertexWithData(buffer, matrix, v2.x, v2.y, v2.z, 1, 0, r, g, b, a);
+        addVertexWithData(buffer, matrix, v3.x, v3.y, v3.z, 1, 1, r, g, b, a);
+        addVertexWithData(buffer, matrix, v4.x, v4.y, v4.z, 0, 1, r, g, b, a);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void addVertexWithData(VertexConsumer buffer, Matrix4f matrix, float x, float y, float z, float u, float v, float r, float g, float b, float a) {
+        buffer.vertex(matrix, x, y, z)
+                .color(r, g, b, a)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(15728880)
+                .normal(0, 1, 0)
+                .endVertex();
     }
 
     @OnlyIn(Dist.CLIENT)

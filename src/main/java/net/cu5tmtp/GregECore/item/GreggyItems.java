@@ -151,7 +151,7 @@ public class GreggyItems {
         //Essences
         AER = new Material.Builder(GregECore.id("aer_essentia"))
                 .fluid()
-                .color(0x2aa9d5)
+                .color(0xebef10)
                 .iconSet(MaterialIconSet.FLUID)
                 .flags(MaterialFlags.DISABLE_MATERIAL_RECIPES)
                 .formula("༄")

@@ -13,26 +13,34 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.PedestalPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
+import static java.util.Arrays.fill;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class InfusionAltar extends WorkableElectricMultiblockMachine {
@@ -47,11 +55,13 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
         return MANAGED_FIELD_HOLDER;
     }
 
-    protected final List<IFluidHandler> cachedEssentiaHandler = new ArrayList<>();
     protected final List<IItemHandler> cachedPedestalHandler = new ArrayList<>();
 
     @DescSynced
     public final List<ItemStack> itemsForRenderer = new ArrayList<>();
+
+    @DescSynced
+    public final boolean[] essentiaToRender = new boolean[6];
 
     public InfusionAltar(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -59,6 +69,25 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
+
+        fill(this.essentiaToRender, false);
+
+        assert recipe != null;
+
+        String str = recipe.data.getString("essentia");
+
+        if (!str.isEmpty()) {
+            String[] parts = str.split(",");
+            for (int i = 0; i < Math.min(parts.length, 6); i++) {
+                try {
+                    int value = Integer.parseInt(parts[i].trim());
+                    this.essentiaToRender[i] = value > 0;
+                } catch (NumberFormatException e) {
+                    this.essentiaToRender[i] = false;
+                }
+            }
+        }
+
         List<ItemStack> currentInputItems = new ArrayList<>();
 
         for (IItemHandler handler : cachedPedestalHandler) {
@@ -94,28 +123,7 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        this.cachedEssentiaHandler.clear();
         this.cachedPedestalHandler.clear();
-
-        for (IMultiPart part : getParts()) {
-            if (!(part instanceof AerInputPartMachine
-                    || part instanceof AquaInputPartMachine
-                    || part instanceof IgnisInputPartMachine
-                    || part instanceof OrdoInputPartMachine
-                    || part instanceof PerditioInputPartMachine
-                    || part instanceof TerraInputPartMachine
-            )) {
-                continue;
-            }
-
-            var handlerLists = part.getRecipeHandlers();
-            for (var handlerList : handlerLists) {
-                handlerList.getCapability(FluidRecipeCapability.CAP).stream()
-                        .filter(IFluidHandler.class::isInstance)
-                        .map(IFluidHandler.class::cast)
-                        .forEach(this.cachedEssentiaHandler::add);
-            }
-        }
 
         for (IMultiPart part : getParts()) {
             if (!(part instanceof PedestalPartMachine)) {
@@ -134,9 +142,8 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
 
     @Override
     public void onStructureInvalid() {
-        this.cachedEssentiaHandler.clear();
-        this.itemsForRenderer.clear();
         this.cachedPedestalHandler.clear();
+        this.itemsForRenderer.clear();
         super.onStructureInvalid();
     }
 
