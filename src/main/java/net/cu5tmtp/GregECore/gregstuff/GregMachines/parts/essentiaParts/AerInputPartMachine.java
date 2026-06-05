@@ -27,7 +27,7 @@ public class AerInputPartMachine extends EssentiaInputPartMachine {
     public static final PartAbility AER_INPUT = new PartAbility("aer_input");
 
     public AerInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {

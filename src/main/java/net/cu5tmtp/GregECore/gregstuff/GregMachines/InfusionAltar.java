@@ -1,7 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -12,8 +11,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.mojang.logging.LogUtils;
@@ -21,13 +21,9 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.PedestalPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
-import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +31,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
@@ -61,7 +56,12 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     public final List<ItemStack> itemsForRenderer = new ArrayList<>();
 
     @DescSynced
+    public ItemStack outputItem = ItemStack.EMPTY;
+
+    @DescSynced
     public final boolean[] essentiaToRender = new boolean[6];
+
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     public InfusionAltar(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -115,6 +115,25 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
         if (changed) {
             this.itemsForRenderer.clear();
             this.itemsForRenderer.addAll(currentInputItems);
+        }
+
+        outputItem = ItemStack.EMPTY;
+
+        List<Content> itemOutputs = recipe.outputs.get(ItemRecipeCapability.CAP);
+
+        if (itemOutputs != null && !itemOutputs.isEmpty()) {
+            Object contentObj = itemOutputs.get(0).getContent();
+
+            if (contentObj instanceof SizedIngredient sizedIngredient) {
+                ItemStack[] items = sizedIngredient.getItems();
+                if (items.length > 0) {
+                    outputItem = items[0].copy();
+                    outputItem.setCount(1);
+                }
+            }
+            else if (contentObj instanceof ItemStack itemStack) {
+                outputItem = itemStack.copy();
+            }
         }
 
         return super.beforeWorking(recipe);

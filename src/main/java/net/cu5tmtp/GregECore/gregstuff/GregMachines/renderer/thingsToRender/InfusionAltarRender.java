@@ -44,7 +44,12 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
     private static TextureAtlasSprite GLOW_SPRITE;
     private static TextureAtlasSprite CLAW_SPRITE;
     private static TextureAtlasSprite WHITE_SPRITE;
+
     private static final Map<BlockPos, Float> SMOOTH_PROGRESS = new HashMap<>();
+    private static final Map<BlockPos, Float> ROTATION_ANGLE = new HashMap<>();
+    private static final Map<BlockPos, Float> LAST_RENDER_TIME = new HashMap<>();
+    private static final Map<BlockPos, Float> SMOOTH_SPEED = new HashMap<>();
+
     private final Random rand = new Random();
 
     private static final float[][] ITEM_OFFSETS = {
@@ -72,7 +77,15 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
     @Override
     public boolean shouldRender(InfusionAltar machine, Vec3 cameraPos) {
-        return machine.isFormed();
+        boolean formed = machine.isFormed();
+        if (!formed) {
+            BlockPos pos = machine.getPos();
+            SMOOTH_PROGRESS.remove(pos);
+            ROTATION_ANGLE.remove(pos);
+            LAST_RENDER_TIME.remove(pos);
+            SMOOTH_SPEED.remove(pos);
+        }
+        return formed;
     }
 
     @Override
@@ -107,13 +120,33 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
         float posZ = (back.getStepZ() * 4.0F) + 0.5F;
 
         float time = machine.getOffsetTimer() + partialTick;
-
         BlockPos pos = machine.getPos();
+
+        var recipeLogic = machine.getRecipeLogic();
+        boolean isWorking = recipeLogic.isWorking();
+
+        float lastTime = LAST_RENDER_TIME.getOrDefault(pos, time);
+        float deltaTime = time - lastTime;
+        if (deltaTime < 0.0F || deltaTime > 5.0F) {
+            deltaTime = 0.0F;
+        }
+        LAST_RENDER_TIME.put(pos, time);
+
+        float targetSpeed = isWorking ? 4.0F : 1.0F;
+        float currentSpeed = SMOOTH_SPEED.getOrDefault(pos, 1.0F);
+
+        currentSpeed = currentSpeed + (targetSpeed - currentSpeed) * 0.08F;
+        SMOOTH_SPEED.put(pos, currentSpeed);
+
+        float currentAngle = ROTATION_ANGLE.getOrDefault(pos, 0.0F);
+        currentAngle += deltaTime * currentSpeed * 1.2F;
+        currentAngle %= 360.0F;
+        ROTATION_ANGLE.put(pos, currentAngle);
+
         float currentProgress = SMOOTH_PROGRESS.getOrDefault(pos, 0.0F);
         float visualProgress = 0.0F;
-        var recipeLogic = machine.getRecipeLogic();
 
-        if (recipeLogic.isWorking() && recipeLogic.getMaxProgress() > 0) {
+        if (isWorking && recipeLogic.getMaxProgress() > 0) {
             float serverProgress = (float) recipeLogic.getProgress() / (float) recipeLogic.getMaxProgress();
             float tickIncrement = 1.0F / (float) recipeLogic.getMaxProgress();
 
@@ -145,12 +178,11 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
         renderClawsAndPedestal(poseStack, buffer, posX, posY, posZ, magicalLight, packedOverlay);
 
-        renderRunicMatrix(poseStack, buffer, posX, posY, posZ, time, magicalLight, packedOverlay);
+        renderRunicMatrix(poseStack, buffer, posX, posY, posZ, time, currentAngle, magicalLight, packedOverlay);
 
         renderFixedItems(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, magicalLight, packedOverlay, machine.itemsForRenderer);
 
-        if (recipeLogic.isWorking()) {
-
+        if (isWorking) {
             renderSequentialBeams(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, machine.itemsForRenderer);
 
             if (visualProgress > 0.5F) {
@@ -193,8 +225,8 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
             float offsetUp = 1.0F;
 
             float startX = 0.5F + (backDir.getStepX() * offsetBack) + (leftDir.getStepX() * offsetLeft) + (upDir.getStepX() * offsetUp);
-            float startY = 0.5F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
-            float startZ = 0.5F + (backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
+            float startY = (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
+            float startZ = 0.5F +(backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
 
             int particlesCount = 10;
             for (int p = 0; p < particlesCount; p++) {
@@ -262,14 +294,14 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
     @OnlyIn(Dist.CLIENT)
     private void renderRunicMatrix(PoseStack stack, MultiBufferSource bufferSource,
-                                   float x, float y, float z, float time,int packedLight, int packedOverlay) {
+                                   float x, float y, float z, float time, float customAngle, int packedLight, int packedOverlay) {
         float bobbing = Mth.sin(time * 0.05F) * 0.12F;
         float matrixY = y + 2.53F + bobbing;
 
         stack.pushPose();
         stack.translate(x, matrixY, z);
 
-        stack.mulPose(Axis.YP.rotationDegrees(time * 1.2F));
+        stack.mulPose(Axis.YP.rotationDegrees(customAngle));
         stack.mulPose(Axis.XP.rotationDegrees(35.0F));
         stack.mulPose(Axis.ZP.rotationDegrees(25.0F));
 
@@ -336,10 +368,38 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
             stack.translate(itemX, itemY, itemZ);
 
             stack.mulPose(Axis.YP.rotationDegrees(time * 2.0F));
-            stack.scale(0.55F, 0.55F, 0.55F);
+            stack.scale(1.2F, 1.2F, 1.2F);
 
             Minecraft.getInstance().getItemRenderer().renderStatic(
                     itemStack,
+                    ItemDisplayContext.GROUND,
+                    packedLight,
+                    packedOverlay,
+                    stack,
+                    bufferSource,
+                    machine.getLevel(),
+                    0
+            );
+            stack.popPose();
+        }
+
+        ItemStack outputItem = machine.outputItem;
+        if (!outputItem.isEmpty()) {
+            float outputBack = 4.0F;
+            float outputUp = 1.5F;
+
+            float outX = 0.5F + (backDir.getStepX() * outputBack) + (upDir.getStepX() * outputUp);
+            float outY = 0.75F + (backDir.getStepY() * outputBack) + (upDir.getStepY() * outputUp);
+            float outZ = 0.5F + (backDir.getStepZ() * outputBack) + (upDir.getStepZ() * outputUp);
+
+            stack.pushPose();
+            stack.translate(outX, outY, outZ);
+
+            stack.mulPose(Axis.YP.rotationDegrees(time * 1.5F));
+            stack.scale(1.5F, 1.5F, 1.5F);
+
+            Minecraft.getInstance().getItemRenderer().renderStatic(
+                    outputItem,
                     ItemDisplayContext.GROUND,
                     packedLight,
                     packedOverlay,
@@ -382,7 +442,7 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
             float offsetUp = 1.5F + bobbing;
 
             float startX = 0.5F + (backDir.getStepX() * offsetBack) + (leftDir.getStepX() * offsetLeft) + (upDir.getStepX() * offsetUp);
-            float startY = 0.5F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
+            float startY = 0.75F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
             float startZ = 0.5F + (backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
 
             float targetY = matrixY + 2.53F + (Mth.sin(time * 0.05F) * 0.12F);

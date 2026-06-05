@@ -22,7 +22,7 @@ public class IgnisInputPartMachine extends EssentiaInputPartMachine {
     public static final PartAbility IGNIS_INPUT = new PartAbility("ignis_input");
 
     public IgnisInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {

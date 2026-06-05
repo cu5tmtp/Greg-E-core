@@ -22,7 +22,7 @@ public class AquaInputPartMachine extends EssentiaInputPartMachine{
     public static final PartAbility AQUA_INPUT = new PartAbility("aqua_input");
 
     public AquaInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {

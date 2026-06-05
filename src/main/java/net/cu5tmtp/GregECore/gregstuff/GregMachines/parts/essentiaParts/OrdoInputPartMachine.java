@@ -22,7 +22,7 @@ public class OrdoInputPartMachine extends EssentiaInputPartMachine {
     public static final PartAbility ORDO_INPUT = new PartAbility("ordo_input");
 
     public OrdoInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {

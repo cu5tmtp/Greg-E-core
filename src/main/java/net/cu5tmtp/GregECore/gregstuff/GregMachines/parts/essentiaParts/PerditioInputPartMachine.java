@@ -22,7 +22,7 @@ public class PerditioInputPartMachine extends EssentiaInputPartMachine {
     public static final PartAbility PERDITIO_INPUT = new PartAbility("perditio_input");
 
     public PerditioInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {

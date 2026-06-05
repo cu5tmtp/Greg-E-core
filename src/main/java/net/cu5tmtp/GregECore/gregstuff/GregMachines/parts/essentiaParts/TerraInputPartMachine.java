@@ -22,7 +22,7 @@ public class TerraInputPartMachine extends EssentiaInputPartMachine {
     public static final PartAbility TERRA_INPUT = new PartAbility("terra_input");
 
     public TerraInputPartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.IN, 20000, 1);
+        super(holder, tier, IO.IN, 100000, 1);
     }
 
     public static PartAbility getPartAbility() {
