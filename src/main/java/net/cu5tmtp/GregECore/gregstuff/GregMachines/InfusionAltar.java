@@ -1,6 +1,7 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -21,6 +22,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +47,8 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
         return MANAGED_FIELD_HOLDER;
     }
 
-    protected final List<IItemHandler> cachedEssentiaHandler = new ArrayList<>();
+    protected final List<IFluidHandler> cachedEssentiaHandler = new ArrayList<>();
+    protected final List<IItemHandler> cachedPedestalHandler = new ArrayList<>();
 
     @DescSynced
     public final List<ItemStack> itemsForRenderer = new ArrayList<>();
@@ -55,9 +58,44 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     }
 
     @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        List<ItemStack> currentInputItems = new ArrayList<>();
+
+        for (IItemHandler handler : cachedPedestalHandler) {
+            for (int i = 0; i < handler.getSlots(); i++) {
+                ItemStack stackInSlot = handler.getStackInSlot(i);
+
+                if (!stackInSlot.isEmpty()) {
+                    ItemStack renderStack = stackInSlot.copy();
+                    renderStack.setCount(1);
+                    currentInputItems.add(renderStack);
+                }
+            }
+        }
+
+        boolean changed = currentInputItems.size() != this.itemsForRenderer.size();
+        if (!changed) {
+            for (int i = 0; i < currentInputItems.size(); i++) {
+                if (!ItemStack.isSameItemSameTags(currentInputItems.get(i), this.itemsForRenderer.get(i))) {
+                    changed = true;
+                    break;
+                }
+            }
+        }
+
+        if (changed) {
+            this.itemsForRenderer.clear();
+            this.itemsForRenderer.addAll(currentInputItems);
+        }
+
+        return super.beforeWorking(recipe);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         this.cachedEssentiaHandler.clear();
+        this.cachedPedestalHandler.clear();
 
         for (IMultiPart part : getParts()) {
             if (!(part instanceof AerInputPartMachine
@@ -72,10 +110,24 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
 
             var handlerLists = part.getRecipeHandlers();
             for (var handlerList : handlerLists) {
+                handlerList.getCapability(FluidRecipeCapability.CAP).stream()
+                        .filter(IFluidHandler.class::isInstance)
+                        .map(IFluidHandler.class::cast)
+                        .forEach(this.cachedEssentiaHandler::add);
+            }
+        }
+
+        for (IMultiPart part : getParts()) {
+            if (!(part instanceof PedestalPartMachine)) {
+                continue;
+            }
+
+            var handlerLists = part.getRecipeHandlers();
+            for (var handlerList : handlerLists) {
                 handlerList.getCapability(ItemRecipeCapability.CAP).stream()
                         .filter(IItemHandler.class::isInstance)
                         .map(IItemHandler.class::cast)
-                        .forEach(this.cachedEssentiaHandler::add);
+                        .forEach(this.cachedPedestalHandler::add);
             }
         }
     }
@@ -84,6 +136,7 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     public void onStructureInvalid() {
         this.cachedEssentiaHandler.clear();
         this.itemsForRenderer.clear();
+        this.cachedPedestalHandler.clear();
         super.onStructureInvalid();
     }
 

@@ -26,7 +26,7 @@ public class GregERecipeTypes {
             .setSound(GTSoundEntries.SCIENCE);
 
     public static GTRecipeType INFUSION_ALTAR_INFUSING = GTRecipeTypes.register("infusion_altar_infusing", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(9,3,6,0)
+            .setMaxIOSize(12,3,6,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FIRE);

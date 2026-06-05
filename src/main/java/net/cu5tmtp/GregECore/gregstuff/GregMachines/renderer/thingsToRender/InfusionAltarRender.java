@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -29,8 +30,10 @@ import net.minecraft.util.Mth;
 
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
-@SuppressWarnings("removal")
+@SuppressWarnings("all")
 public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAltarRender> {
 
     public static final Codec<InfusionAltarRender> CODEC = Codec.unit(new InfusionAltarRender());
@@ -39,7 +42,15 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
     private static TextureAtlasSprite RUNIC_MATRIX_SPRITE;
     private static TextureAtlasSprite GLOW_SPRITE;
     private static TextureAtlasSprite CLAW_SPRITE;
+    private static final Map<BlockPos, Float> SMOOTH_PROGRESS = new HashMap<>();
     private final Random rand = new Random();
+
+    private static final float[][] ITEM_OFFSETS = {
+            {1, 1}, {1, 0}, {1, -1},
+            {7, 1}, {7, 0}, {7, -1},
+            {3, -3}, {4, -3}, {5, -3},
+            {3, 3}, {4, 3}, {5, 3}
+    };
 
     public InfusionAltarRender() {}
 
@@ -81,7 +92,39 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
         float posZ = (back.getStepZ() * 4.0F) + 0.5F;
 
         float time = machine.getOffsetTimer() + partialTick;
-        boolean isWorking = machine.getRecipeLogic().isWorking();
+
+        BlockPos pos = machine.getPos();
+        float currentProgress = SMOOTH_PROGRESS.getOrDefault(pos, 0.0F);
+        float visualProgress = 0.0F;
+        var recipeLogic = machine.getRecipeLogic();
+
+        if (recipeLogic.isWorking() && recipeLogic.getMaxProgress() > 0) {
+            float serverProgress = (float) recipeLogic.getProgress() / (float) recipeLogic.getMaxProgress();
+            float tickIncrement = 1.0F / (float) recipeLogic.getMaxProgress();
+
+            float targetProgress = Mth.clamp(serverProgress + (partialTick * tickIncrement), 0.0F, 1.0F);
+
+            if (Math.abs(currentProgress - targetProgress) > 0.8F) {
+                currentProgress = targetProgress;
+            } else {
+                currentProgress = currentProgress + (targetProgress - currentProgress) * 0.15F;
+            }
+            SMOOTH_PROGRESS.put(pos, currentProgress);
+            visualProgress = currentProgress;
+        } else {
+            if (currentProgress > 0.0F) {
+                currentProgress -= 0.05F * partialTick;
+                if (currentProgress < 0.0F) {
+                    currentProgress = 0.0F;
+                    SMOOTH_PROGRESS.remove(pos);
+                } else {
+                    SMOOTH_PROGRESS.put(pos, currentProgress);
+                }
+            } else {
+                SMOOTH_PROGRESS.remove(pos);
+            }
+            visualProgress = currentProgress;
+        }
 
         int magicalLight = 15728880;
 
@@ -89,10 +132,10 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
 
         renderRunicMatrix(poseStack, buffer, posX, posY, posZ, time, magicalLight, packedOverlay);
 
-        renderOrbitingItems(machine, poseStack, buffer, posX, posY, posZ, time, isWorking, magicalLight, packedOverlay);
+        renderFixedItems(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, magicalLight, packedOverlay, machine.itemsForRenderer);
 
-        if (machine.getRecipeLogic().isWorking()) {
-            renderEnergyBeams(machine, poseStack, buffer, posX, posY, posZ, time);
+        if (recipeLogic.isWorking()) {
+            renderSequentialBeams(machine, poseStack, buffer, posX, posY, posZ, time, visualProgress, machine.itemsForRenderer);
         }
     }
 
@@ -168,26 +211,42 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderOrbitingItems(InfusionAltar machine, PoseStack stack, MultiBufferSource bufferSource,
-                                     float x, float y, float z, float time, boolean isWorking,
-                                     int packedLight, int packedOverlay) {
-        List<ItemStack> items = machine.itemsForRenderer;
-        if (items.isEmpty()) return;
+    private void renderFixedItems(InfusionAltar machine, PoseStack stack, MultiBufferSource bufferSource,
+                                  float matrixX, float matrixY, float matrixZ, float time, float visualProgress,
+                                  int packedLight, int packedOverlay, List<ItemStack> items) {
+        if (items == null || items.isEmpty()) return;
 
         int count = items.size();
-        float orbitRadius = 1.8F;
-        float speedMultiplier = isWorking ? 2.5F : 1.0F;
+
+        int consumedCount = 0;
+        if (visualProgress > 0.0F) {
+            float clampedProgress = Math.min(visualProgress, 0.5F);
+            consumedCount = (int) Math.floor((clampedProgress / 0.5F) * count);
+        }
+
+        var front = machine.getFrontFacing();
+        var upwards = machine.getUpwardsFacing();
+        var flipped = machine.isFlipped();
+
+        var backDir = RelativeDirection.BACK.getRelative(front, upwards, flipped);
+        var leftDir = RelativeDirection.LEFT.getRelative(front, upwards, flipped);
+        var upDir = RelativeDirection.UP.getRelative(front, upwards, flipped);
 
         for (int i = 0; i < count; i++) {
+            if (i < consumedCount && visualProgress > 0.0F) continue;
+
             ItemStack itemStack = items.get(i);
             if (itemStack.isEmpty()) continue;
 
-            float angle = (360.0F / count) * i + (time * speedMultiplier);
-            float rad = angle * (float) Math.PI / 180.0F;
+            float offsetBack = ITEM_OFFSETS[i % 12][0];
+            float offsetLeft = ITEM_OFFSETS[i % 12][1];
 
-            float itemX = x + Mth.cos(rad) * orbitRadius;
-            float itemZ = z + Mth.sin(rad) * orbitRadius;
-            float itemY = y + 1.2F + Mth.sin(time * 0.08F + i) * 0.08F;
+            float bobbing = Mth.sin(time * 0.08F + i) * 0.08F;
+            float offsetUp = 1.5F + bobbing;
+
+            float itemX = 0.5F + (backDir.getStepX() * offsetBack) + (leftDir.getStepX() * offsetLeft) + (upDir.getStepX() * offsetUp);
+            float itemY = 0.5F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
+            float itemZ = 0.5F + (backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
 
             stack.pushPose();
             stack.translate(itemX, itemY, itemZ);
@@ -210,28 +269,41 @@ public class InfusionAltarRender extends DynamicRender<InfusionAltar, InfusionAl
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderEnergyBeams(InfusionAltar machine, PoseStack stack, MultiBufferSource bufferSource,
-                                   float x, float y, float z, float time) {
-        List<ItemStack> items = machine.itemsForRenderer;
-        if (items.isEmpty()) return;
+    private void renderSequentialBeams(InfusionAltar machine, PoseStack stack, MultiBufferSource bufferSource,
+                                       float matrixX, float matrixY, float matrixZ, float time, float visualProgress, List<ItemStack> items) {
+        if (items == null || items.isEmpty()) return;
 
-        VertexConsumer beamBuffer = bufferSource.getBuffer(RenderType.lightning());
+        if (visualProgress <= 0.0F || visualProgress >= 0.5F) return;
+
         int count = items.size();
-        float orbitRadius = 1.8F;
 
-        float matrixY = y + 2.2F + (Mth.sin(time * 0.05F) * 0.12F);
+        int currentIndex = (int) Math.floor((visualProgress / 0.5F) * count);
 
-        for (int i = 0; i < count; i++) {
-            if (items.get(i).isEmpty()) continue;
+        if (currentIndex >= count) currentIndex = count - 1;
 
-            float angle = (360.0F / count) * i + (time * 2.5F);
-            float rad = angle * (float) Math.PI / 180.0F;
+        if (!items.get(currentIndex).isEmpty()) {
+            VertexConsumer beamBuffer = bufferSource.getBuffer(RenderType.lightning());
 
-            float startX = x + Mth.cos(rad) * orbitRadius;
-            float startZ = z + Mth.sin(rad) * orbitRadius;
-            float startY = y + 1.2F + Mth.sin(time * 0.08F + i) * 0.08F;
+            var front = machine.getFrontFacing();
+            var upwards = machine.getUpwardsFacing();
+            var flipped = machine.isFlipped();
 
-            drawLightningBeam(stack, beamBuffer, startX, startY, startZ, x, matrixY, z, time, i);
+            var backDir = RelativeDirection.BACK.getRelative(front, upwards, flipped);
+            var leftDir = RelativeDirection.LEFT.getRelative(front, upwards, flipped);
+            var upDir = RelativeDirection.UP.getRelative(front, upwards, flipped);
+
+            float offsetBack = ITEM_OFFSETS[currentIndex % 12][0];
+            float offsetLeft = ITEM_OFFSETS[currentIndex % 12][1];
+            float bobbing = Mth.sin(time * 0.08F + currentIndex) * 0.08F;
+            float offsetUp = 1.5F + bobbing;
+
+            float startX = 0.5F + (backDir.getStepX() * offsetBack) + (leftDir.getStepX() * offsetLeft) + (upDir.getStepX() * offsetUp);
+            float startY = 0.5F + (backDir.getStepY() * offsetBack) + (leftDir.getStepY() * offsetLeft) + (upDir.getStepY() * offsetUp);
+            float startZ = 0.5F + (backDir.getStepZ() * offsetBack) + (leftDir.getStepZ() * offsetLeft) + (upDir.getStepZ() * offsetUp);
+
+            float targetY = matrixY + 2.53F + (Mth.sin(time * 0.05F) * 0.12F);
+
+            drawLightningBeam(stack, beamBuffer, startX, startY, startZ, matrixX, targetY, matrixZ, time, currentIndex);
         }
     }
 
