@@ -31,7 +31,7 @@ public class OrdoInputPartMachine extends EssentiaInputPartMachine {
 
     public static final MachineDefinition ORDO_INPUT_MACHINE = REGISTRATE.machine(
                     "ordo_input_machine",
-                    holder -> new OrdoInputPartMachine(holder, GTValues.ULV))
+                    holder -> new OrdoInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(ORDO_INPUT)
             .workableCasingModel(

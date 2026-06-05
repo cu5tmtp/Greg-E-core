@@ -208,7 +208,13 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createInfusionAltarRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Material Compressing").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Magical Infusion").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Combines technology with arcane arts, to perform magical material synthesis.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Technology believed to be lost in old versions, was resurrected to help you in your journey.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Put items in the Infusion Altar Pedestals and input essentia in the correct essentia input.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Then watch as the beautiful animation unfolds.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override

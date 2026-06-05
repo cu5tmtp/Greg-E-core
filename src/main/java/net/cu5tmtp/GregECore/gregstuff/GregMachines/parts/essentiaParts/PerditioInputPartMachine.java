@@ -31,7 +31,7 @@ public class PerditioInputPartMachine extends EssentiaInputPartMachine {
 
     public static final MachineDefinition PERDITIO_INPUT_MACHINE = REGISTRATE.machine(
                     "perditio_input_machine",
-                    holder -> new PerditioInputPartMachine(holder, GTValues.ULV))
+                    holder -> new PerditioInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(PERDITIO_INPUT)
             .workableCasingModel(

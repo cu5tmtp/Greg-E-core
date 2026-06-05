@@ -31,7 +31,7 @@ public class TerraInputPartMachine extends EssentiaInputPartMachine {
 
     public static final MachineDefinition TERRA_INPUT_MACHINE = REGISTRATE.machine(
                     "terra_input_machine",
-                    holder -> new TerraInputPartMachine(holder, GTValues.ULV))
+                    holder -> new TerraInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(TERRA_INPUT)
             .workableCasingModel(

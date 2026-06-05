@@ -31,7 +31,7 @@ public class IgnisInputPartMachine extends EssentiaInputPartMachine {
 
     public static final MachineDefinition IGNIS_INPUT_MACHINE = REGISTRATE.machine(
                     "ignis_input_machine",
-                    holder -> new IgnisInputPartMachine(holder, GTValues.ULV))
+                    holder -> new IgnisInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(IGNIS_INPUT)
             .workableCasingModel(

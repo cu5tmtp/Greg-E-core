@@ -31,7 +31,7 @@ public class AquaInputPartMachine extends EssentiaInputPartMachine{
 
     public static final MachineDefinition AQUA_INPUT_MACHINE = REGISTRATE.machine(
                     "aqua_input_machine",
-                    holder -> new AquaInputPartMachine(holder, GTValues.ULV))
+                    holder -> new AquaInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(AQUA_INPUT)
             .workableCasingModel(

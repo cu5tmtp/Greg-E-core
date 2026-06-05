@@ -41,7 +41,7 @@ public class AerInputPartMachine extends EssentiaInputPartMachine {
 
     public static final MachineDefinition AER_INPUT_MACHINE = REGISTRATE.machine(
                     "aer_input_machine",
-                    holder -> new AerInputPartMachine(holder, GTValues.ULV))
+                    holder -> new AerInputPartMachine(holder, GTValues.LV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(AER_INPUT)
             .workableCasingModel(
