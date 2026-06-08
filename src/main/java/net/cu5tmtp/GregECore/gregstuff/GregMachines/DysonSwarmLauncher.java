@@ -116,7 +116,7 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("This machine launches solar sails into the sun orbit. Depending on the number of launched sails, " +
                     "various boosts are given to Dyson Swarm Energy Collector.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("The breakpoints are: 500 -> 1x, 75000 -> 5x, 200000 -> 50x, 1000000 -> 500x.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("The breakpoints are: 500 -> 1x, 50000 -> 10x, 500000 -> 75x, 1000000 -> 250x.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
