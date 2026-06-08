@@ -17,7 +17,24 @@ public class GregERecipeTypes {
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .addDataInfo(data -> {
+                if (data.contains("sailMultiplier")) {
+                    int multi = data.getInt("sailMultiplier");
+                    switch (multi){
+                        case 1 -> {
+                            return ChatFormatting.GREEN + "Counts as 50 sails shot up.";
+                        }
+                        case 2 -> {
+                            return ChatFormatting.GREEN + "Counts as 150 sails shot up.";
+                        }
+                        default -> {
+                            return ChatFormatting.GREEN + "Counts as 10 sails shot up.";
+                        }
+                    }
+                }
+                return null;
+            });
 
     public static GTRecipeType GET_SOLAR_SAIL_ENERGY = GTRecipeTypes.register("get_solar_sail_energy", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)

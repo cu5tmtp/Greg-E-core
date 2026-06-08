@@ -15,6 +15,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -83,7 +84,15 @@ public class DysonSwarmEnergyCollector extends WorkableElectricMultiblockMachine
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
-            textList.add(Component.literal("Energy generation boost: " + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
+
+            double currentBoost = 0;
+
+            if (getLevel() instanceof ServerLevel serverLevel) {
+                DysonSwarmManager manager = DysonSwarmManager.get(serverLevel);
+                currentBoost = manager.getBoost();
+            }
+
+            textList.add(Component.literal("Energy generation boost: " + (int) currentBoost).withStyle(ChatFormatting.AQUA));
         }
     }
 

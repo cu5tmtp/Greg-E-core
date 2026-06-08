@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
+import net.minecraft.server.level.ServerLevel;
 
 public class GregEModifiers {
 
@@ -111,13 +112,17 @@ public class GregEModifiers {
     }
 
     public static ModifierFunction dysonSwarmGenBoost(MetaMachine machine, GTRecipe recipe){
-
         if (!(machine instanceof DysonSwarmEnergyCollector ds)) {
             return ModifierFunction.NULL;
         }
 
+        double boost = 0;
+        if (machine.getLevel() instanceof ServerLevel serverLevel) {
+            boost = DysonSwarmManager.get(serverLevel).getBoost();
+        }
+
         return ModifierFunction.builder()
-                .eutMultiplier(DysonSwarmManager.getBoost())
+                .eutMultiplier(boost)
                 .build();
     }
 

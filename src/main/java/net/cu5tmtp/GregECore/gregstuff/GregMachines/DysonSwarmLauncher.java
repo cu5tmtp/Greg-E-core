@@ -18,6 +18,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,16 +48,25 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
     }
 
     @Override
-    public void onLoad() {
-        DysonSwarmManager.setTotalSails(sailsShot);
-        super.onLoad();
-    }
-
-    @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        DysonSwarmManager.addSail();
-        sailsShot++;
-        this.markAsDirty();
+
+        assert recipe != null;
+        int num = recipe.data.getInt("sailMultiplier");
+
+        if (getLevel() instanceof ServerLevel serverLevel) {
+
+            if (num == 1) {
+                DysonSwarmManager.get(serverLevel).addSail50();
+                return super.beforeWorking(recipe);
+            }
+
+            if (num == 2) {
+                DysonSwarmManager.get(serverLevel).addSail150();
+                return super.beforeWorking(recipe);
+            }
+
+            DysonSwarmManager.get(serverLevel).addSail();
+        }
         return super.beforeWorking(recipe);
     }
 
@@ -113,10 +123,20 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (isFormed()) {
+
+            double currentSails = 0;
+            double currentBoost = 0;
+
+            if (getLevel() instanceof ServerLevel serverLevel) {
+                DysonSwarmManager manager = DysonSwarmManager.get(serverLevel);
+                currentSails = manager.getTotalSails();
+                currentBoost = manager.getBoost();
+            }
+
             textList.add(Component.literal("Solar sails in orbit:").withStyle(ChatFormatting.GREEN));
-            textList.add(Component.literal("" + (int) DysonSwarmManager.getTotalSails()).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("" + (int) currentSails).withStyle(ChatFormatting.AQUA));
             textList.add(Component.literal("Energy generation boost:").withStyle(ChatFormatting.GREEN));
-            textList.add(Component.literal("" + (int) DysonSwarmManager.getBoost()).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("" + (int) currentBoost).withStyle(ChatFormatting.AQUA));
         }
     }
 
