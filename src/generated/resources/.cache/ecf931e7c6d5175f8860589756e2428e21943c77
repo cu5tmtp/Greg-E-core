@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-05T00:32:53.393451	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-11T17:38:58.1636516	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -19,6 +19,7 @@ c48b3a1afecf8664dec91c5b7bb5b2f2a454b25b assets/gregecore/blockstates/coolant_in
 4f2b4889da1bc77fbb01045b6cc718cf6f465579 assets/gregecore/blockstates/dysonswarmlauncher.json
 53a2de72fb88c053cf1cab631c94efaccb54a654 assets/gregecore/blockstates/enhancedblastchiller.json
 b0c6bd2063350bdce5ef763d448d046ecc27f1d0 assets/gregecore/blockstates/enhancedfr.json
+c262abfa7c43b5b4732d5534661d88f63ff4d697 assets/gregecore/blockstates/fissionreactor.json
 cc0bd4fffcdaef0d7c4b1c4c4ef865e1c771b64b assets/gregecore/blockstates/forgotten_coil.json
 2e0a1936e7405f9a9055e02cec660c0c7a11c67f assets/gregecore/blockstates/fornaxuniversi.json
 01debd1f715479fc162486cc4620f189df521e2e assets/gregecore/blockstates/giantacceleratedebf.json
@@ -48,8 +49,8 @@ fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/supereleme
 294417fea6517c56ad8286ad642d122f385d271c assets/gregecore/blockstates/terra_input_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-d5b525aa32036272a560d9f245e068e278a60977 assets/gregecore/lang/en_ud.json
-29498ac85a3fa51632ca152cc8a10941e9997858 assets/gregecore/lang/en_us.json
+9113c3b29a86463131d5f62e248018f36611a8a6 assets/gregecore/lang/en_ud.json
+7c965c0c4c4a7b3106fc18ed43b14fe4d7eeb3c8 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -77,6 +78,7 @@ ea58b4a643663ac6b209f88187182a951e1bf63b assets/gregecore/models/block/machine/d
 70c33d76ff12a02bc84734c00e6c3cad95fb82e9 assets/gregecore/models/block/machine/dysonswarmlauncher.json
 cb69e6ee8c47b3cae4a45bbbab6f8c62dcfa6fab assets/gregecore/models/block/machine/enhancedblastchiller.json
 f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
+adec9153149a2d88d44643f999d51a440cbfd957 assets/gregecore/models/block/machine/fissionreactor.json
 8a6017c2b18f17b0ae519c822599f9c376e17b5d assets/gregecore/models/block/machine/fornaxuniversi.json
 a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/giantacceleratedebf.json
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
@@ -133,6 +135,7 @@ a27b515e873c9531e2f679d4a6351fbc3f5903bf assets/gregecore/models/item/dysonswarm
 229d1251f9a000b6206da87bffa09bfd4eef11f3 assets/gregecore/models/item/dysonswarmlauncher.json
 685432e5d7ff47d77f83f447beb698339be560a4 assets/gregecore/models/item/enhancedblastchiller.json
 ff3bee43c480143493944e7c9ff85d2f4039b7a8 assets/gregecore/models/item/enhancedfr.json
+53078a41a4ebfcad5572332f317a6131df629c2b assets/gregecore/models/item/fissionreactor.json
 04ebd1d56259bd9f49206fd9d078c33d75ff9a93 assets/gregecore/models/item/forgotten_coil.json
 5099ab81b347b99bed18791a384c518d6c31a279 assets/gregecore/models/item/fornaxuniversi.json
 9272526de3a4d31b124064fad01d64e6344fcc71 assets/gregecore/models/item/giantacceleratedebf.json

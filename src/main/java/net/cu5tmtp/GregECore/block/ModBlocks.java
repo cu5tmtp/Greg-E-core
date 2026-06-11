@@ -44,6 +44,8 @@ public class ModBlocks {
             registerBlock("draconiumfusion", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> FROSTCORE =
             registerBlock("frostcore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    public static final RegistryObject<Block> NOZZLE =
+            registerBlock("nozzle", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final BlockEntry<RealityPortalBlock> REALITY_PORTAL = REGISTRATE
             .block("reality_portal", RealityPortalBlock::new)

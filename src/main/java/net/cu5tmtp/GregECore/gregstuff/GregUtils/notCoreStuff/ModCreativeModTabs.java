@@ -60,6 +60,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(LearningAcceleratedEBF.LEARNING_ACC_EBF.getItem());
                         pOutput.accept(DeepSpaceExplorer.DEEPSPACEEXPLORER.getItem());
                         pOutput.accept(FornaxUniversi.FORNAX_UNIVERSI.getItem());
+                        pOutput.accept(FissionReactor.FISSIONREACTOR.getItem());
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                         pOutput.accept(DroneAccessHatchPartMachine.DRONE_ACCESS_MACHINE.getItem());
                         pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());

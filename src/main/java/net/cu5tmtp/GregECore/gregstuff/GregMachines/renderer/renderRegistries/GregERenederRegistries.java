@@ -38,6 +38,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation INFUSION_ALTAR_ID =
             new ResourceLocation("gregecore", "infusionrendersocool");
 
+    public static final ResourceLocation FISSION_ROD_ID =
+            new ResourceLocation("gregecore", "fissionrodinsertion");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -58,6 +61,7 @@ public class GregERenederRegistries {
     public static DynamicRender<?, ?> createSpaceElevatorRender() { return new SpaceElevatorRender(); }
     public static DynamicRender<?, ?> createDeepSpaceRender() { return new DeepSpaceExplorerRender(); }
     public static DynamicRender<?, ?> createInfusionAltarRender() { return new InfusionAltarRender(); }
+    public static DynamicRender<?, ?> createFissionRodRender() { return new FissionReactorRender(); }
 
 
 
@@ -73,6 +77,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(SPACEELEVATOR_ID, SpaceElevatorRender.TYPE);
         DynamicRenderManager.register(DEEPSPACE_ID, DeepSpaceExplorerRender.TYPE);
         DynamicRenderManager.register(INFUSION_ALTAR_ID, InfusionAltarRender.TYPE);
+        DynamicRenderManager.register(FISSION_ROD_ID, FissionReactorRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -84,5 +89,6 @@ public class GregERenederRegistries {
         SpaceElevatorRender.init();
         DeepSpaceExplorerRender.init();
         InfusionAltarRender.init();
+        FissionReactorRender.init();
     }
 }

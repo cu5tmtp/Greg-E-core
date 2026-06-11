@@ -24,6 +24,7 @@ public class GregEStuffInit {
         SpaceElevator.init();
         DeepSpaceExplorer.init();
         InfusionAltar.init();
+        FissionReactor.init();
     }
 
     public static void initGregEParts(){
