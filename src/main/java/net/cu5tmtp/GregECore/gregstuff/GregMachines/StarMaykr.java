@@ -218,7 +218,7 @@ public class StarMaykr extends WorkableElectricMultiblockMachine implements IRed
                         .where('D', Predicates.blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
                         .where('E', Predicates.blocks(GCYMBlocks.CASING_INDUSTRIAL_STEAM.get()))
                         .where('F', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("connectedglass:clear_glass"))))
-                        .where(' ', Predicates.air())
+                        .where(' ', Predicates.any())
                         .build();
             })
             .model(createWorkableCasingMachineModel(
