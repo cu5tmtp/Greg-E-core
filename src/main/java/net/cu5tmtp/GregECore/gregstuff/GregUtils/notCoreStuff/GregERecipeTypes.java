@@ -61,6 +61,19 @@ public class GregERecipeTypes {
                 return null;
             });
 
+    public static GTRecipeType FISSION_REACTION = GTRecipeTypes.register("fission_reaction", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3,3,3,3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.JET_ENGINE)
+            .addDataInfo(data -> {
+                if (data.contains("heatgen")) {
+                    double weight = data.getInt("heatgen");
+                    return ChatFormatting.DARK_PURPLE+ "Heat generated: " + ChatFormatting.WHITE + weight;
+                }
+                return null;
+            });
+
     public static GTRecipeType FORNAX_UNIVERSI_ACCELERETION = GTRecipeTypes.register("fornax_universi_acceleration", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)

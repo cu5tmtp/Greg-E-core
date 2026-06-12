@@ -46,6 +46,7 @@ public class GregEStuffInit {
         OrdoInputPartMachine.init();
         IgnisInputPartMachine.init();
         PerditioInputPartMachine.init();
+        CoolantOutputPartMachine.init();
     }
 
     public static void initHPCAParts(){

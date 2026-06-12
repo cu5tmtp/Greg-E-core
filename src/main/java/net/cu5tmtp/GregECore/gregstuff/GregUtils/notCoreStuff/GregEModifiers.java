@@ -126,6 +126,26 @@ public class GregEModifiers {
                 .build();
     }
 
+    public static ModifierFunction fissionBoost(MetaMachine machine, GTRecipe recipe){
+        if (!(machine instanceof FissionReactor f)) {
+            return ModifierFunction.NULL;
+        }
+
+        float min = 0.1f;
+        float max = 5.2f;
+        float progress = (f.controlRodInsertion - min) / (max - min);
+        progress = Math.max(0.0f, Math.min(1.0f, progress));
+
+        float minMultiplier = 1.0f;
+        float maxMultiplier = 0.2f;
+
+        float durationMultiplier = minMultiplier + progress * (maxMultiplier - minMultiplier);
+
+        return ModifierFunction.builder()
+                .durationMultiplier(durationMultiplier)
+                .build();
+    }
+
     public static ModifierFunction learningEBF(MetaMachine machine, GTRecipe recipe){
         if(!(machine instanceof LearningAcceleratedEBF laebf)){
             return ModifierFunction.NULL;
