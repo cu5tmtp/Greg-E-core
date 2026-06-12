@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
@@ -22,9 +21,8 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedCoolantInputPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedHeaterInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantOutputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
@@ -32,12 +30,15 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,19 +64,17 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     private TickableSubscription heatSubscription;
 
     @DescSynced
+    @Persisted
     public float controlRodInsertion = 0.0F;
 
-    @Persisted
-    private float controlRodInsertionInternal = 0.0F;
-
     @DescSynced
+    @Persisted
     public float heatLevel = 0.0F;
 
     @Persisted
-    private float heatLevelInternal = 0.0F;
-
     private int recipeTemp;
 
+    @Persisted
     private int hullDmg = 100;
 
     private IFluidHandler coolantHandlerInput;
@@ -83,15 +82,14 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
 
     private static final float MAX_HEAT = 50000.0F;
 
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     public FissionReactor(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
     @Override
     public void onStructureFormed() {
-        this.controlRodInsertion = this.controlRodInsertionInternal;
-        this.heatLevel = this.heatLevelInternal;
-
         super.onStructureFormed();
 
         List<IFluidHandler> coolantContainers = new ArrayList<>();
@@ -136,24 +134,22 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
         }
 
         heatSubscription = this.subscribeServerTick(this::manageHeat);
-
-        super.onStructureFormed();
     }
 
     private void manageHeat() {
         if (this.getLevel() != null && this.getLevel().isClientSide) return;
 
-        boolean stateChanged = false;
-
         if (this.getRecipeLogic().isWorking()) {
-            float generatedHeat = this.recipeTemp * this.controlRodInsertionInternal;
-            this.heatLevelInternal += generatedHeat;
-            stateChanged = true;
+            float withdrawalPercent = 100f - getInsertionPercent();
+            float heatMultiplier = 0.1f + (float) Math.pow(withdrawalPercent / 20f, 2);
+
+            float generatedHeat = this.recipeTemp * heatMultiplier;
+            this.heatLevel += generatedHeat;
         }
 
-        if (this.heatLevelInternal > 0 && this.coolantHandlerInput != null && this.coolantHandlerOutput != null) {
+        if (this.heatLevel > 0 && this.coolantHandlerInput != null && this.coolantHandlerOutput != null) {
 
-            int maxDrainAmount = 1000;
+            int maxDrainAmount = 5000;
             var simulatedDrain = this.coolantHandlerInput.drain(maxDrainAmount, IFluidHandler.FluidAction.SIMULATE);
 
             if (!simulatedDrain.isEmpty()) {
@@ -161,7 +157,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                 FluidStack hotFluidOut = getHeatedCoolant(simulatedDrain);
 
                 if (coolingPower > 0 && hotFluidOut != null) {
-                    int heatToDissipate = (int) Math.min(this.heatLevelInternal, simulatedDrain.getAmount() * coolingPower);
+                    float heatToDissipate = Math.min(this.heatLevel, simulatedDrain.getAmount() * coolingPower);
                     int fluidToConsume = (int) Math.ceil(heatToDissipate / coolingPower);
 
                     hotFluidOut.setAmount(fluidToConsume);
@@ -173,32 +169,36 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                         hotFluidOut.setAmount(actualDrained.getAmount());
                         this.coolantHandlerOutput.fill(hotFluidOut, IFluidHandler.FluidAction.EXECUTE);
 
-                        this.heatLevelInternal -= (actualDrained.getAmount() * coolingPower);
-                        if (this.heatLevelInternal < 0) this.heatLevelInternal = 0;
-                        stateChanged = true;
+                        this.heatLevel -= (actualDrained.getAmount() * coolingPower);
+                        if (this.heatLevel < 0) this.heatLevel = 0;
                     }
                 }
             }
         }
 
-        if (this.heatLevelInternal > MAX_HEAT) {
-            this.hullDmg--;
-            stateChanged = true;
-
-            if (this.hullDmg <= 0) {
-                triggerExplosion();
-                return;
-            }
+        if (this.heatLevel > 0) {
+            this.heatLevel -= 2.0f;
+            if (this.heatLevel < 0) this.heatLevel = 0;
         }
 
-        if (getOffsetTimer() % 100 != 0) {
-            if(this.hullDmg < 100) {
-                hullDmg++;
-            }
-        }
+        // Logika zničení a opravy
+        if (this.heatLevel > MAX_HEAT) {
+            // Pokud je reaktor přehřátý, poškodíme trup každých 10 ticků
+            if (getOffsetTimer() % 10 == 0) {
+                float excessHeat = this.heatLevel - MAX_HEAT;
+                int damage = 1 + (int)(excessHeat / 5000f);
+                this.hullDmg -= damage;
 
-        if (stateChanged) {
-            copyInternal();
+                if (this.hullDmg <= 0) {
+                    triggerExplosion();
+                }
+            }
+        } else {
+            if (this.heatLevel < (MAX_HEAT / 2) && this.hullDmg < 100) {
+                if (getOffsetTimer() % 100 == 0) {
+                    this.hullDmg++;
+                }
+            }
         }
     }
 
@@ -210,7 +210,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                     this.getPos().getY(),
                     this.getPos().getZ(),
                     30.0f,
-                    net.minecraft.world.level.Level.ExplosionInteraction.BLOCK
+                    Level.ExplosionInteraction.BLOCK
             );
         }
     }
@@ -219,9 +219,9 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
         String fluidKey = ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid()).toString();
 
         switch (fluidKey) {
-            case "minecraft:water": return 1.5f;          // Normální chlazení
-            case "gtceu:distilled_water": return 3.0f;    // Lepší chlazení
-            case "gtceu:liquid_helium": return 15.0f;     // Extrémní chlazení
+            case "minecraft:water": return 1.5f;
+            case "gtceu:distilled_water": return 3.0f;
+            case "gtceu:liquid_helium": return 15.0f;
             default: return 0.0f;
         }
     }
@@ -246,7 +246,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         assert recipe != null;
-        recipeTemp = recipe.data.getInt("heatgen");
+        this.recipeTemp = recipe.data.getInt("heatgen");
         return super.beforeWorking(recipe);
     }
 
@@ -273,33 +273,54 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                 }
             };
 
-
             percentLabel.setDropShadow(false);
 
             ButtonWidget interactButton = new ButtonWidget(32, -8, 31, 28, ResourceBorderTexture.BORDERED_BACKGROUND, click -> {}) {
                 @Override
                 public boolean mouseClicked(double mouseX, double mouseY, int button) {
                     if (this.isMouseOverElement(mouseX, mouseY)) {
-                        float current = getInsertionPercent();
-
                         boolean isShift = false;
                         try {
                             isShift = hasShiftDown();
                         } catch (Throwable ignored) {}
 
+                        boolean finalIsShift = isShift;
+                        writeClientAction(1, writer -> {
+                            writer.writeInt(button);
+                            writer.writeBoolean(finalIsShift);
+                        });
+
+                        float current = getInsertionPercent();
                         float delta = isShift ? 10f : 1f;
 
                         if (button == 0) {
                             setInsertionPercent(current + delta);
-                            playButtonClickSound();
-                            return true;
                         } else if (button == 1) {
                             setInsertionPercent(current - delta);
-                            playButtonClickSound();
-                            return true;
                         }
+
+                        playButtonClickSound();
+                        return true;
                     }
                     return super.mouseClicked(mouseX, mouseY, button);
+                }
+
+                @Override
+                public void handleClientAction(int id, FriendlyByteBuf buffer) {
+                    if (id == 1) {
+                        int button = buffer.readInt();
+                        boolean isShift = buffer.readBoolean();
+
+                        float current = getInsertionPercent();
+                        float delta = isShift ? 10f : 1f;
+
+                        if (button == 0) {
+                            setInsertionPercent(current + delta);
+                        } else if (button == 1) {
+                            setInsertionPercent(current - delta);
+                        }
+                    }
+                    super.handleClientAction(id, buffer);
                 }
             };
 
@@ -315,27 +336,21 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
         return widget;
     }
 
-    private void copyInternal(){
-        this.controlRodInsertion = this.controlRodInsertionInternal;
-        this.heatLevel = this.heatLevelInternal;
-    }
-
     private float getInsertionPercent() {
-        float percent = 100f - ((this.controlRodInsertionInternal - 0.1f) / 5.2f) * 100f;
+        float percent = 100f - ((this.controlRodInsertion - 0.1f) / 5.2f) * 100f;
         return Math.max(0f, Math.min(100f, percent));
     }
 
     private void setInsertionPercent(float percent) {
         float clampedPercent = Math.max(0f, Math.min(100f, percent));
-        this.controlRodInsertionInternal = 0.1f + ((100f - clampedPercent) / 100f) * 5.2f;
-        copyInternal();
+        this.controlRodInsertion = 0.1f + ((100f - clampedPercent) / 100f) * 5.2f;
     }
 
     public static MachineDefinition FISSIONREACTOR = REGISTRATE
             .multiblock("fissionreactor", FissionReactor::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GregERecipeTypes.FISSION_REACTION)
-            .recipeModifiers(GregEModifiers::fissionBoost)
+            .recipeModifier(GregEModifiers::fissionBoost)
             .appearanceBlock(CASING_INVAR_HEATPROOF)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -372,7 +387,9 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (isFormed()) {
-            textList.add(Component.literal("Hull Health: " + hullDmg + "%").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Hull Health: " + this.hullDmg + "%").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Heat Level: " + this.heatLevel + "K").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Control Rod LVL: " + this.controlRodInsertion).withStyle(ChatFormatting.AQUA));
         }
         super.addDisplayText(textList);
     }
