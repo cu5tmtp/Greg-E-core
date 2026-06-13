@@ -269,7 +269,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                     this.setComponent(Component.literal(Math.round(getInsertionPercent()) + "%").withStyle(ChatFormatting.BLACK));
                     if(Math.round(getInsertionPercent()) == 100){
                         setSelfPosition(36, 3);
-                    } else if(Math.round(getInsertionPercent()) == 0) {
+                    } else if(Math.round(getInsertionPercent()) < 10) {
                         setSelfPosition(42, 3);
                     } else{
                         setSelfPosition(40, 3);

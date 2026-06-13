@@ -30,8 +30,8 @@ public class CoolantOutputPartMachine extends FluidHatchPartMachine {
                     new CoolantOutputPartMachine(holder, GTValues.EV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(CoolantOutputPartMachine.COOLANT_OUTPUT)
-            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/coolant_input"))
-            .tooltips(Component.literal("Use this to input coolant into machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/coolant_output"))
+            .tooltips(Component.literal("Use this to output coolant from machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 
