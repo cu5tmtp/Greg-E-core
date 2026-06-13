@@ -387,18 +387,16 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Nuclear Fission").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Nuclear fission is very useful for energy, but you have different ideas. Use the reactor to create new elements. " +
-                    "Though be careful, as it requires careful heat management. " +
-                    "Keep your coolants flowing or face a meltdown.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Open the controller GUI and locate the button with a percentage value on the left side, which indicates how deeply the control rods are inserted into the fuel rods. " +
                     "Higher percentage means the rods are pushed further in, which slows down the fission process, while a lower percentage retracts them, causing your multiblock to run faster." +
-                    "Control rods have to be retracted by at least 1% to start the craft.").withStyle(style -> style.withColor(0x90EE90)))
+                    " Control rods have to be retracted by at least 1% to start the craft.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("TLDR: lower percentage = better.").withStyle(ChatFormatting.RED))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("You also need to cool the multiblock while its working. Heat is generated every 5 ticks with this formula: (recipeTemperature * rodsWithdrawalPercent * 3.334) * 2 (if rodsWithdrawalPercent > 30%) or * 4 (if rodsWithdrawalPercent > 60%). " +
-                    "Coolants have different cooling power values, these are written below. Heat removed is calculated every 5 ticks, max inputed coolant is 100mb, and the formula looks like this: removedHeat = coolantConsumed * coolingPower. " +
-                    "You need to keep the Coolant Output Hatch empty or the heated coolant will not dissipate. " +
+            .tooltips(Component.literal("You also need to cool the multiblock while its working. Heat is generated every 5 ticks with this formula:  ").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("(recipeTemperature * rodsWithdrawalPercent * 3.334) * 2 (if rodsInsertedPercent < 70%) or * 4 (if rodsInsertedPercent < 40%).").withStyle(s -> s.withColor(0xfff000)))
+            .tooltips(Component.literal("Coolants have different cooling power values, these are written below. Heat removed is calculated every 5 ticks, max inputed coolant is 100mb, and the formula looks like this: ").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("removedHeat = coolantConsumed * coolingPower.").withStyle(s -> s.withColor(0xfff000)))
+            .tooltips(Component.literal("You need to keep the Coolant Output Hatch empty or heat will not dissipate. " +
                     "Failure in not providing coolant results in the hull being damaged, and eventual blow-up.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("TLDR: If recipe has 100K temperature, use Water to safely cool to 70%, then Distilled Water to 40%, then use Sodium Coolant.").withStyle(ChatFormatting.RED))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

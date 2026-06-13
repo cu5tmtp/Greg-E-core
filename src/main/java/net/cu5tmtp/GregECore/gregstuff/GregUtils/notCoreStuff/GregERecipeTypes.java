@@ -69,7 +69,7 @@ public class GregERecipeTypes {
             .addDataInfo(data -> {
                 if (data.contains("heatgen")) {
                     double weight = data.getInt("heatgen");
-                    return ChatFormatting.RED + "Heat generated: " + ChatFormatting.WHITE + weight;
+                    return ChatFormatting.RED + "Heat generated: " + ChatFormatting.WHITE + (int) weight + "K";
                 }
                 return null;
             });
