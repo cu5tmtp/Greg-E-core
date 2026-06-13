@@ -21,7 +21,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantOutputPartMachine;
@@ -32,13 +31,12 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +45,6 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
-import static net.minecraft.client.gui.screens.Screen.hasShiftDown;
 
 @SuppressWarnings("removal")
 public class FissionReactor extends WorkableElectricMultiblockMachine {
@@ -65,7 +62,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
 
     @DescSynced
     @Persisted
-    public float controlRodInsertion = 0.0F;
+    public float controlRodInsertion = 100.0F;
 
     @DescSynced
     @Persisted
@@ -80,9 +77,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     private IFluidHandler coolantHandlerInput;
     private IFluidHandler coolantHandlerOutput;
 
-    private static final float MAX_HEAT = 50000.0F;
-
-    private static final Logger LOGGER = LogUtils.getLogger();
+    private static final float MAX_HEAT = 5000.0F;
 
     public FissionReactor(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -91,6 +86,8 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+
+        setInsertionPercent(controlRodInsertion);
 
         List<IFluidHandler> coolantContainers = new ArrayList<>();
 
@@ -139,79 +136,82 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     private void manageHeat() {
         if (this.getLevel() != null && this.getLevel().isClientSide) return;
 
-        if (this.getRecipeLogic().isWorking()) {
-            float withdrawalPercent = 100f - getInsertionPercent();
-            float heatMultiplier = 0.1f + (float) Math.pow(withdrawalPercent / 20f, 2);
+        if (getOffsetTimer() % 5 == 0) {
 
-            float generatedHeat = this.recipeTemp * heatMultiplier;
-            this.heatLevel += generatedHeat;
-        }
+            if (this.getRecipeLogic().isWorking()) {
+                float withdrawalPercent = 100f - getInsertionPercent();
 
-        if (this.heatLevel > 0 && this.coolantHandlerInput != null && this.coolantHandlerOutput != null) {
+                float baseHeat = this.recipeTemp * (withdrawalPercent / 100f) * 3.334f;
+                float multiplier = 1.0f;
 
-            int maxDrainAmount = 5000;
-            var simulatedDrain = this.coolantHandlerInput.drain(maxDrainAmount, IFluidHandler.FluidAction.SIMULATE);
+                if (withdrawalPercent > 60f) {
+                    multiplier = 4.0f;
+                } else if (withdrawalPercent > 30f) {
+                    multiplier = 2.0f;
+                }
 
-            if (!simulatedDrain.isEmpty()) {
-                float coolingPower = getFluidCoolingPower(simulatedDrain);
-                FluidStack hotFluidOut = getHeatedCoolant(simulatedDrain);
+                float generatedHeat = baseHeat * multiplier;
+                this.heatLevel += generatedHeat;
+            }
 
-                if (coolingPower > 0 && hotFluidOut != null) {
-                    float heatToDissipate = Math.min(this.heatLevel, simulatedDrain.getAmount() * coolingPower);
-                    int fluidToConsume = (int) Math.ceil(heatToDissipate / coolingPower);
+            if (this.heatLevel > 0 && this.coolantHandlerInput != null && this.coolantHandlerOutput != null) {
+                int maxDrainAmount = 100;
+                var simulatedDrain = this.coolantHandlerInput.drain(maxDrainAmount, IFluidHandler.FluidAction.SIMULATE);
 
-                    hotFluidOut.setAmount(fluidToConsume);
+                if (!simulatedDrain.isEmpty()) {
+                    float coolingPower = getFluidCoolingPower(simulatedDrain);
+                    FluidStack hotFluidOut = getHeatedCoolant(simulatedDrain);
 
-                    int acceptedFill = this.coolantHandlerOutput.fill(hotFluidOut, IFluidHandler.FluidAction.SIMULATE);
+                    if (coolingPower > 0 && hotFluidOut != null) {
+                        float heatToDissipate = Math.min(this.heatLevel, simulatedDrain.getAmount() * coolingPower);
+                        int fluidToConsume = (int) Math.ceil(heatToDissipate / coolingPower);
 
-                    if (acceptedFill > 0) {
-                        var actualDrained = this.coolantHandlerInput.drain(acceptedFill, IFluidHandler.FluidAction.EXECUTE);
-                        hotFluidOut.setAmount(actualDrained.getAmount());
-                        this.coolantHandlerOutput.fill(hotFluidOut, IFluidHandler.FluidAction.EXECUTE);
+                        hotFluidOut.setAmount(fluidToConsume);
 
-                        this.heatLevel -= (actualDrained.getAmount() * coolingPower);
-                        if (this.heatLevel < 0) this.heatLevel = 0;
+                        int acceptedFill = this.coolantHandlerOutput.fill(hotFluidOut, IFluidHandler.FluidAction.SIMULATE);
+
+                        if (acceptedFill > 0) {
+                            var actualDrained = this.coolantHandlerInput.drain(acceptedFill, IFluidHandler.FluidAction.EXECUTE);
+                            hotFluidOut.setAmount(actualDrained.getAmount());
+                            this.coolantHandlerOutput.fill(hotFluidOut, IFluidHandler.FluidAction.EXECUTE);
+
+                            this.heatLevel -= (actualDrained.getAmount() * coolingPower);
+                            if (this.heatLevel < 0) this.heatLevel = 0;
+                        }
                     }
                 }
             }
-        }
 
-        if (this.heatLevel > 0) {
-            this.heatLevel -= 2.0f;
-            if (this.heatLevel < 0) this.heatLevel = 0;
-        }
+            if (this.heatLevel > 0 && !this.getRecipeLogic().isWorking()) {
+                this.heatLevel -= 5.0f;
+                if (this.heatLevel < 0) this.heatLevel = 0;
+            }
 
-        // Logika zničení a opravy
-        if (this.heatLevel > MAX_HEAT) {
-            // Pokud je reaktor přehřátý, poškodíme trup každých 10 ticků
-            if (getOffsetTimer() % 10 == 0) {
+            if (this.heatLevel > MAX_HEAT) {
                 float excessHeat = this.heatLevel - MAX_HEAT;
                 int damage = 1 + (int)(excessHeat / 5000f);
                 this.hullDmg -= damage;
 
                 if (this.hullDmg <= 0) {
-                    triggerExplosion();
+                    explodeMachine();
+                    return;
                 }
-            }
-        } else {
-            if (this.heatLevel < (MAX_HEAT / 2) && this.hullDmg < 100) {
-                if (getOffsetTimer() % 100 == 0) {
-                    this.hullDmg++;
+            } else {
+                if (this.heatLevel < (MAX_HEAT / 2) && this.hullDmg < 100) {
+                    if (getOffsetTimer() % 100 == 0) {
+                        this.hullDmg++;
+                    }
                 }
             }
         }
     }
 
-    private void triggerExplosion() {
-        if (this.getLevel() != null && this.getPos() != null) {
-            this.getLevel().explode(
-                    null,
-                    this.getPos().getX(),
-                    this.getPos().getY(),
-                    this.getPos().getZ(),
-                    30.0f,
-                    Level.ExplosionInteraction.BLOCK
-            );
+    private void explodeMachine() {
+        net.minecraft.world.level.Level level = getLevel();
+        if (level != null && !level.isClientSide) {
+            var pos = getPos();
+            level.setBlockAndUpdate(pos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
+            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15.0F, net.minecraft.world.level.Level.ExplosionInteraction.BLOCK);
         }
     }
 
@@ -219,9 +219,9 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
         String fluidKey = ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid()).toString();
 
         switch (fluidKey) {
-            case "minecraft:water": return 1.5f;
-            case "gtceu:distilled_water": return 3.0f;
-            case "gtceu:liquid_helium": return 15.0f;
+            case "minecraft:water": return 1.0f;
+            case "gtceu:distilled_water": return 5.0f;
+            case "gtceu:sodium_coolant": return 25.0f;
             default: return 0.0f;
         }
     }
@@ -234,11 +234,12 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
             outputFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation("gtceu:steam"));
         }
 
-        if (fluidKey.equals("gtceu:liquid_helium")) {
+        if (fluidKey.equals("gtceu:sodium_coolant")) {
+            outputFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation("gtceu:superheated_sodium"));
         }
 
-        if (outputFluid != null && outputFluid != net.minecraft.world.level.material.Fluids.EMPTY) {
-            return new net.minecraftforge.fluids.FluidStack(outputFluid, 1);
+        if (outputFluid != null && outputFluid != Fluids.EMPTY) {
+            return new FluidStack(outputFluid, 1);
         }
         return null;
     }
@@ -247,6 +248,9 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
         assert recipe != null;
         this.recipeTemp = recipe.data.getInt("heatgen");
+        if(getInsertionPercent() >= 100.0F){
+            return false;
+        }
         return super.beforeWorking(recipe);
     }
 
@@ -281,7 +285,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                     if (this.isMouseOverElement(mouseX, mouseY)) {
                         boolean isShift = false;
                         try {
-                            isShift = hasShiftDown();
+                            isShift = net.minecraft.client.gui.screens.Screen.hasShiftDown();
                         } catch (Throwable ignored) {}
 
                         boolean finalIsShift = isShift;
@@ -362,7 +366,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                         .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tungstensteel_turbine_casing"))))
                         .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:ptfe_pipe_casing"))))
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laminated_glass"))))
-                        .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:air"))))
+                        .where("d", Predicates.any())
                         .where("e", Predicates.blocks(ModBlocks.NOZZLE.get()))
                         .where('f', Predicates.controller(blocks(definition.getBlock())))
                         .where('g', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tungstensteel_turbine_casing")))
@@ -381,15 +385,34 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createFissionRodRender)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Improved Cooling and Perfect Overclock").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Nuclear Fission").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Nuclear fission is very useful for energy, but you have different ideas. Use the reactor to create new elements. " +
+                    "Though be careful, as it requires careful heat management. " +
+                    "Keep your coolants flowing or face a meltdown.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Open the controller GUI and locate the button with a percentage value on the left side, which indicates how deeply the control rods are inserted into the fuel rods. " +
+                    "Higher percentage means the rods are pushed further in, which slows down the fission process, while a lower percentage retracts them, causing your multiblock to run faster." +
+                    "Control rods have to be retracted by at least 1% to start the craft.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("TLDR: lower percentage = better.").withStyle(ChatFormatting.RED))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("You also need to cool the multiblock while its working. Heat is generated every 5 ticks with this formula: (recipeTemperature * rodsWithdrawalPercent * 3.334) * 2 (if rodsWithdrawalPercent > 30%) or * 4 (if rodsWithdrawalPercent > 60%). " +
+                    "Coolants have different cooling power values, these are written below. Heat removed is calculated every 5 ticks, max inputed coolant is 100mb, and the formula looks like this: removedHeat = coolantConsumed * coolingPower. " +
+                    "You need to keep the Coolant Output Hatch empty or the heated coolant will not dissipate. " +
+                    "Failure in not providing coolant results in the hull being damaged, and eventual blow-up.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("TLDR: If recipe has 100K temperature, use Water to safely cool to 70%, then Distilled Water to 40%, then use Sodium Coolant.").withStyle(ChatFormatting.RED))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Available coolants:").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Water, 1 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Distilled Water, 5 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Sodium Coolant, 25 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
             .register();
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         if (isFormed()) {
-            textList.add(Component.literal("Hull Health: " + this.hullDmg + "%").withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Heat Level: " + this.heatLevel + "K").withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Control Rod LVL: " + this.controlRodInsertion).withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Reactor Hull Health: " + this.hullDmg + "% / 100%").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Reactor Hull Heat: " + (int) this.heatLevel + "K / 5000K").withStyle(ChatFormatting.AQUA));
         }
         super.addDisplayText(textList);
     }

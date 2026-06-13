@@ -32,6 +32,8 @@ public class FissionReactorRender extends DynamicRender<FissionReactor, FissionR
     private static TextureAtlasSprite URANIUM_SPRITE;
     private static TextureAtlasSprite IRON_SPRITE;
 
+    private float heatLevel;
+
     public FissionReactorRender() {}
 
     @Override
@@ -64,14 +66,18 @@ public class FissionReactorRender extends DynamicRender<FissionReactor, FissionR
                     .getBlockModel(Blocks.EMERALD_BLOCK.defaultBlockState()).getParticleIcon();
         }
 
-        // Nová textura pro železné opláštění (okénka)
         if (IRON_SPRITE == null) {
             IRON_SPRITE = Minecraft.getInstance().getBlockRenderer().getBlockModelShaper()
                     .getBlockModel(Blocks.IRON_BLOCK.defaultBlockState()).getParticleIcon();
         }
 
         float insertionLevel = machine.controlRodInsertion;
-        float heatLevel = machine.heatLevel;
+
+        if(machine.getRecipeLogic().isWorking()){
+            heatLevel = LightTexture.FULL_BRIGHT;
+        } else {
+            heatLevel = 0.2F;
+        }
 
         renderRodsAnim(machine, insertionLevel, heatLevel, poseStack, buffer, packedLight);
     }
