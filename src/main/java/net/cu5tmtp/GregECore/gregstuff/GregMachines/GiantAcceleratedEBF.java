@@ -248,7 +248,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Perfect Overclock and Magical Coils").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock, Magical Coils and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Avaible coils: Malachite, Forgotten and Superelement-27").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

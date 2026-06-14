@@ -35,7 +35,8 @@ public class ThreadT2PartMachine extends TieredPartMachine {
             .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/threading/threading_2"))
             .tooltips(Component.literal("Use this to enable threading on the compatible machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .editableUI(new EditableMachineUI("threading_tier_two", GregECore.id("threading_tier_two"), WidgetGroup::new, (group, machine) -> {
-                group.addWidget(new LabelWidget(-24, 1, "This machine can now use Threading!"));
+                group.addWidget(new LabelWidget(-40, 1, "This machine can now use"));
+                group.addWidget(new LabelWidget(0, 29, "§5Threading!"));
             }))
             .register();
 

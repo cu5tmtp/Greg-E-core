@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedCoolantInputPartMachine;
@@ -51,10 +52,14 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
     }
 
     @Persisted
+    @DescSynced
     private double heat = 0;
     private TickableSubscription heatSubscription;
     private IFluidHandler coolantHandler;
     private int recipeTemp = 0;
+    private int lastRedstoneSignal = -1;
+    private final FluidStack idleCoolantTarget = new FluidStack(GreggyItems.SUPERHEATED_SOLAR.getFluid(), 1000);
+    private final FluidStack workingCoolantTarget = new FluidStack(GreggyItems.DEIONIZED_WATER.getFluid(), 100);
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             EnhancedFusionReactor.class,
@@ -134,9 +139,10 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         return true;
     }
 
-    //heat logic
     private void manageHeat() {
         if (getOffsetTimer() % 20 != 0) return;
+
+        double oldHeat = heat;
 
         if (getRecipeLogic().isActive()) {
             applyWorkingHeatLogic();
@@ -148,23 +154,25 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         if (heat > 7500) heat = 7500;
 
         if (!isRemote()) {
-            this.self().notifyBlockUpdate();
-            this.updateSignal();
-            this.self().markDirty();
+            if (heat != oldHeat) {
+                this.self().markDirty();
+            }
+
+            int currentSignal = getOutputSignal(null);
+            if (currentSignal != lastRedstoneSignal) {
+                this.updateSignal();
+                lastRedstoneSignal = currentSignal;
+            }
         }
     }
 
     private void applyIdleHeatLogic() {
-        int amountToDrain = 1000;
-        Fluid coolant = GreggyItems.SUPERHEATED_SOLAR.getFluid();
-        FluidStack resource = new FluidStack(coolant, amountToDrain);
-
         FluidStack simulation = GTTransferUtils.drainFluidAccountNotifiableList(
-                coolantHandler, resource, IFluidHandler.FluidAction.SIMULATE);
+                coolantHandler, idleCoolantTarget, IFluidHandler.FluidAction.SIMULATE);
 
-        if (simulation.getAmount() >= amountToDrain) {
+        if (simulation.getAmount() >= idleCoolantTarget.getAmount()) {
             GTTransferUtils.drainFluidAccountNotifiableList(
-                    coolantHandler, resource, IFluidHandler.FluidAction.EXECUTE);
+                    coolantHandler, idleCoolantTarget, IFluidHandler.FluidAction.EXECUTE);
             heat += 50;
         } else {
             heat -= 100;
@@ -174,20 +182,16 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
     private void applyWorkingHeatLogic() {
         heat += 60;
 
-        int amountToDrain = 100;
-        Fluid coolant = GreggyItems.DEIONIZED_WATER.getFluid();
-        FluidStack resource = new FluidStack(coolant, amountToDrain);
-
         FluidStack simulation = GTTransferUtils.drainFluidAccountNotifiableList(
                 coolantHandler,
-                resource,
+                workingCoolantTarget,
                 IFluidHandler.FluidAction.SIMULATE
         );
 
-        if (!simulation.isEmpty() && simulation.getAmount() >= amountToDrain) {
+        if (!simulation.isEmpty() && simulation.getAmount() >= workingCoolantTarget.getAmount()) {
             GTTransferUtils.drainFluidAccountNotifiableList(
                     coolantHandler,
-                    resource,
+                    workingCoolantTarget,
                     IFluidHandler.FluidAction.EXECUTE
             );
             heat -= 60;
@@ -196,7 +200,6 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
         if (heat > recipeTemp || heat < (recipeTemp - 500)) {
             getRecipeLogic().interruptRecipe();
         }
-
     }
 
     public static MachineDefinition ENHANCED_FUSION_REACTOR = REGISTRATE

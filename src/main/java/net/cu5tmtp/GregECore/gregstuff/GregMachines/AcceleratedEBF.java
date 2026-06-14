@@ -1,16 +1,19 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.tag.ModTag;
 import net.minecraft.core.BlockPos;
@@ -35,8 +38,21 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     private int coilTemp = 0;
 
+    public boolean canBeThreaded = false;
+
     @Override
     public void onStructureFormed() {
+
+        for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT1PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
+            }
+        }
+
         super.onStructureFormed();
         this.checkCoil();
     }
@@ -82,6 +98,20 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
         };
     }
 
+    @Override
+    public void onStructureInvalid() {
+        canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
+        super.onStructureInvalid();
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 2);
+    }
+
     public int getMaxTemp() {
         return this.coilTemp;
     }
@@ -99,12 +129,13 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
                         .aisle("BAB", "DDD", "DDD", "BBB")
                         .where('A', Predicates.controller(blocks(definition.getBlock())))
                         .where('B', Predicates.blocks(CASING_INVAR_HEATPROOF.get())
-                                            .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(ThreadT1PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('C', Predicates.abilities(PartAbility.MUFFLER).setMaxGlobalLimited(1))
                         .where('D', Predicates.blockTag(ModTag.Blocks.MAGICAL_COILS_T1))
                         .where(' ', Predicates.any())
@@ -114,7 +145,7 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_heatproof"),
                                  GTCEu.id("block/multiblock/electric_blast_furnace"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Perfect Overclock and Magical Coils").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock, Magical Coils and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Avaible coils: Manasteel, Twilight and Desh").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

@@ -5,8 +5,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -14,6 +16,9 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -55,9 +60,41 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
     int currentBoost = 0;
     int coilTemp = 12500;
 
+    public boolean canBeThreaded = false;
+
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public void onStructureFormed() {
+
+        for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT3PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
+            }
+        }
+
+        super.onStructureFormed();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
+        super.onStructureInvalid();
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 8);
     }
 
     @Override
@@ -144,7 +181,8 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2)))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
+                                .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('C', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:awakened_draconium_coil"))))
                         .where('D', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:shockproof_engine"))))
                         .where('E', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:ptfe_engine_intake"))))
@@ -160,7 +198,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
                     GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Perfect Overclock and Learning").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock, Learning and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This machine is able to optimize its processes, " +
                     "greatly increasing its capabilities by reducing the energy usage, speeding the recipes up and adding more parallels.").withStyle(style -> style.withColor(0x90EE90)))
