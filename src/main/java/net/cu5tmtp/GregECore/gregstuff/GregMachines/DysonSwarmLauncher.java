@@ -17,9 +17,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.Gr
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -118,6 +116,9 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The breakpoints are: 500 -> 1x, 50000 -> 10x, 500000 -> 75x, 1000000 -> 250x.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
+
+
+
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
