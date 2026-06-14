@@ -18,17 +18,43 @@ import java.util.List;
 
 public class MultiThreadedRecipeLogic extends RecipeLogic {
 
-    private final int maxThreads;
+    private int maxThreads;
     private final List<RecipeThread> activeThreads = new ArrayList<>();
     private int recipeSearchCooldown = 0;
+    private boolean isMultiThreaded = false;
 
     public MultiThreadedRecipeLogic(IRecipeLogicMachine machine, int maxThreads) {
         super(machine);
         this.maxThreads = maxThreads;
     }
 
+    public boolean isMultiThreaded() {
+        return this.isMultiThreaded;
+    }
+
+    public void setMultiThreaded(boolean multiThreaded) {
+        if (this.isMultiThreaded != multiThreaded) {
+            this.isMultiThreaded = multiThreaded;
+            if (!multiThreaded) {
+                this.activeThreads.clear();
+            } else {
+                if (this.progress > 0) super.interruptRecipe();
+            }
+        }
+    }
+
     public int getMaxThreads() {
         return this.maxThreads;
+    }
+
+    public void setMaxThreads(int maxThreads) {
+        this.maxThreads = maxThreads;
+    }
+
+    @Override
+    public void interruptRecipe() {
+        super.interruptRecipe();
+        this.activeThreads.clear();
     }
 
     public List<RecipeThread> getActiveThreads() {
@@ -37,6 +63,11 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
 
     @Override
     public void serverTick() {
+        if (!isMultiThreaded) {
+            super.serverTick();
+            return;
+        }
+
         if (isSuspend()) return;
 
         boolean isWorking = false;
@@ -55,6 +86,9 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
                 if (!handledFirst) {
                     var tickHandle = handleTickRecipe(thread.recipe);
                     if (tickHandle.isSuccess()) {
+                        if (!machine.onWorking()) {
+                            break;
+                        }
                         powerSuccess = true;
                         thisThreadSuccess = true;
                     } else {
@@ -124,6 +158,10 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
                 var checkResult = checkRecipe(modified);
 
                 if (checkResult.isSuccess()) {
+                    if (!machine.beforeWorking(modified)) {
+                        break;
+                    }
+
                     var ioResult = handleRecipeIO(modified, IO.IN);
 
                     if (ioResult.isSuccess()) {
@@ -147,6 +185,9 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         super.saveCustomPersistedData(tag, forDrop);
 
+        // Uložíme i stav přepínače
+        tag.putBoolean("IsMultiThreaded", isMultiThreaded);
+
         ListTag threadsTag = new ListTag();
         for (RecipeThread thread : activeThreads) {
             CompoundTag threadTag = new CompoundTag();
@@ -162,6 +203,9 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
     @Override
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
+
+        // Načteme stav přepínače
+        this.isMultiThreaded = tag.getBoolean("IsMultiThreaded");
 
         activeThreads.clear();
         if (tag.contains("ActiveThreads", Tag.TAG_LIST)) {

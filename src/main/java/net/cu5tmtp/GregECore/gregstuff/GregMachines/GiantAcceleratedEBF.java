@@ -74,7 +74,11 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
             if(part instanceof ThreadT2PartMachine){
                 canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
             }
+
 
             if(!(part instanceof CoolantInputPartMachine)){
                 continue;
@@ -196,6 +200,9 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
     public void onStructureInvalid() {
         parallelBooster = 0;
         canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
         super.onStructureInvalid();
     }
 

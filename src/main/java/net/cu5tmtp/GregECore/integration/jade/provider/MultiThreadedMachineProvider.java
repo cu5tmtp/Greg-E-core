@@ -88,7 +88,7 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
             MetaMachine machine = be.getMetaMachine();
 
             if (machine instanceof IRecipeLogicMachine rlm) {
-                if (rlm.getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                if (rlm.getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
                     CompoundTag threadData = new CompoundTag();
 
                     threadData.putInt("Active", logic.getActiveThreads().size());
