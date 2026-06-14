@@ -28,6 +28,9 @@
   "gtceu.open_rift": "Rift Opening",
   "gtceu.send_up_the_mats": "Space Trade",
 
+  "block.gregecore.threading_one_machine": "Threading Core T1",
+  "block.gregecore.threading_two_machine": "Threading Core T2",
+  "block.gregecore.threading_three_machine": "Threading Core T3",
   "block.gregecore.terra_input_machine": "Terra Input",
   "block.gregecore.aer_input_machine": "Aer Input",
   "block.gregecore.aqua_input_machine": "Aqua Input",

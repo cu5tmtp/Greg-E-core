@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-13T16:53:50.3148026	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-14T21:27:10.8902801	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -48,10 +48,13 @@ ca247348b271cdf45803beb0db958b74c558d64f assets/gregecore/blockstates/starmaykr.
 834ef80b93a9632f5a50db2a1df075c34ac489f8 assets/gregecore/blockstates/star_feeder.json
 fa01b6d90c95b9959ccef7653cf8e498a5f0de3a assets/gregecore/blockstates/superelement_coil.json
 294417fea6517c56ad8286ad642d122f385d271c assets/gregecore/blockstates/terra_input_machine.json
+dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_one_machine.json
+8e20978841d3a51b3e180b1fc93e2d0e1dd3c90c assets/gregecore/blockstates/threading_three_machine.json
+8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-09bfcbbeffada8cc647431621b6206ae5ccee30a assets/gregecore/lang/en_ud.json
-344b9ef3439365e00dbf70b8391f34fcffb88dda assets/gregecore/lang/en_us.json
+a3cd41c12fdd7a618beaeeedf0bd0ea23c7dffd0 assets/gregecore/lang/en_ud.json
+cb714c264996010a7881270e34f367fdbe41b1b2 assets/gregecore/lang/en_us.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
 332b784d9a890db3c29ab645e8e6bb1047125268 assets/gregecore/models/block/atomic_engine_intake_active.json
 0ae93fc06655a5afaa98fe57dd5dbab2e68d314d assets/gregecore/models/block/awakened_draconium_coil.json
@@ -100,6 +103,9 @@ d33eca960602abd4c0d8ed082ffe433be95a5a9b assets/gregecore/models/block/machine/s
 2a8cb70e2cf558f77753166f27363cf92fe6654a assets/gregecore/models/block/machine/starmaykr.json
 0e40643c3f5cbd93a3b3ef2533956344939ca60f assets/gregecore/models/block/machine/star_feeder.json
 e05336b31616606a78bf44c095391f30cba52f6c assets/gregecore/models/block/machine/terra_input_machine.json
+7182ec4cea4f9d2a539b5d7f3b7421adc1b2f8cc assets/gregecore/models/block/machine/threading_one_machine.json
+64be14708a34ed7a444983ccf149aeba9b444f8b assets/gregecore/models/block/machine/threading_three_machine.json
+1877af4c6ddc6ba242f8a49b7cc8fa6480346489 assets/gregecore/models/block/machine/threading_two_machine.json
 6784116963c708d99da2c246d03977144046d000 assets/gregecore/models/block/malachite_coil.json
 702fb230216f385a4822c6a8bd58ae8fcb055458 assets/gregecore/models/block/malachite_coil_active.json
 a1e7793802e509d4eaef8b3c8d378b266b38e97e assets/gregecore/models/block/manasteel_coil.json
@@ -165,6 +171,9 @@ a44a0d5e4332fc61082db9d6c19563e6f583288d assets/gregecore/models/item/realityfra
 1fbeffe374660779bdca0d33ed2774722fe39030 assets/gregecore/models/item/star_feeder.json
 17c4677240553012d70c1d4905991c871d72de50 assets/gregecore/models/item/superelement_coil.json
 bfe1d0fef0f739512736a8dab0f67fe37b3bfc24 assets/gregecore/models/item/terra_input_machine.json
+cd617013a21883ef36ede211a6ffa0bb3da75b09 assets/gregecore/models/item/threading_one_machine.json
+8090e0ce47f997d4cbfbddaf82705b52f7834f5a assets/gregecore/models/item/threading_three_machine.json
+919f27320cc4292d25aff432b5c6c8abdc4b5cd5 assets/gregecore/models/item/threading_two_machine.json
 0ba4b9e746ff15bb1c48058eed71d36ac5c5da78 assets/gregecore/models/item/twilight_coil.json
 ae7947d31304252642a35f5e25bd5c2f28f8686c assets/gregecore/models/item/vibration_engine_intake.json
 bd1d3841186c986797de6b9c5d7374a4b41a1a81 data/gregecore/loot_tables/blocks/atomic_engine_intake.json

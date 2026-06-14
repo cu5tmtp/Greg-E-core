@@ -172,8 +172,8 @@ public class FornaxUniversi extends WorkableElectricMultiblockMachine implements
         if (requiredItems == null) {
             requiredItems = new ItemStack[] {
                     new ItemStack(ModItems.SERVER_RACK.get()),
-                    new ItemStack(ModItems.QUANTUM_ACCELERATOR.get()),
-                    new ItemStack(ModItems.ROCKET_CONE.get())
+                    new ItemStack(ModItems.ROCKET_CONE.get()),
+                    new ItemStack(ModItems.QUANTUM_ACCELERATOR.get())
             };
         }
     }

@@ -4,6 +4,9 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregEHPCAInit;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 
 public class GregEStuffInit {
@@ -47,6 +50,9 @@ public class GregEStuffInit {
         IgnisInputPartMachine.init();
         PerditioInputPartMachine.init();
         CoolantOutputPartMachine.init();
+        ThreadT1PartMachine.init();
+        ThreadT2PartMachine.init();
+        ThreadT3PartMachine.init();
     }
 
     public static void initHPCAParts(){

@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantInputPartMachine;
@@ -71,6 +72,10 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 parallelBooster = 2;
             }
 
+            if(part instanceof ThreadT2PartMachine){
+                canBeThreaded = true;
+            }
+
             if(!(part instanceof CoolantInputPartMachine)){
                 continue;
             }
@@ -92,8 +97,6 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
     protected RecipeLogic createRecipeLogic(Object... args) {
         return new MultiThreadedRecipeLogic(this, 4);
     }
-
-
 
     @Override
     public boolean onWorking() {
@@ -192,6 +195,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureInvalid() {
         parallelBooster = 0;
+        canBeThreaded = false;
         super.onStructureInvalid();
     }
 
@@ -219,7 +223,8 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(CoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1)))
                         .where('C', Predicates.abilities(PartAbility.MUFFLER).setMaxGlobalLimited(1))
                         .where('D', Predicates.blockTag(ModTag.Blocks.MAGICAL_COILS_T2))
                         .where('E', Predicates.blocks(CASING_EXTREME_ENGINE_INTAKE.get()))
@@ -228,7 +233,8 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                         .where('H', Predicates.blocks(FIREBOX_TUNGSTENSTEEL.get())
                                 .or(Predicates.abilities(ParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1))
                                 .or(Predicates.abilities(AdvancedParallelBoosterPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
-                        .where('I', Predicates.abilities(CoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1))
+                        .where('I', Predicates.blocks(FIREBOX_TUNGSTENSTEEL.get())
+                                        .or(Predicates.abilities(ThreadT2PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where(' ', Predicates.any())
                         .build();
             })
