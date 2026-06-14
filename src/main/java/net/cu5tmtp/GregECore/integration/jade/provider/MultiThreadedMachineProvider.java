@@ -17,6 +17,7 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 
+@SuppressWarnings("all")
 public class MultiThreadedMachineProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     public static final ResourceLocation UID = new ResourceLocation("gregecore", "multithread_info");

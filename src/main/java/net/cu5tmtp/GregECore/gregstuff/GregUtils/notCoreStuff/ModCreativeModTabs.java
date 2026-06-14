@@ -5,9 +5,9 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.AcceleratedEBF;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.GiantAcceleratedEBF;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.LearningAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;

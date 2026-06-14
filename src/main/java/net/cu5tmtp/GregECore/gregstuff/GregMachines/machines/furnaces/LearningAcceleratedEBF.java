@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -193,7 +193,8 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
                         .where(' ', Predicates.any())
                         .build();
             })
-            .workableCasingModel(GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
+            .workableCasingModel(
+                    GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
                     GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Perfect Overclock, Learning and Threading").withStyle(style -> style.withColor(0xFFD700)))
@@ -218,6 +219,8 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+
         if (isFormed()) {
             textList.add(Component.literal("T1 items smelted: ").withStyle(ChatFormatting.AQUA)
                     .append(tier1 >= 15000 ? Component.literal("DONE!").withStyle(ChatFormatting.GREEN) : Component.literal(tier1 + "/" + 15000).withStyle(ChatFormatting.AQUA)));
@@ -233,8 +236,17 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
 
             textList.add(Component.literal("T5 items smelted: ").withStyle(ChatFormatting.AQUA)
                     .append(tier5 >= 1000 ? Component.literal("DONE!").withStyle(ChatFormatting.GREEN) : Component.literal(tier5 + "/" + 1000).withStyle(ChatFormatting.AQUA)));
+
+            if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
+                List<MultiThreadedRecipeLogic.RecipeThread> threads = logic.getActiveThreads();
+                for (int i = 0; i < threads.size(); i++) {
+                    var thread = threads.get(i);
+                    int percent = thread.duration > 0 ? (int) (((float) thread.progress / thread.duration) * 100) : 0;
+                    textList.add(Component.literal("  Thread " + (i + 1) + ": " + percent + "%").withStyle(ChatFormatting.LIGHT_PURPLE));
+                }
+            }
+
         }
-        super.addDisplayText(textList);
     }
 
     public int getMaxTemp() {

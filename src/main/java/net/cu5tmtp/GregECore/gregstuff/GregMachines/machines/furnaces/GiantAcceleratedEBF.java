@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -269,6 +269,16 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         if (isFormed()) {
+
+            if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
+                List<MultiThreadedRecipeLogic.RecipeThread> threads = logic.getActiveThreads();
+                for (int i = 0; i < threads.size(); i++) {
+                    var thread = threads.get(i);
+                    int percent = thread.duration > 0 ? (int) (((float) thread.progress / thread.duration) * 100) : 0;
+                    textList.add(Component.literal("  Thread " + (i + 1) + ": " + percent + "%").withStyle(ChatFormatting.LIGHT_PURPLE));
+                }
+            }
+
             textList.add(Component.literal("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
             switch (coilTemp){
                 case 7400 -> {

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class MultiThreadedRecipeLogic extends RecipeLogic {
 
     private int maxThreads;
@@ -227,6 +229,20 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
             }
         }
         this.recipeSearchCooldown = tag.getInt("SearchCooldown");
+    }
+
+    @Override
+    public boolean hasCustomProgressLine() {
+        return this.isMultiThreaded;
+    }
+
+    @Override
+    public Component getCustomProgressLine() {
+        if (!this.isMultiThreaded || activeThreads.isEmpty()) return null;
+
+        // Zobrazíme místo starého textu jen hezké shrnutí
+        return Component.literal("Multi-Threading Active: ")
+                .append(Component.literal(activeThreads.size() + " / " + maxThreads).withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 
     public static class RecipeThread {

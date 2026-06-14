@@ -209,6 +209,15 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
+            List<MultiThreadedRecipeLogic.RecipeThread> threads = logic.getActiveThreads();
+            for (int i = 0; i < threads.size(); i++) {
+                var thread = threads.get(i);
+                int percent = thread.duration > 0 ? (int) (((float) thread.progress / thread.duration) * 100) : 0;
+                textList.add(Component.literal("  Thread " + (i + 1) + ": " + percent + "%").withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+        }
+
         switch (parallelBooster)
         {
             case 2 -> {

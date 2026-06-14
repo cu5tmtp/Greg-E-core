@@ -80,6 +80,12 @@ public class GregERecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_HAMMER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.JET_ENGINE);
 
+    public static GTRecipeType SPECIALIZEDASSEMBLYLINE = GTRecipeTypes.register("specializedassemblyline", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(15,1,3,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER);
+
     public static GTRecipeType ASCENCION_ALTAR_DONATION = GTRecipeTypes.register("ascention_altar_donation", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)

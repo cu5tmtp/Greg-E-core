@@ -137,6 +137,15 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
+            List<MultiThreadedRecipeLogic.RecipeThread> threads = logic.getActiveThreads();
+            for (int i = 0; i < threads.size(); i++) {
+                var thread = threads.get(i);
+                int percent = thread.duration > 0 ? (int) (((float) thread.progress / thread.duration) * 100) : 0;
+                textList.add(Component.literal("  Thread " + (i + 1) + ": " + percent + "%").withStyle(ChatFormatting.LIGHT_PURPLE));
+            }
+        }
+
         textList.add(Component.literal("Glacial Cores: " + this.numberOfCores).withStyle(ChatFormatting.AQUA));
         textList.add(Component.literal("Recipe time reduction: " + this.numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
         textList.add(Component.literal("Parallels: " + this.numberOfCores * 16).withStyle(ChatFormatting.AQUA));
