@@ -1,7 +1,18 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregEHPCAInit;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.AcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.GiantAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.LearningAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;

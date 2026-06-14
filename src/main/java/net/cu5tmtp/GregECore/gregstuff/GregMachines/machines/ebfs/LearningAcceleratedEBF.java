@@ -1,7 +1,6 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -16,7 +15,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
@@ -70,6 +68,8 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureFormed() {
 
+        super.onStructureFormed();
+
         for (IMultiPart part : getParts()) {
 
             if (part instanceof ThreadT3PartMachine) {
@@ -79,8 +79,6 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 }
             }
         }
-
-        super.onStructureFormed();
     }
 
     @Override
@@ -215,6 +213,7 @@ public class LearningAcceleratedEBF extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Reward: 160 parallels.").withStyle(style -> style.withColor(0x4815AA)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("You can check your progress in the GUI of the machine controller.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override

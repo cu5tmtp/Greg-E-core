@@ -3,7 +3,7 @@ package net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.thingsToRender;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRender;
 import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.StarMaykr;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.StarMaykr;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -24,8 +24,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.math.Axis;
 import org.joml.Matrix4f;
 import org.joml.Matrix3f;
-
-import static net.minecraft.world.level.block.Blocks.WHITE_CONCRETE;
 
 @SuppressWarnings("removal")
 public class StarMaykrRender extends DynamicRender<StarMaykr, StarMaykrRender> {

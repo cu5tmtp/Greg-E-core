@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.client.renderer.machine.DynamicRenderType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.Codec;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.SpaceElevator;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.SpaceElevator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

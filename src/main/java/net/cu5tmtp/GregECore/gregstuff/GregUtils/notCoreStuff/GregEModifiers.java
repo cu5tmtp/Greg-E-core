@@ -6,7 +6,15 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.AcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.GiantAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs.LearningAcceleratedEBF;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.DeepSpaceExplorer;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
 import net.minecraft.server.level.ServerLevel;
 

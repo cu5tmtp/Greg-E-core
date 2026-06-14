@@ -1,15 +1,19 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -35,10 +39,22 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
 
     public int numberOfCores = 0;
 
+    public boolean canBeThreaded = false;
+
     @Override
     public void onStructureFormed() {
-        checkHowManyCores();
         super.onStructureFormed();
+        checkHowManyCores();
+
+        for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT2PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
+            }
+        }
     }
 
     public void checkHowManyCores(){
@@ -63,6 +79,21 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
         }
     }
 
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 4);
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        numberOfCores = 0;
+        canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
+        super.onStructureInvalid();
+    }
+
     public static MachineDefinition ENHANCEDBLASTCHILLER = REGISTRATE
             .multiblock("enhancedblastchiller", EnhancedBlastChiller::new)
             .rotationState(RotationState.ALL)
@@ -81,7 +112,8 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(ThreadT2PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('C', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tempered_glass"))))
                         .where('D', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:extreme_engine_intake_casing"))))
                         .where('E', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:frostcore"))))
@@ -91,13 +123,14 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Glacial Core and Perfect Overclock").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Glacial, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This freezer gets better with every core you supply it. " +
                     "Each core improves the speed at which the machine is chilling the inputs.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("For every Glacial Core in this machine, it gets 16 parallels and 6.5% faster recipes. " +
                     "Maximum Glacial Cores in a machine is 14, minimum is 3.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T2.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override

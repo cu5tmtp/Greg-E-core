@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -18,6 +19,8 @@ import com.gregtechceu.gtceu.utils.GTTransferUtils;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.ParallelBoosterPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -47,6 +50,8 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
     public int parallelBooster = 0;
 
+    public boolean canBeThreaded = false;
+
     @Override
     public void onStructureFormed() {
 
@@ -61,6 +66,13 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
 
             if(part instanceof AdvancedParallelBoosterPartMachine){
                 parallelBooster = 2;
+            }
+
+            if (part instanceof ThreadT2PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
             }
 
             if(!(part instanceof CoolantInputPartMachine)){
@@ -79,6 +91,11 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
         this.coolantHandler = new FluidHandlerList(coolantContainers);
 
 
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 4);
     }
 
     @Override
@@ -133,6 +150,10 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureInvalid() {
         this.parallelBooster = 0;
+        canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
         super.onStructureInvalid();
     }
 
@@ -156,7 +177,8 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
-                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
+                                .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(ThreadT2PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('C', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tempered_glass"))))
                         .where('D', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:extreme_engine_intake_casing"))))
                         .where('E', Predicates.blocks(CASING_ALUMINIUM_FROSTPROOF.get())
@@ -169,7 +191,7 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Improved Cooling and Perfect Overclock").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Improved Cooling, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This freezer can cool inputs faster than the base one, but requires a bit of help with it.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
@@ -180,6 +202,7 @@ public class BigFreezer extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Base version: 4 parallels and 10% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
             .tooltips(Component.literal("With parallel multiplication part: 8 parallels and 20% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
             .tooltips(Component.literal("With enhanced parallel multiplication part: 16 parallels and 30% recipe time reduction.").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Accepts Threading Core T2.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override

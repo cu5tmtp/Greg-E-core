@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -43,6 +43,8 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
     @Override
     public void onStructureFormed() {
 
+        super.onStructureFormed();
+
         for (IMultiPart part : getParts()) {
 
             if (part instanceof ThreadT1PartMachine) {
@@ -52,8 +54,6 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
                 }
             }
         }
-
-        super.onStructureFormed();
         this.checkCoil();
     }
 
@@ -153,7 +153,8 @@ public class AcceleratedEBF extends WorkableElectricMultiblockMachine {
                     " Depending on the coil, the machine speeds up faster. The coils tell you the exact amount of recipe time reduction.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("The machine only accepts 18 of the same coil. Do not mix them. After the machine forms, " +
-                    "you can see activated Magical Coil abilities in the controller,").withStyle(style -> style.withColor(0x90EE90)))
+                    "you can see activated Magical Coil abilities in the controller.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T1.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .tooltips()
             .register();
 

@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.mojang.serialization.Codec;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.InfusionAltar;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;

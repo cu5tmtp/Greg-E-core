@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.ebfs;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -261,6 +261,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("The machine only accepts 32 of the same coil. Do not mix them. After the machine forms, " +
                     "you can see activated Magical Coil abilities in the controller.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Put the coolant in the Coolant Input. This machine only works with the basic version.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T2.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override
