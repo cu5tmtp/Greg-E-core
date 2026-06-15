@@ -18,8 +18,18 @@ import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
+import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogicCartridge;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -29,6 +39,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +48,15 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class CartridgeCase extends WorkableElectricMultiblockMachine {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            CartridgeCase.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
 
     public static final GTRecipeType[] ALL_POSSIBLE_RECIPES = new GTRecipeType[]{
             GTRecipeTypes.EXTRUDER_RECIPES, GTRecipeTypes.BENDER_RECIPES, GTRecipeTypes.COMPRESSOR_RECIPES,
@@ -55,137 +75,97 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     private TickableSubscription logicSubscription;
     private Set<GTRecipeType> allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
 
+    private GTRecipeType currentActiveType = GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY;
+
+    @DescSynced
+    @Persisted
+    public int disabledRecipeTypesMask = 0;
+
+    @DescSynced
+    @Persisted
+    public int uiTypeIndex = 0;
+
     public CartridgeCase(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
-    @Override
-    protected RecipeLogic createRecipeLogic(Object... args) {
-        return new MultiThreadedRecipeLogic(this, 8);
+    public Set<GTRecipeType> getAllowedRecipeTypes() {
+        return this.allowedRecipeTypes;
     }
 
     @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
+    public GTRecipeType getRecipeType() {
+        return this.currentActiveType;
+    }
 
-        boolean hasThreadPart = false;
+    public void setAutoMachineMode(GTRecipeType type) {
+        this.currentActiveType = type;
+    }
 
-        for (IMultiPart part : getParts()) {
+    public void cycleUIType() {
+        Set<GTRecipeType> allCartridgeTypes = getCurrentlyInsertedTypes();
+        if (allCartridgeTypes.isEmpty()) return;
 
-            if (part instanceof ThreadT3PartMachine) {
-                hasThreadPart = true;
-                break;
-            }
+        List<GTRecipeType> list = new ArrayList<>(allCartridgeTypes);
+
+        GTRecipeType current = null;
+        if (uiTypeIndex >= 0 && uiTypeIndex < ALL_POSSIBLE_RECIPES.length) {
+            current = ALL_POSSIBLE_RECIPES[uiTypeIndex];
         }
 
-        this.canBeThreaded = hasThreadPart;
+        int currentListIdx = list.indexOf(current);
+        int nextIdx = (currentListIdx + 1) % list.size();
 
-        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
-            logic.setMultiThreaded(this.canBeThreaded);
-        }
+        uiTypeIndex = getRecipeTypeIndex(list.get(nextIdx));
+    }
+
+    public void toggleCurrentUIType() {
+        if (uiTypeIndex < 0 || uiTypeIndex >= ALL_POSSIBLE_RECIPES.length) return;
+
+        disabledRecipeTypesMask ^= (1 << uiTypeIndex);
 
         updateAllowedRecipeTypes();
-
-        if (this.logicSubscription == null) {
-            this.logicSubscription = this.subscribeServerTick(this::manageLogic);
-        }
     }
 
-    @Override
-    public void onStructureInvalid() {
+    private Set<GTRecipeType> getCurrentlyInsertedTypes() {
+        Set<GTRecipeType> types = new LinkedHashSet<>();
+        if (getLevel() == null) return types;
 
-        this.canBeThreaded = false;
+        BlockPos center = getPos();
+        Direction left = getFrontFacing().getClockWise();
+        Direction right = left.getOpposite();
 
-        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
-            logic.setMultiThreaded(false);
-        }
+        BlockPos[] checkPositions = new BlockPos[]{
+                center.relative(left, 4),
+                center.relative(right, 4),
+                center.above(4),
+                center.below(4),
+                center.relative(left, 4).above(4),
+                center.relative(right, 4).above(4),
+                center.relative(left, 4).below(4),
+                center.relative(right, 4).below(4)
+        };
 
-        this.allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
-
-        if (this.logicSubscription != null) {
-            this.logicSubscription.unsubscribe();
-            this.logicSubscription = null;
-        }
-        super.onStructureInvalid();
-    }
-
-    private void manageLogic() {
-        if (isFormed && getOffsetTimer() % 100 == 0) {
-            updateAllowedRecipeTypes();
-        }
-    }
-
-    @Override
-    public void addDisplayText(@NotNull List<Component> textList) {
-        super.addDisplayText(textList);
-
-        if (isFormed()) {
-            textList.add(Component.literal("Active Cartridge:").withStyle(ChatFormatting.AQUA));
-            boolean foundAny = false;
-
-            if (getLevel() != null) {
-                BlockPos center = getPos();
-                Direction left = getFrontFacing().getClockWise();
-                Direction right = left.getOpposite();
-                BlockPos[] checkPositions = new BlockPos[]{
-                        center.relative(left, 4),
-                        center.relative(right, 4),
-                        center.above(4),
-                        center.below(4),
-                        center.relative(left, 4).above(4),
-                        center.relative(right, 4).above(4),
-                        center.relative(left, 4).below(4),
-                        center.relative(right, 4).below(4)
-                };
-
-                for (BlockPos checkPos : checkPositions) {
-                    if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
-                        if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
-                            if (cartridge.isFormed()) {
-                                textList.add(Component.literal(" - ")
-                                        .append(Component.translatable("block.gregecore." + cartridge.getDefinition().getName()))
-                                        .withStyle(ChatFormatting.GRAY));
-                                foundAny = true;
-                            }
-                        }
+        for (BlockPos checkPos : checkPositions) {
+            if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
+                if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
+                    if (cartridge.isFormed()) {
+                        addRecipeTypesForCartridge(cartridge.getDefinition(), types);
                     }
                 }
             }
-
-            if (!foundAny) {
-                textList.add(Component.literal(" - None").withStyle(ChatFormatting.DARK_GRAY));
-            }
         }
+        return types;
     }
 
     private void updateAllowedRecipeTypes() {
+        Set<GTRecipeType> allCartridgeTypes = getCurrentlyInsertedTypes();
         Set<GTRecipeType> newTypes = new LinkedHashSet<>();
 
-        if (getLevel() != null) {
-
-            BlockPos center = getPos();
-            Direction left = getFrontFacing().getClockWise();
-            Direction right = left.getOpposite();
-
-            BlockPos[] checkPositions = new BlockPos[]{
-                    center.relative(left, 4),
-                    center.relative(right, 4),
-                    center.above(4),
-                    center.below(4),
-                    center.relative(left, 4).above(4),
-                    center.relative(right, 4).above(4),
-                    center.relative(left, 4).below(4),
-                    center.relative(right, 4).below(4)
-            };
-
-            for (BlockPos checkPos : checkPositions) {
-                if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
-                    if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
-                        if (cartridge.isFormed()) {
-                            addRecipeTypesForCartridge(cartridge.getDefinition(), newTypes);
-                        }
-                    }
-                }
+        for (GTRecipeType type : allCartridgeTypes) {
+            int idx = getRecipeTypeIndex(type);
+            if ((disabledRecipeTypesMask & (1 << idx)) == 0) {
+                newTypes.add(type);
             }
         }
 
@@ -197,10 +177,12 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
             this.allowedRecipeTypes = newTypes;
 
+            if (!this.allowedRecipeTypes.contains(this.currentActiveType)) {
+                this.currentActiveType = this.allowedRecipeTypes.iterator().next();
+            }
+
             if (getRecipeLogic() != null) {
-
                 getRecipeLogic().markLastRecipeDirty();
-
                 GTRecipe currentRecipe = getRecipeLogic().getLastRecipe();
 
                 if (getRecipeLogic().isWorking() && currentRecipe != null) {
@@ -277,6 +259,189 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         return r -> r;
     }
 
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogicCartridge(this, 8);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+
+        boolean hasThreadPart = false;
+
+        for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT3PartMachine) {
+                hasThreadPart = true;
+                break;
+            }
+        }
+
+        this.canBeThreaded = hasThreadPart;
+
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogicCartridge logic) {
+            logic.setMultiThreaded(this.canBeThreaded);
+        }
+
+        updateAllowedRecipeTypes();
+
+        if (this.logicSubscription == null) {
+            this.logicSubscription = this.subscribeServerTick(this::manageLogic);
+        }
+    }
+
+    @Override
+    public void onStructureInvalid() {
+
+        this.canBeThreaded = false;
+
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogicCartridge logic) {
+            logic.setMultiThreaded(false);
+        }
+
+        this.allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
+        this.currentActiveType = GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY;
+
+        if (this.logicSubscription != null) {
+            this.logicSubscription.unsubscribe();
+            this.logicSubscription = null;
+        }
+        super.onStructureInvalid();
+    }
+
+    private void manageLogic() {
+        if (isFormed && getOffsetTimer() % 100 == 0) {
+            updateAllowedRecipeTypes();
+        }
+    }
+
+    public int getRecipeTypeIndex(GTRecipeType type) {
+        for (int i = 0; i < ALL_POSSIBLE_RECIPES.length; i++) {
+            if (ALL_POSSIBLE_RECIPES[i] == type) return i;
+        }
+        return -1;
+    }
+
+    @Override
+    public Widget createUIWidget() {
+        WidgetGroup group = (WidgetGroup) super.createUIWidget();
+
+        WidgetGroup sidePanel = new WidgetGroup(-120, -40, 115, 95);
+        sidePanel.setBackground(ResourceBorderTexture.BORDERED_BACKGROUND);
+
+        LabelWidget titleLabel = new LabelWidget(5, 5, Component.literal("Config Selector").withStyle(ChatFormatting.GOLD));
+
+        LabelWidget typeLabel = new LabelWidget(5, 18, "") {
+            @Override
+            public void updateScreen() {
+                super.updateScreen();
+                Set<GTRecipeType> insertedTypes = getCurrentlyInsertedTypes();
+                if (!insertedTypes.isEmpty()) {
+                    GTRecipeType currentType = ALL_POSSIBLE_RECIPES[Math.min(Math.max(0, uiTypeIndex), ALL_POSSIBLE_RECIPES.length - 1)];
+                    if (!insertedTypes.contains(currentType)) {
+                        uiTypeIndex = getRecipeTypeIndex(insertedTypes.iterator().next());
+                        currentType = ALL_POSSIBLE_RECIPES[uiTypeIndex];
+                    }
+
+                    String cleanName = currentType.toString().replace("gtceu:", "").replace("_recipes", "").replace("_", " ").toUpperCase();
+                    this.setComponent(Component.literal(cleanName).withStyle(ChatFormatting.WHITE));
+                } else {
+                    this.setComponent(Component.literal("NONE").withStyle(ChatFormatting.DARK_GRAY));
+                }
+            }
+        };
+
+        LabelWidget statusLabel = new LabelWidget(5, 31, "") {
+            @Override
+            public void updateScreen() {
+                super.updateScreen();
+                Set<GTRecipeType> insertedTypes = getCurrentlyInsertedTypes();
+                if (!insertedTypes.isEmpty()) {
+                    boolean isDisabled = (disabledRecipeTypesMask & (1 << uiTypeIndex)) != 0;
+                    if (isDisabled) {
+                        this.setComponent(Component.literal("Status: ").withStyle(ChatFormatting.GOLD)
+                                .append(Component.literal("DISABLED").withStyle(ChatFormatting.RED)));
+                    } else {
+                        this.setComponent(Component.literal("Status: ").withStyle(ChatFormatting.GOLD)
+                                .append(Component.literal("ENABLED").withStyle(ChatFormatting.GREEN)));
+                    }
+                } else {
+                    this.setComponent(Component.literal(""));
+                }
+            }
+        };
+
+        ButtonWidget cycleBtn = new ButtonWidget(5, 47, 105, 20,
+                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Cycle Type")),
+                clickData -> {
+                    cycleUIType();
+                });
+
+        ButtonWidget toggleBtn = new ButtonWidget(5, 69, 105, 20,
+                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Toggle Type")),
+                clickData -> {
+                    toggleCurrentUIType();
+                });
+
+        sidePanel.addWidget(titleLabel);
+        sidePanel.addWidget(typeLabel);
+        sidePanel.addWidget(statusLabel);
+        sidePanel.addWidget(cycleBtn);
+        sidePanel.addWidget(toggleBtn);
+
+        group.addWidget(sidePanel);
+
+        return group;
+    }
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+
+        // Zbavíme se otravného Active Machine Mode
+        textList.removeIf(component -> component.getString().contains("Active Machine Mode"));
+
+        if (isFormed()) {
+            // Texty Config Selectoru a Statutu byly smazány z tohoto místa (nyní jsou v bočním GUI panelu)
+            textList.add(Component.literal("Active Cartridge:").withStyle(ChatFormatting.AQUA));
+            boolean foundAny = false;
+
+            if (getLevel() != null) {
+                BlockPos center = getPos();
+                Direction left = getFrontFacing().getClockWise();
+                Direction right = left.getOpposite();
+                BlockPos[] checkPositions = new BlockPos[]{
+                        center.relative(left, 4),
+                        center.relative(right, 4),
+                        center.above(4),
+                        center.below(4),
+                        center.relative(left, 4).above(4),
+                        center.relative(right, 4).above(4),
+                        center.relative(left, 4).below(4),
+                        center.relative(right, 4).below(4)
+                };
+
+                for (BlockPos checkPos : checkPositions) {
+                    if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
+                        if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
+                            if (cartridge.isFormed()) {
+                                textList.add(Component.literal(" - ")
+                                        .append(Component.translatable("block.gregecore." + cartridge.getDefinition().getName()))
+                                        .withStyle(ChatFormatting.GRAY));
+                                foundAny = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!foundAny) {
+                textList.add(Component.literal(" - None").withStyle(ChatFormatting.DARK_GRAY));
+            }
+        }
+    }
+
     public static MachineDefinition CARTRIDGECASE = REGISTRATE.multiblock("cartridgecase", CartridgeCase::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_PERFECT, CartridgeCase::recipeModifier)
@@ -296,7 +461,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
-                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMinGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where("b", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:sturdy_machine_casing"))))
@@ -316,10 +481,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
             .register();
 
-
-
     public static void init() {
 
     }
-
 }
