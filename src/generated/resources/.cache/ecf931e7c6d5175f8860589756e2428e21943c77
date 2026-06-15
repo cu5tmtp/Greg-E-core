@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-15T16:00:31.5477305	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-15T16:19:44.8218554	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -89,7 +89,7 @@ e40839a13984cb2bbe1a6d3e2ccb96a14d9a4e43 assets/gregecore/models/block/machine/a
 703a8e6f9e49eec70192f537a945407cd63a5420 assets/gregecore/models/block/machine/ascencion_holder.json
 4f73aa85b869d3598b878e8d73784684b2e20594 assets/gregecore/models/block/machine/bacteria_input_machine.json
 f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/bigfreezer.json
-2b13505e5f2e3f40bbfd9966acc3c637af24af52 assets/gregecore/models/block/machine/cartridgecase.json
+0906526ea09721cf43a7c1acda4453a6a4a4de28 assets/gregecore/models/block/machine/cartridgecase.json
 88b05c33d3b231484a8469b291da2c24981800dd assets/gregecore/models/block/machine/coolant_input_machine.json
 3dfbe58d5c7d1760659b2e4c700d5f67ba098084 assets/gregecore/models/block/machine/coolant_output_machine.json
 c9c28509b2b72ee12d3ad18c0622d8d8655c7667 assets/gregecore/models/block/machine/deep_space_explorer.json
