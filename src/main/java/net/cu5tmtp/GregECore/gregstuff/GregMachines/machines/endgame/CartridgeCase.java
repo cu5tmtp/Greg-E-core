@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -11,7 +12,9 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -26,7 +29,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,10 +38,22 @@ import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
+    public static final GTRecipeType[] ALL_POSSIBLE_RECIPES = new GTRecipeType[]{
+            GTRecipeTypes.EXTRUDER_RECIPES, GTRecipeTypes.BENDER_RECIPES, GTRecipeTypes.COMPRESSOR_RECIPES,
+            GTRecipeTypes.FORGE_HAMMER_RECIPES, GTRecipeTypes.FORMING_PRESS_RECIPES, GTRecipeTypes.WIREMILL_RECIPES,
+            GTRecipeTypes.ASSEMBLER_RECIPES, GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES,
+            GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES, GTRecipeTypes.ORE_WASHER_RECIPES, GTRecipeTypes.CHEMICAL_BATH_RECIPES,
+            GTRecipeTypes.EXTRACTOR_RECIPES, GTRecipeTypes.CANNER_RECIPES, GTRecipeTypes.AUTOCLAVE_RECIPES,
+            GTRecipeTypes.SIFTER_RECIPES, GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES, GTRecipeTypes.CENTRIFUGE_RECIPES,
+            GTRecipeTypes.POLARIZER_RECIPES, GTRecipeTypes.ELECTROMAGNETIC_SEPARATOR_RECIPES, GTRecipeTypes.ELECTROLYZER_RECIPES,
+            GTRecipeTypes.MACERATOR_RECIPES, GTRecipeTypes.MIXER_RECIPES, GTRecipeTypes.LASER_ENGRAVER_RECIPES,
+            GTRecipeTypes.CUTTER_RECIPES, GTRecipeTypes.LATHE_RECIPES, GTRecipeTypes.ARC_FURNACE_RECIPES,
+            GTRecipeTypes.BREWING_RECIPES, GTRecipeTypes.FERMENTING_RECIPES, GTRecipeTypes.FLUID_HEATER_RECIPES
+    };
+
     public boolean canBeThreaded = false;
     private TickableSubscription logicSubscription;
-
-    private GTRecipeType[] activeRecipeTypes = new GTRecipeType[]{GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY};
+    private Set<GTRecipeType> allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
 
     public CartridgeCase(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -51,17 +65,13 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     }
 
     @Override
-    @NotNull
-    public GTRecipeType[] getRecipeTypes() {
-        return activeRecipeTypes;
-    }
-
-    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
 
         boolean hasThreadPart = false;
+
         for (IMultiPart part : getParts()) {
+
             if (part instanceof ThreadT3PartMachine) {
                 hasThreadPart = true;
                 break;
@@ -69,11 +79,12 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         }
 
         this.canBeThreaded = hasThreadPart;
+
         if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
             logic.setMultiThreaded(this.canBeThreaded);
         }
 
-        updateActiveRecipeTypes();
+        updateAllowedRecipeTypes();
 
         if (this.logicSubscription == null) {
             this.logicSubscription = this.subscribeServerTick(this::manageLogic);
@@ -82,24 +93,25 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
     @Override
     public void onStructureInvalid() {
+
         this.canBeThreaded = false;
+
         if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
             logic.setMultiThreaded(false);
         }
 
-        this.activeRecipeTypes = new GTRecipeType[]{GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY};
+        this.allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
 
         if (this.logicSubscription != null) {
             this.logicSubscription.unsubscribe();
             this.logicSubscription = null;
         }
-
         super.onStructureInvalid();
     }
 
     private void manageLogic() {
         if (isFormed && getOffsetTimer() % 100 == 0) {
-            updateActiveRecipeTypes();
+            updateAllowedRecipeTypes();
         }
     }
 
@@ -113,10 +125,8 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
             if (getLevel() != null) {
                 BlockPos center = getPos();
-
                 Direction left = getFrontFacing().getClockWise();
                 Direction right = left.getOpposite();
-
                 BlockPos[] checkPositions = new BlockPos[]{
                         center.relative(left, 4),
                         center.relative(right, 4),
@@ -148,12 +158,12 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         }
     }
 
-    private void updateActiveRecipeTypes() {
+    private void updateAllowedRecipeTypes() {
         Set<GTRecipeType> newTypes = new LinkedHashSet<>();
 
         if (getLevel() != null) {
-            BlockPos center = getPos();
 
+            BlockPos center = getPos();
             Direction left = getFrontFacing().getClockWise();
             Direction right = left.getOpposite();
 
@@ -183,12 +193,21 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             newTypes.add(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY);
         }
 
-        Set<GTRecipeType> currentTypes = new LinkedHashSet<>(Arrays.asList(this.activeRecipeTypes));
-        if (!newTypes.equals(currentTypes)) {
-            this.activeRecipeTypes = newTypes.toArray(new GTRecipeType[0]);
+        if (!newTypes.equals(this.allowedRecipeTypes)) {
+
+            this.allowedRecipeTypes = newTypes;
 
             if (getRecipeLogic() != null) {
+
                 getRecipeLogic().markLastRecipeDirty();
+
+                GTRecipe currentRecipe = getRecipeLogic().getLastRecipe();
+
+                if (getRecipeLogic().isWorking() && currentRecipe != null) {
+                    if (!this.allowedRecipeTypes.contains(currentRecipe.getType())) {
+                        getRecipeLogic().setProgress(0);
+                    }
+                }
             }
         }
     }
@@ -249,11 +268,19 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         }
     }
 
-    public static MachineDefinition CARTRIDGECASE = REGISTRATE
-            .multiblock("cartridgecase", CartridgeCase::new)
+    public static ModifierFunction recipeModifier(MetaMachine machine, @NotNull GTRecipe recipe) {
+        if (machine instanceof CartridgeCase cartridgeCase) {
+            if (!cartridgeCase.allowedRecipeTypes.contains(recipe.getType())) {
+                return r -> null;
+            }
+        }
+        return r -> r;
+    }
+
+    public static MachineDefinition CARTRIDGECASE = REGISTRATE.multiblock("cartridgecase", CartridgeCase::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_PERFECT)
-            .recipeType(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY)
+            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_PERFECT, CartridgeCase::recipeModifier)
+            .recipeTypes(ALL_POSSIBLE_RECIPES)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -286,8 +313,13 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Dynamic Recipes: Insert a Cartridge to unlock its specific recipes!").withStyle(style -> style.withColor(0x00FFFF)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Make the 3 following items:").withStyle(style -> style.withColor(0x90EE90)))
+
             .register();
 
+
+
     public static void init() {
+
     }
+
 }
