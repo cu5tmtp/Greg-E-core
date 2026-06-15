@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -32,7 +32,8 @@ public class AdvancedParallelBoosterPartMachine extends TieredPartMachine {
                     new AdvancedParallelBoosterPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(AdvancedParallelBoosterPartMachine.ADVANCED_PARALLEL_BOOSTER)
-            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/advanced_parallel_booster"))
+            .tier(GTValues.UV)
+            .colorOverlayTieredHullModel(GregECore.id("block/overlay/advanced_parallel_booster/overlay_front"))
             .tooltips(Component.literal("Use this to quadruple the parallels that the machine can achieve.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .editableUI(new EditableMachineUI("advanced_parallel_booster", GregECore.id("advanced_parallel_booster"), WidgetGroup::new, (group, machine) -> {
                 group.addWidget(new LabelWidget(-24, 1, "Parallel multiplier: 4"));

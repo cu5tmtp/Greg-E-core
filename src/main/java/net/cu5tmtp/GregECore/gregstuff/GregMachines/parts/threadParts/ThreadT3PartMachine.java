@@ -29,10 +29,11 @@ public class ThreadT3PartMachine extends TieredPartMachine {
     }
 
     public static final MachineDefinition THREADING_3_MACHINE = REGISTRATE.machine("threading_three_machine", (holder) ->
-                    new ThreadT3PartMachine(holder, GTValues.ULV))
+                    new ThreadT3PartMachine(holder, GTValues.UHV))
+            .tier(GTValues.UHV)
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(ThreadT3PartMachine.THREADING_3)
-            .workableCasingModel(GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"), GregECore.id("block/overlay/threading/threading_3"))
+            .colorOverlayTieredHullModel(GregECore.id("block/overlay/threading/threading_3/overlay_front"))
             .tooltips(Component.literal("Use this to enable threading on the compatible machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .editableUI(new EditableMachineUI("threading_tier_three", GregECore.id("threading_tier_three"), WidgetGroup::new, (group, machine) -> {
                 group.addWidget(new LabelWidget(-40, 1, "This machine can now use"));

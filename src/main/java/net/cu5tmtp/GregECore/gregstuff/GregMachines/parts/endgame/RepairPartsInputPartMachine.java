@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

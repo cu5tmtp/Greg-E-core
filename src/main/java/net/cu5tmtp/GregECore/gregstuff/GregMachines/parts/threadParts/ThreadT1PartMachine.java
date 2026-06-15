@@ -29,10 +29,11 @@ public class ThreadT1PartMachine extends TieredPartMachine {
     }
 
     public static final MachineDefinition THREADING_1_MACHINE = REGISTRATE.machine("threading_one_machine", (holder) ->
-                    new ThreadT1PartMachine(holder, GTValues.ULV))
+                    new ThreadT1PartMachine(holder, GTValues.HV))
+            .tier(GTValues.HV)
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(ThreadT1PartMachine.THREADING_1)
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_heatproof"), GregECore.id("block/overlay/threading/threading_1"))
+            .colorOverlayTieredHullModel(GregECore.id("block/overlay/threading/threading_1/overlay_front"))
             .tooltips(Component.literal("Use this to enable threading on the compatible machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .editableUI(new EditableMachineUI("threading_tier_one", GregECore.id("threading_tier_one"), WidgetGroup::new, (group, machine) -> {
                 group.addWidget(new LabelWidget(-40, 1, "This machine can now use"));

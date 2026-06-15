@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,24 +14,24 @@ import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class BacteriaInputPartMachine extends ItemBusPartMachine {
+public class StarFeederPartMachine extends ItemBusPartMachine {
 
-    public static final PartAbility BACTERIA_INPUT = new PartAbility("bacteria_input");
+    public static final PartAbility STAR_FEEDER = new PartAbility("star_feeder");
 
-    public BacteriaInputPartMachine(IMachineBlockEntity holder, int tier) {
+    public StarFeederPartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.BOTH);
     }
 
     public static PartAbility getPartAbility() {
-        return BACTERIA_INPUT;
+        return STAR_FEEDER;
     }
 
-    public static final MachineDefinition BACTERIAL_INPUT_MACHINE = REGISTRATE.machine("bacteria_input_machine", (holder) ->
-                    new BacteriaInputPartMachine(holder, GTValues.ULV))
+    public static final MachineDefinition STAR_FEEDER_MACHINE = REGISTRATE.machine("star_feeder", (holder) ->
+                    new StarFeederPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
-            .abilities(BacteriaInputPartMachine.BACTERIA_INPUT)
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this to input bacteria, which will be used to boost recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .abilities(StarFeederPartMachine.STAR_FEEDER)
+            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to feed the star items. Items are inserted every 5 ticks.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

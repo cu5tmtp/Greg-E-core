@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,24 +14,24 @@ import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class RealityFractureEnginePartMachine extends ItemBusPartMachine {
+public class DroneAccessHatchPartMachine extends ItemBusPartMachine {
 
-    public static final PartAbility REALITY_FRACTURE_PART = new PartAbility("realityfracturepart");
+    public static final PartAbility DRONE_ACCESS = new PartAbility("drone_access");
 
-    public RealityFractureEnginePartMachine(IMachineBlockEntity holder, int tier) {
+    public DroneAccessHatchPartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.BOTH);
     }
 
     public static PartAbility getPartAbility() {
-        return REALITY_FRACTURE_PART;
+        return DRONE_ACCESS;
     }
 
-    public static final MachineDefinition REALITY_FRACTURE_PART_MACHINE = REGISTRATE.machine("realityfracturepart", (holder) ->
-                    new RealityFractureEnginePartMachine(holder, GTValues.ULV))
+    public static final MachineDefinition DRONE_ACCESS_MACHINE = REGISTRATE.machine("drone_access_machine", (holder) ->
+                    new DroneAccessHatchPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
-            .abilities(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART)
-            .workableCasingModel(GTCEu.id("block/casings/gcym/industrial_steam_casing"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this to hold the ancient eyes.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .abilities(DroneAccessHatchPartMachine.DRONE_ACCESS)
+            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this hold drones.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

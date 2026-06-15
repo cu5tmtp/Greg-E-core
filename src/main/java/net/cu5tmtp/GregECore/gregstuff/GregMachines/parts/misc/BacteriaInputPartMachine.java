@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,24 +14,24 @@ import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class DroneAccessHatchPartMachine extends ItemBusPartMachine {
+public class BacteriaInputPartMachine extends ItemBusPartMachine {
 
-    public static final PartAbility DRONE_ACCESS = new PartAbility("drone_access");
+    public static final PartAbility BACTERIA_INPUT = new PartAbility("bacteria_input");
 
-    public DroneAccessHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public BacteriaInputPartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.BOTH);
     }
 
     public static PartAbility getPartAbility() {
-        return DRONE_ACCESS;
+        return BACTERIA_INPUT;
     }
 
-    public static final MachineDefinition DRONE_ACCESS_MACHINE = REGISTRATE.machine("drone_access_machine", (holder) ->
-                    new DroneAccessHatchPartMachine(holder, GTValues.ULV))
+    public static final MachineDefinition BACTERIAL_INPUT_MACHINE = REGISTRATE.machine("bacteria_input_machine", (holder) ->
+                    new BacteriaInputPartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
-            .abilities(DroneAccessHatchPartMachine.DRONE_ACCESS)
-            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this hold drones.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .abilities(BacteriaInputPartMachine.BACTERIA_INPUT)
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to input bacteria, which will be used to boost recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

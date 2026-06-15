@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,24 +14,24 @@ import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class StarFeederPartMachine extends ItemBusPartMachine {
+public class RealityFractureEnginePartMachine extends ItemBusPartMachine {
 
-    public static final PartAbility STAR_FEEDER = new PartAbility("star_feeder");
+    public static final PartAbility REALITY_FRACTURE_PART = new PartAbility("realityfracturepart");
 
-    public StarFeederPartMachine(IMachineBlockEntity holder, int tier) {
+    public RealityFractureEnginePartMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.BOTH);
     }
 
     public static PartAbility getPartAbility() {
-        return STAR_FEEDER;
+        return REALITY_FRACTURE_PART;
     }
 
-    public static final MachineDefinition STAR_FEEDER_MACHINE = REGISTRATE.machine("star_feeder", (holder) ->
-                    new StarFeederPartMachine(holder, GTValues.ULV))
+    public static final MachineDefinition REALITY_FRACTURE_PART_MACHINE = REGISTRATE.machine("realityfracturepart", (holder) ->
+                    new RealityFractureEnginePartMachine(holder, GTValues.ULV))
             .rotationState(RotationState.NON_Y_AXIS)
-            .abilities(StarFeederPartMachine.STAR_FEEDER)
-            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this to feed the star items. Items are inserted every 5 ticks.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .abilities(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART)
+            .workableCasingModel(GTCEu.id("block/casings/gcym/industrial_steam_casing"), GregECore.id("block/overlay/feeder"))
+            .tooltips(Component.literal("Use this to hold the ancient eyes.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

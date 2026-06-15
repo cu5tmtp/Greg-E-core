@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts;
+package net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -30,7 +30,8 @@ public class CoolantOutputPartMachine extends FluidHatchPartMachine {
                     new CoolantOutputPartMachine(holder, GTValues.EV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(CoolantOutputPartMachine.COOLANT_OUTPUT)
-            .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"), GregECore.id("block/overlay/coolant_output"))
+            .tier(GTValues.EV)
+            .colorOverlayTieredHullModel(GregECore.id("block/overlay/coolant_output/overlay_front"))
             .tooltips(Component.literal("Use this to output coolant from machines.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 

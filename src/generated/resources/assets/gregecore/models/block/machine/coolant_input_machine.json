@@ -2,43 +2,53 @@
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
   "machine": "gregecore:coolant_input_machine",
-  "texture_overrides": {
-    "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel"
-  },
+  "replaceable_textures": [
+    "bottom",
+    "top",
+    "side"
+  ],
   "variants": {
-    "recipe_logic_status=idle": {
+    "is_formed=false,is_painted=false": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/part/hatch_machine",
         "textures": {
-          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
-          "overlay_front": "gregecore:block/overlay/coolant_input/overlay_front"
+          "bottom": "gtceu:block/casings/voltage/ev/bottom",
+          "overlay": "gregecore:block/overlay/coolant_input/overlay_front",
+          "side": "gtceu:block/casings/voltage/ev/side",
+          "top": "gtceu:block/casings/voltage/ev/top"
         }
       }
     },
-    "recipe_logic_status=suspend": {
+    "is_formed=false,is_painted=true": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/part/hatch_machine_color_ring",
         "textures": {
-          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
-          "overlay_front": "gregecore:block/overlay/coolant_input/overlay_front"
+          "bottom": "gtceu:block/casings/voltage/ev/bottom",
+          "overlay": "gregecore:block/overlay/coolant_input/overlay_front",
+          "side": "gtceu:block/casings/voltage/ev/side",
+          "top": "gtceu:block/casings/voltage/ev/top"
         }
       }
     },
-    "recipe_logic_status=waiting": {
+    "is_formed=true,is_painted=false": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/part/hatch_machine",
         "textures": {
-          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
-          "overlay_front": "gregecore:block/overlay/coolant_input/overlay_front_active"
+          "bottom": "gtceu:block/casings/voltage/ev/bottom",
+          "overlay": "gregecore:block/overlay/coolant_input/overlay_front",
+          "side": "gtceu:block/casings/voltage/ev/side",
+          "top": "gtceu:block/casings/voltage/ev/top"
         }
       }
     },
-    "recipe_logic_status=working": {
+    "is_formed=true,is_painted=true": {
       "model": {
-        "parent": "gtceu:block/machine/template/cube_all/sided",
+        "parent": "gtceu:block/machine/template/part/hatch_machine_color_ring",
         "textures": {
-          "all": "gtceu:block/casings/firebox/machine_casing_firebox_tungstensteel",
-          "overlay_front": "gregecore:block/overlay/coolant_input/overlay_front_active"
+          "bottom": "gtceu:block/casings/voltage/ev/bottom",
+          "overlay": "gregecore:block/overlay/coolant_input/overlay_front",
+          "side": "gtceu:block/casings/voltage/ev/side",
+          "top": "gtceu:block/casings/voltage/ev/top"
         }
       }
     }
