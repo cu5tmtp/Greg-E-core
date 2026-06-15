@@ -49,6 +49,8 @@ public class GregEStuffInit {
         FissionReactor.init();
         GiantAlloyBlastSmelter.init();
         SpecializedAssemblyLine.init();
+        BoxMachines.init();
+        CartridgeCase.init();
     }
 
     public static void initGregEParts(){

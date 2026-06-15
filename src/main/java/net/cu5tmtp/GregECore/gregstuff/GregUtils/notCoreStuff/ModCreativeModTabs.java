@@ -1,5 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregECoolerPart;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregEHPCAInit;
@@ -88,6 +89,13 @@ public class ModCreativeModTabs {
                         pOutput.accept(FissionReactor.FISSIONREACTOR.getItem());
                         pOutput.accept(SpecializedAssemblyLine.SPECIALIZED_ASSEMBLY_LINE.getItem());
                         pOutput.accept(GiantAlloyBlastSmelter.GIANT_ABS.getItem());
+                        pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
+                        pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
+                        pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
+                        for (MachineDefinition box : BoxMachines.ALL_BOXES) {
+                            pOutput.accept(box.getItem());
+                        }
+
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                         pOutput.accept(DroneAccessHatchPartMachine.DRONE_ACCESS_MACHINE.getItem());
                         pOutput.accept(ParallelBoosterPartMachine.PARALLEL_BOOSTER_MACHINE.getItem());
@@ -109,9 +117,8 @@ public class ModCreativeModTabs {
                         pOutput.accept(AdvancedHeaterInputPartMachine.ADVANCED_HEATER_INPUT_MACHINE.getItem());
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
                         pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
-                        pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
-                        pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
                         pOutput.accept(PedestalPartMachine.PEDESTAL_INF_MACHINE.getItem());
+
                     })
                     .build());
 
