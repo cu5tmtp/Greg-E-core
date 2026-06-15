@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
-// Přidán import na tvůj CartridgeCase stroj
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.CartridgeCase;
 
 import net.minecraft.ChatFormatting;
@@ -139,6 +138,10 @@ public class MultiThreadedRecipeLogicCartridge extends RecipeLogic {
             this.duration = 0;
         }
 
+        if (machine instanceof CartridgeCase cartridgeCase) {
+            cartridgeCase.activeThreadsCount = activeThreads.size();
+        }
+
         if (isWorking) {
             setStatus(Status.WORKING);
         } else if (activeThreads.isEmpty() && getStatus() != Status.SUSPEND) {
@@ -229,6 +232,7 @@ public class MultiThreadedRecipeLogicCartridge extends RecipeLogic {
         activeThreads.clear();
         if (tag.contains("ActiveThreads", Tag.TAG_LIST)) {
             ListTag threadsTag = tag.getList("ActiveThreads", Tag.TAG_COMPOUND);
+
             for (int i = 0; i < threadsTag.size(); i++) {
                 CompoundTag threadTag = threadsTag.getCompound(i);
                 ResourceLocation recipeId = new ResourceLocation(threadTag.getString("RecipeId"));
@@ -239,6 +243,10 @@ public class MultiThreadedRecipeLogicCartridge extends RecipeLogic {
 
                     if (modified != null) {
                         RecipeThread thread = new RecipeThread(modified, threadTag.getInt("Duration"));
+                        thread.progress = threadTag.getInt("Progress");
+                        activeThreads.add(thread);
+                    } else {
+                        RecipeThread thread = new RecipeThread(gtRecipe, threadTag.getInt("Duration"));
                         thread.progress = threadTag.getInt("Progress");
                         activeThreads.add(thread);
                     }
@@ -255,10 +263,17 @@ public class MultiThreadedRecipeLogicCartridge extends RecipeLogic {
 
     @Override
     public Component getCustomProgressLine() {
-        if (!this.isMultiThreaded || activeThreads.isEmpty()) return null;
+        if (!this.isMultiThreaded) return null;
+
+        int count = 0;
+        if (machine instanceof CartridgeCase cartridgeCase) {
+            count = cartridgeCase.activeThreadsCount;
+        }
+
+        if (count == 0) return null;
 
         return Component.literal("Multi-Threading Active: ")
-                .append(Component.literal(activeThreads.size() + " / " + maxThreads).withStyle(ChatFormatting.LIGHT_PURPLE));
+                .append(Component.literal(count + " / " + maxThreads).withStyle(ChatFormatting.LIGHT_PURPLE));
     }
 
     public static class RecipeThread {

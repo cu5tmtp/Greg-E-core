@@ -85,6 +85,10 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     @Persisted
     public int uiTypeIndex = 0;
 
+    @DescSynced
+    @Persisted
+    public int activeThreadsCount = 0;
+
     public CartridgeCase(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -327,10 +331,10 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     public Widget createUIWidget() {
         WidgetGroup group = (WidgetGroup) super.createUIWidget();
 
-        WidgetGroup sidePanel = new WidgetGroup(-120, -40, 115, 95);
+        WidgetGroup sidePanel = new WidgetGroup(-120, 85, 115, 70);
         sidePanel.setBackground(ResourceBorderTexture.BORDERED_BACKGROUND);
 
-        LabelWidget titleLabel = new LabelWidget(5, 5, Component.literal("Config Selector").withStyle(ChatFormatting.GOLD));
+        LabelWidget titleLabel = new LabelWidget(5, 5, Component.literal("Recipe Type:").withStyle(ChatFormatting.GOLD));
 
         LabelWidget typeLabel = new LabelWidget(5, 18, "") {
             @Override
@@ -345,7 +349,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                     }
 
                     String cleanName = currentType.toString().replace("gtceu:", "").replace("_recipes", "").replace("_", " ").toUpperCase();
-                    this.setComponent(Component.literal(cleanName).withStyle(ChatFormatting.WHITE));
+                    this.setComponent(Component.literal(cleanName).withStyle(ChatFormatting.AQUA));
                 } else {
                     this.setComponent(Component.literal("NONE").withStyle(ChatFormatting.DARK_GRAY));
                 }
@@ -372,17 +376,13 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             }
         };
 
-        ButtonWidget cycleBtn = new ButtonWidget(5, 47, 105, 20,
-                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Cycle Type")),
-                clickData -> {
-                    cycleUIType();
-                });
+        ButtonWidget cycleBtn = new ButtonWidget(5, 45, 50, 20,
+                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Cycle")),
+                clickData -> cycleUIType());
 
-        ButtonWidget toggleBtn = new ButtonWidget(5, 69, 105, 20,
-                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Toggle Type")),
-                clickData -> {
-                    toggleCurrentUIType();
-                });
+        ButtonWidget toggleBtn = new ButtonWidget(60, 45, 50, 20,
+                new GuiTextureGroup(ResourceBorderTexture.BUTTON_COMMON, new TextTexture("Toggle")),
+                clickData -> toggleCurrentUIType());
 
         sidePanel.addWidget(titleLabel);
         sidePanel.addWidget(typeLabel);
@@ -399,11 +399,9 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
 
-        // Zbavíme se otravného Active Machine Mode
         textList.removeIf(component -> component.getString().contains("Active Machine Mode"));
 
         if (isFormed()) {
-            // Texty Config Selectoru a Statutu byly smazány z tohoto místa (nyní jsou v bočním GUI panelu)
             textList.add(Component.literal("Active Cartridge:").withStyle(ChatFormatting.AQUA));
             boolean foundAny = false;
 
@@ -475,10 +473,11 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                     GTCEu.id("block/multiblock/fusion_reactor"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Cartridges, Perfect Overclock, Parallel Hatch and Threading").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("Dynamic Recipes: Insert a Cartridge to unlock its specific recipes!").withStyle(style -> style.withColor(0x00FFFF)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Make the 3 following items:").withStyle(style -> style.withColor(0x90EE90)))
-
+            .tooltips(Component.literal("Highly configurable machine, you define what can get crafted!").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     public static void init() {

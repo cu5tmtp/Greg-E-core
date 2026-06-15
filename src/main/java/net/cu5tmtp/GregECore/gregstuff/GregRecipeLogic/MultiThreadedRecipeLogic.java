@@ -187,7 +187,6 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         super.saveCustomPersistedData(tag, forDrop);
 
-        // Uložíme i stav přepínače
         tag.putBoolean("IsMultiThreaded", isMultiThreaded);
 
         ListTag threadsTag = new ListTag();
@@ -206,7 +205,6 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
 
-        // Načteme stav přepínače
         this.isMultiThreaded = tag.getBoolean("IsMultiThreaded");
 
         activeThreads.clear();

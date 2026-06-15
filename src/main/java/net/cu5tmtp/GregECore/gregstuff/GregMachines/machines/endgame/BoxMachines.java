@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,7 +35,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:steel_gearbox",
             "gtceu:stress_proof_casing",
             GTCEu.id("block/casings/gcym/stress_proof_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Extruder, Bender, Compressor, Forge Hammer, Forming Press and Wiremill."
     );
 
     public static final MachineDefinition MACHINE_2 = create3x3Multiblock(
@@ -41,7 +44,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:assembly_line_unit",
             "gtceu:large_scale_assembler_casing",
             GTCEu.id("block/casings/gcym/large_scale_assembling_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Assembler and Circuit Assembler."
     );
 
     public static final MachineDefinition MACHINE_3 = create3x3Multiblock(
@@ -49,7 +53,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:steel_pipe_casing",
             "gtceu:watertight_casing",
             GTCEu.id("block/casings/gcym/watertight_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Fluid Solidifier, Ore Washer, Chemical Bath, Extractor, Canner and Autoclave."
     );
 
     public static final MachineDefinition MACHINE_4 = create3x3Multiblock(
@@ -57,7 +62,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:stainless_steel_gearbox",
             "gtceu:vibration_safe_casing",
             GTCEu.id("block/casings/gcym/vibration_safe_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Sifter, Centrifuge and Thermal Centrifuge."
     );
 
     public static final MachineDefinition MACHINE_5 = create3x3Multiblock(
@@ -65,7 +71,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:filter_casing",
             "gtceu:nonconducting_casing",
             GTCEu.id("block/casings/gcym/nonconducting_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Electromagnetic Separator, Polarizer and Electrolyzer."
     );
 
     public static final MachineDefinition MACHINE_6 = create3x3Multiblock(
@@ -73,7 +80,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:stainless_steel_gearbox",
             "gtceu:secure_maceration_casing",
             GTCEu.id("block/casings/gcym/secure_maceration_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Type: Macerator."
     );
 
     public static final MachineDefinition MACHINE_7 = create3x3Multiblock(
@@ -81,7 +89,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:ptfe_pipe_casing",
             "gtceu:reaction_safe_mixing_casing",
             GTCEu.id("block/casings/gcym/reaction_safe_mixing_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Type: Mixer."
     );
 
     public static final MachineDefinition MACHINE_8 = create3x3Multiblock(
@@ -89,7 +98,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:laser_hazard_sign_block",
             "gtceu:laser_safe_engraving_casing",
             GTCEu.id("block/casings/gcym/laser_safe_engraving_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Type: Laser Engraver."
     );
 
     public static final MachineDefinition MACHINE_9 = create3x3Multiblock(
@@ -97,7 +107,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:slicing_blades",
             "gtceu:shock_proof_cutting_casing",
             GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Cutter and Lathe."
     );
 
     public static final MachineDefinition MACHINE_10 = create3x3Multiblock(
@@ -105,7 +116,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "minecraft:magma_block",
             "gtceu:high_temperature_smelting_casing",
             GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Arc Furnace."
     );
 
     public static final MachineDefinition MACHINE_11 = create3x3Multiblock(
@@ -113,7 +125,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             "gtceu:steel_pipe_casing",
             "gtceu:corrosion_proof_casing",
             GTCEu.id("block/casings/gcym/corrosion_proof_casing"),
-            GTCEu.id("block/multiblock/distillation_tower")
+            GTCEu.id("block/multiblock/distillation_tower"),
+            "Adds Recipe Types: Brewery, Fermenter, Fluid Heater."
     );
 
     private static MachineDefinition create3x3Multiblock(
@@ -121,7 +134,8 @@ public class BoxMachines extends MultiblockControllerMachine {
             String centerBlock,
             String casingBlock,
             ResourceLocation baseTexture,
-            ResourceLocation overlayTexture) {
+            ResourceLocation overlayTexture,
+            String tooltip) {
 
         return REGISTRATE.multiblock(name, BoxMachines::new)
                 .rotationState(RotationState.NON_Y_AXIS)
@@ -135,6 +149,7 @@ public class BoxMachines extends MultiblockControllerMachine {
                         .where('C', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse(centerBlock))))
                         .where('X', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse(casingBlock))))
                         .build())
+                .tooltips(Component.literal(tooltip).withStyle(ChatFormatting.LIGHT_PURPLE))
                 .workableCasingModel(baseTexture, overlayTexture)
                 .register();
     }

@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogicCartridge;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,7 +23,7 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
 
     public static final ResourceLocation UID = new ResourceLocation("gregecore", "multithread_info");
 
-    public void MultiThreadedProvider() {
+    public MultiThreadedMachineProvider() {
     }
 
     @Override
@@ -89,17 +90,40 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
             MetaMachine machine = be.getMetaMachine();
 
             if (machine instanceof IRecipeLogicMachine rlm) {
+
+                int activeCount = -1;
+                int maxCount = -1;
+                Iterable<?> threads = null;
+
                 if (rlm.getRecipeLogic() instanceof MultiThreadedRecipeLogic logic && logic.isMultiThreaded()) {
+                    activeCount = logic.getActiveThreads().size();
+                    maxCount = logic.getMaxThreads();
+                    threads = logic.getActiveThreads();
+                }
+                else if (rlm.getRecipeLogic() instanceof MultiThreadedRecipeLogicCartridge logicCart && logicCart.isMultiThreaded()) {
+                    activeCount = logicCart.getActiveThreads().size();
+                    maxCount = logicCart.getMaxThreads();
+                    threads = logicCart.getActiveThreads();
+                }
+
+                if (threads != null) {
                     CompoundTag threadData = new CompoundTag();
 
-                    threadData.putInt("Active", logic.getActiveThreads().size());
-                    threadData.putInt("Max", logic.getMaxThreads());
+                    threadData.putInt("Active", activeCount);
+                    threadData.putInt("Max", maxCount);
 
                     ListTag list = new ListTag();
-                    for (MultiThreadedRecipeLogic.RecipeThread thread : logic.getActiveThreads()) {
+                    for (Object obj : threads) {
                         CompoundTag tag = new CompoundTag();
-                        tag.putInt("Progress", thread.progress);
-                        tag.putInt("Duration", thread.duration);
+
+                        if (obj instanceof MultiThreadedRecipeLogic.RecipeThread thread) {
+                            tag.putInt("Progress", thread.progress);
+                            tag.putInt("Duration", thread.duration);
+                        } else if (obj instanceof MultiThreadedRecipeLogicCartridge.RecipeThread thread) {
+                            tag.putInt("Progress", thread.progress);
+                            tag.putInt("Duration", thread.duration);
+                        }
+
                         list.add(tag);
                     }
                     threadData.put("ProgressList", list);
