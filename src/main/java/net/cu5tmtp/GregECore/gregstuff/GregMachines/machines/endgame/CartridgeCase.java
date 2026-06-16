@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
@@ -39,11 +40,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
@@ -75,14 +75,19 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     public boolean canBeThreaded = false;
     private TickableSubscription logicSubscription;
     private Set<GTRecipeType> allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
+
     private GTRecipeType currentActiveType = GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY;
+
     private BlockPos[] cachedCheckPositions;
+
     @DescSynced
     @Persisted
     public int disabledRecipeTypesMask = 0;
+
     @DescSynced
     @Persisted
     public int uiTypeIndex = 0;
+
     @DescSynced
     @Persisted
     public int activeThreadsCount = 0;
@@ -149,21 +154,31 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         return this.cachedCheckPositions;
     }
 
-    private Set<GTRecipeType> getCurrentlyInsertedTypes() {
-        Set<GTRecipeType> types = new LinkedHashSet<>();
-        if (getLevel() == null) return types;
+    public Map<GTRecipeType, Integer> getRecipeTypeCounts() {
+        Map<GTRecipeType, Integer> counts = new HashMap<>();
+        if (getLevel() == null) return counts;
 
         for (BlockPos checkPos : getCheckPositions()) {
             if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
                 if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
                     if (cartridge.isFormed()) {
-                        addRecipeTypesForCartridge(cartridge.getDefinition(), types);
+                        Set<GTRecipeType> cartridgeTypes = new LinkedHashSet<>();
+                        addRecipeTypesForCartridge(cartridge.getDefinition(), cartridgeTypes);
+
+                        for (GTRecipeType type : cartridgeTypes) {
+                            counts.put(type, counts.getOrDefault(type, 0) + 1);
+                        }
                     }
                 }
             }
         }
-        return types;
+        return counts;
     }
+
+    private Set<GTRecipeType> getCurrentlyInsertedTypes() {
+        return getRecipeTypeCounts().keySet();
+    }
+
 
     private void updateAllowedRecipeTypes() {
         Set<GTRecipeType> allCartridgeTypes = getCurrentlyInsertedTypes();
@@ -262,8 +277,24 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             if (!cartridgeCase.allowedRecipeTypes.contains(recipe.getType())) {
                 return r -> null;
             }
+
+            Map<GTRecipeType, Integer> typeCounts = cartridgeCase.getRecipeTypeCounts();
+            int cartridgeCount = typeCounts.getOrDefault(recipe.getType(), 0);
+
+            if (cartridgeCount > 0) {
+                int parallels = cartridgeCount * 256;
+
+                double speedBoost = Math.max(0.1, 1.0 - (cartridgeCount * 0.1));
+
+                return ModifierFunction.builder()
+                        .modifyAllContents(ContentModifier.multiplier(parallels))
+                        .durationMultiplier(speedBoost)
+                        .parallels(parallels)
+                        .eutMultiplier(0.5)
+                        .build();
+            }
         }
-        return r -> r;
+        return r -> null;
     }
 
     @Override
@@ -407,18 +438,35 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         textList.removeIf(component -> component.getString().contains("Active Machine Mode"));
 
         if (isFormed()) {
-            textList.add(Component.literal("Active Cartridge:").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Active Cartridges:").withStyle(ChatFormatting.AQUA));
             boolean foundAny = false;
 
             if (getLevel() != null) {
+                Map<GTRecipeType, Integer> counts = getRecipeTypeCounts();
+                Set<String> displayedCartridges = new HashSet<>();
+
                 for (BlockPos checkPos : getCheckPositions()) {
                     if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
                         if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
                             if (cartridge.isFormed()) {
-                                textList.add(Component.literal(" - ")
-                                        .append(Component.translatable("block.gregecore." + cartridge.getDefinition().getName()))
-                                        .withStyle(ChatFormatting.GRAY));
-                                foundAny = true;
+                                String cartName = cartridge.getDefinition().getName();
+
+                                if(!displayedCartridges.contains(cartName)) {
+                                    int count = 0;
+                                    Set<GTRecipeType> typesForThisCartridge = new HashSet<>();
+                                    addRecipeTypesForCartridge(cartridge.getDefinition(), typesForThisCartridge);
+
+                                    if(!typesForThisCartridge.isEmpty()) {
+                                        count = counts.getOrDefault(typesForThisCartridge.iterator().next(), 1);
+                                    }
+
+                                    textList.add(Component.literal(" - ")
+                                            .append(Component.literal(count + "x ").withStyle(ChatFormatting.YELLOW))
+                                            .append(Component.translatable("block.gregecore." + cartName))
+                                            .withStyle(ChatFormatting.GRAY));
+                                    displayedCartridges.add(cartName);
+                                    foundAny = true;
+                                }
                             }
                         }
                     }
@@ -468,7 +516,9 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Highly configurable machine, you define what can get crafted!").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Each Cartridge adds 10% reduction to recipe time and 256 parallels.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("You can disable recipe types in the controller.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     public static void init() {
