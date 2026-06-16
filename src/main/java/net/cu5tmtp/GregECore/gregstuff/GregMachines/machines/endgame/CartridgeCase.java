@@ -28,6 +28,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.cu5tmtp.GregECore.block.GreggyBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogicCartridge;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
@@ -74,17 +75,14 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
     public boolean canBeThreaded = false;
     private TickableSubscription logicSubscription;
     private Set<GTRecipeType> allowedRecipeTypes = new LinkedHashSet<>(Set.of(GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY));
-
     private GTRecipeType currentActiveType = GregERecipeTypes.CARTRIDGECASENEEDSTOBEEMPTY;
-
+    private BlockPos[] cachedCheckPositions;
     @DescSynced
     @Persisted
     public int disabledRecipeTypesMask = 0;
-
     @DescSynced
     @Persisted
     public int uiTypeIndex = 0;
-
     @DescSynced
     @Persisted
     public int activeThreadsCount = 0;
@@ -131,26 +129,31 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
         updateAllowedRecipeTypes();
     }
 
+    private BlockPos[] getCheckPositions() {
+        if (this.cachedCheckPositions == null) {
+            BlockPos center = getPos();
+            Direction left = getFrontFacing().getClockWise();
+            Direction right = left.getOpposite();
+
+            this.cachedCheckPositions = new BlockPos[]{
+                    center.relative(left, 4),
+                    center.relative(right, 4),
+                    center.above(4),
+                    center.below(4),
+                    center.relative(left, 4).above(4),
+                    center.relative(right, 4).above(4),
+                    center.relative(left, 4).below(4),
+                    center.relative(right, 4).below(4)
+            };
+        }
+        return this.cachedCheckPositions;
+    }
+
     private Set<GTRecipeType> getCurrentlyInsertedTypes() {
         Set<GTRecipeType> types = new LinkedHashSet<>();
         if (getLevel() == null) return types;
 
-        BlockPos center = getPos();
-        Direction left = getFrontFacing().getClockWise();
-        Direction right = left.getOpposite();
-
-        BlockPos[] checkPositions = new BlockPos[]{
-                center.relative(left, 4),
-                center.relative(right, 4),
-                center.above(4),
-                center.below(4),
-                center.relative(left, 4).above(4),
-                center.relative(right, 4).above(4),
-                center.relative(left, 4).below(4),
-                center.relative(right, 4).below(4)
-        };
-
-        for (BlockPos checkPos : checkPositions) {
+        for (BlockPos checkPos : getCheckPositions()) {
             if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
                 if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
                     if (cartridge.isFormed()) {
@@ -300,6 +303,8 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
         this.canBeThreaded = false;
 
+        this.cachedCheckPositions = null;
+
         if (getRecipeLogic() instanceof MultiThreadedRecipeLogicCartridge logic) {
             logic.setMultiThreaded(false);
         }
@@ -406,21 +411,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             boolean foundAny = false;
 
             if (getLevel() != null) {
-                BlockPos center = getPos();
-                Direction left = getFrontFacing().getClockWise();
-                Direction right = left.getOpposite();
-                BlockPos[] checkPositions = new BlockPos[]{
-                        center.relative(left, 4),
-                        center.relative(right, 4),
-                        center.above(4),
-                        center.below(4),
-                        center.relative(left, 4).above(4),
-                        center.relative(right, 4).above(4),
-                        center.relative(left, 4).below(4),
-                        center.relative(right, 4).below(4)
-                };
-
-                for (BlockPos checkPos : checkPositions) {
+                for (BlockPos checkPos : getCheckPositions()) {
                     if (getLevel().getBlockEntity(checkPos) instanceof IMachineBlockEntity mbe) {
                         if (mbe.getMetaMachine() instanceof BoxMachines cartridge) {
                             if (cartridge.isFormed()) {
@@ -451,7 +442,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                         .aisle("acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca", "cbbbcdddcbbbc", "cbbbcdddcbbbc", "cbbbcdddcbbbc", "acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca")
                         .aisle("acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca", "cbbbcdddcbbbc", "cbbbcdedcbbbc", "cbbbcdddcbbbc", "acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca")
                         .aisle("acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca", "cbbbcdddcbbbc", "cbbbcdfdcbbbc", "cbbbcdddcbbbc", "acccacccaccca", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "cbbbcbbbcbbbc", "acccacccaccca")
-                        .aisle("aaaaaaaaaaaaa", "abbbabbbabbba", "abbbabbbabbba", "abbbabbbabbba", "aaaaaaaaaaaaa", "abbbabbbabbba", "abbbabbbabbba", "abbbabbbabbba", "aaaaaaaaaaaaa", "abbbabbbabbba", "abbbabbbabbba", "abbbabbbabbba", "aaaaaaaaaaaaa")
+                        .aisle("aaaaaaaaaaaaa", "abbbabbbabbba", "abbbgbbbgbbba", "abbbabbbabbba", "aagaaaaaaagaa", "abbbabbbabbba", "abbbabbbabbba", "abbbabbbabbba", "aagaaaaaaagaa", "abbbabbbabbba", "abbbgbbbgbbba", "abbbabbbabbba", "aaaaaaaaaaaaa")
 
                         .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing")))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(16).setPreviewCount(1))
@@ -459,20 +450,20 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
-                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMinGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where("b", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:sturdy_machine_casing"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:atomic_casing"))))
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("ae2:controller"))))
                         .where("f", Predicates.controller(blocks(definition.getBlock())))
+                        .where("g", Predicates.blocks(GreggyBlocks.ASSEMBLY_ENGINE_INTAKE.get()))
                         .build();
             })
             .workableCasingModel(
                     GTCEu.id("block/casings/gcym/large_scale_assembling_casing"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Cartridges, Perfect Overclock, Parallel Hatch and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Cartridges, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Highly configurable machine, you define what can get crafted!").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))

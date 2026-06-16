@@ -18,6 +18,7 @@
   "block.gregecore.fissionreactor": "§lFission Reactor§g",
   "block.gregecore.giantabs": "§lGiant Alloy Blast Smelter§g",
   "block.gregecore.specializedassemblyline": "§lSpecialized Assembly Line§g",
+  "block.gregecore.autassemblyline": "§lAutomated Assembly Line§g",
 
   "block.gregecore.cartridgecase": "§lCartridge Casing§g",
   "block.gregecore.machine_one": "§lMetallurgy Cartridge§g",
@@ -72,6 +73,8 @@
   "block.gregecore.shockproof_engine": "Shockproof Engine Intake",
   "block.gregecore.atomic_engine_intake": "Atomic Engine Intake",
   "block.gregecore.star_feeder": "Star Feeder",
+  "block.gregecore.solid_engine_intake": "Solid Engine Intake",
+  "block.gregecore.assembly_engine_intake": "Large-Scale Assembly Engine Intake",
   "block.gregecore.parallel_booster_machine": "Parallel Booster",
   "block.gregecore.pedestal_inf_machine": "Infusion Altar Pedestal",
   "block.gregecore.advanced_parallel_booster_machine": "Advanced Parallel Booster",

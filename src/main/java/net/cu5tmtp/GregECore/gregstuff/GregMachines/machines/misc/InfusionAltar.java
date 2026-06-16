@@ -49,19 +49,13 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
-
     protected final List<IItemHandler> cachedPedestalHandler = new ArrayList<>();
-
     @DescSynced
     public final List<ItemStack> itemsForRenderer = new ArrayList<>();
-
     @DescSynced
     public ItemStack outputItem = ItemStack.EMPTY;
-
     @DescSynced
     public final boolean[] essentiaToRender = new boolean[6];
-
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     public InfusionAltar(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -200,7 +194,6 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
                         .where("i", Predicates.abilities(OrdoInputPartMachine.getPartAbility()))
                         .where("j", Predicates.abilities(PerditioInputPartMachine.getPartAbility()))
                         .where("k", Predicates.abilities(IgnisInputPartMachine.getPartAbility()))
-                        .where(' ', Predicates.air())
                         .build();
             })
             .model(createWorkableCasingMachineModel(

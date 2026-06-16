@@ -73,6 +73,12 @@ public class GreggyBlocks {
     public static final BlockEntry<ActiveBlock> ATOMIC_ENGINE_INTAKE = createActiveBlock("atomic_engine_intake",
             GregECore.id("block/engines/atomic_engine_intake"));
 
+    public static final BlockEntry<ActiveBlock> SOLID_ENGINE_INTAKE = createActiveBlock("solid_engine_intake",
+            GregECore.id("block/engines/solid_engine_intake"));
+
+    public static final BlockEntry<ActiveBlock> ASSEMBLY_ENGINE_INTAKE = createActiveBlock("assembly_engine_intake",
+            GregECore.id("block/engines/assembly_engine_intake"));
+
     public static final void init(){}
 }
 
