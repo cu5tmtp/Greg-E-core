@@ -498,7 +498,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
-                                .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
+                                .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMinGlobalLimited(1).setPreviewCount(1)))
                         .where("b", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:sturdy_machine_casing"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:atomic_casing"))))
@@ -518,7 +518,7 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Each Cartridge adds 10% reduction to recipe time and 256 parallels.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("You can disable recipe types in the controller.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Needs Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     public static void init() {

@@ -3,6 +3,8 @@ package net.cu5tmtp.GregECore.integration.jade.provider;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogicCartridge;
 import net.minecraft.Util;
@@ -11,6 +13,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -52,10 +56,14 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
 
             if (active > 0) {
                 ListTag list = threadData.getList("ProgressList", Tag.TAG_COMPOUND);
+                var helper = tooltip.getElementHelper();
+
                 for (int i = 0; i < list.size(); i++) {
                     CompoundTag tag = list.getCompound(i);
                     int currentProgress = tag.getInt("Progress");
                     int maxProgress = tag.getInt("Duration");
+
+                    ItemStack outputItem = ItemStack.of(tag.getCompound("OutputItem"));
 
                     Component text;
 
@@ -69,15 +77,23 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
                         float progressRatio = (float) currentProgress / maxProgress;
                         int color = 0xFFd32ccb;
 
-                        tooltip.add(
-                                tooltip.getElementHelper().progress(
-                                        progressRatio,
-                                        text,
-                                        tooltip.getElementHelper().progressStyle().color(color).textColor(-1),
-                                        Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555),
-                                        true
-                                )
+                        var progressBar = helper.progress(
+                                progressRatio,
+                                text,
+                                helper.progressStyle().color(color).textColor(-1),
+                                Util.make(BoxStyle.DEFAULT, style -> style.borderColor = 0xFF555555),
+                                true
                         );
+
+                        progressBar.translate(new Vec2(0, 3.0F));
+
+                        if (!outputItem.isEmpty()) {
+                            tooltip.add(helper.item(outputItem));
+                            tooltip.append(helper.spacer(3, 0));
+                            tooltip.append(progressBar);
+                        } else {
+                            tooltip.add(progressBar);
+                        }
                     }
                 }
             }
@@ -115,14 +131,35 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
                     ListTag list = new ListTag();
                     for (Object obj : threads) {
                         CompoundTag tag = new CompoundTag();
+                        com.gregtechceu.gtceu.api.recipe.GTRecipe recipe = null;
 
                         if (obj instanceof MultiThreadedRecipeLogic.RecipeThread thread) {
                             tag.putInt("Progress", thread.progress);
                             tag.putInt("Duration", thread.duration);
+                            recipe = thread.recipe;
                         } else if (obj instanceof MultiThreadedRecipeLogicCartridge.RecipeThread thread) {
                             tag.putInt("Progress", thread.progress);
                             tag.putInt("Duration", thread.duration);
+                            recipe = thread.recipe;
                         }
+
+                        ItemStack outputItem = ItemStack.EMPTY;
+                        if (recipe != null) {
+                            var itemOutputs = recipe.getOutputContents(GTRecipeCapabilities.ITEM);
+                            if (itemOutputs != null && !itemOutputs.isEmpty()) {
+                                Object content = itemOutputs.get(0).getContent();
+                                if (content instanceof ItemStack stack) {
+                                    outputItem = stack.copy();
+                                } else if (content instanceof SizedIngredient sized) {
+                                    ItemStack[] stacks = sized.getItems();
+                                    if (stacks.length > 0) {
+                                        outputItem = stacks[0].copy();
+                                        outputItem.setCount((int) sized.getAmount());
+                                    }
+                                }
+                            }
+                        }
+                        tag.put("OutputItem", outputItem.save(new CompoundTag()));
 
                         list.add(tag);
                     }
