@@ -515,9 +515,9 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Highly configurable machine, you define what can get crafted!").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Each Cartridge adds 10% reduction to recipe time and 256 parallels.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("You can disable recipe types in the controller.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("This multiblock cannot do any crafting on its own, you have to add Cartridges to it. Each cartridge gives the machine different recipe type.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Each Cartridge adds 10% reduction to recipe time and 256 parallels to the recipe type, which it is focused on.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Do not change the recipe type with the default GregTech change. Instead, use the custom GUI to disable recipe types, which you don't want.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Needs Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
