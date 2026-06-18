@@ -6,7 +6,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
-import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogicCartridge;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -116,11 +115,6 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
                     maxCount = logic.getMaxThreads();
                     threads = logic.getActiveThreads();
                 }
-                else if (rlm.getRecipeLogic() instanceof MultiThreadedRecipeLogicCartridge logicCart && logicCart.isMultiThreaded()) {
-                    activeCount = logicCart.getActiveThreads().size();
-                    maxCount = logicCart.getMaxThreads();
-                    threads = logicCart.getActiveThreads();
-                }
 
                 if (threads != null) {
                     CompoundTag threadData = new CompoundTag();
@@ -134,10 +128,6 @@ public class MultiThreadedMachineProvider implements IBlockComponentProvider, IS
                         com.gregtechceu.gtceu.api.recipe.GTRecipe recipe = null;
 
                         if (obj instanceof MultiThreadedRecipeLogic.RecipeThread thread) {
-                            tag.putInt("Progress", thread.progress);
-                            tag.putInt("Duration", thread.duration);
-                            recipe = thread.recipe;
-                        } else if (obj instanceof MultiThreadedRecipeLogicCartridge.RecipeThread thread) {
                             tag.putInt("Progress", thread.progress);
                             tag.putInt("Duration", thread.duration);
                             recipe = thread.recipe;

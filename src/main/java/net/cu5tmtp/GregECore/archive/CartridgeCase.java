@@ -1,3 +1,4 @@
+/*
 package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -525,3 +526,4 @@ public class CartridgeCase extends WorkableElectricMultiblockMachine {
 
     }
 }
+*/

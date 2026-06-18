@@ -17,6 +17,9 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantExtrusionMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantMaterialPress;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantWireFactory;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputPartMachine;
@@ -91,10 +94,15 @@ public class ModCreativeModTabs {
                         pOutput.accept(GiantAlloyBlastSmelter.GIANT_ABS.getItem());
                         pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
                         pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
+                        pOutput.accept(GiantMaterialPress.GIANT_MATERIAL_PRESS.getItem());
+                        pOutput.accept(GiantWireFactory.GIANT_WIRE_FACTORY.getItem());
+                        pOutput.accept(GiantExtrusionMachine.GIANT_EXTRUSION_MACHINE.getItem());
+                        /*
                         pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
                         for (MachineDefinition box : BoxMachines.ALL_BOXES) {
                             pOutput.accept(box.getItem());
                         }
+                        */
 
                         pOutput.accept(StarFeederPartMachine.STAR_FEEDER_MACHINE.getItem());
                         pOutput.accept(DroneAccessHatchPartMachine.DRONE_ACCESS_MACHINE.getItem());

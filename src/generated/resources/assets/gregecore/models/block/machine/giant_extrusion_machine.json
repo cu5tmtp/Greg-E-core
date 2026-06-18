@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/block",
   "loader": "gtceu:machine",
-  "machine": "gregecore:machine_one",
+  "machine": "gregecore:giant_extrusion_machine",
   "texture_overrides": {
     "all": "gtceu:block/casings/gcym/stress_proof_casing"
   },

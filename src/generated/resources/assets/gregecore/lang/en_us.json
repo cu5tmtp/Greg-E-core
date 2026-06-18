@@ -19,6 +19,9 @@
   "block.gregecore.giantabs": "§lGiant Alloy Blast Smelter§g",
   "block.gregecore.specializedassemblyline": "§lSpecialized Assembly Line§g",
   "block.gregecore.autassemblyline": "§lAutomated Assembly Line§g",
+  "block.gregecore.giant_extrusion_machine": "§lGiant Extrusion Machine§g",
+  "block.gregecore.giant_material_press": "§lGiant Material Press§g",
+  "block.gregecore.giant_wire_factory": "§lGiant Wire Factory§g",
 
   "block.gregecore.cartridgecase": "§lCartridge Casing§g",
   "block.gregecore.machine_one": "§lMetallurgy Cartridge§g",

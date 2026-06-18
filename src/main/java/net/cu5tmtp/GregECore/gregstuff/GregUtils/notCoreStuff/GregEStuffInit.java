@@ -15,6 +15,9 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantExtrusionMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantMaterialPress;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantWireFactory;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputPartMachine;
@@ -50,9 +53,12 @@ public class GregEStuffInit {
         FissionReactor.init();
         GiantAlloyBlastSmelter.init();
         SpecializedAssemblyLine.init();
-        BoxMachines.init();
-        CartridgeCase.init();
+        //BoxMachines.init();
+        //CartridgeCase.init();
         AutomaticAssemblyLine.init();
+        GiantMaterialPress.init();
+        GiantWireFactory.init();
+        GiantExtrusionMachine.init();
     }
 
     public static void initGregEParts(){

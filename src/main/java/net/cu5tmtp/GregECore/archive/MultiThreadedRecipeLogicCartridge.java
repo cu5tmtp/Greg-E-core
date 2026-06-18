@@ -1,3 +1,4 @@
+/*
 package net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -288,3 +289,4 @@ public class MultiThreadedRecipeLogicCartridge extends RecipeLogic {
         }
     }
 }
+*/
