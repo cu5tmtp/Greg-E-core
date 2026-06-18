@@ -145,7 +145,7 @@ public class UHVMultiRegistry {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Created for ultra-fast extracting and canning.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Available Recipe Type: Extractor, Canner").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Available Recipe Types: Extractor, Canner").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .workableCasingModel(
                     GTCEu.id("block/casings/gcym/watertight_casing"),
@@ -204,7 +204,7 @@ public class UHVMultiRegistry {
             .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
             .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("aaaaaaa", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "baaaaab", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "baaaaab", "bbdbdbb", "bbdbdbb", "bbdbdbb", "abdbdbb")
+                    .aisle("aaaaaaa", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "baaaaab", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb", "baaaaab", "bbdbdbb", "bbdbdbb", "bbdbdbb", "bbdbdbb")
                     .aisle("aaaaaaa", "bbcccbb", "bbcccbb", "bbcccbb", "bbcccbb", "bbcccbb", "abcccba", "bbcccbb", "bbcccbb", "bbcccbb", "bbcccbb", "bbcccbb", "abcccba", "bbcccbb", "bbcccbb", "bbcccbb", "bbbbbbb")
                     .aisle("aaaaaaa", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "acbbbca", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "acbbbca", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bbcccbb")
                     .aisle("aaaaaaa", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "acbbbca", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bcbbbcb", "acbbbca", "bcbbbcb", "bcbbbcb", "bcbbbcb", "bbcecbb")
@@ -230,9 +230,10 @@ public class UHVMultiRegistry {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Perfect Overclock, Parallel Hatch and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Created for ultra-fast crystallizing.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Created for ultra-fast distillation.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Available Recipe Type: Crystallizer").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Available Recipe Types: Distillation Tower, Distillery").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Allows non-positional distillating.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .workableCasingModel(
                     GTCEu.id("block/casings/gcym/watertight_casing"),
@@ -373,9 +374,112 @@ public class UHVMultiRegistry {
             )
             .register();
 
+    public static final MachineDefinition GIANT_ASSEMBLER_CIRCUIT = REGISTRATE
+            .multiblock("giant_assembler_circuit", ThreadedMultiblockBase::new)
+            .rotationState(RotationState.ALL)
+            .recipeType(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES)
+            .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("bbbbaaaaabbbb", "bbbbcbbbcbbbb", "bbbbcbbbcbbbb", "bbbbbcbcbbbbb", "bbbbbcbcbbbbb", "bbbbbbcbbbbbb", "bbbbbcbcbbbbb", "bbbbbcbcbbbbb", "bbbbcbbbcbbbb", "bbbbcbbbcbbbb", "bbbbaaaaabbbb")
+                    .aisle("bbaadddddaabb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbaadddddaabb")
+                    .aisle("baddadddaddab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baddadddaddab")
+                    .aisle("badddadadddab", "bbbaaadaaabbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbafabafabbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbaaadaaabbb", "badddadadddab")
+                    .aisle("adadddadddada", "cbbaaadaaabbc", "cbbegebegebbc", "bbbegebegebbb", "bbbegebegebbb", "bbbfgfbfgfbbb", "bbbegebegebbb", "bbbegebegebbb", "cbbegebegebbc", "cbbaaadaaabbc", "adadddadddada")
+                    .aisle("addaddaddadda", "bbbaaadaaabbb", "bbbeeebeeebbb", "cbbebebeeebbc", "cbbeeebeeebbc", "bbbafabafabbb", "cbbeeebeeebbc", "cbbeeebeeebbc", "bbbeeebeeebbb", "bbbaaadaaabbb", "addaddaddadda")
+                    .aisle("adddaaaaaddda", "bbbdddddddbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "cbbbbbbbbbbbc", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbdddddddbbb", "adddaaaaaddda")
+                    .aisle("addaddaddadda", "bbbaaadaaabbb", "bbbeeebeeebbb", "cbbeeebeeebbc", "cbbeeebeeebbc", "bbbafabafabbb", "cbbeeebeeebbc", "cbbeeebeeebbc", "bbbeeebeeebbb", "bbbaaadaaabbb", "addaddaddadda")
+                    .aisle("adadddadddada", "cbbaaadaaabbc", "cbbegebegebbc", "bbbegebegebbb", "bbbegebegebbb", "bbbfgfbfgfbbb", "bbbegebegebbb", "bbbegebegebbb", "cbbegebegebbc", "cbbaaadaaabbc", "adadddadddada")
+                    .aisle("badddadadddab", "bbbaaadaaabbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbafabafabbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbeeebeeebbb", "bbbaaadaaabbb", "badddadadddab")
+                    .aisle("baddadddaddab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baddadddaddab")
+                    .aisle("bbaadddddaabb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbaadddddaabb")
+                    .aisle("bbbbaahaabbbb", "bbbbcbbbcbbbb", "bbbbcbbbcbbbb", "bbbbbcbcbbbbb", "bbbbbcbcbbbbb", "bbbbbbcbbbbbb", "bbbbbcbcbbbbb", "bbbbbcbcbbbbb", "bbbbcbbbcbbbb", "bbbbcbbbcbbbb", "bbbbaaaaabbbb")
+
+                    .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing")))
+                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(16).setPreviewCount(1))
+                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
+                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(16).setPreviewCount(1))
+                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
+                    .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
+                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
+                    .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
+                    .where("b", Predicates.any())
+                    .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:black_steel_frame"))))
+                    .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:high_temperature_smelting_casing"))))
+                    .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:fusion_glass"))))
+                    .where("f", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:assembly_engine_intake"))))
+                    .where("g", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:assembly_line_unit"))))
+                    .where('h', Predicates.controller(Predicates.blocks(definition.get())))
+                    .build()
+            )
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock, Parallel Hatch and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Created for ultra-fast circuit assembling.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Available Recipe Type: Circuit Assembler").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .workableCasingModel(
+                    GTCEu.id("block/casings/gcym/large_scale_assembling_casing"),
+                    GTCEu.id("block/multiblock/distillation_tower")
+            )
+            .register();
+
+    public static final MachineDefinition GIANT_ASSEMBLER = REGISTRATE
+            .multiblock("giant_assembler", ThreadedMultiblockBase::new)
+            .rotationState(RotationState.ALL)
+            .recipeType(GTRecipeTypes.ASSEMBLER_RECIPES)
+            .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
+            .appearanceBlock(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("baaabbbbbaaab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baaabbbbbaaab")
+                    .aisle("aaaaabbbaaaaa", "baaabbbbbaaab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "baaabbbbbaaab", "aaaaabbbaaaaa")
+                    .aisle("aaaaabbbaaaaa", "baeabbbbbaeab", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "bdedbbbbbdedb", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "bdedbbbbbdedb", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "baeabbbbbaeab", "aaaaabbbaaaaa")
+                    .aisle("aaaaabbbaaaaa", "baaabbbbbaaab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "bgdgbbbbbadab", "bcccbbbbbcccb", "bcecbbbbbcecb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "baaabbbbbaaab", "aaaaabbbaaaaa")
+                    .aisle("baaabbbbbaaab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bcccbbbbbcccb", "bcecbbbbbcecb", "bcccbbbbbcccb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baaabbbbbaaab")
+                    .aisle("bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bccccgggccccb", "bcfcgghggcfcb", "bccccgggccccb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bcccgghggcccb", "bcfffeeefffcb", "bcccgghggcccb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb")
+                    .aisle("bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bccccgggccccb", "bcfcggiggcfcb", "bccccgggccccb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb")
+                    .aisle("baaabbbbbaaab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bcccbbbbbcccb", "bcecbbbbbcecb", "bcccbbbbbcccb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baaabbbbbaaab")
+                    .aisle("aaaaabbbaaaaa", "baaabbbbbaaab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcecbbbbbcecb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "baaabbbbbaaab", "aaaaabbbaaaaa")
+                    .aisle("aaaaabbbaaaaa", "baeabbbbbaeab", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "bdedbbbbbdedb", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "bdedbbbbbdedb", "bcecbbbbbcecb", "bcfcbbbbbcfcb", "bcecbbbbbcecb", "baeabbbbbaaab", "aaaaabbbaaaaa")
+                    .aisle("aaaaabbbaaaaa", "baaabbbbbaaab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "badabbbbbadab", "bcccbbbbbcccb", "bcccbbbbbcccb", "bcccbbbbbcccb", "baaabbbbbaaab", "aaaaabbbaaaaa")
+                    .aisle("baaabbbbbaaab", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "bbbbbbbbbbbbb", "baaabbbbbaaab")
+
+                    .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing")))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(16).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(16).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(16).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
+                                    .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2))
+                                    .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
+                    .where("b", Predicates.any())
+                    .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laminated_glass"))))
+                    .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:assembly_engine_intake"))))
+                    .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:assembly_line_unit"))))
+                    .where("f", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:steel_gearbox"))))
+                    .where("g", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:solid_machine_casing"))))
+                    .where("h", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:solid_engine_intake"))))
+                    .where('i', Predicates.controller(Predicates.blocks(definition.get())))
+                    .build()
+            )
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Abilities: Perfect Overclock, Parallel Hatch and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Created for ultra-fast assembling.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Available Recipe Type: Assembler").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .workableCasingModel(
+                    GTCEu.id("block/casings/gcym/large_scale_assembling_casing"),
+                    GTCEu.id("block/multiblock/distillation_tower")
+            )
+            .register();
+
     public static final MachineDefinition[] ALL_MACHINES = {
             GIANT_CRYSTALLIZATION, GIANT_EXTRACTION, GIANT_SOLIDIFICATION, GIANT_CHEMICAL_BATH, GIANT_DISTILLATION, GIANT_EXTRUSION_MACHINE, GIANT_MATERIAL_PRESS, GIANT_SOLIDIFICATION,
-            GIANT_WIRE_FACTORY
+            GIANT_WIRE_FACTORY, GIANT_ASSEMBLER_CIRCUIT, GIANT_ASSEMBLER
     };
 
     public static void init(){}
