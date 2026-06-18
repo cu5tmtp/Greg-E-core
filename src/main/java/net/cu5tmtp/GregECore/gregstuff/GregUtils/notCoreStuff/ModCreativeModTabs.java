@@ -2,8 +2,6 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import net.cu5tmtp.GregECore.block.ModBlocks;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregECoolerPart;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.hpca.GregEHPCAInit;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
@@ -13,13 +11,12 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAccel
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantExtrusionMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantMaterialPress;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.GiantWireFactory;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.UHVMultiRegistry;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputPartMachine;
@@ -94,9 +91,10 @@ public class ModCreativeModTabs {
                         pOutput.accept(GiantAlloyBlastSmelter.GIANT_ABS.getItem());
                         pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
                         pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
-                        pOutput.accept(GiantMaterialPress.GIANT_MATERIAL_PRESS.getItem());
-                        pOutput.accept(GiantWireFactory.GIANT_WIRE_FACTORY.getItem());
-                        pOutput.accept(GiantExtrusionMachine.GIANT_EXTRUSION_MACHINE.getItem());
+                        pOutput.accept(AutomaticAssemblyLine.AUTASSEMBLYLINE.getItem());
+                        for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
+                            pOutput.accept(box.getItem());
+                        }
                         /*
                         pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
                         for (MachineDefinition box : BoxMachines.ALL_BOXES) {
