@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-18T23:49:07.0380707	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-18T23:53:28.1428093	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -119,7 +119,7 @@ a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/g
 a7ec16f20da290d4f1aea4ea367a8d2040a6c412 assets/gregecore/models/block/machine/giant_arc_furnace.json
 8de4bb539481d0f9cc72ad526da6870f006571f4 assets/gregecore/models/block/machine/giant_assembler.json
 068bc208df122348ec70453d115aa974c1ab0131 assets/gregecore/models/block/machine/giant_assembler_circuit.json
-21203c2486999effe6f9809945f4d3144bcea045 assets/gregecore/models/block/machine/giant_brewery.json
+1324cf0fe82d360a0c9bcf39b0557c827e5e82b1 assets/gregecore/models/block/machine/giant_brewery.json
 a45494b3f6dfd92e7676b71eda2ecbd4df88e83f assets/gregecore/models/block/machine/giant_centrifuge.json
 799a906feae605db55d10cd091004835ee5e0b02 assets/gregecore/models/block/machine/giant_chemical_bath.json
 6233eec90916cfe0f886ee46a717314cf3085ad6 assets/gregecore/models/block/machine/giant_crystallization.json

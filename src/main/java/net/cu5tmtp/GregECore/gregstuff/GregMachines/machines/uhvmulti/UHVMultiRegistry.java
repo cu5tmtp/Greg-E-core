@@ -897,7 +897,7 @@ public class UHVMultiRegistry {
             .tooltips(Component.literal("Available Recipe Types: Brewery, Fermenter, Fluid Heater").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .workableCasingModel(
-                    GTCEu.id("block/casings/gcym/stress_proof_casing"),
+                    GTCEu.id("block/casings/gcym/corrosion_proof_casing"),
                     GTCEu.id("block/multiblock/distillation_tower")
             )
             .register();
