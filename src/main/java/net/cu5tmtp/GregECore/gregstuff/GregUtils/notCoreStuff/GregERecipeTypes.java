@@ -92,6 +92,12 @@ public class GregERecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    public static GTRecipeType PRESSURECHAMCRAFT = GTRecipeTypes.register("pressuring", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(9,1,0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FORGE_HAMMER);
+
     /*
     public static GTRecipeType CARTRIDGECASENEEDSTOBEEMPTY = GTRecipeTypes.register("donotuseexclamationmark", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(1,1,1,1)
