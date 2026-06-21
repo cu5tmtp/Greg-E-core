@@ -55,6 +55,7 @@ public class GregEStuffInit {
         //BoxMachines.init();
         //CartridgeCase.init();
         UHVMultiRegistry.init();
+        SubatomicAntimatterSyntheticator.init();
     }
 
     public static void initGregEParts(){

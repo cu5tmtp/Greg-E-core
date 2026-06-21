@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-18T23:53:28.1428093	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-21T16:09:55.5377983	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -65,6 +65,7 @@ d60f6d810d134e1c0e2af25212387fdc67dc6095 assets/gregecore/blockstates/ptfe_fireb
 ab2f3efe2396ceb7b5a363f4e72167dc8d1223c9 assets/gregecore/blockstates/realityfracturepart.json
 78f134f83069dc3398373fdad40d1d48e6c4c2b8 assets/gregecore/blockstates/reality_portal.json
 87093bfb6445b05e46b1a5f3bc2db6a19b6870c7 assets/gregecore/blockstates/repair_part_input_machine.json
+85c5e6e657c143dcc00359ffd9af0f20d46294b7 assets/gregecore/blockstates/sasynth.json
 9187a0fe51287f1724631740a0565b9d86c43255 assets/gregecore/blockstates/shockproof_engine.json
 3224bd79b92007f812341d992601bee16e8c65ac assets/gregecore/blockstates/solid_engine_intake.json
 3398231fd6e3b4652192ed58b2630cbac69a08f5 assets/gregecore/blockstates/spaceelevator.json
@@ -78,8 +79,8 @@ dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_
 8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-a9cf427ee20cac39265d4a8cf101990a349c517a assets/gregecore/lang/en_ud.json
-0f3ab05ca053010347fd46401577c95026495b05 assets/gregecore/lang/en_us.json
+4207917d1651a0160e5526f386025e433aa42bdb assets/gregecore/lang/en_ud.json
+329493eab04a0a7da1efc3d45015f11717c731ab assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
@@ -148,6 +149,7 @@ e8dd21d135790a03be5ad7bdb92c3917fe41272c assets/gregecore/models/block/machine/p
 47a165d63add78e78659ee1a2ebe1e6e1ef2309c assets/gregecore/models/block/machine/realityfractureengine.json
 29987e50f951ad629275e6dce6613ee5ec9eb6fc assets/gregecore/models/block/machine/realityfracturepart.json
 fe4842efb0cbddc85a8f305452e24c01a6657edd assets/gregecore/models/block/machine/repair_part_input_machine.json
+7add372b911fe411b4b842982c44127a487760c0 assets/gregecore/models/block/machine/sasynth.json
 d33eca960602abd4c0d8ed082ffe433be95a5a9b assets/gregecore/models/block/machine/spaceelevator.json
 f0d589f40d66cb78a96fa8749262eea9474855f4 assets/gregecore/models/block/machine/specializedassemblyline.json
 2a8cb70e2cf558f77753166f27363cf92fe6654a assets/gregecore/models/block/machine/starmaykr.json
@@ -240,6 +242,7 @@ e0d4138a800464ba45744e7ec1c21499abf9720c assets/gregecore/models/item/ptfe_fireb
 670c4857522bcf54ba171d952a77be0cc7991e79 assets/gregecore/models/item/realityfractureengine.json
 a44a0d5e4332fc61082db9d6c19563e6f583288d assets/gregecore/models/item/realityfracturepart.json
 9a76d2cd706631a1a1096ce6acdb5063b6bbf97b assets/gregecore/models/item/repair_part_input_machine.json
+070e3a59e118fc526625c4e2578784321028e530 assets/gregecore/models/item/sasynth.json
 0796bd2945ac27e0c86b5eaf19addd1fd532a023 assets/gregecore/models/item/shockproof_engine.json
 e8b22a65a1327a09b721b3fe4998f29107f43b27 assets/gregecore/models/item/solid_engine_intake.json
 511d6477bb6b23e59dddb3637d754db3dbc9b8b8 assets/gregecore/models/item/spaceelevator.json

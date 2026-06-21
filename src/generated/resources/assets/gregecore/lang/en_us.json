@@ -39,8 +39,10 @@
   "block.gregecore.giant_saw": "§lGiant Cutting Saw§g",
   "block.gregecore.giant_arc_furnace": "§lGiant Arc Smelter§g",
   "block.gregecore.giant_brewery": "§lGiant Brewing Vat§g",
+  "block.gregecore.sasynth": "§lSubatomic Antimatter Syntheticator§g",
 
   "gtceu.infusion_altar_infusing": "Infusing",
+  "gtceu.sascrafting": "Synthetizing",
   "gtceu.fission_reaction": "Nuclear Fission",
   "gtceu.star_maykr_singularities": "Star Maykr",
   "gtceu.deep_space_explore": "Deep Space Exploration",

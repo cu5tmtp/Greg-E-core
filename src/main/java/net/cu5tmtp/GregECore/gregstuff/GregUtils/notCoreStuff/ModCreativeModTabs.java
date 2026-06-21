@@ -95,6 +95,7 @@ public class ModCreativeModTabs {
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
                             pOutput.accept(box.getItem());
                         }
+                        pOutput.accept(SubatomicAntimatterSyntheticator.SASYNTH.getItem());
                         /*
                         pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
                         for (MachineDefinition box : BoxMachines.ALL_BOXES) {

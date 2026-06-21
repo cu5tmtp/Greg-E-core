@@ -222,6 +222,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
             case "minecraft:water": return 1.0f;
             case "gtceu:distilled_water": return 5.0f;
             case "gtceu:sodium_coolant": return 25.0f;
+            case "gtceu:bose_einstein_condensate": return 1000.0f;
             default: return 0.0f;
         }
     }
@@ -236,6 +237,10 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
 
         if (fluidKey.equals("gtceu:sodium_coolant")) {
             outputFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation("gtceu:superheated_sodium"));
+        }
+
+        if (fluidKey.equals("gtceu:bose_einstein_condensate")) {
+            outputFluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation("gtceu:superheated_bose_einstein_condensate"));
         }
 
         if (outputFluid != null && outputFluid != Fluids.EMPTY) {
@@ -404,6 +409,7 @@ public class FissionReactor extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Water, 1 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
             .tooltips(Component.literal("Distilled Water, 5 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
             .tooltips(Component.literal("Sodium Coolant, 25 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Bose-Einstein Condensate, 1000 Cooling Power").withStyle(style -> style.withColor(0xBF40BF)))
             .register();
 
     @Override
