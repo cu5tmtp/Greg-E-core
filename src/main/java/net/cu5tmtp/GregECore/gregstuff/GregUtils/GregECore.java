@@ -1,13 +1,21 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEStuffInit;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.ModCreativeModTabs;
@@ -20,6 +28,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.items.IItemHandler;
 import org.slf4j.Logger;
 
 @SuppressWarnings("removal")
@@ -74,6 +83,68 @@ public class GregECore {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            for (int tier = GTValues.LV; tier <= GTValues.UHV; tier++) {
+
+                String machineName = GTValues.VN[tier].toLowerCase() + "_gas_collector";
+
+                ResourceLocation machineId = new ResourceLocation("gtceu", machineName);
+
+                MachineDefinition machine = GTRegistries.MACHINES.get(machineId);
+
+                if (machine != null) {
+                    var oldModifier = machine.getRecipeModifier();
+
+                    machine.setRecipeModifier((metaMachine, recipe) -> r -> {
+
+                        var bypassedRecipe = r;
+
+                        if (metaMachine instanceof ICleanroomReceiver receiver) {
+                            var cleanroom = receiver.getCleanroom();
+
+                            if (cleanroom != null && cleanroom.getTypes().contains(DimensionSimulator.DIMENSIONAL_SIMULATOR_CLEANROOM)) {
+
+                                boolean hasKeyItem = false;
+
+                                if (cleanroom instanceof MultiblockControllerMachine controller) {
+                                    for (IMultiPart part : controller.getParts()) {
+                                        if (part instanceof DimensionalRelicsPartMachine) {
+                                            for (var handlerList : part.getRecipeHandlers()) {
+                                                for (Object handler : handlerList.getCapability(ItemRecipeCapability.CAP)) {
+                                                    if (handler instanceof IItemHandler itemHandler) {
+
+                                                        for (int i = 0; i < itemHandler.getSlots(); i++) {
+                                                            net.minecraft.world.item.ItemStack stack = itemHandler.getStackInSlot(i);
+
+                                                            if (stack.is(net.minecraft.world.item.Items.NETHER_STAR) ||
+                                                                    stack.is(net.minecraft.world.item.Items.DRAGON_EGG)) {
+                                                                hasKeyItem = true;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (hasKeyItem) {
+                                    bypassedRecipe = r.copy();
+                                    bypassedRecipe.conditions.removeIf(condition -> condition.getClass().getSimpleName().toLowerCase().contains("dimension"));
+                                }
+                            }
+                        }
+
+                        if (oldModifier != null) {
+                            return oldModifier.applyModifier(metaMachine, bypassedRecipe);
+                        }
+
+                        return bypassedRecipe;
+                    });
+                }
+            }
+        });
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

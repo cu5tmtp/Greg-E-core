@@ -13,6 +13,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.Accelerate
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.DeepSpaceExplorer;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
@@ -131,6 +132,24 @@ public class GregEModifiers {
 
         return ModifierFunction.builder()
                 .eutMultiplier(boost)
+                .build();
+    }
+
+    public static ModifierFunction presureChamberBoost(MetaMachine machine, GTRecipe recipe){
+        if (!(machine instanceof PressureChamber ps)) {
+            return ModifierFunction.NULL;
+        }
+
+        double durationMult;
+
+        if(ps.isSafeMode()){
+            durationMult = 0.5;
+        } else {
+            durationMult = 1;
+        }
+
+        return ModifierFunction.builder()
+                .durationMultiplier(durationMult)
                 .build();
     }
 

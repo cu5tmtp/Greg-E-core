@@ -42,6 +42,7 @@
   "block.gregecore.sasynth": "§lSubatomic Antimatter Syntheticator§g",
   "block.gregecore.pressurechamber": "§lPressure Chamber§g",
 
+  "gtceu.recipe.cleanroom_dimensional.display_name": "Dimensional Simulator",
   "gtceu.infusion_altar_infusing": "Infusing",
   "gtceu.sascrafting": "Synthetizing",
   "gtceu.fission_reaction": "Nuclear Fission",
@@ -55,6 +56,7 @@
   "gtceu.open_rift": "Rift Opening",
   "gtceu.send_up_the_mats": "Space Trade",
 
+  "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",
   "block.gregecore.threading_one_machine": "Threading Core T1",
   "block.gregecore.threading_two_machine": "Threading Core T2",
   "block.gregecore.threading_three_machine": "Threading Core T3",
@@ -101,6 +103,7 @@
   "block.gregecore.drone_access_machine": "Drone Access Hatch",
   "block.gregecore.grege_heat_sink_component": "Greg-E Active Cooling Component",
   "block.gregecore.grege_computation_component": "Greg-E Computation Component",
+  "block.gregecore.dimensional_filter_casing": "Dimensional Filter Casing",
 
   "item.gregecore.energy_bacteria": "Energy Bacteria",
   "item.gregecore.parallel_bacteria": "Parallel Bacteria",

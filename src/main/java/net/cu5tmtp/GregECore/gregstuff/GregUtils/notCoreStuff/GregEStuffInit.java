@@ -23,6 +23,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputP
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
@@ -85,6 +86,7 @@ public class GregEStuffInit {
         ThreadT2PartMachine.init();
         ThreadT3PartMachine.init();
         PressurePartMachine.init();
+        DimensionalRelicsPartMachine.init();
     }
 
     public static void initHPCAParts(){

@@ -24,6 +24,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputP
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
@@ -129,6 +130,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
                         pOutput.accept(PedestalPartMachine.PEDESTAL_INF_MACHINE.getItem());
                         pOutput.accept(PressurePartMachine.PRESSURE_INPUT_MACHINE.getItem());
+                        pOutput.accept(DimensionalRelicsPartMachine.DIMENSIONAL_RELICS_MACHINE.getItem());
 
                     })
                     .build());

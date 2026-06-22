@@ -231,7 +231,7 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2))
-                                .or(Predicates.abilities(CoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1)))
+                                .or(Predicates.abilities(CoolantInputPartMachine.getPartAbility()).setExactLimit(1)))
                         .where('C', Predicates.abilities(PartAbility.MUFFLER).setMaxGlobalLimited(1))
                         .where('D', Predicates.blockTag(ModTag.Blocks.MAGICAL_COILS_T2))
                         .where('E', Predicates.blocks(CASING_EXTREME_ENGINE_INTAKE.get()))

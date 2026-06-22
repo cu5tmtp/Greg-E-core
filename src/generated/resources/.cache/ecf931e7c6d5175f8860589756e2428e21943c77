@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-22T02:15:39.9555293	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-22T19:37:33.1465538	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -17,6 +17,8 @@ c48b3a1afecf8664dec91c5b7bb5b2f2a454b25b assets/gregecore/blockstates/coolant_in
 7e047bd2bf1cfa1d61b0bb34407cd15727e124c7 assets/gregecore/blockstates/coolant_output_machine.json
 8eb81398e191e2bbc0690bcd81aa6a8655fdeaa4 assets/gregecore/blockstates/deep_space_explorer.json
 0aaf2a751d9dfb16aba5881be7eabef3e7b2fe05 assets/gregecore/blockstates/desh_coil.json
+447de3b420ec7f6d723c30367b8caac469cf8ac9 assets/gregecore/blockstates/dimensional_filter_casing.json
+2de1f0ecd9aee70ca7851d3ae7644bd1e53fc0aa assets/gregecore/blockstates/dimensional_relics_machine.json
 380289605773492eecc87599e3a6e65dbb4127ab assets/gregecore/blockstates/drone_access_machine.json
 4acb5f34d5cb39be6d717b25f2b285518421feea assets/gregecore/blockstates/dysonswarmenergycollector.json
 4f2b4889da1bc77fbb01045b6cc718cf6f465579 assets/gregecore/blockstates/dysonswarmlauncher.json
@@ -81,8 +83,8 @@ dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_
 8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-2e83201dd4faabab208f170b5c8fc70561b828ac assets/gregecore/lang/en_ud.json
-42ae5cb8ba77ff991dd9cab20fb4acf1439afa9a assets/gregecore/lang/en_us.json
+6ad0d4c4d631e2a50a305e37e25620ce027a2f63 assets/gregecore/lang/en_ud.json
+92d9159ed9dd753239f0af4d0c9aa415788fb64d assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
@@ -91,6 +93,7 @@ efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_en
 f4b25d044657f738d6b8814a4bbe5c3ed397a69f assets/gregecore/models/block/awakened_draconium_coil_active.json
 89c059adfc30af4e4553d5d36906a967355c53a9 assets/gregecore/models/block/desh_coil.json
 072590c807254d38c52858b9094d787e27813b8e assets/gregecore/models/block/desh_coil_active.json
+5f7e2ce4e6ee8afc2d4b85d9f3cc7c932035c6a7 assets/gregecore/models/block/dimensional_filter_casing.json
 5b77f979fc117ed4e38c3e4a0cca0587d2b5c26c assets/gregecore/models/block/forgotten_coil.json
 a52a23211b0c63b8cce990584963eb2e160cf898 assets/gregecore/models/block/forgotten_coil_active.json
 9c5d7e2d3c461044d77c4492764411cb10da7c94 assets/gregecore/models/block/grege_computation_component_base.json
@@ -109,6 +112,7 @@ f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/b
 88b05c33d3b231484a8469b291da2c24981800dd assets/gregecore/models/block/machine/coolant_input_machine.json
 3dfbe58d5c7d1760659b2e4c700d5f67ba098084 assets/gregecore/models/block/machine/coolant_output_machine.json
 c9c28509b2b72ee12d3ad18c0622d8d8655c7667 assets/gregecore/models/block/machine/deep_space_explorer.json
+2e09e3d70919d48eb4a3bec22d4efe22c89fbd51 assets/gregecore/models/block/machine/dimensional_relics_machine.json
 ea58b4a643663ac6b209f88187182a951e1bf63b assets/gregecore/models/block/machine/drone_access_machine.json
 25c66a6b47c88b127323e89b2cb096eef504d965 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
 70c33d76ff12a02bc84734c00e6c3cad95fb82e9 assets/gregecore/models/block/machine/dysonswarmlauncher.json
@@ -199,6 +203,8 @@ d7e23f0b29c4f30f21db5dbd15aac181084c1740 assets/gregecore/models/item/atomic_eng
 a508d12a35fb7f28be04dc27172cb2b48da45eb6 assets/gregecore/models/item/coolant_output_machine.json
 52bbd9dde5b16b2158e0470d7685685bb645ceb2 assets/gregecore/models/item/deep_space_explorer.json
 07eba2add0796371cb51fd57de3f4c11d5dcd539 assets/gregecore/models/item/desh_coil.json
+97c902f400394dbeb7a34878a43b42de821b3edf assets/gregecore/models/item/dimensional_filter_casing.json
+5260bc2afbb5f910fc650c82194987495c8ffc6e assets/gregecore/models/item/dimensional_relics_machine.json
 ad9670a8e6c450f2697314df8efd70101c19a8c7 assets/gregecore/models/item/drone_access_machine.json
 a27b515e873c9531e2f679d4a6351fbc3f5903bf assets/gregecore/models/item/dysonswarmenergycollector.json
 229d1251f9a000b6206da87bffa09bfd4eef11f3 assets/gregecore/models/item/dysonswarmlauncher.json
@@ -266,6 +272,7 @@ ae7947d31304252642a35f5e25bd5c2f28f8686c assets/gregecore/models/item/vibration_
 bd1d3841186c986797de6b9c5d7374a4b41a1a81 data/gregecore/loot_tables/blocks/atomic_engine_intake.json
 00c339ca47e820c6df868e55801d56f25edf0516 data/gregecore/loot_tables/blocks/awakened_draconium_coil.json
 746a6c785ebe18af9963e3923809ff7a35bfd00b data/gregecore/loot_tables/blocks/desh_coil.json
+ff1827a4242de9f4b74916938d9dee4c59242c25 data/gregecore/loot_tables/blocks/dimensional_filter_casing.json
 18e9ae4352ff0588e3a5d4b87874905a207c8b86 data/gregecore/loot_tables/blocks/forgotten_coil.json
 941a4ab362eceb3dadc0a097c389a6e0da9473e3 data/gregecore/loot_tables/blocks/malachite_coil.json
 faf694dfd8dc0036ddebc7dbd32c715a621857d4 data/gregecore/loot_tables/blocks/manasteel_coil.json
@@ -277,3 +284,5 @@ e784dd54dee51706854aa6b9a0527e8409fc8749 data/gregecore/loot_tables/blocks/solid
 ef1b22835c2cceab65ff6e3e884dc99a7d71533d data/gregecore/loot_tables/blocks/superelement_coil.json
 8c4a1e366bf9ab2c63d2d8463e8f32fe5331bed3 data/gregecore/loot_tables/blocks/twilight_coil.json
 541483af28f9fe7fc8b15c52aadff54763e7be7f data/gregecore/loot_tables/blocks/vibration_engine_intake.json
+2a904b82eae44766a9cdc953615e403d96ad3cbd data/gtceu/tags/blocks/mineable/pickaxe_or_wrench.json
+2a904b82eae44766a9cdc953615e403d96ad3cbd data/minecraft/tags/blocks/needs_stone_tool.json

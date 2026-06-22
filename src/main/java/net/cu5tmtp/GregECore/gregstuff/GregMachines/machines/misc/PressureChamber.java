@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
@@ -14,14 +15,23 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -37,15 +47,26 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class PressureChamber extends WorkableElectricMultiblockMachine {
+public class PressureChamber extends WorkableElectricMultiblockMachine implements IRedstoneSignalMachine {
 
     private IFluidHandler pressureInputHandler;
     private TickableSubscription pressureSubscription;
+    @Persisted
     private double currentPressure = 0.0;
-    private boolean safeMode = false;
+    @Persisted
+    public boolean safeMode = true;
 
     public PressureChamber(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+    }
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            PressureChamber.class,
+            WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
     @Override
@@ -107,12 +128,59 @@ public class PressureChamber extends WorkableElectricMultiblockMachine {
             this.currentPressure = Math.max(0.0, this.currentPressure - 0.1);
         }
 
-        if (this.currentPressure > 100.0 && !this.safeMode) {
-            if (this.getLevel() != null) {
-                this.getLevel().explode(null, this.getPos().getX(), this.getPos().getY(), this.getPos().getZ(), 4.0F, Level.ExplosionInteraction.BLOCK);
+        if (this.currentPressure > 100.0) {
+            if (!this.safeMode) {
+                if (this.getLevel() != null) {
+                    this.explodeMachine();
+                }
+                this.currentPressure = 0.0;
+            } else {
+                this.currentPressure = 100.0;
             }
-            this.currentPressure = 0.0;
         }
+
+        this.updateSignal();
+    }
+
+    private void explodeMachine() {
+        Level level = getLevel();
+        if (level != null && !level.isClientSide) {
+            var pos = getPos();
+            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+
+            int radius = 3;
+            for (int x = -radius; x <= radius; x++) {
+                for (int y = -radius; y <= radius; y++) {
+                    for (int z = -radius; z <= radius; z++) {
+                        if (x * x + y * y + z * z <= radius * radius) {
+                            BlockPos targetPos = pos.offset(x, y, z);
+                            BlockState state = level.getBlockState(targetPos);
+
+                            if (!state.isAir() && state.getDestroySpeed(level, targetPos) >= 0) {
+                                level.destroyBlock(targetPos, false);
+                            }
+                        }
+                    }
+                }
+            }
+
+            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15.0F, Level.ExplosionInteraction.NONE);
+        }
+    }
+
+    @Override
+    public int getOutputSignal(@Nullable Direction side) {
+        return Math.min(15, (int) (this.currentPressure / 7.0));
+    }
+
+    @Override
+    public int getAnalogOutputSignal() {
+        return getOutputSignal(null);
+    }
+
+    @Override
+    public boolean canConnectRedstone(Direction side) {
+        return true;
     }
 
     @Override
@@ -122,16 +190,16 @@ public class PressureChamber extends WorkableElectricMultiblockMachine {
         if (widget instanceof WidgetGroup group) {
             WidgetGroup buttonGroup = new WidgetGroup(-70, 140, 60, 14);
 
-            LabelWidget safeModeLabel = new LabelWidget(36, 3, () -> String.valueOf(Component.literal(safeMode ? "Safe: ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED))) {
+            LabelWidget safeModeLabel = new LabelWidget(12, 3, () -> String.valueOf(Component.literal(safeMode ? "Safe: ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED))) {
                 @Override
                 public void updateScreen() {
                     super.updateScreen();
-                    this.setComponent(Component.literal(safeMode ? "Safe: ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED));
+                    this.setComponent(Component.literal(safeMode ? "Safe:  ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED));
                 }
             };
             safeModeLabel.setDropShadow(false);
 
-            ButtonWidget interactButton = new ButtonWidget(0, -8, 31, 28, ResourceBorderTexture.BORDERED_BACKGROUND, click -> {}) {
+            ButtonWidget interactButton = new ButtonWidget(8, -8, 55, 28, ResourceBorderTexture.BORDERED_BACKGROUND, click -> {}) {
                 @Override
                 public boolean mouseClicked(double mouseX, double mouseY, int button) {
                     if (this.isMouseOverElement(mouseX, mouseY)) {
@@ -172,6 +240,7 @@ public class PressureChamber extends WorkableElectricMultiblockMachine {
             .multiblock("pressurechamber", PressureChamber::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GregERecipeTypes.PRESSURECHAMCRAFT)
+            .recipeModifiers(GregEModifiers::presureChamberBoost)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -195,6 +264,20 @@ public class PressureChamber extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("Abilities: Assembly Line, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .register();
+
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+            textList.add(Component.literal("Pressure: " + (int) currentPressure + "Pa / 100Pa").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
+        }
+    }
+
+    public boolean isSafeMode() {
+        return safeMode;
+    }
 
     public static void init() {
     }
