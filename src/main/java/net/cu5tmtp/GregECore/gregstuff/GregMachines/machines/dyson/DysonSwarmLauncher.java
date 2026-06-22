@@ -37,9 +37,6 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
             DysonSwarmLauncher.class,
             WorkableElectricMultiblockMachine.MANAGED_FIELD_HOLDER
     );
-    @Persisted
-    protected double sailsShot = 0;
-
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
@@ -114,7 +111,7 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("This machine launches solar sails into the sun orbit. Depending on the number of launched sails, " +
                     "various boosts are given to Dyson Swarm Energy Collector.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("The breakpoints are: 500 -> 1x, 50000 -> 10x, 500000 -> 75x, 1000000 -> 250x.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Energy output is multiplied by the amount of sails shot.").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
 
@@ -126,18 +123,14 @@ public class DysonSwarmLauncher extends WorkableElectricMultiblockMachine {
         if (isFormed()) {
 
             double currentSails = 0;
-            double currentBoost = 0;
 
             if (getLevel() instanceof ServerLevel serverLevel) {
                 DysonSwarmManager manager = DysonSwarmManager.get(serverLevel);
                 currentSails = manager.getTotalSails();
-                currentBoost = manager.getBoost();
             }
 
             textList.add(Component.literal("Solar sails in orbit:").withStyle(ChatFormatting.GREEN));
             textList.add(Component.literal("" + (int) currentSails).withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Energy generation boost:").withStyle(ChatFormatting.GREEN));
-            textList.add(Component.literal("" + (int) currentBoost).withStyle(ChatFormatting.AQUA));
         }
     }
 

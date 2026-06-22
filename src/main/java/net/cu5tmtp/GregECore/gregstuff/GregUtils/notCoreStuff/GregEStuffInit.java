@@ -12,6 +12,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAc
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
@@ -23,6 +24,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
@@ -56,6 +58,7 @@ public class GregEStuffInit {
         //CartridgeCase.init();
         UHVMultiRegistry.init();
         SubatomicAntimatterSyntheticator.init();
+        PressureChamber.init();
     }
 
     public static void initGregEParts(){
@@ -81,6 +84,7 @@ public class GregEStuffInit {
         ThreadT1PartMachine.init();
         ThreadT2PartMachine.init();
         ThreadT3PartMachine.init();
+        PressurePartMachine.init();
     }
 
     public static void initHPCAParts(){

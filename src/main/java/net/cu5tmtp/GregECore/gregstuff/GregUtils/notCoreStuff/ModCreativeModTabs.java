@@ -13,6 +13,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAc
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
@@ -24,6 +25,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
@@ -92,6 +94,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
                         pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
                         pOutput.accept(AutomaticAssemblyLine.AUTASSEMBLYLINE.getItem());
+                        pOutput.accept(PressureChamber.PRESSURECHAMBER.getItem());
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
                             pOutput.accept(box.getItem());
                         }
@@ -125,6 +128,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(AscencionPartMachine.ASCENCION_PART_MACHINE.getItem());
                         pOutput.accept(RealityFractureEnginePartMachine.REALITY_FRACTURE_PART_MACHINE.getItem());
                         pOutput.accept(PedestalPartMachine.PEDESTAL_INF_MACHINE.getItem());
+                        pOutput.accept(PressurePartMachine.PRESSURE_INPUT_MACHINE.getItem());
 
                     })
                     .build());

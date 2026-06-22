@@ -1,4 +1,4 @@
-// 1.20.1	2026-06-21T16:09:55.5377983	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-22T02:15:39.9555293	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -59,6 +59,8 @@ f2f50b64fdb313df8661ead69ca7f431c3b6aa82 assets/gregecore/blockstates/malachite_
 a7e876cb4b463a8a1ffadae72e404d3bb9d97193 assets/gregecore/blockstates/parallel_booster_machine.json
 ec87236e7ab99959422592da3fab4c32015c9030 assets/gregecore/blockstates/pedestal_inf_machine.json
 301ef67d494a89fcb1fc8f002fa78f7c57540615 assets/gregecore/blockstates/perditio_input_machine.json
+a0ed9dc1b9ee1b225af3b4d84dbb8d4988e2c181 assets/gregecore/blockstates/pressurechamber.json
+14d4fbc42c23dc5d22f1a75291d3ae835678edde assets/gregecore/blockstates/pressure_input_machine.json
 7bd70af8a98abd636876644b5e4957da24357850 assets/gregecore/blockstates/ptfe_engine_intake.json
 d60f6d810d134e1c0e2af25212387fdc67dc6095 assets/gregecore/blockstates/ptfe_firebox_casing.json
 6b401b997da4ce9a4ca2f389d650226b24efc392 assets/gregecore/blockstates/realityfractureengine.json
@@ -79,8 +81,8 @@ dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_
 8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-4207917d1651a0160e5526f386025e433aa42bdb assets/gregecore/lang/en_ud.json
-329493eab04a0a7da1efc3d45015f11717c731ab assets/gregecore/lang/en_us.json
+2e83201dd4faabab208f170b5c8fc70561b828ac assets/gregecore/lang/en_ud.json
+42ae5cb8ba77ff991dd9cab20fb4acf1439afa9a assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
@@ -146,6 +148,8 @@ ca3cc05f23d1fc758b19f21738cb95ea4d7b0b2c assets/gregecore/models/block/machine/i
 7bc42ce223da43e19b2c761abdc928c5276c9d26 assets/gregecore/models/block/machine/parallel_booster_machine.json
 ad28826dff6b689c91034ecfda78d2ad6fcc4c40 assets/gregecore/models/block/machine/pedestal_inf_machine.json
 e8dd21d135790a03be5ad7bdb92c3917fe41272c assets/gregecore/models/block/machine/perditio_input_machine.json
+64ba122e50942c4c7e6c33322a30fcd0c6c40613 assets/gregecore/models/block/machine/pressurechamber.json
+f855daac0cd86938e82c156ba8c93ceb44595d6c assets/gregecore/models/block/machine/pressure_input_machine.json
 47a165d63add78e78659ee1a2ebe1e6e1ef2309c assets/gregecore/models/block/machine/realityfractureengine.json
 29987e50f951ad629275e6dce6613ee5ec9eb6fc assets/gregecore/models/block/machine/realityfracturepart.json
 fe4842efb0cbddc85a8f305452e24c01a6657edd assets/gregecore/models/block/machine/repair_part_input_machine.json
@@ -237,6 +241,8 @@ d8934465d65e687084523419f0a217d08bdcd585 assets/gregecore/models/item/ordo_input
 24bd2e34f797b31248f6db8a7a88e2cf2784d171 assets/gregecore/models/item/parallel_booster_machine.json
 e37350bfce9b51f26c323c733017863709cf3b87 assets/gregecore/models/item/pedestal_inf_machine.json
 031e7cb61bb2309e0bc2772d97c90c967c0ef542 assets/gregecore/models/item/perditio_input_machine.json
+bd12ecdd243c8e4dc7a5db0687a1dc0a60e17b6a assets/gregecore/models/item/pressurechamber.json
+9ec44daeedc89cd9b2774a89c7ecba81c52fd58c assets/gregecore/models/item/pressure_input_machine.json
 dccfb2f5480b6a00145bf441a780874373d1ef27 assets/gregecore/models/item/ptfe_engine_intake.json
 e0d4138a800464ba45744e7ec1c21499abf9720c assets/gregecore/models/item/ptfe_firebox_casing.json
 670c4857522bcf54ba171d952a77be0cc7991e79 assets/gregecore/models/item/realityfractureengine.json

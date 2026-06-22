@@ -40,6 +40,7 @@
   "block.gregecore.giant_arc_furnace": "§lGiant Arc Smelter§g",
   "block.gregecore.giant_brewery": "§lGiant Brewing Vat§g",
   "block.gregecore.sasynth": "§lSubatomic Antimatter Syntheticator§g",
+  "block.gregecore.pressurechamber": "§lPressure Chamber§g",
 
   "gtceu.infusion_altar_infusing": "Infusing",
   "gtceu.sascrafting": "Synthetizing",
@@ -57,6 +58,7 @@
   "block.gregecore.threading_one_machine": "Threading Core T1",
   "block.gregecore.threading_two_machine": "Threading Core T2",
   "block.gregecore.threading_three_machine": "Threading Core T3",
+  "block.gregecore.pressure_input_machine": "Pressure Input",
   "block.gregecore.terra_input_machine": "Terra Input",
   "block.gregecore.aer_input_machine": "Aer Input",
   "block.gregecore.aqua_input_machine": "Aqua Input",

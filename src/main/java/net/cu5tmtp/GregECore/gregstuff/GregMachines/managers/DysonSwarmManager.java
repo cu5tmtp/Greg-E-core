@@ -43,11 +43,7 @@ public class DysonSwarmManager extends SavedData {
     }
 
     public double getBoost() {
-        if (totalSails > 1000000) return 250;
-        if (totalSails > 500000) return 75;
-        if (totalSails > 50000) return 10;
-        if (totalSails > 500) return 1;
-        return 0;
+        return totalSails;
     }
 
     public static DysonSwarmManager get(ServerLevel level) {
