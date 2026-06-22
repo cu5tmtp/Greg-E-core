@@ -93,14 +93,18 @@ public class GregECore {
 
                 MachineDefinition machine = GTRegistries.MACHINES.get(machineId);
 
-                MachineDefinition machineMulti = AntiMassSpectrometer.ANTIMASSSPECTROMETER;
 
                 if (machine != null) {
                     var oldModifier = machine.getRecipeModifier();
-
                     machine.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
-                    machineMulti.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
                 }
+            }
+
+            MachineDefinition machineMulti = AntiMassSpectrometer.ANTIMASSSPECTROMETER;
+
+            if (machineMulti != null) {
+                var oldMultiModifier = machineMulti.getRecipeModifier();
+                machineMulti.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldMultiModifier));
             }
         });
     }

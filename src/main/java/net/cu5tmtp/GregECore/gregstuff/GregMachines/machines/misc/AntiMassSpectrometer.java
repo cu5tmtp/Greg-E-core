@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.ibm.icu.text.MessagePattern;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
@@ -58,6 +59,7 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
             .multiblock("antimass", AntiMassSpectrometer::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
+            .recipeModifier(GTRecipeModifiers.PARALLEL_HATCH)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -79,6 +81,7 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.PASSTHROUGH_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
+                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setExactLimit(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2)))
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laser_safe_engraving_casing"))))

@@ -28,12 +28,9 @@ public class DimensionalRelicsPartMachine extends ItemBusPartMachine {
                     new DimensionalRelicsPartMachine(holder, GTValues.HV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(PartAbility.PASSTHROUGH_HATCH)
-            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GregECore.id("block/overlay/feeder"))
+            .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
             .tooltips(Component.literal("Use this to input items to unlock dimensional recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
-
-
-
 
     public static void init() {
     }
