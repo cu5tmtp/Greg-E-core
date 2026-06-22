@@ -25,11 +25,11 @@ public class DimensionalRelicsPartMachine extends ItemBusPartMachine {
     }
 
     public static final MachineDefinition DIMENSIONAL_RELICS_MACHINE = REGISTRATE.machine("dimensional_relics_machine", (holder) ->
-                    new DimensionalRelicsPartMachine(holder, GTValues.MV))
+                    new DimensionalRelicsPartMachine(holder, GTValues.HV))
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(PartAbility.PASSTHROUGH_HATCH)
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GregECore.id("block/overlay/feeder"))
-            .tooltips(Component.literal("Use this to unlock dimensional recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Use this to input items to unlock dimensional recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

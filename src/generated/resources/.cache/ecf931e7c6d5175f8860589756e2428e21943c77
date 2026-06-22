@@ -1,9 +1,10 @@
-// 1.20.1	2026-06-22T19:37:33.1465538	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-06-22T21:26:04.5705009	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
 a48cce5db35850ee800450cb189e9ae1af70c594 assets/gregecore/blockstates/advanced_parallel_booster_machine.json
 97a1a5e1fa5e3067df1579583ac2e63c11a94b12 assets/gregecore/blockstates/aer_input_machine.json
+55c6c94c77f05224a40c977b19fa7ae3eabc5a02 assets/gregecore/blockstates/antimass.json
 4ac97adae96c7955fd80edb6384ce02c9d168ef4 assets/gregecore/blockstates/aqua_input_machine.json
 726326d671897042e823b83cb72be4fbe0de2d9e assets/gregecore/blockstates/ascencionaltar.json
 fa1ed1eb42dd798735383fe48ddf907fcd0c1d76 assets/gregecore/blockstates/ascencion_holder.json
@@ -19,6 +20,7 @@ c48b3a1afecf8664dec91c5b7bb5b2f2a454b25b assets/gregecore/blockstates/coolant_in
 0aaf2a751d9dfb16aba5881be7eabef3e7b2fe05 assets/gregecore/blockstates/desh_coil.json
 447de3b420ec7f6d723c30367b8caac469cf8ac9 assets/gregecore/blockstates/dimensional_filter_casing.json
 2de1f0ecd9aee70ca7851d3ae7644bd1e53fc0aa assets/gregecore/blockstates/dimensional_relics_machine.json
+463fdb5041183e047198fe234097bc65b2403422 assets/gregecore/blockstates/dimension_maintenance_hatch.json
 380289605773492eecc87599e3a6e65dbb4127ab assets/gregecore/blockstates/drone_access_machine.json
 4acb5f34d5cb39be6d717b25f2b285518421feea assets/gregecore/blockstates/dysonswarmenergycollector.json
 4f2b4889da1bc77fbb01045b6cc718cf6f465579 assets/gregecore/blockstates/dysonswarmlauncher.json
@@ -83,8 +85,8 @@ dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_
 8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-6ad0d4c4d631e2a50a305e37e25620ce027a2f63 assets/gregecore/lang/en_ud.json
-92d9159ed9dd753239f0af4d0c9aa415788fb64d assets/gregecore/lang/en_us.json
+6ee67b88ba2d373fdcee27eebf6d2bc024a3e6ac assets/gregecore/lang/en_ud.json
+60def566b03fcb868ee3dfda3b457663815e48da assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
@@ -103,6 +105,7 @@ dfb35a9f1c45716368960f40e9b8e59aac1c0905 assets/gregecore/models/block/machine/a
 da48b50d50be64f428088895fe185c18e077b81d assets/gregecore/models/block/machine/advanced_heater_input_machine.json
 1de54a36ede867427cb1824f3b69de066f252c12 assets/gregecore/models/block/machine/advanced_parallel_booster_machine.json
 d5111ce1a4734290e72bcb8b87968ca59584af2e assets/gregecore/models/block/machine/aer_input_machine.json
+1ae18dd5bd6f3975244ce949e5f4238acdc4e5eb assets/gregecore/models/block/machine/antimass.json
 6c331598b81b35851112de1e0debb79f67bbc4bf assets/gregecore/models/block/machine/aqua_input_machine.json
 e40839a13984cb2bbe1a6d3e2ccb96a14d9a4e43 assets/gregecore/models/block/machine/ascencionaltar.json
 703a8e6f9e49eec70192f537a945407cd63a5420 assets/gregecore/models/block/machine/ascencion_holder.json
@@ -113,6 +116,7 @@ f36652b13e66f38e3a63d5e10027d204d8b445a8 assets/gregecore/models/block/machine/b
 3dfbe58d5c7d1760659b2e4c700d5f67ba098084 assets/gregecore/models/block/machine/coolant_output_machine.json
 c9c28509b2b72ee12d3ad18c0622d8d8655c7667 assets/gregecore/models/block/machine/deep_space_explorer.json
 2e09e3d70919d48eb4a3bec22d4efe22c89fbd51 assets/gregecore/models/block/machine/dimensional_relics_machine.json
+e1d0efd2a595f92654cd8b6f21fea5746b157249 assets/gregecore/models/block/machine/dimension_maintenance_hatch.json
 ea58b4a643663ac6b209f88187182a951e1bf63b assets/gregecore/models/block/machine/drone_access_machine.json
 25c66a6b47c88b127323e89b2cb096eef504d965 assets/gregecore/models/block/machine/dysonswarmenergycollector.json
 70c33d76ff12a02bc84734c00e6c3cad95fb82e9 assets/gregecore/models/block/machine/dysonswarmlauncher.json
@@ -190,6 +194,7 @@ e0de3f7b665892549797a81109a946be4bc32553 assets/gregecore/models/block/vibration
 679c2b851379f502d358bf7535a9c5c4a696281e assets/gregecore/models/item/advanced_heater_input_machine.json
 fb523a510a85b969b7d184d35ac70f270dcb9612 assets/gregecore/models/item/advanced_parallel_booster_machine.json
 1ecd42492a0daacab0e33c4f3a9764155eb41486 assets/gregecore/models/item/aer_input_machine.json
+1250ff0918d9550bd3e145cf83168e37ebd9f419 assets/gregecore/models/item/antimass.json
 dafd23fb6429512849dba9d6eb59e34d66b3d056 assets/gregecore/models/item/aqua_input_machine.json
 7e1a34ee686afa62ced013c8e27a4e5943919628 assets/gregecore/models/item/ascencionaltar.json
 d1bf4e678a67018fda9cf6dc124a9860127e7144 assets/gregecore/models/item/ascencion_holder.json
@@ -205,6 +210,7 @@ a508d12a35fb7f28be04dc27172cb2b48da45eb6 assets/gregecore/models/item/coolant_ou
 07eba2add0796371cb51fd57de3f4c11d5dcd539 assets/gregecore/models/item/desh_coil.json
 97c902f400394dbeb7a34878a43b42de821b3edf assets/gregecore/models/item/dimensional_filter_casing.json
 5260bc2afbb5f910fc650c82194987495c8ffc6e assets/gregecore/models/item/dimensional_relics_machine.json
+9680206509b643e5978ea1a2488b58e01cef4784 assets/gregecore/models/item/dimension_maintenance_hatch.json
 ad9670a8e6c450f2697314df8efd70101c19a8c7 assets/gregecore/models/item/drone_access_machine.json
 a27b515e873c9531e2f679d4a6351fbc3f5903bf assets/gregecore/models/item/dysonswarmenergycollector.json
 229d1251f9a000b6206da87bffa09bfd4eef11f3 assets/gregecore/models/item/dysonswarmlauncher.json

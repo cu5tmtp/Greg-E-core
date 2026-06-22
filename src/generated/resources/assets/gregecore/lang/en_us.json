@@ -41,6 +41,7 @@
   "block.gregecore.giant_brewery": "§lGiant Brewing Vat§g",
   "block.gregecore.sasynth": "§lSubatomic Antimatter Syntheticator§g",
   "block.gregecore.pressurechamber": "§lPressure Chamber§g",
+  "block.gregecore.antimass": "§lAnti-Mass Spectrometer§g",
 
   "gtceu.recipe.cleanroom_dimensional.display_name": "Dimensional Simulator",
   "gtceu.infusion_altar_infusing": "Infusing",
@@ -56,6 +57,7 @@
   "gtceu.open_rift": "Rift Opening",
   "gtceu.send_up_the_mats": "Space Trade",
 
+  "block.gregecore.dimension_maintenance_hatch": "Dimensional Simulator Maintenance Hatch",
   "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",
   "block.gregecore.threading_one_machine": "Threading Core T1",
   "block.gregecore.threading_two_machine": "Threading Core T2",

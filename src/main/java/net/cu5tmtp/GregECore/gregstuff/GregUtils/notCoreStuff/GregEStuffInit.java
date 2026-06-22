@@ -10,12 +10,14 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAccel
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AntiMassSpectrometer;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.single.DimensionalCleaningMaintenance;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.UHVMultiRegistry;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPartMachine;
@@ -60,6 +62,7 @@ public class GregEStuffInit {
         UHVMultiRegistry.init();
         SubatomicAntimatterSyntheticator.init();
         PressureChamber.init();
+        AntiMassSpectrometer.init();
     }
 
     public static void initGregEParts(){
@@ -87,6 +90,7 @@ public class GregEStuffInit {
         ThreadT3PartMachine.init();
         PressurePartMachine.init();
         DimensionalRelicsPartMachine.init();
+        DimensionalCleaningMaintenance.init();
     }
 
     public static void initHPCAParts(){
