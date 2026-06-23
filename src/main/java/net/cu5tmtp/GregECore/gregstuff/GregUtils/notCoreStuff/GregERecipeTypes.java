@@ -93,7 +93,7 @@ public class GregERecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER);
 
     public static GTRecipeType PRESSURECHAMCRAFT = GTRecipeTypes.register("pressuring", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(9,1,0,0)
+            .setMaxIOSize(9,1,3,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FORGE_HAMMER);

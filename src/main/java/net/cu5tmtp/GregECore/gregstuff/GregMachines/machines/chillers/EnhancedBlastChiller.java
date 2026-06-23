@@ -123,7 +123,7 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Glacial, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Glacial Core, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("This freezer gets better with every core you supply it. " +
                     "Each core improves the speed at which the machine is chilling the inputs.").withStyle(style -> style.withColor(0x90EE90)))

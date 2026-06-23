@@ -261,8 +261,9 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
                     GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/multiblock/assembly_line"))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Assembly Line, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Pressure Compacting").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override

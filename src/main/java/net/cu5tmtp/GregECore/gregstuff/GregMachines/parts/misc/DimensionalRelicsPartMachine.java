@@ -29,7 +29,21 @@ public class DimensionalRelicsPartMachine extends ItemBusPartMachine {
             .rotationState(RotationState.NON_Y_AXIS)
             .abilities(PartAbility.PASSTHROUGH_HATCH)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
+            .tier(GTValues.HV)
             .tooltips(Component.literal("Use this to input items to unlock dimensional recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Items and Recipe Unlocks:").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Eye of Abyss -> Abyssal Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Void -> Enderium Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Mech -> Forge Smoke").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Storm -> Captured Lightning").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Curse -> Cursed Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Flame -> Ignitium Infused Lava").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Miniature Twilight Forest Portal -> Twilight Forest Air:").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Raw Demonite -> Demonic Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Delerian Burial Mask -> Mars Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Nether Star -> Nether Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Dragon Egg -> End Air").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     public static void init() {

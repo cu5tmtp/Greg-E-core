@@ -44,6 +44,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation SASYNTH_ID =
             new ResourceLocation("gregecore", "sasynthsparks");
 
+    public static final ResourceLocation AMS_ID =
+            new ResourceLocation("gregecore", "amssparks");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -66,6 +69,7 @@ public class GregERenederRegistries {
     public static DynamicRender<?, ?> createInfusionAltarRender() { return new InfusionAltarRender(); }
     public static DynamicRender<?, ?> createFissionRodRender() { return new FissionReactorRender(); }
     public static DynamicRender<?, ?> createSASRender() { return new SASRender(); }
+    public static DynamicRender<?, ?> createAMSRender() { return new AMSRender(); }
 
 
 
@@ -83,6 +87,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(INFUSION_ALTAR_ID, InfusionAltarRender.TYPE);
         DynamicRenderManager.register(FISSION_ROD_ID, FissionReactorRender.TYPE);
         DynamicRenderManager.register(SASYNTH_ID, SASRender.TYPE);
+        DynamicRenderManager.register(AMS_ID, AMSRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -96,5 +101,6 @@ public class GregERenederRegistries {
         InfusionAltarRender.init();
         FissionReactorRender.init();
         SASRender.init();
+        AMSRender.init();
     }
 }

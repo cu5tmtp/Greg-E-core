@@ -26,6 +26,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.CheckForDim;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
@@ -59,7 +61,7 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
             .multiblock("antimass", AntiMassSpectrometer::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
-            .recipeModifier(GTRecipeModifiers.PARALLEL_HATCH)
+            .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
@@ -81,7 +83,7 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.PASSTHROUGH_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
-                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setExactLimit(1))
+                                .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(2)))
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:large_scale_assembler_casing"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laser_safe_engraving_casing"))))
@@ -91,12 +93,30 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
                         .where('h', Predicates.controller(blocks(definition.getBlock())))
                         .build();
             })
-            .workableCasingModel(
+            .model(createWorkableCasingMachineModel(
                     GTCEu.id("block/casings/gcym/shock_proof_cutting_casing"),
                     GTCEu.id("block/multiblock/assembly_line"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createAMSRender))
+            )
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Assembly Line, Perfect Overclock and Threading").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("Abilities: Dimension Simulating, Perfect Overclock and Parallel Hatch").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("A multiblock capable of simulating a dimension's atmosphere and subsequently extracting gases from it. Just be careful not to cause a Resonance Cascade.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("If you provide it with Dimensional Simulator Maintenance Hatch, and input correct items into Dimensional Relics Input, the machine will ignore the dimension requirement.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Items and Recipe Unlocks:").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Eye of Abyss -> Abyssal Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Void -> Enderium Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Mech -> Forge Smoke").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Storm -> Captured Lightning").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Curse -> Cursed Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Eye of Flame -> Ignitium Infused Lava").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Miniature Twilight Forest Portal -> Twilight Forest Air:").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Raw Demonite -> Demonic Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Delerian Burial Mask -> Mars Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Nether Star -> Nether Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Dragon Egg -> End Air").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     public static void init() {
