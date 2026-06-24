@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -60,7 +61,7 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
     public static MachineDefinition ANTIMASSSPECTROMETER = REGISTRATE
             .multiblock("antimass", AntiMassSpectrometer::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .recipeType(GTRecipeTypes.GAS_COLLECTOR_RECIPES)
+            .recipeTypes(GTRecipeTypes.GAS_COLLECTOR_RECIPES, GTRecipeTypes.SIFTER_RECIPES, GregERecipeTypes.PLANETARGY_GAS_SIPHON, GregERecipeTypes.ZERO_GRAV_MIXER, GregERecipeTypes.SEDNASAMPLER)
             .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
             .appearanceBlock(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> {
@@ -81,6 +82,8 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
                         .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:shock_proof_cutting_casing")))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.PASSTHROUGH_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                 .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
@@ -105,18 +108,34 @@ public class AntiMassSpectrometer extends WorkableElectricMultiblockMachine {
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("If you provide it with Dimensional Simulator Maintenance Hatch, and input correct items into Dimensional Relics Input, the machine will ignore the dimension requirement.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Items and Recipe Unlocks:").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Eye of Abyss -> Abyssal Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Eye of Void -> Enderium Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Eye of Mech -> Forge Smoke").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Eye of Storm -> Captured Lightning").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Eye of Curse -> Cursed Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Eye of Flame -> Ignitium Infused Lava").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Miniature Twilight Forest Portal -> Twilight Forest Air:").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Raw Demonite -> Demonic Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Delerian Burial Mask -> Mars Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Nether Star -> Nether Air").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Dragon Egg -> End Air").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Items and Recipe Unlocks:").withStyle(ChatFormatting.AQUA))
+            .tooltips(Component.literal("Eye of Pride").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Forge Smoke, Abyssal Air, Small Pile Of Impure Ancient Metal Dust and Ignitium Infused Lava").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Eye of Sin").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Enderium Air, Empty Lava Power Cell Imitation, Captured Lightning and Cursed Air").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Stone of Horus").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Earth Orbit, Venus Orbit, Mercury Orbit and Mars Orbit").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Charm of Guilliman").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Neptune Orbit, Uranus Orbit, Saturn Orbit, Jupiter Orbit and Sedna Sample Dust").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Miniature Twilight Forest Portal").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Twilight Forest Air").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Raw Demonite").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Demonic Air").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Delerian Burial Mask").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Mars Air").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Nether Star").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("Nether Air").withStyle(ChatFormatting.BLUE)))
+            .tooltips(Component.literal("Dragon Egg").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
+                    .append(Component.literal("End Air").withStyle(ChatFormatting.BLUE)))
             .register();
 
     public static void init() {

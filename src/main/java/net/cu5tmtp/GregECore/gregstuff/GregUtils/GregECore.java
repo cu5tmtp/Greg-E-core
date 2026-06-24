@@ -90,13 +90,20 @@ public class GregECore {
 
                 String machineName = GTValues.VN[tier].toLowerCase() + "_gas_collector";
                 ResourceLocation machineId = new ResourceLocation("gtceu", machineName);
-
                 MachineDefinition machine = GTRegistries.MACHINES.get(machineId);
-
 
                 if (machine != null) {
                     var oldModifier = machine.getRecipeModifier();
                     machine.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
+                }
+
+                String sifterName = GTValues.VN[tier].toLowerCase() + "_sifter";
+                ResourceLocation sifterId = new ResourceLocation("gtceu", sifterName);
+                MachineDefinition sifter = GTRegistries.MACHINES.get(sifterId);
+
+                if (sifter != null) {
+                    var oldModifier = sifter.getRecipeModifier();
+                    sifter.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
                 }
             }
 
@@ -104,7 +111,7 @@ public class GregECore {
 
             if (machineMulti != null) {
                 var oldMultiModifier = machineMulti.getRecipeModifier();
-                machineMulti.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldMultiModifier));
+                machineMulti.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
             }
         });
     }

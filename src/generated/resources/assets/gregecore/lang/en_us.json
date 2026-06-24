@@ -57,6 +57,9 @@
   "gtceu.open_rift": "Rift Opening",
   "gtceu.send_up_the_mats": "Space Trade",
   "gtceu.pressuring": "Pressure Compacting",
+  "gtceu.planetarygassiphon": "Gas Siphoning",
+  "gtceu.zerogravmixer": "Zero Gravity Mixer",
+  "gtceu.sednasampler": "Sedna Sampler",
 
   "block.gregecore.dimension_maintenance_hatch": "Dimensional Simulator Maintenance Hatch",
   "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",

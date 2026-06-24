@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.CleaningMaintenanceHatchPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
@@ -21,20 +22,37 @@ import java.util.Map;
 import java.util.Set;
 
 public class CheckForDim {
-    private static final Map<String, String> DIMENSION_KEYS = new HashMap<>();
+    private static final Map<String, Set<String>> DIMENSION_KEYS = new HashMap<>();
 
     static {
-        DIMENSION_KEYS.put("twilightforest:twilight_portal_miniature_structure", "gettwair");
-        DIMENSION_KEYS.put("cataclysm:abyss_eye", "abyssal");
-        DIMENSION_KEYS.put("cataclysm:void_eye", "enderium");
-        DIMENSION_KEYS.put("minecraft:nether_star", "nether");
-        DIMENSION_KEYS.put("cataclysm:mech_eye", "forge_smoke");
-        DIMENSION_KEYS.put("cataclysm:storm_eye", "lightning");
-        DIMENSION_KEYS.put("cataclysm:cursed_eye", "cursed");
-        DIMENSION_KEYS.put("cataclysm:flame_eye", "ignitium");
-        DIMENSION_KEYS.put("minecraft:dragon_egg", "ender_air");
-        DIMENSION_KEYS.put("bloodmagic:rawdemonite", "getdemoinicaroi");
-        DIMENSION_KEYS.put("kubejs:burialmask", "getmarsairrrrrr");
+        DIMENSION_KEYS.put("twilightforest:twilight_portal_miniature_structure", Set.of("gettwair"));
+        DIMENSION_KEYS.put("kubejs:burialmask", Set.of("getmarsairrrrrr"));
+        DIMENSION_KEYS.put("minecraft:dragon_egg", Set.of("ender_air"));
+        DIMENSION_KEYS.put("bloodmagic:rawdemonite", Set.of("getdemoinicaroi"));
+        DIMENSION_KEYS.put("minecraft:nether_star", Set.of("nether"));
+
+        DIMENSION_KEYS.put("kubejs:eyeofpride", Set.of("forge_smoke", "abyssal", "ancient", "ignitium"));
+        DIMENSION_KEYS.put("kubejs:eyeofsin", Set.of("enderium", "emptybattery", "lightning", "cursed"));
+
+        DIMENSION_KEYS.put("kubejs:stoneofhorus", Set.of("siphonearth", "siphonvenus", "siphonsolarstorms", "superelementgetthatshiiiii"));
+        DIMENSION_KEYS.put("kubejs:charmofguilliman", Set.of("siphonneptune", "siphonuranus", "siphonsaturn", "siphonjupiter", "sedna_sample_dust"));
+    }
+
+    public static GTRecipe applyAntiMassBypass(MetaMachine metaMachine, GTRecipe r, RecipeModifier oldModifier) {
+        if (r.getType() == GTRecipeTypes.SIFTER_RECIPES) {
+            boolean hasDimCondition = false;
+            for (var condition : r.conditions) {
+                if (condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
+                    hasDimCondition = true;
+                    break;
+                }
+            }
+            if (!hasDimCondition) {
+                return null;
+            }
+        }
+
+        return applyDimensionalBypass(metaMachine, r, oldModifier);
     }
 
     public static GTRecipe applyDimensionalBypass(MetaMachine metaMachine, GTRecipe r, RecipeModifier oldModifier) {
@@ -80,7 +98,7 @@ public class CheckForDim {
                                         if (itemIdRes != null) {
                                             String itemId = itemIdRes.toString();
                                             if (DIMENSION_KEYS.containsKey(itemId)) {
-                                                unlockedDimensions.add(DIMENSION_KEYS.get(itemId));
+                                                unlockedDimensions.addAll(DIMENSION_KEYS.get(itemId));
                                             }
                                         }
                                     }
