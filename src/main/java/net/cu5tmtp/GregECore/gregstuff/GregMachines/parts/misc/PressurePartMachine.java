@@ -18,7 +18,7 @@ public class PressurePartMachine extends FluidHatchPartMachine {
     public static final PartAbility PRESSURE_INPUT = new PartAbility("pressure_input");
 
     public PressurePartMachine(IMachineBlockEntity holder, int tier) {
-        super(holder, tier, IO.BOTH, 500, 1);
+        super(holder, tier, IO.BOTH, 2500, 1);
     }
 
     public static PartAbility getPartAbility() {

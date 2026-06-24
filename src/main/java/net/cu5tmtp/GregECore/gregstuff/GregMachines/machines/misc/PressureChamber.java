@@ -12,13 +12,14 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.fluid.FluidHandlerList;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.minecraft.core.BlockPos;
@@ -26,6 +27,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
@@ -42,9 +44,12 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.ChatFormatting;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class PressureChamber extends WorkableElectricMultiblockMachine implements IRedstoneSignalMachine {
@@ -55,6 +60,9 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
     private double currentPressure = 0.0;
     @Persisted
     public boolean safeMode = true;
+    private double maxPressure;
+    private boolean leakage = false;
+    private double recipePa;
 
     public PressureChamber(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -96,6 +104,8 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
             pressureSubscription = null;
         }
 
+        checkGlass();
+
         pressureSubscription = this.subscribeServerTick(this::pressureChecker);
     }
 
@@ -106,6 +116,18 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
             pressureSubscription = null;
         }
         super.onStructureInvalid();
+    }
+
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        assert recipe != null;
+        recipePa = recipe.data.getDouble("pa");
+
+        if(recipePa > currentPressure){
+            return false;
+        }
+
+        return super.beforeWorking(recipe);
     }
 
     private void pressureChecker() {
@@ -128,18 +150,68 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
             this.currentPressure = Math.max(0.0, this.currentPressure - 0.1);
         }
 
-        if (this.currentPressure > 100.0) {
+        if(leakage){
+            this.currentPressure -= Math.max(0.0, this.currentPressure - 1);
+        }
+
+        if (this.currentPressure > maxPressure) {
             if (!this.safeMode) {
                 if (this.getLevel() != null) {
                     this.explodeMachine();
                 }
                 this.currentPressure = 0.0;
             } else {
-                this.currentPressure = 100.0;
+                this.currentPressure = maxPressure;
             }
         }
 
         this.updateSignal();
+    }
+
+    private void checkGlass() {
+        Level level = getLevel();
+        if (level == null || level.isClientSide) return;
+
+        this.leakage = false;
+        Set<Block> foundGlass = new HashSet<>();
+
+        Direction front = getFrontFacing();
+        Direction back = front.getOpposite();
+        Direction right = front.getCounterClockWise();
+
+        for (int y = 1; y <= 2; y++) {
+            for (int x = 0; x <= 3; x++) {
+                for (int z = 0; z <= 3; z++) {
+                    if ((x == 0 || x == 3) && (z == 0 || z == 3)) continue;
+                    if ((x == 1 || x == 2) && (z == 1 || z == 2)) continue;
+
+                    BlockPos targetPos = getPos().above(y).relative(right, x).relative(back, z);
+                    Block block = level.getBlockState(targetPos).getBlock();
+
+                    foundGlass.add(block);
+                }
+            }
+        }
+
+        if (foundGlass.size() != 1) {
+            this.leakage = true;
+            this.maxPressure = 0.0;
+            return;
+        }
+
+        Block glassBlock = foundGlass.iterator().next();
+        ResourceLocation registryKey = ForgeRegistries.BLOCKS.getKey(glassBlock);
+        String registryName = registryKey != null ? registryKey.toString() : "";
+
+        this.maxPressure = switch (registryName) {
+            case "gtceu:tempered_glass"  -> 30.0;
+            case "gtceu:laminated_glass" -> 60.0;
+            case "gtceu:fusion_glass"    -> 100.0;
+            default -> {
+                this.leakage = true;
+                yield 1.0;
+            }
+        };
     }
 
     private void explodeMachine() {
@@ -252,18 +324,31 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
                                 .or(Predicates.abilities(PressurePartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
-                        .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tempered_glass"))))
+                        .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:tempered_glass")))
+                                .or(Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laminated_glass"))))
+                                .or(Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:fusion_glass")))))
                         .where("c", Predicates.any())
                         .where('h', Predicates.controller(blocks(definition.getBlock())))
                         .build();
             })
-            .workableCasingModel(
+            .model(createWorkableCasingMachineModel(
                     GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/multiblock/assembly_line"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createPressureChamberRender))
+            )
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Abilities: Pressure Compacting").withStyle(style -> style.withColor(0xFFD700)))
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Provides you with the power to compact different materials very tightly together. But be careful, as the glasses might not be able to withstand the pressures.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Provide a Pressure Input with steam and the pressure inside the machine will start increasing with the rate of 1Pa per 1000mb of steam every second. Different glasses can withstand different amount of pressure. Do not mix them, as that will create leaks and the machine will not be able to work. You can also turn off the safe mode, which will result in halving the recipe times. But the machine can explode as consequence, if the pressure is too big.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Glasses:").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.literal("Tempered Glass: 30Pa").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Laminated Glass: 60Pa").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Fusion Glass: 100Pa").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Controller send out redstone signal, with every 7Pa adds 1 redstone strength.").withStyle(ChatFormatting.RED))
+
             .register();
 
     @Override
@@ -271,8 +356,10 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.literal("Pressure: " + (int) currentPressure + "Pa / 100Pa").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Pressure: " + (int) currentPressure + "Pa / " + (int) maxPressure + "Pa").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.literal("Leakage: " + leakage).withStyle(ChatFormatting.RED));
             textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
+
         }
     }
 

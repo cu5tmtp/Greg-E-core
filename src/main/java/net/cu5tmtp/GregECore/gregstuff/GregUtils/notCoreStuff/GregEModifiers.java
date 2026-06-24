@@ -142,7 +142,7 @@ public class GregEModifiers {
 
         double durationMult;
 
-        if(ps.isSafeMode()){
+        if(!ps.isSafeMode()){
             durationMult = 0.5;
         } else {
             durationMult = 1;

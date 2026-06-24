@@ -3,7 +3,6 @@ package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
@@ -93,10 +92,17 @@ public class GregERecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER);
 
     public static GTRecipeType PRESSURECHAMCRAFT = GTRecipeTypes.register("pressuring", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(9,1,3,0)
+            .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.FORGE_HAMMER);
+            .setSound(GTSoundEntries.FORGE_HAMMER)
+            .addDataInfo(data -> {
+                if (data.contains("pa")){
+                    int pa = data.getInt("pa");
+                    return ChatFormatting.LIGHT_PURPLE + "Requires at least " + pa + "Pa.";
+                }
+                return null;
+            });
 
     /*
     public static GTRecipeType CARTRIDGECASENEEDSTOBEEMPTY = GTRecipeTypes.register("donotuseexclamationmark", GTRecipeTypes.MULTIBLOCK)
