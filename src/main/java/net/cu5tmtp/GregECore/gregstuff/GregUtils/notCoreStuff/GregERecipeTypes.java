@@ -62,21 +62,21 @@ public class GregERecipeTypes {
 
     public static GTRecipeType PLANETARGY_GAS_SIPHON = GTRecipeTypes.register("planetarygassiphon", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 3, 6, 6)
+            .setMaxIOSize(3, 3, 9, 9)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COMPRESSOR);
 
     public static GTRecipeType ZERO_GRAV_MIXER = GTRecipeTypes.register("zerogravmixer", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 3, 0, 0)
+            .setMaxIOSize(3, 3, 9, 9)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.SCIENCE);
 
     public static GTRecipeType SEDNASAMPLER = GTRecipeTypes.register("sednasampler", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 3, 9, 3)
+            .setMaxIOSize(3, 3, 0, 0)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MIXER);
