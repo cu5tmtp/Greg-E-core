@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("all")
-@OnlyIn(Dist.CLIENT)
 public class PressureChamberRender extends DynamicRender<PressureChamber, PressureChamberRender> {
 
     public static final Codec<PressureChamberRender> CODEC = Codec.unit(new PressureChamberRender());

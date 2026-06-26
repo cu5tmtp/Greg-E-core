@@ -39,7 +39,7 @@ public class GregERecipeTypes {
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.OUT)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE);
+            .setSound(GTSoundEntries.TURBINE);
 
     public static GTRecipeType INFUSION_ALTAR_INFUSING = GTRecipeTypes.register("infusion_altar_infusing", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(12,1,6,0)
@@ -72,7 +72,7 @@ public class GregERecipeTypes {
             .setMaxIOSize(3, 3, 9, 9)
             .setSlotOverlay(false, false, GuiTextures.BOX_OVERLAY)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE);
+            .setSound(GTSoundEntries.MIXER);
 
     public static GTRecipeType SEDNASAMPLER = GTRecipeTypes.register("sednasampler", GTRecipeTypes.MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -162,7 +162,7 @@ public class GregERecipeTypes {
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE)
+            .setSound(GTSoundEntries.JET_ENGINE)
             .addDataInfo(data -> {
                 if (data.contains("heat_level")) {
                     int heat = data.getInt("heat_level");
@@ -175,14 +175,14 @@ public class GregERecipeTypes {
             .setMaxIOSize(1,1, 0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_FUSION, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE)
+            .setSound(GTSoundEntries.JET_ENGINE)
             .addDataInfo(data -> ChatFormatting.RED + "Needs all 3 eyes inserted.");
 
     public static GTRecipeType SEND_UP_THE_MATS = GTRecipeTypes.register("send_up_the_mats", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(6,6, 3,3)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.SCIENCE)
+            .setSound(GTSoundEntries.JET_ENGINE)
             .addDataInfo(data -> {
                 if (data.contains("height_level")) {
                     int height = data.getInt("height_level");
