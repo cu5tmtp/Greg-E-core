@@ -13,6 +13,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAc
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.NetherDrillRig;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
@@ -100,6 +101,7 @@ public class ModCreativeModTabs {
                             pOutput.accept(box.getItem());
                         }
                         pOutput.accept(SubatomicAntimatterSyntheticator.SASYNTH.getItem());
+                        pOutput.accept(NetherDrillRig.NETHERDRILLRIG.getItem());
                         /*
                         pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
                         for (MachineDefinition box : BoxMachines.ALL_BOXES) {

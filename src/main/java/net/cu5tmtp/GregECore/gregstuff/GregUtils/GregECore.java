@@ -16,6 +16,7 @@ import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AntiMassSpectrometer;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.NetherDrillRig;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.CheckForDim;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
@@ -107,11 +108,18 @@ public class GregECore {
                 }
             }
 
-            MachineDefinition machineMulti = AntiMassSpectrometer.ANTIMASSSPECTROMETER;
+            MachineDefinition machineMultiAMS = AntiMassSpectrometer.ANTIMASSSPECTROMETER;
 
-            if (machineMulti != null) {
-                var oldMultiModifier = machineMulti.getRecipeModifier();
-                machineMulti.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
+            if (machineMultiAMS != null) {
+                var oldMultiModifier = machineMultiAMS.getRecipeModifier();
+                machineMultiAMS.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
+            }
+
+            MachineDefinition machineMultiNDR = NetherDrillRig.NETHERDRILLRIG;
+
+            if (machineMultiNDR != null) {
+                var oldMultiModifier = machineMultiNDR.getRecipeModifier();
+                machineMultiNDR.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
             }
         });
     }

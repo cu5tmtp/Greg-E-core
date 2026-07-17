@@ -42,6 +42,7 @@
   "block.gregecore.sasynth": "§lSubatomic Antimatter Syntheticator§g",
   "block.gregecore.pressurechamber": "§lPressure Chamber§g",
   "block.gregecore.antimass": "§lAnti-Mass Spectrometer§g",
+  "block.gregecore.netherdrillrig": "Nether Drill Rig",
 
   "gtceu.recipe.cleanroom_dimensional.display_name": "Dimensional Simulator",
   "gtceu.infusion_altar_infusing": "Infusing",
@@ -60,6 +61,7 @@
   "gtceu.planetarygassiphon": "Gas Siphoning",
   "gtceu.zerogravmixer": "Zero Gravity Mixer",
   "gtceu.sednasampler": "Sedna Sampler",
+  "gtceu.netherdrillrig": "Nether Drill Rig",
 
   "block.gregecore.dimension_maintenance_hatch": "Dimensional Simulator Maintenance Hatch",
   "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",

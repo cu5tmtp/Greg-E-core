@@ -10,10 +10,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAccel
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.LearningAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.*;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AntiMassSpectrometer;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AutomaticAssemblyLine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.InfusionAltar;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.PressureChamber;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
@@ -63,6 +60,7 @@ public class GregEStuffInit {
         SubatomicAntimatterSyntheticator.init();
         PressureChamber.init();
         AntiMassSpectrometer.init();
+        NetherDrillRig.init();
     }
 
     public static void initGregEParts(){

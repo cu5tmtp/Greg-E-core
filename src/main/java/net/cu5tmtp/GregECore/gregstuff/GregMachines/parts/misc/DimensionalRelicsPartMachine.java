@@ -56,10 +56,10 @@ public class DimensionalRelicsPartMachine extends ItemBusPartMachine {
                     .append(Component.literal("Mars Air").withStyle(ChatFormatting.BLUE)))
             .tooltips(Component.literal("Nether Star").withStyle(ChatFormatting.LIGHT_PURPLE)
                     .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
-                    .append(Component.literal("Nether Air").withStyle(ChatFormatting.BLUE)))
+                    .append(Component.literal("Nether").withStyle(ChatFormatting.BLUE)))
             .tooltips(Component.literal("Dragon Egg").withStyle(ChatFormatting.LIGHT_PURPLE)
                     .append(Component.literal(" -> ").withStyle(ChatFormatting.RED))
-                    .append(Component.literal("End Air").withStyle(ChatFormatting.BLUE)))
+                    .append(Component.literal("End").withStyle(ChatFormatting.BLUE)))
             .register();
 
     public static void init() {

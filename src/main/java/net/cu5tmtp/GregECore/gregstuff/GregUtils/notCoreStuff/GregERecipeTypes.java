@@ -106,6 +106,12 @@ public class GregERecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    public static GTRecipeType NETHERDRILLRIGRECIPE = GTRecipeTypes.register("netherdrillrig", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(9,3,3,3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.DRILL_TOOL);
+
     public static GTRecipeType SASCRAFTING = GTRecipeTypes.register("sascrafting", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
