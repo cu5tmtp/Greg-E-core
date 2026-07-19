@@ -112,6 +112,12 @@ public class GregERecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.DRILL_TOOL);
 
+    public static GTRecipeType BLOODCATHEDRALCRAFT = GTRecipeTypes.register("bloodcathedral", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(1,1,0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FIRE);
+
     public static GTRecipeType SASCRAFTING = GTRecipeTypes.register("sascrafting", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)

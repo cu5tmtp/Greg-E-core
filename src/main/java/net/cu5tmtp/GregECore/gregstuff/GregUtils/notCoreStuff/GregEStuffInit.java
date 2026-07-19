@@ -21,10 +21,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPa
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
@@ -61,6 +58,7 @@ public class GregEStuffInit {
         PressureChamber.init();
         AntiMassSpectrometer.init();
         NetherDrillRig.init();
+        BloodCathedral.init();
     }
 
     public static void initGregEParts(){
@@ -89,6 +87,7 @@ public class GregEStuffInit {
         PressurePartMachine.init();
         DimensionalRelicsPartMachine.init();
         DimensionalCleaningMaintenance.init();
+        BloodStoragePartMachine.init();
     }
 
     public static void initHPCAParts(){

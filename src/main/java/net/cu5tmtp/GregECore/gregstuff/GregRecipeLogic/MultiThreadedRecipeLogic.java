@@ -238,7 +238,6 @@ public class MultiThreadedRecipeLogic extends RecipeLogic {
     public Component getCustomProgressLine() {
         if (!this.isMultiThreaded || activeThreads.isEmpty()) return null;
 
-        // Zobrazíme místo starého textu jen hezké shrnutí
         return Component.literal("Multi-Threading Active: ")
                 .append(Component.literal(activeThreads.size() + " / " + maxThreads).withStyle(ChatFormatting.LIGHT_PURPLE));
     }
