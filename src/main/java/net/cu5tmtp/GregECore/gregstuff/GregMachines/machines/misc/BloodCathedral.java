@@ -15,11 +15,13 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.StarMaykr;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BloodStoragePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +33,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.gregtechceu.gtceu.common.data.models.GTMachineModels.createWorkableCasingMachineModel;
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class BloodCathedral extends WorkableElectricMultiblockMachine {
@@ -47,8 +50,8 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
     private final List<IItemHandler> bloodStorageHandler = new ArrayList<>();
 
     private TickableSubscription bloodSubscription;
-    @Persisted
-    private int blood = 0;
+    @DescSynced
+    public int blood = 0;
 
     public BloodCathedral(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -132,7 +135,8 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
                         .where("a", Predicates.any())
                         .where("b", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:chiseled_polished_blackstone")))
                                 .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
-                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1)))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
+                                .or(Predicates.abilities(BloodStoragePartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:blackstone"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:polished_blackstone"))))
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:polished_blackstone_bricks"))))
@@ -142,11 +146,16 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
                         .where("i", Predicates.controller(Predicates.blocks(definition.get())))
                         .build();
             })
-            .workableCasingModel(
+            .model(createWorkableCasingMachineModel(
                     ResourceLocation.parse("minecraft:block/chiseled_polished_blackstone"),
-                    GTCEu.id("gtceu:block/multiblock/distillation_tower")
+                    GTCEu.id("gtceu:block/multiblock/distillation_tower"))
+                    .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createCathedralRender))
             )
             .register();
+
+    public int getBlood() {
+        return blood;
+    }
 
     public static void init() {
     }

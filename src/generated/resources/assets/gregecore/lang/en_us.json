@@ -79,6 +79,7 @@
   "block.gregecore.linearaccelerator": "Linear Accelerator",
   "block.gregecore.conveyorbelt": "Conveyor Belt",
   "block.gregecore.draconiumfusion": "Draconium Fusion Casing",
+  "block.gregecore.blood_storage_machine": "Blood Input",
   "block.gregecore.frostcore": "Glacial Core",
   "block.gregecore.itemtranslocator": "Chute",
   "block.gregecore.malachite_coil": "Malachite Coil",
@@ -138,6 +139,9 @@
   "item.gregecore.spaceship1": "Milano",
   "item.gregecore.spaceship2": "Bebop",
   "item.gregecore.spaceship3": "Cepheus",
+  "item.gregecore.tinyblood": "Tiny Drop Of Blood",
+  "item.gregecore.mediumblood": "Drop Of Blood",
+  "item.gregecore.largeblood": "Large Drop Of Blood",
 
   "material.gregecore.franklinite": "Franklinite",
   "material.gregecore.mythril": "Mythril",

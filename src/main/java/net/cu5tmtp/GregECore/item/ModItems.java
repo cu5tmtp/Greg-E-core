@@ -89,6 +89,15 @@ public class ModItems {
     public static final RegistryObject<Item> SPACESHIP3 = ITEMS.register("spaceship3",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> TINYBLOOD = ITEMS.register("tinyblood",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> MEDIUMBLOOD = ITEMS.register("mediumblood",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> LARGEBLOOD = ITEMS.register("largeblood",
+            () -> new Item(new Item.Properties()));
+
 
 }
 

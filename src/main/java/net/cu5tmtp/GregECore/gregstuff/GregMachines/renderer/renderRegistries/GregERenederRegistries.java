@@ -50,6 +50,9 @@ public class GregERenederRegistries {
     public static final ResourceLocation PRESSURE_ID =
             new ResourceLocation("gregecore", "pressuringchamberyay");
 
+    public static final ResourceLocation CATHEDRAL_ID =
+            new ResourceLocation("gregecore", "cathedralrender");
+
     public static DynamicRender<?, ?> createEnhancedFusionRingRender() {
         return new EnhancedFusionRingRender();
     }
@@ -74,6 +77,7 @@ public class GregERenederRegistries {
     public static DynamicRender<?, ?> createSASRender() { return new SASRender(); }
     public static DynamicRender<?, ?> createAMSRender() { return new AMSRender(); }
     public static DynamicRender<?, ?> createPressureChamberRender() { return new PressureChamberRender(); }
+    public static DynamicRender<?, ?> createCathedralRender() { return new BloodCathedralRender(); }
 
 
 
@@ -93,6 +97,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(SASYNTH_ID, SASRender.TYPE);
         DynamicRenderManager.register(AMS_ID, AMSRender.TYPE);
         DynamicRenderManager.register(PRESSURE_ID, PressureChamberRender.TYPE);
+        DynamicRenderManager.register(CATHEDRAL_ID, BloodCathedralRender.TYPE);
 
         EnhancedFusionRingRender.init();
         StarMaykrRender.init();
@@ -108,5 +113,6 @@ public class GregERenederRegistries {
         SASRender.init();
         AMSRender.init();
         PressureChamberRender.init();
+        BloodCathedralRender.init();
     }
 }

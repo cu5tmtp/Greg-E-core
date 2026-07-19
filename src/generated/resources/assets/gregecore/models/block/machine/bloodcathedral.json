@@ -1,5 +1,10 @@
 {
   "parent": "minecraft:block/block",
+  "dynamic_renders": [
+    {
+      "type": "gregecore:cathedralrender"
+    }
+  ],
   "loader": "gtceu:machine",
   "machine": "gregecore:bloodcathedral",
   "texture_overrides": {
