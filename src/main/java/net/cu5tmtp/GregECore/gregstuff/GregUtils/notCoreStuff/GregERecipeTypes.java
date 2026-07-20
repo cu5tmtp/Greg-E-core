@@ -116,7 +116,14 @@ public class GregERecipeTypes {
             .setMaxIOSize(1,1,0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.FIRE);
+            .setSound(GTSoundEntries.FIRE)
+            .addDataInfo(data -> {
+                if (data.contains("bloodcost")){
+                    int pa = data.getInt("bloodcost");
+                    return ChatFormatting.DARK_RED + "Consumes " + pa + "mb of Blood.";
+                }
+                return null;
+            });
 
     public static GTRecipeType SASCRAFTING = GTRecipeTypes.register("sascrafting", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)

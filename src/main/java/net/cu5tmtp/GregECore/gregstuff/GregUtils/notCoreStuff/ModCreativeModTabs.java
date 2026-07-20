@@ -73,6 +73,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.SPACESHIP1.get());
                         pOutput.accept(ModItems.SPACESHIP2.get());
                         pOutput.accept(ModItems.SPACESHIP3.get());
+                        pOutput.accept(ModItems.TINYBLOOD.get());
+                        pOutput.accept(ModItems.MEDIUMBLOOD.get());
+                        pOutput.accept(ModItems.LARGEBLOOD.get());
                         pOutput.accept(AcceleratedEBF.ACCELERATEDEBF.getItem());
                         pOutput.accept(GiantAcceleratedEBF.GIANTACCELERATEDEBF.getItem());
                         pOutput.accept(EnhancedFusionReactor.ENHANCED_FUSION_REACTOR.getItem());

@@ -1,6 +1,5 @@
 package net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc;
 
-import com.electronwill.nightconfig.core.AbstractCommentedConfig;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -12,23 +11,23 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.StarMaykr;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.StarFeederPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BloodStoragePartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.ModItems;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,10 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
 
     private TickableSubscription bloodSubscription;
     @DescSynced
+    @Persisted
     public int blood = 0;
+    private int bloodGain;
+    private int bloodCost;
 
     public BloodCathedral(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -94,6 +96,18 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
         super.onStructureInvalid();
     }
 
+    @Override
+    public boolean beforeWorking(@Nullable GTRecipe recipe) {
+        assert recipe != null;
+        bloodCost = recipe.data.getInt("bloodcost");
+        if (bloodCost > blood) {
+            return false;
+        } else {
+            blood -= bloodCost;
+        }
+        return super.beforeWorking(recipe);
+    }
+
     private void manageBlood(){
         if (getOffsetTimer() % 20 != 0) return;
 
@@ -103,6 +117,17 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
 
                 Item item = stack.getItem();
 
+                if (item == ModItems.TINYBLOOD.get()) bloodGain = 1;
+                else if (item == ModItems.MEDIUMBLOOD.get()) bloodGain = 5;
+                else if (item == ModItems.LARGEBLOOD.get()) bloodGain = 25;
+
+                if (bloodGain > 0) {
+                    ItemStack extracted = handler.extractItem(i, 1, false);
+                    if (!extracted.isEmpty()) {
+                        this.blood += bloodGain;
+                        return;
+                    }
+                }
             }
         }
     }
@@ -151,7 +176,27 @@ public class BloodCathedral extends WorkableElectricMultiblockMachine {
                     GTCEu.id("gtceu:block/multiblock/distillation_tower"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createCathedralRender))
             )
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Abilities: Blood Infusion").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Altar that can reproduce certain aspects of the real Blood Magic, but it has its limits.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
+            .tooltips(Component.literal("Insert Blood drops in the Blood Input to increase the amount of blood stored in the machine. Crafts demand certain amount of blood to be present, then they consume it.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Available Blood drops:").withStyle(ChatFormatting.YELLOW))
+            .tooltips(Component.literal("Tiny Drop Of Blood -> Consumes for 1mb of Blood").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Drop Of Blood -> Consumes for 5mb of Blood").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Large Drop Of Blood -> Consumes for 25mb of Blood").withStyle(style -> style.withColor(0xBF40BF)))
+            .tooltips(Component.literal("Blood is consumed every second.").withStyle(ChatFormatting.DARK_GRAY))
             .register();
+
+    @Override
+    public void addDisplayText(List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+            textList.add(Component.literal("Blood avaible: " + blood + "mb").withStyle(ChatFormatting.DARK_RED));
+        }
+    }
 
     public int getBlood() {
         return blood;
