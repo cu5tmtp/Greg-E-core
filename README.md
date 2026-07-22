@@ -1,59 +1,29 @@
 # Greg-E-core
 
-**GregE-core** is a core mod developed for the **GregE** modpack. It introduces high-tier multiblock machinery, advanced materials, and unique energy production systems to the GregTech ecosystem.
+**GregE-core* is a core mod developed for the GregE modpack. It introduces high-tier multiblock machinery, advanced materials, and unique energy production systems.
 
 ---
 
-## 🏗 Modpack Developers Info
-
-> [!IMPORTANT]  
-> **No Default Recipes:** All added items and machines do not come with recipes. You must add them yourself via KubeJS, GroovyScript, or other configuration methods. This is because I lock these machines behind other mod progression, you might want to do it differently.
-
-* **GTCEu Version:** `7.5.2`
-* **Standalone Functionality:** All machines are designed to work independently of the GregE modpack if recipes are provided.
-* **Modpack Usage:** You are free to use this core mod in your own modpacks.
+NO DEFAULT RECIPES ARE INCLUDED! All machines, items, and materials added by this mod are strictly content-only. You must configure your own recipes using KubeJS!
 
 ---
 
-## 🛠 Features
-
-### New Electric Blast Furnaces
-* **Accelerated EBF:** Faster than the standard EBF, featuring its own set of custom coils.
-* **Giant Accelerated EBF:** A massive multiblock that requires **Deionized Water** to operate. Includes a dedicated tier of custom coils.
-* **Learning Accelerated EBF:** A specialized late-game machine that "levels up". It gains energy reductions, speed boosts, and increased parallels based on the total volume of items processed.
-
-### Advanced Machinery
-* **Giant Chemical Reactor:** A versatile multiblock that gains unique abilities and bonuses depending on the **Bacteria** used within the process.
-* **Enhanced Fusion Reactor:** A heat-management-focused reactor. Maintain specific heat levels to unlock boosted fusion recipes.
-    * **Recipe Type:** `advanced_fusion`
-    * **Recipe Creation:** Add `.addData('heat_level', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the required heat level, it creates it in ranges X and X - 500).
-* **Big Freezer:** Multiblock bit better than default Vacuum Freezer, scales with parallels.
-* **Enhanced Blast Chiller:** Upgraded Blast Chiller, can be from 5 blocks to 16 blocks in leght, depending on that, you get more parallels and recipe time reduction.
-* **Star Maykr:** A endgame machine that creates a star that you have to feed. Recipes have a weight cost, if star weight goes below 0 or 500, the machine explodes.
-    * **Recipe Type:** `star_maykr_singularities`
-    * **Recipe Creation:** Add `.addData('weight', X)` to recipes (where X is a whole number like 1, 2, 3..., this is the weight that will be deducted from the star weight).
-* **Fornax Universi:** A flagship multiblock, full on rendered effects of a black hole with orbiting planets! When working on a recipe, a spaceship will arrive! Also you have to repair the spaceship mid-recipe, or the machine explodes.
-* ...and many more!
-
-### Dyson Swarm System
-* **Launcher & Energy Collector:** Launch solar sails into space to generate massive amounts of energy.
-* **Recipe Types:** `launch_sails` and `get_solar_sail_energy`.
-
-### Content & Materials
-* Adds custom input machines for multiblocks.
-* Adds custom materials and fluids.
-* Adds custom superconducting wires.
-* Includes new Engine and Firebox blocks.
+For GTCEu Version: 7.5.2
+You are completely free to use this core mod in any of your own modpacks!
 
 ---
 
-## 📜 Credits
-* Thank you GTCEu team on discord for the active responding.
-* Most of the textures are from GTCEu, I added the general firebox/engine intake texture on it.
-* Thank you StarT team for having the core mod on github, I spent some hours learning from that.
-* Thank you eyecats for the coil textures!
-* Links to their githubs:
+For documentation on how to add recipes to the multiblocks go look into my kubejs files in the Greg-E repo. I will make a wiki one day, but that day is not today.
+
+---
+
+A huge thank you to the GTCEu team on Discord for their active support and responsiveness.
+Most base textures are sourced from GTCEu, with custom modifications (like the general firebox/engine intakes).
+Special thanks to the StarT team for keeping their core mod open-source on GitHub; I spent many hours learning from their work.
+Big thanks to eyecats for the coil textures!
+
+--
+
+Check out their repositories:
     * <a href = https://github.com/StarT-Dev-Team/StarT-Core> StarT github </a>
     * <a href = https://github.com/GregTechCEu/GregTech-Modern> GTCEu github </a>
-
-
