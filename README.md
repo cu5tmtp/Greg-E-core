@@ -8,7 +8,7 @@ NO DEFAULT RECIPES ARE INCLUDED! All machines, items, and materials added by thi
 
 ---
 
-For GTCEu Version: 7.5.2
+For GTCEu Version: 7.5.2 </n>
 You are completely free to use this core mod in any of your own modpacks!
 
 ---
