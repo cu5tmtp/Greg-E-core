@@ -13,7 +13,7 @@ NO DEFAULT RECIPES ARE INCLUDED! All machines, items, and materials added by thi
 
 ---
 
-For documentation on how to add recipes to the multiblocks go look into my kubejs files in the Greg-E repo. I will make a wiki one day, but that day is not today.
+For documentation on how to add recipes to the multiblocks go look into the wiki section.
 
 ---
 
