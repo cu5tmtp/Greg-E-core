@@ -347,7 +347,7 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
             .tooltips(Component.literal("Tempered Glass: 30Pa").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Laminated Glass: 60Pa").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Fusion Glass: 100Pa").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Controller send out redstone signal, with every 7Pa adds 1 redstone strength.").withStyle(ChatFormatting.RED))
+            .tooltips(Component.literal("Controller sends out redstone signal, with every 7Pa adds 1 redstone strength.").withStyle(ChatFormatting.RED))
 
             .register();
 

@@ -227,6 +227,8 @@ public class EnhancedFusionReactor extends WorkableElectricMultiblockMachine imp
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setExactLimit(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(2))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(4).setPreviewCount(2))
+                                .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(4).setPreviewCount(2))
                                 .or(Predicates.abilities(AdvancedCoolantInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(AdvancedHeaterInputPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where('D', Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gregecore:atomic_engine_intake"))))

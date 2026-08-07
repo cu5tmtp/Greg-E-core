@@ -143,6 +143,9 @@
   "item.gregecore.mediumblood": "Drop Of Blood",
   "item.gregecore.largeblood": "Large Drop Of Blood",
 
+  "item.gregecore.wand_of_puppetry": "Wand of Awakening",
+  "entity.gregecore.animated_block": "Awakened Block",
+
   "material.gregecore.franklinite": "Franklinite",
   "material.gregecore.mythril": "Mythril",
   "material.gregecore.nobelium": "Nobelium",

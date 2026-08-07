@@ -1,5 +1,6 @@
 package net.cu5tmtp.GregECore.item;
 
+import net.cu5tmtp.GregECore.wandOfPuppetry.WandOfPuppetry;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -97,6 +98,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> LARGEBLOOD = ITEMS.register("largeblood",
             () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> WAND_OF_PUPPETRY = ITEMS.register("wand_of_puppetry",
+            () -> new WandOfPuppetry(new Item.Properties().stacksTo(1).durability(64)));
 
 
 }

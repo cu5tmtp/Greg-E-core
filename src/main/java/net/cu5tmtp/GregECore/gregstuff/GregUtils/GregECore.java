@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
+import net.cu5tmtp.GregECore.entity.ModEntity;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AntiMassSpectrometer;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.NetherDrillRig;
@@ -24,10 +25,16 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEStuffInit;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.ModCreativeModTabs;
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.item.ModItems;
+import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockEntity;
+import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -52,9 +59,12 @@ public class GregECore {
         modEventBus.addListener(this::addMaterials);
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModEntity.register(modEventBus);
 
         modEventBus.addGenericListener(GTRecipeType.class, this::registerGregERecipeTypes);
         modEventBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+
+        modEventBus.addListener(this::registerAttributes);
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
@@ -83,6 +93,10 @@ public class GregECore {
 
     private void addMaterials(MaterialEvent event) {
         GreggyItems.register();
+    }
+
+    private void registerAttributes(EntityAttributeCreationEvent event) {
+        event.put(ModEntity.ANIMATED_BLOCK.get(), AnimatedBlockEntity.createAttributes().build());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -125,6 +139,15 @@ public class GregECore {
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class ClientModEvents {
+
+        @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ModEntity.ANIMATED_BLOCK.get(), AnimatedBlockRenderer::new);
+        }
     }
 
 }
