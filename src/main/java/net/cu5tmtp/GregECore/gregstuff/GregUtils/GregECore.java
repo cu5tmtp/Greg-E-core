@@ -26,6 +26,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.ModCreativeModTabs
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockEntity;
+import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockModel;
 import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -147,6 +148,11 @@ public class GregECore {
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(ModEntity.ANIMATED_BLOCK.get(), AnimatedBlockRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+            event.registerLayerDefinition(AnimatedBlockRenderer.ANIMATED_BLOCK_LAYER, AnimatedBlockModel::createBodyLayer);
         }
     }
 

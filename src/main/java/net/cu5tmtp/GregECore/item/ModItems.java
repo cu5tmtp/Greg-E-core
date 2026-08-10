@@ -101,7 +101,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> WAND_OF_PUPPETRY = ITEMS.register("wand_of_puppetry",
             () -> new WandOfPuppetry(new Item.Properties().stacksTo(1).durability(64)));
-
-
+    
 }
 
