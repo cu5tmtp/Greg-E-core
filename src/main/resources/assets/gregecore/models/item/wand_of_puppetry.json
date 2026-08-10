@@ -187,7 +187,7 @@
 			"scale": [0.5, 0.5, 0.5]
 		},
 		"gui": {
-			"rotation": [0, 0, 45],
+			"rotation": [0, 70, 25],
 			"translation": [0, 0, 0],
 			"scale": [1, 1, 1]
 		}
