@@ -64,6 +64,7 @@
   "gtceu.sednasampler": "Sedna Sampler",
   "gtceu.netherdrillrig": "Nether Drill Rig",
 
+  "block.gregecore.dyswarmoutput_machine": "Dyson Swarm Energy Output",
   "block.gregecore.dimension_maintenance_hatch": "Dimensional Simulator Maintenance Hatch",
   "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",
   "block.gregecore.threading_one_machine": "Threading Core T1",

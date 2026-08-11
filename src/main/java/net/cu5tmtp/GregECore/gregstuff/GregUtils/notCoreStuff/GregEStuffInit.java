@@ -88,6 +88,7 @@ public class GregEStuffInit {
         DimensionalRelicsPartMachine.init();
         DimensionalCleaningMaintenance.init();
         BloodStoragePartMachine.init();
+        DysonSwarmEnergyOutputPartMachine.init();
     }
 
     public static void initHPCAParts(){

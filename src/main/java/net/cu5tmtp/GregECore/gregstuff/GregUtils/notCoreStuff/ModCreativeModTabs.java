@@ -21,10 +21,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPa
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantOutputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.essentiaParts.*;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PedestalPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.PressurePartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.*;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.AdvancedParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.parallel.ParallelBoosterPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT1PartMachine;
@@ -98,12 +95,12 @@ public class ModCreativeModTabs {
                         pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
                         pOutput.accept(AutomaticAssemblyLine.AUTASSEMBLYLINE.getItem());
                         pOutput.accept(PressureChamber.PRESSURECHAMBER.getItem());
-                        for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
-                            pOutput.accept(box.getItem());
-                        }
                         pOutput.accept(SubatomicAntimatterSyntheticator.SASYNTH.getItem());
                         pOutput.accept(NetherDrillRig.NETHERDRILLRIG.getItem());
                         pOutput.accept(BloodCathedral.BLODDCATHEDRAL.getItem());
+                        for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
+                            pOutput.accept(box.getItem());
+                        }
                         /*
                         pOutput.accept(CartridgeCase.CARTRIDGECASE.getItem());
                         for (MachineDefinition box : BoxMachines.ALL_BOXES) {
@@ -135,6 +132,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(PedestalPartMachine.PEDESTAL_INF_MACHINE.getItem());
                         pOutput.accept(PressurePartMachine.PRESSURE_INPUT_MACHINE.getItem());
                         pOutput.accept(DimensionalRelicsPartMachine.DIMENSIONAL_RELICS_MACHINE.getItem());
+                        pOutput.accept(DysonSwarmEnergyOutputPartMachine.DYSON_SWARM_EN_OUTPUT_MACHINE.getItem());
 
                     })
                     .build());
