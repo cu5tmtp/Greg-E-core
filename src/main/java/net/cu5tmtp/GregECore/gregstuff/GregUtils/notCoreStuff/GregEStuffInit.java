@@ -5,6 +5,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucible;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
@@ -59,6 +60,7 @@ public class GregEStuffInit {
         AntiMassSpectrometer.init();
         NetherDrillRig.init();
         BloodCathedral.init();
+        GenesisCrucible.init();
     }
 
     public static void initGregEParts(){

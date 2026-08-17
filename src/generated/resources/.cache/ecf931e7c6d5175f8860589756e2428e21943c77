@@ -1,4 +1,4 @@
-// 1.20.1	2026-08-12T01:22:27.0040684	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-08-18T01:19:05.5068289	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -32,6 +32,7 @@ b0c6bd2063350bdce5ef763d448d046ecc27f1d0 assets/gregecore/blockstates/enhancedfr
 c262abfa7c43b5b4732d5534661d88f63ff4d697 assets/gregecore/blockstates/fissionreactor.json
 cc0bd4fffcdaef0d7c4b1c4c4ef865e1c771b64b assets/gregecore/blockstates/forgotten_coil.json
 2e0a1936e7405f9a9055e02cec660c0c7a11c67f assets/gregecore/blockstates/fornaxuniversi.json
+3032c50a3c036396e1d371b2d05b118fc662fb39 assets/gregecore/blockstates/genesiscrucible.json
 2f568c30e9e90dc8323da0d07536a3f0bad32be6 assets/gregecore/blockstates/giantabs.json
 01debd1f715479fc162486cc4620f189df521e2e assets/gregecore/blockstates/giantacceleratedebf.json
 1ae3ca08c6e27bc3953f07e2df79eceff40ed203 assets/gregecore/blockstates/giantchr.json
@@ -89,8 +90,8 @@ dbdaed3bea5ecadd222d9717e4234a6b4f394d3f assets/gregecore/blockstates/threading_
 8c9c4604d58077ce4cf9f78d22b5696d1f04c9c0 assets/gregecore/blockstates/threading_two_machine.json
 e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_coil.json
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
-1efded6b8abeeb3d1a61152ab0763488a8b59138 assets/gregecore/lang/en_ud.json
-c03f2a69f4e410d44d4ec470aa73496d08f82097 assets/gregecore/lang/en_us.json
+1c53f53b9569615e0ee2cd3f16477bfcdd8c57d5 assets/gregecore/lang/en_ud.json
+8384250e1cbe126796ac0791718820ecc0cf0e0d assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json
@@ -131,6 +132,7 @@ cb69e6ee8c47b3cae4a45bbbab6f8c62dcfa6fab assets/gregecore/models/block/machine/e
 f8f4f95506670b4f37d6ba229f73f60bcfe01a16 assets/gregecore/models/block/machine/enhancedfr.json
 adec9153149a2d88d44643f999d51a440cbfd957 assets/gregecore/models/block/machine/fissionreactor.json
 8a6017c2b18f17b0ae519c822599f9c376e17b5d assets/gregecore/models/block/machine/fornaxuniversi.json
+596ab3c46c5d8aec0533a4743eaeb96401c152d8 assets/gregecore/models/block/machine/genesiscrucible.json
 c1709a9138f4a770bf98f5afd468d1986fd009c6 assets/gregecore/models/block/machine/giantabs.json
 a03c168e6486dd159e1351fc1b751e2f2f9ef700 assets/gregecore/models/block/machine/giantacceleratedebf.json
 3c8b321be9ff8d37cbc1847516539db8c330a4cc assets/gregecore/models/block/machine/giantchr.json
@@ -230,6 +232,7 @@ ff3bee43c480143493944e7c9ff85d2f4039b7a8 assets/gregecore/models/item/enhancedfr
 53078a41a4ebfcad5572332f317a6131df629c2b assets/gregecore/models/item/fissionreactor.json
 04ebd1d56259bd9f49206fd9d078c33d75ff9a93 assets/gregecore/models/item/forgotten_coil.json
 5099ab81b347b99bed18791a384c518d6c31a279 assets/gregecore/models/item/fornaxuniversi.json
+a308f5b018c10c1520fe22f4bede40b316991500 assets/gregecore/models/item/genesiscrucible.json
 912873126e5e03a481e51e0edbae6195a95bef25 assets/gregecore/models/item/giantabs.json
 9272526de3a4d31b124064fad01d64e6344fcc71 assets/gregecore/models/item/giantacceleratedebf.json
 be1797a4eca45df31dbeaf2c2dcd738e6436abe2 assets/gregecore/models/item/giantchr.json
