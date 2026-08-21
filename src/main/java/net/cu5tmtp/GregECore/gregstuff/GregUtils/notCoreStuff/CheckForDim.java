@@ -13,6 +13,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.Dimension
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.single.DimensionalCleaningMaintenance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -40,13 +41,9 @@ public class CheckForDim {
 
     public static GTRecipe applyAntiMassBypass(MetaMachine metaMachine, GTRecipe r, RecipeModifier oldModifier) {
         if (r.getType() == GTRecipeTypes.SIFTER_RECIPES) {
-            boolean hasDimCondition = false;
-            for (var condition : r.conditions) {
-                if (condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
-                    hasDimCondition = true;
-                    break;
-                }
-            }
+            boolean hasDimCondition = r.conditions.stream()
+                    .anyMatch(condition -> condition.getClass().getSimpleName().toLowerCase().contains("dimension"));
+
             if (!hasDimCondition) {
                 return null;
             }
@@ -56,72 +53,25 @@ public class CheckForDim {
     }
 
     public static GTRecipe applyDimensionalBypass(MetaMachine metaMachine, GTRecipe r, RecipeModifier oldModifier) {
-        var bypassedRecipe = r;
-        Set<String> unlockedDimensions = new HashSet<>();
-        boolean hasDimensionCleanroom = false;
-        MultiblockControllerMachine targetController = null;
+        MultiblockControllerMachine targetController = findTargetController(metaMachine);
+        Set<String> unlockedDimensions = getUnlockedDimensions(targetController);
 
-        if (metaMachine instanceof ICleanroomReceiver receiver) {
-            var physicalCleanroom = receiver.getCleanroom();
-            if (physicalCleanroom != null && physicalCleanroom.getTypes().contains(DimensionSimulator.DIMENSIONAL_SIMULATOR_CLEANROOM)) {
-                hasDimensionCleanroom = true;
-                if (physicalCleanroom instanceof MultiblockControllerMachine physicalController) {
-                    targetController = physicalController;
-                } else if (metaMachine instanceof MultiblockControllerMachine metaController) {
-                    targetController = metaController;
-                }
-            }
-        }
-
-        if (!hasDimensionCleanroom && metaMachine instanceof MultiblockControllerMachine controller) {
-            for (IMultiPart part : controller.getParts()) {
-                if (part instanceof CleaningMaintenanceHatchPartMachine hatch) {
-                    if (hatch.getDefinition() == DimensionalCleaningMaintenance.DIMENSIONAL_CLEANING_HATCH) {
-                        hasDimensionCleanroom = true;
-                        targetController = controller;
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (hasDimensionCleanroom && targetController != null) {
-            for (IMultiPart part : targetController.getParts()) {
-                if (part instanceof DimensionalRelicsPartMachine) {
-                    for (var handlerList : part.getRecipeHandlers()) {
-                        for (Object handler : handlerList.getCapability(ItemRecipeCapability.CAP)) {
-                            if (handler instanceof IItemHandler itemHandler) {
-                                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                                    net.minecraft.world.item.ItemStack stack = itemHandler.getStackInSlot(i);
-                                    if (!stack.isEmpty()) {
-                                        ResourceLocation itemIdRes = ForgeRegistries.ITEMS.getKey(stack.getItem());
-                                        if (itemIdRes != null) {
-                                            String itemId = itemIdRes.toString();
-                                            if (DIMENSION_KEYS.containsKey(itemId)) {
-                                                unlockedDimensions.addAll(DIMENSION_KEYS.get(itemId));
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        GTRecipe bypassedRecipe = r;
 
         if (!unlockedDimensions.isEmpty()) {
             bypassedRecipe = r.copy();
 
             bypassedRecipe.conditions.removeIf(condition -> {
-                if (condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
-                    String conditionData = condition.toString().toLowerCase();
-                    String recipeId = r.getId().toString().toLowerCase();
+                if (!condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
+                    return false;
+                }
 
-                    for (String dim : unlockedDimensions) {
-                        if (conditionData.contains(dim) || recipeId.contains(dim)) {
-                            return true;
-                        }
+                String conditionData = condition.toString().toLowerCase();
+                String recipeId = r.getId().toString().toLowerCase();
+
+                for (String dim : unlockedDimensions) {
+                    if (conditionData.contains(dim) || recipeId.contains(dim)) {
+                        return true;
                     }
                 }
                 return false;
@@ -131,6 +81,67 @@ public class CheckForDim {
         if (oldModifier != null && bypassedRecipe != null) {
             return oldModifier.applyModifier(metaMachine, bypassedRecipe);
         }
+
         return bypassedRecipe;
+    }
+
+    private static MultiblockControllerMachine findTargetController(MetaMachine metaMachine) {
+        if (metaMachine instanceof ICleanroomReceiver receiver) {
+            var physicalCleanroom = receiver.getCleanroom();
+            if (physicalCleanroom != null && physicalCleanroom.getTypes().contains(DimensionSimulator.DIMENSIONAL_SIMULATOR_CLEANROOM)) {
+                if (physicalCleanroom instanceof MultiblockControllerMachine physicalController) {
+                    return physicalController;
+                }
+                if (metaMachine instanceof MultiblockControllerMachine metaController) {
+                    return metaController;
+                }
+            }
+        }
+
+        if (metaMachine instanceof MultiblockControllerMachine controller) {
+            for (IMultiPart part : controller.getParts()) {
+                if (part instanceof CleaningMaintenanceHatchPartMachine hatch &&
+                        hatch.getDefinition() == DimensionalCleaningMaintenance.DIMENSIONAL_CLEANING_HATCH) {
+                    return controller;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static Set<String> getUnlockedDimensions(MultiblockControllerMachine targetController) {
+        Set<String> unlockedDimensions = new HashSet<>();
+
+        if (targetController == null) {
+            return unlockedDimensions;
+        }
+
+        for (IMultiPart part : targetController.getParts()) {
+            if (!(part instanceof DimensionalRelicsPartMachine)) continue;
+
+            for (var handlerList : part.getRecipeHandlers()) {
+                for (Object handler : handlerList.getCapability(ItemRecipeCapability.CAP)) {
+                    if (!(handler instanceof IItemHandler itemHandler)) continue;
+
+                    for (int i = 0; i < itemHandler.getSlots(); i++) {
+                        ItemStack stack = itemHandler.getStackInSlot(i);
+
+                        if (stack.isEmpty()) continue;
+
+                        ResourceLocation itemIdRes = ForgeRegistries.ITEMS.getKey(stack.getItem());
+                        if (itemIdRes == null) continue;
+
+                        String itemId = itemIdRes.toString();
+                        Set<String> keys = DIMENSION_KEYS.get(itemId);
+                        if (keys != null) {
+                            unlockedDimensions.addAll(keys);
+                        }
+                    }
+                }
+            }
+        }
+
+        return unlockedDimensions;
     }
 }
