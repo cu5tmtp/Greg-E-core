@@ -9,12 +9,15 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.DroneAccessHatchPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.ModItems;
@@ -47,6 +50,8 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
 
     public int droneIn;
 
+    private boolean canBeThreaded = false;
+
     private TickableSubscription checkingSubscription;
 
     @Override
@@ -55,6 +60,13 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
         this.cachedDroneHandler.clear();
 
         for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT3PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
+            }
 
             if (!(part instanceof DroneAccessHatchPartMachine)) {
                 continue;
@@ -74,6 +86,11 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
             checkingSubscription = null;
         }
         checkingSubscription = this.subscribeServerTick(this::checkWhichDroneIsIn);
+    }
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 8);
     }
 
     @Override
@@ -97,6 +114,8 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
 
     @Override
     public void onStructureInvalid() {
+        canBeThreaded = false;
+
         if (checkingSubscription != null) {
             checkingSubscription.unsubscribe();
             checkingSubscription = null;
@@ -145,7 +164,8 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
-                                .or(Predicates.abilities(DroneAccessHatchPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
+                                .or(Predicates.abilities(DroneAccessHatchPartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
+                                .or(Predicates.abilities(ThreadT3PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1)))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:laminated_glass"))))
                         .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:computer_casing"))))
                         .where("f", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:monitor"))))
@@ -173,6 +193,7 @@ public class DeepSpaceExplorer extends WorkableElectricMultiblockMachine{
             .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
             .tooltips(Component.literal("Put the drones in the drone access hatch.").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.literal("Better drones can also reach the systems reachable by the previous drones.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.literal("Accepts Threading Core T3.").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
     @Override

@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -11,15 +12,90 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
 public class GenesisCrucible extends WorkableElectricMultiblockMachine {
 
+    private TickableSubscription logicSubscription;
+    private final Map<String, Boolean> caseStates = new HashMap<>();
+    private record CaseOffset(int forward, int above, int right, String expectedName) {}
+
+    private final CaseOffset[] caseOffsets = new CaseOffset[]{
+            new CaseOffset(6, 13, 10, "genesiscruciblecaseone"), // Front left
+            new CaseOffset(6, 13, -10, "genesiscruciblecasetwo"), // Front right
+            new CaseOffset(-18, 13, -10, "genesiscruciblecasethree"), // Back right
+            new CaseOffset(-18, 13, 10, "genesiscruciblecasefour") // Back left
+    };
+
     public GenesisCrucible(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+
+        if (this.logicSubscription == null) {
+            this.logicSubscription = this.subscribeServerTick(this::manageLogic);
+        }
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        this.caseStates.clear();
+
+        if (this.logicSubscription != null) {
+            this.logicSubscription.unsubscribe();
+            this.logicSubscription = null;
+        }
+        super.onStructureInvalid();
+    }
+
+    private void manageLogic() {
+        if (isFormed && getOffsetTimer() % 40 == 0) {
+            checkLinkedCases();
+        }
+    }
+
+    private void checkLinkedCases() {
+        if (getLevel() == null) return;
+
+        BlockPos center = getPos();
+        Direction forward = getFrontFacing();
+        Direction right = forward.getClockWise();
+
+        for (CaseOffset offset : caseOffsets) {
+            BlockPos targetPos = center.relative(forward, offset.forward())
+                    .above(offset.above())
+                    .relative(right, offset.right());
+
+            boolean isFormed = false;
+
+            if (getLevel().getBlockEntity(targetPos) instanceof IMachineBlockEntity mbe) {
+                if (mbe.getMetaMachine() instanceof GenesisCrucibleCases crucibleCase) {
+
+                    String actualName = crucibleCase.getDefinition().getName();
+
+                    if (actualName.equals(offset.expectedName())) {
+                        isFormed = crucibleCase.isFormed();
+                    }
+                }
+            }
+
+            this.caseStates.put(offset.expectedName(), isFormed);
+        }
     }
 
     public static MachineDefinition GENESISCRUCIBLE = REGISTRATE
@@ -82,7 +158,6 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
                         .where("p", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("gtceu:neutronium_frame"))))
                         .where("q", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("kubejs:machine_casing_block_lime"))))
                         .where("z", Predicates.controller(Predicates.blocks(definition.get())))
-                        .where("#", Predicates.any())
                         .build();
             })
             .workableCasingModel(
@@ -90,6 +165,31 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
                     GTCEu.id("gtceu:block/multiblock/distillation_tower")
             )
             .register();
+
+    @Override
+    public void addDisplayText(@NotNull List<Component> textList) {
+        super.addDisplayText(textList);
+
+        if (isFormed()) {
+            textList.add(Component.literal("Genesis Crucible Cartridges:").withStyle(ChatFormatting.LIGHT_PURPLE));
+
+            boolean case1 = caseStates.getOrDefault("genesiscruciblecaseone", false);
+            textList.add(Component.literal(" - Delirium: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(case1 ? "Formed" : "Incomplete").withStyle(case1 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+
+            boolean case2 = caseStates.getOrDefault("genesiscruciblecasetwo", false);
+            textList.add(Component.literal(" - Placeholder 2: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(case2 ? "Formed" : "Incomplete").withStyle(case2 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+
+            boolean case3 = caseStates.getOrDefault("genesiscruciblecasethree", false);
+            textList.add(Component.literal(" - Placeholder 3: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(case3 ? "Formed" : "Incomplete").withStyle(case3 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+
+            boolean case4 = caseStates.getOrDefault("genesiscruciblecasefour", false);
+            textList.add(Component.literal(" - Placeholder 4: ").withStyle(ChatFormatting.GRAY)
+                    .append(Component.literal(case4 ? "Formed" : "Incomplete").withStyle(case4 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+        }
+    }
 
     public static void init() {
     }

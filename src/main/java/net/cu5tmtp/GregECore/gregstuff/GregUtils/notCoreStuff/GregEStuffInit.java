@@ -6,6 +6,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBl
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucible;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucibleCases;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
@@ -61,6 +62,7 @@ public class GregEStuffInit {
         NetherDrillRig.init();
         BloodCathedral.init();
         GenesisCrucible.init();
+        GenesisCrucibleCases.init();
     }
 
     public static void initGregEParts(){
@@ -91,6 +93,7 @@ public class GregEStuffInit {
         DimensionalCleaningMaintenance.init();
         BloodStoragePartMachine.init();
         DysonSwarmEnergyOutputPartMachine.init();
+        DysonSwarmEuclidEnergyOutputPartMachine.init();
     }
 
     public static void initHPCAParts(){

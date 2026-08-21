@@ -6,6 +6,8 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucible;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucibleCases;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAcceleratedEBF;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.GiantAlloyBlastSmelter;
@@ -98,6 +100,9 @@ public class ModCreativeModTabs {
                         pOutput.accept(SubatomicAntimatterSyntheticator.SASYNTH.getItem());
                         pOutput.accept(NetherDrillRig.NETHERDRILLRIG.getItem());
                         pOutput.accept(BloodCathedral.BLODDCATHEDRAL.getItem());
+                        pOutput.accept(GenesisCrucible.GENESISCRUCIBLE.getItem());
+                        pOutput.accept(GenesisCrucibleCases.GENESISCRUCIBLECASE1.getItem());
+
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
                             pOutput.accept(box.getItem());
                         }
@@ -133,6 +138,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(PressurePartMachine.PRESSURE_INPUT_MACHINE.getItem());
                         pOutput.accept(DimensionalRelicsPartMachine.DIMENSIONAL_RELICS_MACHINE.getItem());
                         pOutput.accept(DysonSwarmEnergyOutputPartMachine.DYSON_SWARM_EN_OUTPUT_MACHINE.getItem());
+                        pOutput.accept(DysonSwarmEuclidEnergyOutputPartMachine.DYSON_SWARM_EN_OUTPUT_EUCLID_MACHINE.getItem());
 
                     })
                     .build());
