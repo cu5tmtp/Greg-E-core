@@ -6,6 +6,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.AssemblyHall;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucible;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucibleCases;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
@@ -102,6 +103,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(BloodCathedral.BLODDCATHEDRAL.getItem());
                         pOutput.accept(GenesisCrucible.GENESISCRUCIBLE.getItem());
                         pOutput.accept(GenesisCrucibleCases.GENESISCRUCIBLECASE1.getItem());
+                        pOutput.accept(AssemblyHall.ASSEMBLYHALL.getItem());
 
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
                             pOutput.accept(box.getItem());

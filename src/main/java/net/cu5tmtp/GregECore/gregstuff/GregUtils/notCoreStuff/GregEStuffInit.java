@@ -5,6 +5,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmLauncher;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.AssemblyHall;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucible;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.euclid.GenesisCrucibleCases;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.furnaces.AcceleratedEBF;
@@ -63,6 +64,7 @@ public class GregEStuffInit {
         BloodCathedral.init();
         GenesisCrucible.init();
         GenesisCrucibleCases.init();
+        AssemblyHall.init();
     }
 
     public static void initGregEParts(){

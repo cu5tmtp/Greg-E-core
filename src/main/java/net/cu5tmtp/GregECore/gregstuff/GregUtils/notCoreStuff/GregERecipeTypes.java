@@ -6,7 +6,15 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
+import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
+import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +139,76 @@ public class GregERecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    public static GTRecipeType ASSEMBLYHALL = GTRecipeTypes.register("assemblyhall", "euclid")
+            .setMaxIOSize(6, 1, 3, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GregEGUITextures.ASSEMBLY_HALL_PROGRESS, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .setUiBuilder((recipe, widgetGroup) -> {
+                String data = recipe.data.getString("cube_block");
+                ItemStack displayStack = ItemStack.EMPTY;
+
+                ResourceLocation location = new ResourceLocation(data);
+                Item item = BuiltInRegistries.ITEM.get(location);
+
+                if (item != Items.AIR) {
+                    displayStack = item.getDefaultInstance();
+                }
+
+                if (!displayStack.isEmpty()) {
+                    int xPos = 90;
+                    int yPos = 22;
+
+                    ItemStackTransfer dummyInventory = new ItemStackTransfer(1);
+                    dummyInventory.setStackInSlot(0, displayStack);
+
+                    PhantomSlotWidget fakeSlot = new PhantomSlotWidget(dummyInventory, 0, xPos, yPos);
+                    fakeSlot.setBackgroundTexture(GuiTextures.SLOT);
+                    fakeSlot.setHoverTooltips(
+                            Component.literal("Used to build the hollow central cube.").withStyle(ChatFormatting.LIGHT_PURPLE),
+                            Component.literal("Make sure the inside is completely empty!").withStyle(ChatFormatting.LIGHT_PURPLE)
+                    );
+
+                    widgetGroup.addWidget(fakeSlot);
+                }
+            });
+
+    public static GTRecipeType GCCRAFTING = GTRecipeTypes.register("gccrafting", "endgame")
+            .setMaxIOSize(6,3,3,3)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER)
+            .addDataInfo(data -> {
+                if (data.contains("insertedc")) {
+                    String requiredCasesRaw = data.getString("insertedc");
+                    if (!requiredCasesRaw.isEmpty()) {
+                        String[] parts = requiredCasesRaw.split(",");
+                        StringBuilder translatedNames = new StringBuilder();
+
+                        for (int i = 0; i < parts.length; i++) {
+                            String internalName = parts[i].trim();
+
+                            String readableName = switch (internalName) {
+                                case "genesiscruciblecaseone" -> "D";
+                                case "genesiscruciblecasetwo" -> "Placeholder 2";
+                                case "genesiscruciblecasethree" -> "Placeholder 3";
+                                case "genesiscruciblecasefour" -> "Placeholder 4";
+                                default -> internalName;
+                            };
+
+                            translatedNames.append(readableName);
+
+                            if (i < parts.length - 1) {
+                                translatedNames.append(", ");
+                            }
+                        }
+
+                        return ChatFormatting.LIGHT_PURPLE + "Cartridges: " + ChatFormatting.DARK_GREEN + translatedNames;
+                    }
+                }
+                return null;
+            });
+
     public static GTRecipeType DUMMYRECIPE = GTRecipeTypes.register("dummydontuse", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)
@@ -149,14 +227,6 @@ public class GregERecipeTypes {
                 }
                 return null;
             });
-
-    /*
-    public static GTRecipeType CARTRIDGECASENEEDSTOBEEMPTY = GTRecipeTypes.register("donotuseexclamationmark", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(1,1,1,1)
-            .setEUIO(IO.IN)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ASSEMBLER);
-    */
 
     public static GTRecipeType ASCENCION_ALTAR_DONATION = GTRecipeTypes.register("ascention_altar_donation", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(9,1,0,0)
