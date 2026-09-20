@@ -424,6 +424,44 @@
   "info.gregecore.enhancedblastchiller3": "For every Glacial Core in this machine, it gets 16 parallels and 6.5% faster recipes. Maximum Glacial Cores in a machine is 14, minimum is 3.",
   "info.gregecore.enhancedblastchiller4": "Glacial Cores: ",
   "info.gregecore.enhancedblastchiller5": "Recipe time reduction: ",
-  "info.gregecore.enhancedblastchiller6": "Parallels: "
+  "info.gregecore.enhancedblastchiller6": "Parallels: ",
 
+  "info.gregecore.assemblyhall1": "Abilities: Pressure Assembly",
+  "info.gregecore.assemblyhall2": "An erratic piece of technology, seemingly incapable of compacting outer machine shells on its own. Providing a physical outline might assist the process.",
+  "info.gregecore.assemblyhall3": "Each recipe requires a specific 3x3x3 hollow cube to be built inside the structure (indicated by red blocks in the preview). Place the required blocks in this exact location; the machine will consume them upon activation. The recipe can't start without it.",
+
+  "info.gregecore.genesiscrucible1": "Abilities: Cartridge Charging",
+  "info.gregecore.genesiscrucible2": "This machine is not strong enough on its own to operate at this voltage, so it needs help with processing components. Each cartridge unlocks new recipes.",
+  "info.gregecore.genesiscrucible3": "Cartridges in crafting recipes are marked:",
+  "info.gregecore.genesiscrucible4": "D for Delirium",
+  "info.gregecore.genesiscrucible5": "K for Kamenium",
+  "info.gregecore.genesiscrucible6": "G for Grympl",
+  "info.gregecore.genesiscrucible7": "X for Xynredar",
+  "info.gregecore.genesiscrucible8": "Cartridge multiblocks have a different colored casing on its upper and lower parts, find the same color on Genesis Crucible and form it there.",
+  "info.gregecore.genesiscrucible9": "Genesis Crucible Cartridges:",
+  "info.gregecore.genesiscrucible10": " - Delirium: ",
+  "info.gregecore.genesiscrucible11": " - Kamenium : ",
+  "info.gregecore.genesiscrucible12": " - Grympl: ",
+  "info.gregecore.genesiscrucible13": " - Xynredar: ",
+  "info.gregecore.genesiscrucible14": "Formed",
+  "info.gregecore.genesiscrucible15": "Incomplete",
+
+  "info.gregecore.quantumsynergizer1": "Abilities: Combo Crafting",
+  "info.gregecore.quantumsynergizer2": "This machine harvests residual quantum energy from completed crafts and applies it to the next operation.",
+  "info.gregecore.quantumsynergizer3": "Each unique completed recipe generates 1 Combo Point. If you start the same recipe that you already used to get a Combo Point, they reset back to 1. Upon reaching 3 Combo Points, the next recipe will finish instantly.",
+  "info.gregecore.quantumsynergizer4": "Combo: ",
+
+  "info.gregecore.dysoncollector1": "Abilities: Dyson Swarm Energy Collector",
+  "info.gregecore.dysoncollector2": "This machine collects the energy reflected from the solar sails, boosted by the amount of the launched solar sails.",
+  "info.gregecore.dysoncollector3": "Energy output is multiplied by the amount of sails shot.",
+  "info.gregecore.dysoncollector4": "Energy generation boost: ",
+
+  "info.gregecore.dysonlauncher1": "Abilities: Dyson Swarm Launcher",
+  "info.gregecore.dysonlauncher2": "This machine launches solar sails into the sun orbit. Depending on the number of launched sails, various boosts are given to Dyson Swarm Energy Collector.",
+  "info.gregecore.dysonlauncher3": "Energy output is multiplied by the amount of sails shot.",
+  "info.gregecore.dysonlauncher4": "Solar sails in orbit:",
+
+  "info.gregecore.fabricationarray1": "Abilities: Precision Assembly",
+  "info.gregecore.fabricationarray2": "Due to the densinty of the new materials, normal Assembly Lines won't cut it anymore. This machine is the upgraded version of the Assembly Lines, strong enough to handle almost every material.",
+  "info.gregecore.fabricationarray3": "This machine needs you to insert the items in the correct order, the closest input bus to the controller is slot 1, the one behind is slot 2, etc."
 }

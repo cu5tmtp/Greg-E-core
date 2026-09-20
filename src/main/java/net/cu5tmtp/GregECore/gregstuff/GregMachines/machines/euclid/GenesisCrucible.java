@@ -60,26 +60,24 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
                     new PosOffset(4, 13, 12),
                     new PosOffset(2, 13, 10)
             }),
-            // Front right (Přední Pravá)
+            // Front right
             new CaseGroup("genesiscruciblecasetwo", new PosOffset[]{
-                    new PosOffset(6, 13, -10),   // 0. Hlavní
-                    new PosOffset(4, 13, -12),   // 1. Doleva 2, dozadu 2
-                    new PosOffset(4, 13, -8),    // 2. Doprava 2, dozadu 2
-                    new PosOffset(2, 13, -10)    // 3. Dozadu 4
+                    new PosOffset(6, 13, -10),
+                    new PosOffset(4, 13, -12),
+                    new PosOffset(4, 13, -8),
+                    new PosOffset(2, 13, -10)
             }),
-            // Back right (Zadní Pravá) - Opačná logika (místo dozadu jdeme dopředu směrem ke středu mašiny)
             new CaseGroup("genesiscruciblecasethree", new PosOffset[]{
-                    new PosOffset(-18, 13, -10), // 0. Hlavní
-                    new PosOffset(-16, 13, -12), // 1. Doleva 2, dopředu 2
-                    new PosOffset(-16, 13, -8),  // 2. Doprava 2, dopředu 2
-                    new PosOffset(-14, 13, -10)  // 3. Dopředu 4
+                    new PosOffset(-18, 13, -10),
+                    new PosOffset(-16, 13, -12),
+                    new PosOffset(-16, 13, -8),
+                    new PosOffset(-14, 13, -10)
             }),
-            // Back left (Zadní Levá) - Opačná logika
             new CaseGroup("genesiscruciblecasefour", new PosOffset[]{
-                    new PosOffset(-18, 13, 10),  // 0. Hlavní
-                    new PosOffset(-16, 13, 8),   // 1. Doleva 2, dopředu 2
-                    new PosOffset(-16, 13, 12),  // 2. Doprava 2, dopředu 2
-                    new PosOffset(-14, 13, 10)   // 3. Dopředu 4
+                    new PosOffset(-18, 13, 10),
+                    new PosOffset(-16, 13, 8),
+                    new PosOffset(-16, 13, 12),
+                    new PosOffset(-14, 13, 10)
             })
     };
 
@@ -125,9 +123,8 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
 
         for (int i = 0; i < caseGroups.length; i++) {
             CaseGroup group = caseGroups[i];
-            boolean anyPartFormed = false; // Změna: Předpokládáme, že není zformovaný žádný, dokud jeden nenajdeme
+            boolean anyPartFormed = false;
 
-            // Projdeme všechny 4 souřadnice pro daný roh
             for (PosOffset offset : group.offsets()) {
                 BlockPos targetPos = center.relative(forward, offset.forward())
                         .above(offset.above())
@@ -144,7 +141,6 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
                     }
                 }
 
-                // Pokud najdeme alespoň jeden zformovaný case na správném místě, roh funguje
                 if (partFormed) {
                     anyPartFormed = true;
                     break;
@@ -249,19 +245,17 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
                     GTCEu.id("gtceu:block/multiblock/distillation_tower"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createGenesisCrucibleRender))
             )
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Cartridge Charging").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("This machine is not strong enough on its own to operate at this voltage, so it needs help " +
-                    "with processing components. Each cartridge unlocks new recipes.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Cartridges in crafting recipes are marked:").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("D for Delirium").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("K for Kamenium").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("G for Grympl").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("X for Xynredar").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Cartridge multiblocks have a different colored casing on its upper and lower parts, " +
-                    "find the same color on Genesis Crucible and form it there.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible1").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible2").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible3").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible4").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible5").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible6").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible7").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.genesiscrucible8").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
@@ -269,23 +263,23 @@ public class GenesisCrucible extends WorkableElectricMultiblockMachine {
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.literal("Genesis Crucible Cartridges:").withStyle(ChatFormatting.LIGHT_PURPLE));
+            textList.add(Component.translatable("info.gregecore.genesiscrucible9").withStyle(ChatFormatting.LIGHT_PURPLE));
 
             boolean case1 = caseStates.getOrDefault("genesiscruciblecaseone", false);
-            textList.add(Component.literal(" - Delirium: ").withStyle(ChatFormatting.GRAY)
-                    .append(Component.literal(case1 ? "Formed" : "Incomplete").withStyle(case1 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+            textList.add(Component.translatable("info.gregecore.genesiscrucible10").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable(case1 ? "info.gregecore.genesiscrucible14" : "info.gregecore.genesiscrucible15").withStyle(case1 ? ChatFormatting.GREEN : ChatFormatting.RED)));
 
             boolean case2 = caseStates.getOrDefault("genesiscruciblecasetwo", false);
-            textList.add(Component.literal(" - Kamenium : ").withStyle(ChatFormatting.GRAY)
-                    .append(Component.literal(case2 ? "Formed" : "Incomplete").withStyle(case2 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+            textList.add(Component.translatable("info.gregecore.genesiscrucible11").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable(case2 ? "info.gregecore.genesiscrucible14" : "info.gregecore.genesiscrucible15").withStyle(case2 ? ChatFormatting.GREEN : ChatFormatting.RED)));
 
             boolean case3 = caseStates.getOrDefault("genesiscruciblecasethree", false);
-            textList.add(Component.literal(" - Grympl: ").withStyle(ChatFormatting.GRAY)
-                    .append(Component.literal(case3 ? "Formed" : "Incomplete").withStyle(case3 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+            textList.add(Component.translatable("info.gregecore.genesiscrucible12").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable(case3 ? "info.gregecore.genesiscrucible14" : "info.gregecore.genesiscrucible15").withStyle(case3 ? ChatFormatting.GREEN : ChatFormatting.RED)));
 
             boolean case4 = caseStates.getOrDefault("genesiscruciblecasefour", false);
-            textList.add(Component.literal(" - Xynredar: ").withStyle(ChatFormatting.GRAY)
-                    .append(Component.literal(case4 ? "Formed" : "Incomplete").withStyle(case4 ? ChatFormatting.GREEN : ChatFormatting.RED)));
+            textList.add(Component.translatable("info.gregecore.genesiscrucible13").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable(case4 ? "info.gregecore.genesiscrucible14" : "info.gregecore.genesiscrucible15").withStyle(case4 ? ChatFormatting.GREEN : ChatFormatting.RED)));
         }
     }
 

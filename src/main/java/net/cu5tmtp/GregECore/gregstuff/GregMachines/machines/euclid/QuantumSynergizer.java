@@ -111,20 +111,18 @@ public class QuantumSynergizer extends WorkableElectricMultiblockMachine {
                     GTCEu.id("block/multiblock/distillation_tower"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createRoboticFabricatorRender))
             )
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Combo Crafting").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("This machine harvests residual quantum energy from completed crafts " +
-                    "and applies it to the next operation.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Each completed recipe generates 1 Combo Point. Upon reaching 3 Combo Points, " +
-                    "the next recipe will finish instantly.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.quantumsynergizer1").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.quantumsynergizer2").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.quantumsynergizer3").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
-        textList.add(Component.literal("Combo: " + comboCount).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("info.gregecore.quantumsynergizer4" + comboCount).withStyle(ChatFormatting.AQUA));
     }
 
     public int getComboCount() {
