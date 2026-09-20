@@ -207,21 +207,18 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
             })
             .workableCasingModel(GTCEu.id("block/casings/firebox/machine_casing_firebox_tungstensteel"),
                                  GTCEu.id("block/multiblock/distillation_tower"))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Perfect Overclock, Magical Coils and Threading").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Avaible coils: Malachite, Forgotten and Superelement-27").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("The machine starts speeding up with the power of the magic remnants in the coils." +
-                    " Depending on the coil, the machine speeds up faster. The coils tell you the exact amount of recipe time reduction.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("The power of the coils grow. Now they are able to work in parallel, but due to the intense heat generated," +
-                    " they require ").withStyle(style -> style.withColor(0x90EE90)).append(Component.literal("10mb of Deionized Water per 20 ticks.").withStyle(style -> style.withColor(0xFF0000))))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("The machine only accepts 32 of the same coil. Do not mix them. After the machine forms, " +
-                    "you can see activated Magical Coil abilities in the controller.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Put the coolant in the Coolant Input. This machine only works with the basic version.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Accepts Threading Core T2.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.gaebf1").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.gaebf2").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.gaebf3").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.gaebf4").withStyle(style -> style.withColor(0x90EE90)).append(Component.translatable("info.gregecore.gaebf5").withStyle(style -> style.withColor(0xFF0000))))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.gaebf6").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.gaebf7").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.threading2"))
             .register();
 
     @Override
@@ -239,26 +236,26 @@ public class GiantAcceleratedEBF extends WorkableElectricMultiblockMachine {
                 }
             }
 
-            textList.add(Component.literal("Coil temperature: " + coilTemp + "K").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.translatable("info.gregecore.gaebf8").append(coilTemp + "K").withStyle(ChatFormatting.AQUA));
             switch (coilTemp){
                 case 7400 -> {
-                    textList.add(Component.literal("Recipe time reduction: 20%").withStyle(ChatFormatting.GREEN));
-                    textList.add(Component.literal("Parallels: 2" ).withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf9").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf10" ).withStyle(ChatFormatting.GREEN));
                 }
                 case 9300 -> {
-                    textList.add(Component.literal("Recipe time reduction: 40%").withStyle(ChatFormatting.GREEN));
-                    textList.add(Component.literal("Parallels: 4").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf11").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf12").withStyle(ChatFormatting.GREEN));
                 }
                 case 11000 -> {
-                    textList.add(Component.literal("Recipe time reduction: 60%").withStyle(ChatFormatting.GREEN));
-                    textList.add(Component.literal("Parallels: 8").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf13").withStyle(ChatFormatting.GREEN));
+                    textList.add(Component.translatable("info.gregecore.gaebf14").withStyle(ChatFormatting.GREEN));
                 }
-                default -> textList.add(Component.literal("Different coils detected!").withStyle(ChatFormatting.RED));
+                default -> textList.add(Component.translatable("info.gregecore.gaebf15").withStyle(ChatFormatting.RED));
             }
             switch (parallelBooster){
-                case 1 -> textList.add(Component.literal("Parallels are multiplied by 2." ).withStyle(ChatFormatting.LIGHT_PURPLE));
-                case 2 -> textList.add(Component.literal("Parallels are multiplied by 4." ).withStyle(ChatFormatting.LIGHT_PURPLE));
-                default -> textList.add(Component.literal("No parallel multiplication." ).withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 1 -> textList.add(Component.translatable("info.gregecore.gaebf16").withStyle(ChatFormatting.LIGHT_PURPLE));
+                case 2 -> textList.add(Component.translatable("info.gregecore.gaebf17").withStyle(ChatFormatting.LIGHT_PURPLE));
+                default -> textList.add(Component.translatable("info.gregecore.gaebf18").withStyle(ChatFormatting.LIGHT_PURPLE));
             }
         }
     }

@@ -219,11 +219,11 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
         if (widget instanceof WidgetGroup group) {
             WidgetGroup buttonGroup = new WidgetGroup(-70, 140, 60, 14);
 
-            LabelWidget safeModeLabel = new LabelWidget(12, 3, () -> String.valueOf(Component.literal(safeMode ? "Safe: ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED))) {
+            LabelWidget safeModeLabel = new LabelWidget(12, 3, () -> String.valueOf(Component.translatable(safeMode ? "info.gregecore.pressurechamber1" : "info.gregecore.pressurechamber2").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED))) {
                 @Override
                 public void updateScreen() {
                     super.updateScreen();
-                    this.setComponent(Component.literal(safeMode ? "Safe:  ON" : "Safe: OFF").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED));
+                    this.setComponent(Component.translatable(safeMode ? "info.gregecore.pressurechamber1" : "info.gregecore.pressurechamber2").withStyle(safeMode ? ChatFormatting.GREEN : ChatFormatting.RED));
                 }
             };
             safeModeLabel.setDropShadow(false);
@@ -254,8 +254,8 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
                 }
             };
 
-            interactButton.appendHoverTooltips(Component.literal("Toggle Safe Mode").withStyle(ChatFormatting.GOLD));
-            interactButton.appendHoverTooltips(Component.literal("Prevents explosion when pressure exceeds 100 Pa."));
+            interactButton.appendHoverTooltips(Component.translatable("info.gregecore.pressurechamber3").withStyle(ChatFormatting.GOLD));
+            interactButton.appendHoverTooltips(Component.translatable("info.gregecore.pressurechamber4"));
 
             buttonGroup.addWidget(interactButton);
             buttonGroup.addWidget(safeModeLabel);
@@ -291,18 +291,18 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
                     GTCEu.id("block/multiblock/assembly_line"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createPressureChamberRender))
             )
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Pressure Compacting").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Provides you with the power to compact different materials very tightly together. But be careful, as the glasses might not be able to withstand the pressures.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Provide a Pressure Input with steam and the pressure inside the machine will start increasing with the rate of 1Pa per 1000mb of steam every second. Different glasses can withstand different amount of pressure. Do not mix them, as that will create leaks and the machine will not be able to work. You can also turn off the safe mode, which will result in halving the recipe times. But the machine can explode as consequence, if the pressure is too big.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Glasses:").withStyle(ChatFormatting.LIGHT_PURPLE))
-            .tooltips(Component.literal("Tempered Glass: 30Pa").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Laminated Glass: 60Pa").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Fusion Glass: 100Pa").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Controller sends out redstone signal, with every 7Pa adds 1 redstone strength.").withStyle(ChatFormatting.RED))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber5").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber6").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber7").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber8").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber9").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber10").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber11").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.pressurechamber12").withStyle(ChatFormatting.RED))
 
             .register();
 
@@ -311,9 +311,9 @@ public class PressureChamber extends WorkableElectricMultiblockMachine implement
         super.addDisplayText(textList);
 
         if (isFormed()) {
-            textList.add(Component.literal("Pressure: " + (int) currentPressure + "Pa / " + (int) maxPressure + "Pa").withStyle(ChatFormatting.AQUA));
-            textList.add(Component.literal("Leakage: " + leakage).withStyle(ChatFormatting.RED));
-            textList.add(Component.literal("Redstone Power: " + getOutputSignal(null)).withStyle(ChatFormatting.RED));
+            textList.add(Component.translatable("info.gregecore.pressurechamber13").append((int) currentPressure + "Pa / " + (int) maxPressure + "Pa").withStyle(ChatFormatting.AQUA));
+            textList.add(Component.translatable("info.gregecore.pressurechamber14").append(leakage + "").withStyle(ChatFormatting.RED));
+            textList.add(Component.translatable("info.gregecore.pressurechamber15").append(getOutputSignal(null) + "").withStyle(ChatFormatting.RED));
 
         }
     }

@@ -40,8 +40,8 @@ public class GregEModifiers {
 
         double speedMultiplier = switch (blastFurnaceTemperature) {
             case 1800 -> 0.85;
-            case 3600 -> 0.7;
-            case 5400 -> 0.55;
+            case 3600 -> 0.70;
+            case 5400 -> 0.60;
             default -> 0.85;
         };
 
@@ -69,7 +69,7 @@ public class GregEModifiers {
 
 
         double speedMultiplier = switch (blastFurnaceTemperature) {
-            case 7400 -> 0.8;
+            case 7400 -> 0.75;
             case 9300 -> 0.6;
             case 11000 -> 0.4;
             default -> 0.8;

@@ -199,14 +199,14 @@ public class InfusionAltar extends WorkableElectricMultiblockMachine {
                     GTCEu.id("block/casings/solid/machine_casing_solid_steel"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createInfusionAltarRender)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Magical Infusion").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Combines technology with arcane arts, to perform magical material synthesis.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Technology believed to be lost in old versions, was resurrected to help you in your journey.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Put items in the Infusion Altar Pedestals and input essentia in the correct essentia input.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("Then watch as the beautiful animation unfolds.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.infusionaltar1").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.infusionaltar2").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.infusionaltar3").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.infusionaltar4").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.infusionaltar5").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override
