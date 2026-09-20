@@ -203,5 +203,15 @@
   "material.gregecore.ignis_essentia": "Ignis",
   "material.gregecore.ordo_essentia": "Ordo",
   "material.gregecore.perditio_essentia": "Perditio",
-  "material.gregecore.terra_essentia": "Terra"
+  "material.gregecore.terra_essentia": "Terra",
+
+  "info.gregecore.dashline": "§4----------------------------------------§r",
+  "info.gregecore.fission1": "Abilities: Nuclear Fission and Parallel Hatch",
+  "info.gregecore.fission2": "The Fission Reactor stands as a monument to high-yield power generation, harnessing the volatile force of nuclear splitting to yield immense energy. Without rigorous thermal management, the reactor can swiftly cascade toward catastrophic meltdown.",
+  "info.gregecore.fission3": "When working, the reactor generates heat every 20 ticks. The amount depends on the recipe you're using. If there is coolant in the coolant input, it uses 10mb of coolant per 5 ticks to cool the heat. Below are the avaible coolants and their cooling power. You need to put coolants in the coolant input, the superheated version will come out of the coolant output. If you do not cool the reactor, it will explode. Maximal safe heat is 3000K. You can see the current values inside the controller.",
+  "info.gregecore.fission4": "Available coolants:",
+  "info.gregecore.fission5": "Sodium Coolant, 50 Cooling Power",
+  "info.gregecore.fission6": "Bose-Einstein Condensate, 250 Cooling Power",
+  "info.gregecore.fission7": "Reactor Hull Health: ",
+  "info.gregecore.fission8": "Reactor Stored Heat: "
 }
