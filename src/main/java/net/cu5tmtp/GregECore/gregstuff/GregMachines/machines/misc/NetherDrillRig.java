@@ -35,7 +35,7 @@ public class NetherDrillRig extends WorkableElectricMultiblockMachine {
             .multiblock("netherdrillrig", NetherDrillRig::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(GregERecipeTypes.NETHERDRILLRIGRECIPE)
-            .recipeModifiers(GTRecipeModifiers.OC_PERFECT)
+            .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.OC_PERFECT_SUBTICK)
             .appearanceBlock(GTBlocks.CASING_INVAR_HEATPROOF)
             .pattern(definition -> {
                 return FactoryBlockPattern.start()
