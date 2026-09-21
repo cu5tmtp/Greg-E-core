@@ -32,7 +32,7 @@ public class RepairPartsInputPartMachine extends ItemBusPartMachine {
             .abilities(RepairPartsInputPartMachine.REPAIR_PART_INPUT)
             .tier(GTValues.UHV)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
-            .tooltips(Component.literal("Use this to input repair parts, which will be used to repair the spaceship.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.repairinput1").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

@@ -32,7 +32,7 @@ public class DroneAccessHatchPartMachine extends ItemBusPartMachine {
             .abilities(DroneAccessHatchPartMachine.DRONE_ACCESS)
             .tier(GTValues.UHV)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
-            .tooltips(Component.literal("Use this hold drones.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.droneaccess1").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 

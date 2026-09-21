@@ -32,9 +32,8 @@ public class BacteriaInputPartMachine extends ItemBusPartMachine {
             .abilities(BacteriaInputPartMachine.BACTERIA_INPUT)
             .tier(GTValues.ZPM)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
-            .tooltips(Component.literal("Use this to input bacteria, which will be used to boost recipes.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.bacteriainput1").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
-
 
     public static void init() {
     }

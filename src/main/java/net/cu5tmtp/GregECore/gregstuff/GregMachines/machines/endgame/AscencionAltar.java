@@ -176,13 +176,12 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
                     GregECore.id("block/blankrune"),
                     GTCEu.id("block/multiblock/fusion_reactor"))
                     .andThen(b -> b.addDynamicRenderer(GregERenederRegistries::createAscencionAltarRender)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Abilities: Ascencion").withStyle(style -> style.withColor(0xFFD700)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Last hurdle stands between you and godhood. The ancient skyblock gods say to give them their toll.").withStyle(style -> style.withColor(0x90EE90)))
-            .tooltips(Component.literal("----------------------------------------").withStyle(s -> s.withColor(0xff0000)))
-            .tooltips(Component.literal("Find the lost tomes of skyblock knowledge. Each tome has its own riddle to solve. You can get clues on them in EMI. " +
-                    "Then place them in the altars, one in each finger. Each craft needs a different tome.").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.ascencionaltar1").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.ascencionaltar2").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("info.gregecore.ascencionaltar3").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     @Override

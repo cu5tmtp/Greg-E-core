@@ -32,7 +32,7 @@ public class StarFeederPartMachine extends ItemBusPartMachine {
             .abilities(StarFeederPartMachine.STAR_FEEDER)
             .tier(GTValues.UHV)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/feeder/overlay_front"))
-            .tooltips(Component.literal("Use this to feed the star items. Items are inserted every 5 ticks.").withStyle(ChatFormatting.LIGHT_PURPLE))
+            .tooltips(Component.translatable("info.gregecore.feeder1").withStyle(ChatFormatting.LIGHT_PURPLE))
             .register();
 
 
