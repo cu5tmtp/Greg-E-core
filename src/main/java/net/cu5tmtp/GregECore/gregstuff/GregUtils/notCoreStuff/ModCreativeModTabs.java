@@ -109,6 +109,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(GenesisCrucibleCases.GENESISCRUCIBLECASE4.getItem());
                         pOutput.accept(AssemblyHall.ASSEMBLYHALL.getItem());
                         pOutput.accept(PrecisionFabricationArray.PFARRAY.getItem());
+                        pOutput.accept(ConvergenceMatrix.CONVERGENCEMATRIX.getItem());
 
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {
                             pOutput.accept(box.getItem());

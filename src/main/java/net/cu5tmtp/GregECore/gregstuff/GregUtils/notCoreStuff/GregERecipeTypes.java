@@ -221,6 +221,12 @@ public class GregERecipeTypes {
             .setProgressBar(GregEGUITextures.PRECISION_ARRAY_PROGRESS, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    public static GTRecipeType CONVERGINGMATRIXXX = GTRecipeTypes.register("convergingmatrixxx", "euclid")
+            .setMaxIOSize(6,1,0,0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GregEGUITextures.MATRIX, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER);
+
     public static GTRecipeType DUMMYRECIPE = GTRecipeTypes.register("dummydontuse", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(3,3,3,3)
             .setEUIO(IO.IN)

@@ -30,13 +30,13 @@ public class CheckForDim {
         DIMENSION_KEYS.put("kubejs:burialmask", Set.of("getmarsairrrrrr"));
         DIMENSION_KEYS.put("minecraft:dragon_egg", Set.of("ender_air"));
         DIMENSION_KEYS.put("bloodmagic:rawdemonite", Set.of("getdemoinicaroi"));
-        DIMENSION_KEYS.put("minecraft:nether_star", Set.of("nether"));
+        DIMENSION_KEYS.put("minecraft:nether_star", Set.of("nether_air"));
 
-        DIMENSION_KEYS.put("kubejs:eyeofpride", Set.of("forge_smoke", "abyssal", "ancient", "ignitium"));
-        DIMENSION_KEYS.put("kubejs:eyeofsin", Set.of("enderium", "emptybattery", "lightning", "cursed"));
+        DIMENSION_KEYS.put("kubejs:eyeofpride", Set.of("forge_smoke", "abyssal_air", "ancient", "ignitium_infused_lava"));
+        DIMENSION_KEYS.put("kubejs:eyeofsin", Set.of("enderium_air", "emptybattery", "captured_lightning", "cursed_air"));
 
         DIMENSION_KEYS.put("kubejs:stoneofhorus", Set.of("siphonearth", "siphonvenus", "siphonsolarstorms", "superelementgetthatshiiiii"));
-        DIMENSION_KEYS.put("kubejs:charmofguilliman", Set.of("siphonneptune", "siphonuranus", "siphonsaturn", "siphonjupiter", "sedna_sample_dust"));
+        DIMENSION_KEYS.put("kubejs:charmofguilliman", Set.of("siphonneptune", "siphonuranus", "siphonsaturn", "siphonjupiter", "sifted_sedna_stone_dust"));
     }
 
     public static GTRecipe applyAntiMassBypass(MetaMachine metaMachine, GTRecipe r, RecipeModifier oldModifier) {
@@ -56,29 +56,47 @@ public class CheckForDim {
         MultiblockControllerMachine targetController = findTargetController(metaMachine);
         Set<String> unlockedDimensions = getUnlockedDimensions(targetController);
 
-        GTRecipe bypassedRecipe = r;
+        String recipeId = r.getId().toString().toLowerCase();
+        boolean hasDimensionRequirement = false;
+        boolean isUnlocked = false;
 
-        if (!unlockedDimensions.isEmpty()) {
-            bypassedRecipe = r.copy();
+        for (var entry : DIMENSION_KEYS.entrySet()) {
+            for (String dimKey : entry.getValue()) {
+                boolean matchesRecipe = recipeId.contains(dimKey);
+                boolean matchesCondition = r.conditions.stream()
+                        .anyMatch(c -> c.toString().toLowerCase().contains(dimKey));
 
-            bypassedRecipe.conditions.removeIf(condition -> {
-                if (!condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
-                    return false;
-                }
-
-                String conditionData = condition.toString().toLowerCase();
-                String recipeId = r.getId().toString().toLowerCase();
-
-                for (String dim : unlockedDimensions) {
-                    if (conditionData.contains(dim) || recipeId.contains(dim)) {
-                        return true;
+                if (matchesRecipe || matchesCondition) {
+                    hasDimensionRequirement = true;
+                    if (unlockedDimensions.contains(dimKey)) {
+                        isUnlocked = true;
                     }
                 }
-                return false;
-            });
+            }
         }
 
-        if (oldModifier != null && bypassedRecipe != null) {
+        if (hasDimensionRequirement && !isUnlocked) {
+            return null;
+        }
+
+        GTRecipe bypassedRecipe = r.copy();
+
+        bypassedRecipe.conditions.removeIf(condition -> {
+            if (!condition.getClass().getSimpleName().toLowerCase().contains("dimension")) {
+                return false;
+            }
+
+            String conditionData = condition.toString().toLowerCase();
+
+            for (String dim : unlockedDimensions) {
+                if (conditionData.contains(dim) || recipeId.contains(dim)) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if (oldModifier != null) {
             return oldModifier.applyModifier(metaMachine, bypassedRecipe);
         }
 

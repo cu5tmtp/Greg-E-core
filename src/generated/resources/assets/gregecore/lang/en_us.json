@@ -52,6 +52,7 @@
   "block.gregecore.genesiscruciblecasefour": "Genesis Crucible Cartridge: §dXynredar",
   "block.gregecore.pfarray": "§lPrecision Fabrication Array§g",
   "block.gregecore.quantumsynergizer": "§lQuantum Synergizer§g",
+  "block.gregecore.convergencematrix": "§lConvergence Matrix§g",
 
   "gtceu.pfarraycraft": "Precision Fabrication Array",
   "gtceu.robotic_fabrication": "Quantum Time Dialation",
@@ -76,6 +77,7 @@
   "gtceu.gccrafting": "Genesis Crucible",
   "gtceu.assemblyhall": "Assembly Hall",
   "gtceu.antimassspectro": "Anti-Mass Spectrometer",
+  "gtceu.convergingmatrixxx": "Converging",
 
   "gregecore.error.glass": "All of the glass must be the same.",
 
@@ -336,6 +338,10 @@
   "info.gregecore.infusionaltar3": "Technology believed to be lost in old versions, was resurrected to help you in your journey.",
   "info.gregecore.infusionaltar4": "Put items in the Infusion Altar Pedestals and input essentia in the correct essentia input.",
   "info.gregecore.infusionaltar5": "Then watch as the beautiful animation unfolds.",
+
+  "info.gregecore.convergencematrix1": "Ability: Quantum Time Tunneling",
+  "info.gregecore.convergencematrix2": "New materials allow for this unprecedented feat, where this machine works in 4 dimensions. It can 'reach' behind time itself to remove the time needed to do a recipe.",
+  "info.gregecore.convergencematrix3": "Only recipes shorter than 5 seconds can start the crafting process. Then you can start any other recipe, and it will complete instantly.",
 
   "info.gregecore.pressurechamber1": "Safe: ON",
   "info.gregecore.pressurechamber2": "Safe: OFF",

@@ -66,6 +66,7 @@ public class GregEStuffInit {
         AssemblyHall.init();
         PrecisionFabricationArray.init();
         QuantumSynergizer.init();
+        ConvergenceMatrix.init();
     }
 
     public static void initGregEParts(){

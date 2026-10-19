@@ -38,4 +38,7 @@ public class GregEGUITextures {
 
     public static final ResourceTexture ALTAR = new ResourceTexture(
             "gregecore:textures/progress/altar.png");
+
+    public static final ResourceTexture MATRIX = new ResourceTexture(
+            "gregecore:textures/progress/matrix.png");
 }
