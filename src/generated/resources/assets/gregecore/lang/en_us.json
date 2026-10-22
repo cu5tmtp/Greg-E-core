@@ -341,7 +341,7 @@
 
   "info.gregecore.convergencematrix1": "Ability: Quantum Time Tunneling",
   "info.gregecore.convergencematrix2": "New materials allow for this unprecedented feat, where this machine works in 4 dimensions. It can 'reach' behind time itself to remove the time needed to do a recipe.",
-  "info.gregecore.convergencematrix3": "Only recipes shorter than 5 seconds can start the crafting process. Then you can start any other recipe, and it will complete instantly.",
+  "info.gregecore.convergencematrix3": "Only recipes shorter than 5 seconds can start the crafting process. Any other recipe started after that will be completed almost instantly compared to its original recipe time.",
 
   "info.gregecore.pressurechamber1": "Safe: ON",
   "info.gregecore.pressurechamber2": "Safe: OFF",

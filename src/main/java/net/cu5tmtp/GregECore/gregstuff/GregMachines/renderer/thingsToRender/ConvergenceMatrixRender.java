@@ -73,7 +73,7 @@ public class ConvergenceMatrixRender extends DynamicRender<ConvergenceMatrix, Co
 
     @OnlyIn(Dist.CLIENT)
     private void renderOrbAndLightning(PoseStack poseStack, VertexConsumer buffer, float x, float y, float z, int fullBright, long animationTick, int seedOffset) {
-        renderTexturedSphere(poseStack, buffer, x, y, z, 0.1F, 24, 24,0.7f, 0.3f, 1.0f, 0.9f, CORE_SPRITE_CACHE, fullBright);
+        renderTexturedSphere(poseStack, buffer, x, y, z, 0.1F, 24, 24,0.8f, 0.7f, 1.0f, 0.9f, CORE_SPRITE_CACHE, fullBright);
 
         int boltCount = 5;
 
@@ -94,7 +94,7 @@ public class ConvergenceMatrixRender extends DynamicRender<ConvergenceMatrix, Co
             Vec3 end = new Vec3(endX, endY, endZ);
 
             renderPrismLightning(poseStack, buffer, start, end, animationTick, i + seedOffset,
-                    0.5f, 1.0f, 0.5f, fullBright, WHITE_SPRITE_CACHE);
+                    0.8f, 0.7f, 1.0f, fullBright, WHITE_SPRITE_CACHE);
         }
     }
 

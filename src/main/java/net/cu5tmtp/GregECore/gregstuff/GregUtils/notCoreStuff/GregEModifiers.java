@@ -238,7 +238,7 @@ public class GregEModifiers {
         if (recipe.duration <= 100) return ModifierFunction.NULL;
 
         if (startupThreadActive) return ModifierFunction.builder()
-                .durationMultiplier(0.00000001d)
+                .durationMultiplier(0.000001d)
                 .build();
 
         return ModifierFunction.IDENTITY;

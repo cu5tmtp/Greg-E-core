@@ -110,12 +110,6 @@ public class ConvergenceMatrix extends WorkableElectricMultiblockMachine {
             .tooltips(Component.translatable("info.gregecore.convergencematrix3").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
-    @Override
-    public void addDisplayText(@NotNull List<Component> textList) {
-        super.addDisplayText(textList);
-        textList.add(Component.translatable("info.gregecore.quantumsynergizer4").withStyle(ChatFormatting.AQUA));
-    }
-
     public static void init() {
     }
 }

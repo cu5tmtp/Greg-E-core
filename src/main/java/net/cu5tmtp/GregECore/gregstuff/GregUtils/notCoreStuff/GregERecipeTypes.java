@@ -222,7 +222,7 @@ public class GregERecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER);
 
     public static GTRecipeType CONVERGINGMATRIXXX = GTRecipeTypes.register("convergingmatrixxx", "euclid")
-            .setMaxIOSize(6,1,0,0)
+            .setMaxIOSize(9,1,0,0)
             .setEUIO(IO.IN)
             .setProgressBar(GregEGUITextures.MATRIX, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
