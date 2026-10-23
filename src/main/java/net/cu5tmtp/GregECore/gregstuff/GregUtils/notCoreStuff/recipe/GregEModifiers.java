@@ -1,4 +1,4 @@
-package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff;
+package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;

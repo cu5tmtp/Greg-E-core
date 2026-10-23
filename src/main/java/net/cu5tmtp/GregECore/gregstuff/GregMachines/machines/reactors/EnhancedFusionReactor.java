@@ -25,7 +25,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolan
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.AdvancedHeaterInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
-import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregERecipeTypes;
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;

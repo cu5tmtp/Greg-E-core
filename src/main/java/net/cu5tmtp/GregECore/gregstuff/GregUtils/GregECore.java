@@ -1,29 +1,17 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.mojang.logging.LogUtils;
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.entity.ModEntity;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.AntiMassSpectrometer;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.misc.NetherDrillRig;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DimensionalRelicsPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.CheckForDim;
-import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregERecipeTypes;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregERecipeTypes;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.GregEStuffInit;
-import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.ModCreativeModTabs;
+import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.misc.ModCreativeModTabs;
 import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.item.ModItems;
 import net.cu5tmtp.GregECore.wandOfPuppetry.AnimatedBlockEntity;
@@ -38,9 +26,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.items.IItemHandler;
 import org.slf4j.Logger;
 
 @SuppressWarnings("removal")
@@ -68,7 +54,6 @@ public class GregECore {
 
         modEventBus.addListener(this::registerAttributes);
 
-        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -99,45 +84,6 @@ public class GregECore {
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntity.ANIMATED_BLOCK.get(), AnimatedBlockEntity.createAttributes().build());
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            for (int tier = GTValues.LV; tier <= GTValues.UHV; tier++) {
-
-                String machineName = GTValues.VN[tier].toLowerCase() + "_gas_collector";
-                ResourceLocation machineId = new ResourceLocation("gtceu", machineName);
-                MachineDefinition machine = GTRegistries.MACHINES.get(machineId);
-
-                if (machine != null) {
-                    var oldModifier = machine.getRecipeModifier();
-                    machine.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
-                }
-
-                String sifterName = GTValues.VN[tier].toLowerCase() + "_sifter";
-                ResourceLocation sifterId = new ResourceLocation("gtceu", sifterName);
-                MachineDefinition sifter = GTRegistries.MACHINES.get(sifterId);
-
-                if (sifter != null) {
-                    var oldModifier = sifter.getRecipeModifier();
-                    sifter.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyDimensionalBypass(metaMachine, r, oldModifier));
-                }
-            }
-
-            MachineDefinition machineMultiAMS = AntiMassSpectrometer.ANTIMASSSPECTROMETER;
-
-            if (machineMultiAMS != null) {
-                var oldMultiModifier = machineMultiAMS.getRecipeModifier();
-                machineMultiAMS.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
-            }
-
-            MachineDefinition machineMultiNDR = NetherDrillRig.NETHERDRILLRIG;
-
-            if (machineMultiNDR != null) {
-                var oldMultiModifier = machineMultiNDR.getRecipeModifier();
-                machineMultiNDR.setRecipeModifier((metaMachine, recipe) -> r -> CheckForDim.applyAntiMassBypass(metaMachine, r, oldMultiModifier));
-            }
-        });
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
