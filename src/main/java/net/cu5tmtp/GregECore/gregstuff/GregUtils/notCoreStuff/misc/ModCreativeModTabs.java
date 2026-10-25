@@ -93,6 +93,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(FornaxUniversi.FORNAX_UNIVERSI.getItem());
                         pOutput.accept(FissionReactor.FISSIONREACTOR.getItem());
                         pOutput.accept(SpecializedAssemblyLine.SPECIALIZED_ASSEMBLY_LINE.getItem());
+                        pOutput.accept(AntiMassSpectrometer.ANTIMASSSPECTROMETER.getItem());
                         pOutput.accept(GiantAlloyBlastSmelter.GIANT_ABS.getItem());
                         pOutput.accept(SpaceElevator.SPACE_ELEVATOR.getItem());
                         pOutput.accept(InfusionAltar.INFUSION_ALTAR.getItem());
