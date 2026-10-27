@@ -66,7 +66,7 @@ public class SpecializedAssemblyLine extends WorkableElectricMultiblockMachine {
             .multiblock("specializedassemblyline", SpecializedAssemblyLine::new)
             .rotationState(RotationState.ALL)
             .recipeType(GregERecipeTypes.SPECIALIZEDASSEMBLYLINE)
-            .recipeModifiers(GTRecipeModifiers.OC_PERFECT, GTRecipeModifiers.PARALLEL_HATCH)
+            .recipeModifiers(GTRecipeModifiers.PARALLEL_HATCH, GTRecipeModifiers.OC_PERFECT)
             .appearanceBlock(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("aabbaIabbaa", "abcccdcccba", "bccccdccccb", "bccccdccccb", "bccccdccccb", "abcccdcccba", "aabbaIabbaa")

@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -15,6 +16,8 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.BacteriaInputPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2PartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.MultiThreadedRecipeLogic;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregEModifiers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -43,6 +46,13 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
     public int parallelBoost = 1;
     public double speedBoost = 1.0;
 
+    public boolean canBeThreaded = false;
+
+    @Override
+    protected RecipeLogic createRecipeLogic(Object... args) {
+        return new MultiThreadedRecipeLogic(this, 4);
+    }
+
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
@@ -50,6 +60,13 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
 
         //This part of the code is adaptation of HPCA coolant consuming from base GTCEu - thanks for teaching me how to do that!
         for (IMultiPart part : getParts()) {
+
+            if (part instanceof ThreadT2PartMachine) {
+                canBeThreaded = true;
+                if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+                    logic.setMultiThreaded(canBeThreaded);
+                }
+            }
 
             if(!(part instanceof BacteriaInputPartMachine)){
                 continue;
@@ -81,7 +98,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                     this.speedBoost = 1.0;
                     return super.beforeWorking(recipe);
                 } else if (stack.is(PARALLEL_BACTERIA.get())) {
-                    this.parallelBoost = 64;
+                    this.parallelBoost = 256;
                     this.energyBoost = 1.0;
                     this.speedBoost = 1.0;
                     return super.beforeWorking(recipe);
@@ -93,7 +110,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                 } else if (stack.is(ULTIMATE_BACTERIA.get())) {
                     this.speedBoost = 0.1;
                     this.energyBoost = 0.1;
-                    this.parallelBoost = 64;
+                    this.parallelBoost = 256;
                     return super.beforeWorking(recipe);
                 }
             }
@@ -106,6 +123,15 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
         this.energyBoost = 1.0;
         this.parallelBoost = 1;
         this.speedBoost = 1.0;
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        canBeThreaded = false;
+        if (getRecipeLogic() instanceof MultiThreadedRecipeLogic logic) {
+            logic.setMultiThreaded(false);
+        }
+        super.onStructureInvalid();
     }
 
     public static MachineDefinition GIANTCHR = REGISTRATE
@@ -129,8 +155,9 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                                 .or(Predicates.abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                 .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(2))
-                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1))
+                                .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(2))
                                 .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(2))
+                                .or(Predicates.abilities(ThreadT2PartMachine.getPartAbility()).setMaxGlobalLimited(1).setPreviewCount(1))
                                 .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMaxGlobalLimited(2)))
                         .where('C', Predicates.blocks(FIREBOX_STEEL.get()))
                         .where('E', Predicates.blocks(CASING_PTFE_INERT.get()))
@@ -162,6 +189,7 @@ public class GiantChemicalReactor extends WorkableElectricMultiblockMachine {
                     .append(Component.translatable("info.gregecore.gcr13").withStyle(s -> s.withColor(0xFF0000))))
             .tooltips(Component.translatable("info.gregecore.dashline"))
             .tooltips(Component.translatable("info.gregecore.gcr14").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.threading2"))
             .register();
 
     @Override

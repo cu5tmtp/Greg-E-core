@@ -53,6 +53,7 @@
   "block.gregecore.pfarray": "§lPrecision Fabrication Array§g",
   "block.gregecore.quantumsynergizer": "§lQuantum Synergizer§g",
   "block.gregecore.convergencematrix": "§lConvergence Matrix§g",
+  "block.gregecore.bigchemical": "§lBig Chemical Reactor§g",
 
   "gtceu.pfarraycraft": "Precision Fabrication Array",
   "gtceu.robotic_fabrication": "Quantum Time Dialation",
@@ -86,6 +87,7 @@
   "block.gregecore.dimension_maintenance_hatch": "Dimensional Simulator Maintenance Hatch",
   "block.gregecore.dimensional_relics_machine": "Dimensional Relics Input",
   "block.gregecore.threading_one_machine": "Threading Core T1",
+  "block.gregecore.threading_one_overlcock_machine": "Overclocked Threading Core T1",
   "block.gregecore.threading_two_machine": "Threading Core T2",
   "block.gregecore.threading_three_machine": "Threading Core T3",
   "block.gregecore.pressure_input_machine": "Pressure Input",
@@ -229,7 +231,7 @@
   "info.gregecore.fusion10": "Reactor controller emits redstone: ",
   "info.gregecore.fusion11": "1 redstone strength per 500K of heat.",
 
-  "info.gregecore.gcr1": "Abilities: Perfect Overclock and Bacterial Infestation",
+  "info.gregecore.gcr1": "Abilities: Perfect Overclock, Multithreading and Bacterial Infestation",
   "info.gregecore.gcr2": "This machine is the pinnacle of bioengineering, thanks to special bred bacteria it can reach new heights. Depending on the bacteria inserted in a Bacteria Input, the machine posseses different abilities.",
   "info.gregecore.gcr3": "Energy bacteria: ",
   "info.gregecore.gcr4": "90%",
@@ -238,7 +240,7 @@
   "info.gregecore.gcr7": "90%",
   "info.gregecore.gcr8": " speed increase.",
   "info.gregecore.gcr9": "Parallel bacteria: ",
-  "info.gregecore.gcr10": "64",
+  "info.gregecore.gcr10": "256",
   "info.gregecore.gcr11": " parallels.",
   "info.gregecore.gcr12": "Ultimate bacteria: ",
   "info.gregecore.gcr13": "All of the boosts above.",
@@ -247,9 +249,14 @@
   "info.gregecore.gcr16": "Energy reduction: ",
   "info.gregecore.gcr17": "Parallels: ",
 
+  "info.gregecore.bch1": "Abilities: Perfect Overclock, Subtick Overclock and Multithreading",
+  "info.gregecore.bch2": "Due to the optimalization of chemical processes, this multiblock can start 4 recipes at the same time. No need to worry about cross-contamination, as the energy emitted by Forgotten Coil is strangely making the space around it clean.",
+  "info.gregecore.bch3": "Because the chemical processes need special care, it only accepts Overclocked Threading Hatch. This hatch needs to be carefully prepared.",
+
   "info.gregecore.epicparallel1": "Allows to run up to 1024 recipes in parallel.",
 
   "info.gregecore.threading1": "§dAccepts Threading Core T1.§r",
+  "info.gregecore.threading1o": "§dAccepts Overclocked Threading Core T1.§r",
   "info.gregecore.threading2": "§dAccepts Threading Core T2.§r",
   "info.gregecore.threading3": "§dAccepts Threading Core T3.§r",
 

@@ -705,7 +705,7 @@ public class UHVMultiRegistry {
                     .aisle("aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa", "aacbcaa", "aacbcaa", "aacbcaa", "aabbbaa", "aaadaaa", "aaaaaaa")
                     .aisle("aaaaaaa", "aacbcaa", "aacbcaa", "aacbcaa", "acaaaca", "acaeaca", "acaaaca", "abaaaba", "aaadaaa", "aaaaaaa")
                     .aisle("aacbcaa", "acaaaca", "acaeaca", "acaaaca", "caaaaac", "caaeaac", "caaaaac", "baaaaab", "aaadaaa", "aaaaaaa")
-                    .aisle("aabbcaa", "abaeaba", "abeeeba", "abaeaba", "baaeaab", "beeeeeb", "baaeaab", "baaeaab", "dddfddd", "aaadaaa")
+                    .aisle("aabbbaa", "abaeaba", "abeeeba", "abaeaba", "baaeaab", "beeeeeb", "baaeaab", "baaeaab", "dddfddd", "aaadaaa")
                     .aisle("aacbcaa", "acaaaca", "acaeaca", "acaaaca", "caaaaac", "caaeaac", "caaaaac", "baaaaab", "aaadaaa", "aaaaaaa")
                     .aisle("aaaaaaa", "aacicaa", "aacbcaa", "aacbcaa", "acaaaca", "acaeaca", "acaaaca", "abaaaba", "aaadaaa", "aaaaaaa")
                     .aisle("aaaaaaa", "aaaaaaa", "aaaaaaa", "aaaaaaa", "aacbcaa", "aacbcaa", "aacbcaa", "aabbbaa", "aaadaaa", "aaaaaaa")
