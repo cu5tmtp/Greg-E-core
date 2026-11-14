@@ -1,4 +1,4 @@
-// 1.20.1	2026-11-14T10:10:17.4470493	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.20.1	2026-11-14T12:24:35.2637887	Registrate Provider for gregecore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 b3c78504318281555d96db9c7eab46d9091cf7bc assets/gregecore/blockstates/acceleratedebf.json
 624b7a3f9d408815e2f0474a1b95487f10f6ec43 assets/gregecore/blockstates/advanced_coolant_input_machine.json
 b5deca0f2f21cbbe20bf59893ff42cc80e314ab7 assets/gregecore/blockstates/advanced_heater_input_machine.json
@@ -109,8 +109,8 @@ e5837a7a2f3ad102feb94b87b41c3d8c1b408d99 assets/gregecore/blockstates/twilight_c
 1af622f1f41ecf9ca0b7f1da355673262c21dc57 assets/gregecore/blockstates/vibration_engine_intake.json
 158415ce77cb97fffe56ca9d25cb188b74967c9a assets/gregecore/blockstates/world_eater_tamer_casing.json
 996b5156d13827386376cc53e65b0ef2ae5b9644 assets/gregecore/blockstates/world_eater_tamer_casing_purple.json
-1818fc02d57eace057eddee93357b868bd0eecf9 assets/gregecore/lang/en_ud.json
-7eaf3e5fca1ff0aa5b562f23cd340800de4cf038 assets/gregecore/lang/en_us.json
+e4338888120b1b614881d9ededd10c96c0f0f0fb assets/gregecore/lang/en_ud.json
+986a8c16f27f9dd578b35e26214642343a4bff3e assets/gregecore/lang/en_us.json
 d0d40ce346a144fb0402f20755852211b19e9538 assets/gregecore/models/block/assembly_engine_intake.json
 a9561563c39e10400268c97ac9783bff175a3ca9 assets/gregecore/models/block/assembly_engine_intake_active.json
 efe345e03fe00196c60542bafe5b989e8c89f7c4 assets/gregecore/models/block/atomic_engine_intake.json

@@ -74,10 +74,8 @@ public class MEDemandHatchPartMachine extends MEStockingBusPartMachine {
             .abilities(DEMAND)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .colorOverlayTieredHullModel(GregECore.id("block/overlay/me_demand"))
-            .tooltips(REGISTRATE.addRawLang("gregecore.tooltip.me_demand_hatch.0",
-                            "Really? Automation of challenges? In my automation modpack?").withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC),
-                    REGISTRATE.addRawLang("gregecore.tooltip.me_demand_hatch.1",
-                            "The simplest way to properly automate World Eater tamer runs: it requests the demanded items and even schedules crafting jobs for them automatically."))
+            .tooltips(Component.translatable("gregecore.tooltip.me_demand_hatch.0").withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC))
+            .tooltips(Component.translatable("gregecore.tooltip.me_demand_hatch.1"))
             .register();
 
     public MEDemandHatchPartMachine(IMachineBlockEntity holder, Object... args) {

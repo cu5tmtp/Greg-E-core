@@ -20,9 +20,9 @@ public class IntentionHatchPartMachine extends TieredPartMachine {
 
     public static final PartAbility INTENTION = new PartAbility("gregecore_intention");
     public static final MachineDefinition SAFETY = register("safety", "Safety Hatch", Intention.SAFETY,
-            "Compressed factory that can potentially work as a lightning rod", "Use this intention hatch if you like safety");
+            "Compressed factory that can potentially work as a lightning rod.", "Use this intention hatch if you like safety!");
     public static final MachineDefinition BRAVERY = register("bravery", "Bravery Hatch", Intention.BRAVERY,
-            "Fate favors those who are brave", "Use this intention hatch if you are brave enough");
+            "Fate favors those who are brave.", "Use this intention hatch if you are brave enough!");
     private final Intention intention;
 
     public IntentionHatchPartMachine(IMachineBlockEntity holder, Intention intention) {

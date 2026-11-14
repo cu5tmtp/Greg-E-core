@@ -151,10 +151,12 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
                 builder.addTextureOverride("all", GregECore.id("block/casings/world_eater/black"));
                 builder.addDynamicRenderer(WorldEaterPartRender::new);
             })
-            .tooltips(REGISTRATE.addRawLang("gregecore.tooltip.world_eater_tamer.0",
-                            "Taming a World Eater is not an easy or simple task, but a steady mind and dedication bring results").withStyle(ChatFormatting.BLUE, ChatFormatting.ITALIC),
-                    REGISTRATE.addRawLang("gregecore.tooltip.world_eater_tamer.1",
-                            "To start, build it in the center of your factory with enough machines around it and follow the instructions from the controller"))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.2").withStyle(style -> style.withColor(0xFFD700)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.0").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.1").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     public IncompleteWorldEaterTamer(IMachineBlockEntity holder, Object... args) { super(holder, args); }

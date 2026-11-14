@@ -1,7 +1,9 @@
 package net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.MEDemandHatchPartMachine;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -58,6 +60,7 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
     public static final String BRAVERY_OPERATION = "bravery_crafting";
     public static final String TEST_OPERATION = "preparation_test";
     public static final String REAL_OPERATION = "essence_production";
+    public static final String CUSTOM_OPERATION = "test";
     private static final int REQUIRED_TIER = 2;
     private static final int ACTIVATION_COUNT = 250;
     private static final int MAX_RETRIES = 5;
@@ -69,7 +72,8 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
         CASING(CASING_OPERATION, State.PREPARED, 100, false),
         BRAVERY(BRAVERY_OPERATION, State.PREPARED, 1200, true),
         TEST(TEST_OPERATION, State.PREPARED, 600, true),
-        REAL(REAL_OPERATION, State.ACTIVE, 600, true);
+        REAL(REAL_OPERATION, State.ACTIVE, 600, true),
+        CUSTOM(CUSTOM_OPERATION, State.ACTIVE, 600, true);
 
         final String id;
         final State state;
@@ -83,8 +87,13 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
             this.needsTier = needsTier;
         }
 
-        boolean crafting() { return this == CASING || this == BRAVERY; }
-        boolean demand() { return this == TEST || this == REAL; }
+        boolean crafting() {
+            return this == CASING || this == BRAVERY;
+        }
+
+        boolean demand() {
+            return this == TEST || this == REAL || this == CUSTOM;
+        }
 
         @Nullable
         static Op of(@Nullable GTRecipe recipe) {
@@ -95,15 +104,37 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
         }
 
         private boolean matches(GTRecipe recipe) {
-            if (!state.name().equals(recipe.data.getString("required_state")) || recipe.duration != duration
+            if (!state.name().equals(recipe.data.getString("required_state"))
+                    || (this == CUSTOM ? recipe.duration <= 0 : recipe.duration != duration)
                     || (this == CASING ? recipe.parallels < 1 : recipe.parallels != 1)
-                    || recipe.batchParallels != 1 || recipe.subtickParallels != 1 || recipe.hasTick()) return false;
-            // JSON recipe decoding may narrow integer metadata to a byte tag.
+                    || recipe.batchParallels != 1
+                    || recipe.subtickParallels != 1
+                    || recipe.hasTick()) {
+                return false;
+            }
+
             if (needsTier && (!recipe.data.contains("required_casing_tier", Tag.TAG_ANY_NUMERIC)
-                    || recipe.data.getDouble("required_casing_tier") != REQUIRED_TIER)) return false;
+                    || recipe.data.getDouble("required_casing_tier") != REQUIRED_TIER)) {
+                return false;
+            }
+
+            if (this == CUSTOM) {
+                return true;
+            }
+
             if (!demand()) return true;
-            if (recipe.ocLevel != 0 || recipe.inputs.size() != 1 || !isSingleItem(recipe.getInputContents(ItemRecipeCapability.CAP),
-                    ChemicalHelper.get(TagPrefix.gem, this == TEST ? GreggyItems.DESARIUM : GreggyItems.IMPLEMENTIUM))) return false;
+
+            if (recipe.ocLevel != 0
+                    || recipe.inputs.size() != 1
+                    || !isSingleItem(
+                    recipe.getInputContents(ItemRecipeCapability.CAP),
+                    ChemicalHelper.get(
+                            TagPrefix.gem,
+                            this == TEST ? GreggyItems.DESARIUM : GreggyItems.IMPLEMENTIUM
+                    ))) {
+                return false;
+            }
+
             if (this == TEST) {
                 return recipe.outputs.isEmpty();
             }
@@ -114,9 +145,9 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                     GreggyItems.TAMED_WORLD_EATER_ESSENSE
             );
 
-            return recipe.outputs.size() == 1 &&
-                    (isSingleItem(outputs, essence, 1)
-                            || isSingleItem(outputs, essence, 2));
+            return recipe.outputs.size() == 1
+                    && (isSingleItem(outputs, essence, 1)
+                    || isSingleItem(outputs, essence, 2));
         }
     }
 
@@ -172,7 +203,8 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
     public boolean hasPendingReward() { return rewardPending; }
 
     public ItemStack getRealDemand() {
-        return Op.of(lastRecipe) == Op.REAL && !rewardPending ? demand.copy() : ItemStack.EMPTY;
+        Op op = Op.of(lastRecipe);
+        return (op == Op.REAL || op == Op.CUSTOM) && !rewardPending ? demand.copy() : ItemStack.EMPTY;
     }
 
     @Nullable
@@ -210,8 +242,11 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
     }
 
     private static boolean hasDemandOperation(GTRecipe recipe) {
-        return recipe != null && (TEST_OPERATION.equals(recipe.data.getString("operation"))
-                || REAL_OPERATION.equals(recipe.data.getString("operation")));
+        return recipe != null && (
+                TEST_OPERATION.equals(recipe.data.getString("operation"))
+                        || REAL_OPERATION.equals(recipe.data.getString("operation"))
+                        || CUSTOM_OPERATION.equals(recipe.data.getString("operation"))
+        );
     }
 
     public static boolean isDemandRecipe(GTRecipe recipe) {
@@ -266,26 +301,64 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
 
     @Override
     public void setupRecipe(GTRecipe recipe) {
-        if (reportPending || rewardPending || !demand.isEmpty() || !accepts(recipe) || !machine.isRecipeLogicAvailable()
+        if (reportPending || rewardPending || !demand.isEmpty()
+                || !accepts(recipe)
+                || !machine.isRecipeLogicAvailable()
                 || !(controller.getLevel() instanceof ServerLevel level)) return;
+
         Op op = Op.of(recipe);
+
         if (op != Op.SURVEY && !checkRecipe(recipe).isSuccess()) return;
+
         clearRun();
+
         GTRecipe run = recipe.copy();
         run.data = recipe.data.copy();
+
+        if (op == Op.CUSTOM && controller.getIntention() == Intention.BRAVERY) {
+            var multiplier = ContentModifier.multiplier(2);
+
+            for (var capability : List.of(
+                    ItemRecipeCapability.CAP,
+                    FluidRecipeCapability.CAP)) {
+
+                var outputs = run.outputs.get(capability);
+
+                if (outputs != null && !outputs.isEmpty()) {
+                    List<Content> doubled = new ArrayList<>(outputs.size());
+
+                    for (Content content : outputs) {
+                        doubled.add(content.copyChanced(capability, multiplier));
+                    }
+
+                    run.outputs.put(capability, doubled);
+                }
+            }
+        }
+
         super.setupRecipe(run);
-        if (lastRecipe != run || !isWorking()) return;
+
+        if (lastRecipe == null || !isWorking() || Op.of(lastRecipe) != op) return;
+
         if (op.demand()) {
             var pool = WorldEaterDemands.pool();
             var entry = pool.get(level.random.nextInt(pool.size()));
+
             demand = entry.stack(1 + level.random.nextInt(5));
             demandTier = entry.tier();
             duration = entry.deadline();
+
             onChanged();
-            if (op == Op.REAL && GTCEu.Mods.isAE2Loaded()) MEDemandHatchPartMachine.begin(controller);
+
+            if ((op == Op.REAL || op == Op.CUSTOM)
+                    && GTCEu.Mods.isAE2Loaded()) {
+                MEDemandHatchPartMachine.begin(controller);
+            }
+
         } else if (op == Op.SURVEY) {
             domain = region(level);
             dimension = level.dimension().location().toString();
+
             updateCurrentChunk();
             onChanged();
         }
@@ -547,7 +620,8 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
     /** Essence production destroys the Safety hatch, or for Bravery the machine nearest a random point. */
     @Nullable
     private MetaMachine pickVictim() {
-        if (Op.of(lastRecipe) != Op.REAL) return null;
+        Op op = Op.of(lastRecipe);
+        if (op != Op.REAL && op != Op.CUSTOM) return null;
         if (controller.getIntention() == Intention.SAFETY) {
             for (var part : controller.getParts()) if (part instanceof IntentionHatchPartMachine hatch
                     && hatch.getIntention() == Intention.SAFETY) return hatch;
@@ -738,7 +812,8 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                 || demandTier < 1 || demandTier > 10 || duration != 600 * demandTier || progress < 0 || progress >= duration)
             throw new IllegalArgumentException("Invalid demand deadline or kind");
         if (rewardPending) {
-            if (!REAL_OPERATION.equals(saved.getString("Operation"))
+            Op op = Op.of(lastRecipe);
+            if ((op != Op.REAL && op != Op.CUSTOM)
                     || !savedItem.equals(ItemStack.EMPTY.save(new CompoundTag())))
                 throw new IllegalArgumentException("Invalid earned reward");
         } else if (demand.isEmpty() || demand.getCount() < 1 || demand.getCount() > 5 || demand.hasTag()

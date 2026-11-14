@@ -24,7 +24,7 @@ import java.util.List;
 
 public class GregERecipeTypes {
     public static final GTRecipeType WORLD_EATER_TAMER = GTRecipeTypes.register("world_eater_tamer", "endgame")
-            .setMaxIOSize(2, 1, 0, 0)
+            .setMaxIOSize(9, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> worldEaterCaption(data, 0))
             .addDataInfo(data -> worldEaterCaption(data, 1));

@@ -48,15 +48,41 @@ public class GregEGTAddon implements IGTAddon {
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) MEDemandHatchPartMachine.addRecipe(provider);
+
         GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("preparation_test"))
                 .inputItems(ChemicalHelper.get(TagPrefix.gem, GreggyItems.DESARIUM))
-                .duration(600).addData("required_state", "ACTIVE").addData("required_casing_tier", 2)
+                .duration(600)
+                .addData("required_state", "PREPARED")
+                .addData("required_casing_tier", 2)
                 .addData("operation", WorldEaterTamerRecipeLogic.TEST_OPERATION).save(provider);
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("essence_production"))
-                .inputItems(ChemicalHelper.get(TagPrefix.gem, GreggyItems.IMPLEMENTIUM))
-                .outputItems(ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE))
-                .duration(600).addData("required_state", "PREPARED").addData("required_casing_tier", 2)
-                .addData("operation", WorldEaterTamerRecipeLogic.REAL_OPERATION).save(provider);
+
+        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("information_collection"))
+                .inputItems(GTItems.SENSOR_IV, 1)
+                .outputItems(WorldEaterReport.create(Map.of(), true, 0, 0))
+                .duration(WorldEaterScanDomain.SCAN_TICKS)
+                .addData("required_state", "DORMANT")
+                .addData("operation", WorldEaterTamerRecipeLogic.OPERATION)
+                .save(provider);
+
+        /*
+        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("purple_casing"))
+                .inputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING.asItem(), 1)
+                .inputItems(Items.PURPLE_TERRACOTTA, 16)
+                .outputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.asItem(), 1)
+                .duration(100)
+                .addData("required_state", "ACTIVE")
+                .addData("operation", WorldEaterTamerRecipeLogic.CASING_OPERATION)
+                .save(provider);
+
+        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("bravery_intention_hatch"))
+                .inputItems(BraveryBookIngredient.INSTANCE)
+                .outputItems(IntentionHatchPartMachine.BRAVERY)
+                .duration(1200)
+                .addData("required_state", "ACTIVE")
+                .addData("required_casing_tier", 2)
+                .addData("operation", WorldEaterTamerRecipeLogic.BRAVERY_OPERATION)
+                .save(provider);
+
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GregECore.id("safety_intention_hatch"))
                 .inputItems(GTMachines.ELECTRIC_FURNACE[GTValues.LuV], 8)
                 .inputItems(GTMachines.MACERATOR[GTValues.LuV], 8)
@@ -68,30 +94,7 @@ public class GregEGTAddon implements IGTAddon {
                 .inputItems(GTMachines.BREWERY[GTValues.LuV], 8)
                 .outputItems(IntentionHatchPartMachine.SAFETY)
                 .duration(1200).EUt(GTValues.VA[GTValues.LuV]).save(provider);
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("bravery_intention_hatch"))
-                .inputItems(BraveryBookIngredient.INSTANCE)
-                .outputItems(IntentionHatchPartMachine.BRAVERY)
-                .duration(1200)
-                .addData("required_state", "ACTIVE")
-                .addData("required_casing_tier", 2)
-                .addData("operation", WorldEaterTamerRecipeLogic.BRAVERY_OPERATION)
-                .save(provider);
-
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("information_collection"))
-                .inputItems(GTItems.SENSOR_IV, 1)
-                .outputItems(WorldEaterReport.create(Map.of(), true, 0, 0))
-                .duration(WorldEaterScanDomain.SCAN_TICKS)
-                .addData("required_state", "DORMANT")
-                .addData("operation", WorldEaterTamerRecipeLogic.OPERATION)
-                .save(provider);
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("purple_casing"))
-                .inputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING.asItem(), 1)
-                .inputItems(Items.PURPLE_TERRACOTTA, 16)
-                .outputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.asItem(), 1)
-                .duration(100)
-                .addData("required_state", "ACTIVE")
-                .addData("operation", WorldEaterTamerRecipeLogic.CASING_OPERATION)
-                .save(provider);
+         */
     }
 
     @Override
