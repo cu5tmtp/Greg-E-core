@@ -110,6 +110,7 @@ public class GregERenederRegistries {
         DynamicRenderManager.register(AMS_ID, AMSRender.TYPE);
         DynamicRenderManager.register(PRESSURE_ID, PressureChamberRender.TYPE);
         DynamicRenderManager.register(CATHEDRAL_ID, BloodCathedralRender.TYPE);
+        DynamicRenderManager.register(ResourceLocation.parse("gregecore:world_eater_parts"), WorldEaterPartRender.TYPE);
         DynamicRenderManager.register(GENESISC_ID, GCRender.TYPE);
         DynamicRenderManager.register(ROBOTICFABRICATOR_ID, QuantumSynergizerRender.TYPE);
         DynamicRenderManager.register(CONVERGENCE_ID, ConvergenceMatrixRender.TYPE);

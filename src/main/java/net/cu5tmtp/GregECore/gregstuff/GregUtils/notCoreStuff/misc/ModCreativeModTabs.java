@@ -1,7 +1,10 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.misc;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import net.cu5tmtp.GregECore.block.ModBlocks;
+import net.cu5tmtp.GregECore.block.GreggyBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.EnhancedBlastChiller;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.dyson.DysonSwarmEnergyCollector;
@@ -33,6 +36,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2Pa
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
+import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -113,6 +117,18 @@ public class ModCreativeModTabs {
                         pOutput.accept(GenesisCrucibleCases.GENESISCRUCIBLECASE4.getItem());
                         pOutput.accept(AssemblyHall.ASSEMBLYHALL.getItem());
                         pOutput.accept(PrecisionFabricationArray.PFARRAY.getItem());
+                        pOutput.accept(IncompleteWorldEaterTamer.INCOMPLETE_WORLD_EATER_TAMER.getItem());
+                        pOutput.accept(IntentionHatchPartMachine.SAFETY.getItem());
+                        pOutput.accept(IntentionHatchPartMachine.BRAVERY.getItem());
+                        if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) pOutput.accept(MEDemandHatchPartMachine.HATCH.getItem());
+                        if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) pOutput.accept(CreativeDemandPatternProviderMachine.PROVIDER.getItem());
+                        pOutput.accept(ChemicalHelper.get(TagPrefix.gem, GreggyItems.DESARIUM));
+                        pOutput.accept(ChemicalHelper.get(TagPrefix.gem, GreggyItems.IMPLEMENTIUM));
+                        pOutput.accept(ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE));
+                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING);
+                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE);
+                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_GREEN);
+                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_ORANGE);
                         pOutput.accept(ConvergenceMatrix.CONVERGENCEMATRIX.getItem());
 
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {

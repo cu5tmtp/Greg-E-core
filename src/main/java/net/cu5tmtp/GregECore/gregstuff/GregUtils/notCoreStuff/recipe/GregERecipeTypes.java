@@ -11,6 +11,8 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.misc.GregEGUITextures;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.locale.Language;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -21,6 +23,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GregERecipeTypes {
+    public static final GTRecipeType WORLD_EATER_TAMER = GTRecipeTypes.register("world_eater_tamer", "endgame")
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .addDataInfo(data -> worldEaterCaption(data, 0))
+            .addDataInfo(data -> worldEaterCaption(data, 1));
+
+    /** Localized line {@code gregecore.world_eater.recipe.<operation>.<line>}; blank when the operation has none. */
+    private static String worldEaterCaption(CompoundTag data, int line) {
+        String key = "gregecore.world_eater.recipe." + data.getString("operation") + "." + line;
+        return Language.getInstance().has(key) ? Component.translatable(key).getString() : "";
+    }
+
     public static GTRecipeType LAUNCH_SAILS = GTRecipeTypes.register("launch_sails", "dyson")
             .setMaxIOSize(2,1,0,0)
             .setEUIO(IO.IN)
