@@ -41,8 +41,6 @@ public class GreggyBlocks {
 
     public static final BlockEntry<Block> WORLD_EATER_TAMER_CASING = worldEaterCasing("", "World Eater Tamer Casing");
     public static final BlockEntry<Block> WORLD_EATER_TAMER_CASING_PURPLE = worldEaterCasing("_purple", "Dark Purple World Eater Casing");
-    public static final BlockEntry<Block> WORLD_EATER_TAMER_CASING_GREEN = worldEaterCasing("_green", "Dark Green World Eater Casing");
-    public static final BlockEntry<Block> WORLD_EATER_TAMER_CASING_ORANGE = worldEaterCasing("_orange", "Very Dark Orange World Eater Casing");
 
     //Thanks to StarT core for teaching me how to do this
     protected static BlockEntry<ActiveBlock> createActiveBlock(String name, ResourceLocation baseTexture) {

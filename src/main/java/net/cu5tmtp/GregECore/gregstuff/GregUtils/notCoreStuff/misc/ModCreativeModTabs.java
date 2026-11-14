@@ -127,8 +127,6 @@ public class ModCreativeModTabs {
                         pOutput.accept(ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE));
                         pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING);
                         pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE);
-                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_GREEN);
-                        pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_ORANGE);
                         pOutput.accept(ConvergenceMatrix.CONVERGENCEMATRIX.getItem());
 
                         for (MachineDefinition box : UHVMultiRegistry.ALL_MACHINES) {

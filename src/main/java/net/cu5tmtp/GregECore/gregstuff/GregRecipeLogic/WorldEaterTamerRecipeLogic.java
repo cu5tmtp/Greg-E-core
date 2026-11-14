@@ -52,24 +52,24 @@ import java.util.TreeMap;
 import static net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.WorldEaterScanDomain.SCAN_TICKS;
 
 public class WorldEaterTamerRecipeLogic extends RecipeLogic {
-    public enum State { DORMANT, ACTIVE, PREPARED }
+    public enum State {DORMANT, PREPARED, ACTIVE}
     public static final String OPERATION = "information_collection";
     public static final String CASING_OPERATION = "casing_conversion";
     public static final String BRAVERY_OPERATION = "bravery_crafting";
     public static final String TEST_OPERATION = "preparation_test";
     public static final String REAL_OPERATION = "essence_production";
     private static final int REQUIRED_TIER = 2;
-    private static final int ACTIVATION_COUNT = 500;
+    private static final int ACTIVATION_COUNT = 250;
     private static final int MAX_RETRIES = 5;
     private static final int RETRY_DELAY = 20;
 
     /** The only recipe shapes this machine runs; each is validated once, here. */
     enum Op {
         SURVEY(OPERATION, State.DORMANT, SCAN_TICKS, false),
-        CASING(CASING_OPERATION, State.ACTIVE, 100, false),
-        BRAVERY(BRAVERY_OPERATION, State.ACTIVE, 1200, true),
-        TEST(TEST_OPERATION, State.ACTIVE, 600, true),
-        REAL(REAL_OPERATION, State.PREPARED, 600, true);
+        CASING(CASING_OPERATION, State.PREPARED, 100, false),
+        BRAVERY(BRAVERY_OPERATION, State.PREPARED, 1200, true),
+        TEST(TEST_OPERATION, State.PREPARED, 600, true),
+        REAL(REAL_OPERATION, State.ACTIVE, 600, true);
 
         final String id;
         final State state;
@@ -104,8 +104,19 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
             if (!demand()) return true;
             if (recipe.ocLevel != 0 || recipe.inputs.size() != 1 || !isSingleItem(recipe.getInputContents(ItemRecipeCapability.CAP),
                     ChemicalHelper.get(TagPrefix.gem, this == TEST ? GreggyItems.DESARIUM : GreggyItems.IMPLEMENTIUM))) return false;
-            return this == TEST ? recipe.outputs.isEmpty() : recipe.outputs.size() == 1 && isSingleItem(
-                    recipe.getOutputContents(ItemRecipeCapability.CAP), ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE));
+            if (this == TEST) {
+                return recipe.outputs.isEmpty();
+            }
+
+            var outputs = recipe.getOutputContents(ItemRecipeCapability.CAP);
+            var essence = ChemicalHelper.get(
+                    TagPrefix.ingot,
+                    GreggyItems.TAMED_WORLD_EATER_ESSENSE
+            );
+
+            return recipe.outputs.size() == 1 &&
+                    (isSingleItem(outputs, essence, 1)
+                            || isSingleItem(outputs, essence, 2));
         }
     }
 
@@ -183,13 +194,19 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
         Op op = Op.of(recipe);
         if (op == null || recipe.recipeType != controller.getRecipeType() || !stateMatches(recipe, op)) return false;
         if (op.needsTier && controller.getCasingTier() != REQUIRED_TIER) return false;
+        if (op == Op.REAL && !isSingleItem(
+                recipe.getOutputContents(ItemRecipeCapability.CAP),
+                ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE),
+                controller.getIntention() == Intention.BRAVERY ? 2 : 1)) {
+            return false;
+        }
         return !op.demand() || controller.getIntention() != Intention.NONE;
     }
 
     /** Crafting stays available once PREPARED; unrecognized recipes ({@code op == null}) only match literally. */
     private boolean stateMatches(GTRecipe recipe, @Nullable Op op) {
         return recipe.data.getString("required_state").equals(progression.name())
-                || progression == State.PREPARED && op != null && op.crafting();
+                || progression == State.ACTIVE && op != null && op.crafting();
     }
 
     private static boolean hasDemandOperation(GTRecipe recipe) {
@@ -205,10 +222,20 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
     public static boolean isCasingRecipe(GTRecipe recipe) { return Op.of(recipe) == Op.CASING; }
 
     private static boolean isSingleItem(List<Content> contents, ItemStack expected) {
-        if (expected.isEmpty() || contents.size() != 1 || contents.get(0).isChanced()
-                || !(contents.get(0).content instanceof Ingredient ingredient)) return false;
+        return isSingleItem(contents, expected, 1);
+    }
+
+    private static boolean isSingleItem(List<Content> contents, ItemStack expected, int amount) {
+        if (expected.isEmpty() || contents.size() != 1
+                || contents.get(0).isChanced()
+                || !(contents.get(0).content instanceof Ingredient ingredient)) {
+            return false;
+        }
+
         var stacks = ingredient.getItems();
-        return stacks.length == 1 && stacks[0].getCount() == 1 && stacks[0].is(expected.getItem());
+        return stacks.length == 1
+                && stacks[0].getCount() == amount
+                && stacks[0].is(expected.getItem());
     }
 
     @Override
@@ -456,7 +483,7 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
         demand = ItemStack.EMPTY;
         if (GTCEu.Mods.isAE2Loaded()) MEDemandHatchPartMachine.clear(controller);
         if (Op.of(lastRecipe) == Op.TEST) {
-            progression = State.PREPARED;
+            progression = State.ACTIVE;
             finishRun();
         } else {
             rewardPending = true;
@@ -496,7 +523,7 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                 List.of(new Content(StrictNBTIngredient.of(pendingBook.copy()), 10000, 10000, 0)));
         if (!deliver(output, Component.literal("Survey complete — report output blocked"))) return;
         if (successful && counts.values().stream().mapToLong(Long::longValue).sum() >= ACTIVATION_COUNT) {
-            progression = State.ACTIVE;
+            progression = State.PREPARED;
         }
         finishRun();
     }
@@ -630,7 +657,7 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                 : Component.translatable(hint + "survey");
         if (controller.getCasingTier() != REQUIRED_TIER) return Component.translatable(hint + "casing");
         if (controller.getIntention() == Intention.NONE) return Component.translatable(hint + "intention");
-        return Component.translatable(hint + (progression == State.ACTIVE ? "test" : "real"));
+        return Component.translatable(hint + (progression == State.PREPARED ? "test" : "real"));
     }
 
     @Override

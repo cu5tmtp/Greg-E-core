@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -58,11 +59,11 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
             {"      CNC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "N     GSG     N", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CNC      "},
             {"      CNC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "N     GSG     N", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CNC      "},
             {"      CAC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "A     GSG     A", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CAC      "},
-            {"      CAC      ", "               ", "               ", "               ", "               ", "     TTTTT     ", "H    T   T    H", "A    T   T    A", "H    T   T    H", "     TTTTT     ", "               ", "               ", "               ", "               ", "      HAH      "},
-            {"  CCCCCACCCCC  ", " C    GAG    C ", "C     GGG     C", "C     GGG     C", "C     GGG     C", "H    T   T    H", "HGGGG     GGGGH", "AAGGG     GGGAA", "HGGGG     GGGGH", "H    T   T    H", "C     GGG     C", "C     GGG     C", "C     GGG     C", " C    GAG    C ", "  CCCHHAHHCCC  "},
+            {"      HAH      ", "               ", "               ", "               ", "               ", "     TTTTT     ", "H    T   T    H", "A    T   T    A", "H    T   T    H", "     TTTTT     ", "               ", "               ", "               ", "               ", "      HAH      "},
+            {"  CCCHHAHHCCC  ", " C    GAG    C ", "C     GGG     C", "C     GGG     C", "C     GGG     C", "H    T   T    H", "HGGGG     GGGGH", "AAGGG     GGGAA", "HGGGG     GGGGH", "H    T   T    H", "C     GGG     C", "C     GGG     C", "C     GGG     C", " C    GAG    C ", "  CCCHHAHHCCC  "},
             {"  NNAAAEAAANN  ", " P    ASA    P ", "N     GSG     N", "N     GSG     N", "A     GSG     A", "A    T   T    A", "AAGGG     GGGAA", "ESSSS     SSSSE", "AAGGG     GGGAA", "A    T   T    A", "A     GSG     A", "N     GSG     N", "N     GSG     N", " P    ASA    P ", "  NNAAAEAAANN  "},
-            {"  CCCCCACCCCC  ", " C    GAG    C ", "C     GGG     C", "C     GGG     C", "C     GGG     C", "H    T   T    H", "HGGGG     GGGGH", "AAGGG     GGGAA", "HGGGG     GGGGH", "H    T   T    H", "C     GGG     C", "C     GGG     C", "C     GGG     C", " C    GAG    C ", "  CCCHHAHHCCC  "},
-            {"      CAC      ", "               ", "               ", "               ", "               ", "     TTTTT     ", "H    T   T    H", "A    T   T    A", "H    T   T    H", "     TTTTT     ", "               ", "               ", "               ", "               ", "      HAH      "},
+            {"  CCCHHAHHCCC  ", " C    GAG    C ", "C     GGG     C", "C     GGG     C", "C     GGG     C", "H    T   T    H", "HGGGG     GGGGH", "AAGGG     GGGAA", "HGGGG     GGGGH", "H    T   T    H", "C     GGG     C", "C     GGG     C", "C     GGG     C", " C    GAG    C ", "  CCCHHAHHCCC  "},
+            {"      HAH      ", "               ", "               ", "               ", "               ", "     TTTTT     ", "H    T   T    H", "A    T   T    A", "H    T   T    H", "     TTTTT     ", "               ", "               ", "               ", "               ", "      HAH      "},
             {"      CAC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "A     GSG     A", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CAC      "},
             {"      CNC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "N     GSG     N", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CNC      "},
             {"      CNC      ", "               ", "               ", "               ", "               ", "               ", "C     GGG     C", "N     GSG     N", "C     GGG     C", "               ", "               ", "               ", "               ", "               ", "      CNC      "},
@@ -78,30 +79,43 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
             .recipeTypes(GregERecipeTypes.WORLD_EATER_TAMER)
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof IncompleteWorldEaterTamer tamer
-                            && ((WorldEaterTamerRecipeLogic) tamer.getRecipeLogic()).getProgressionState() != WorldEaterTamerRecipeLogic.State.DORMANT
-                            && recipe.recipeType == GregERecipeTypes.WORLD_EATER_TAMER
+                        && recipe.recipeType == GregERecipeTypes.WORLD_EATER_TAMER) {
+
+                    if (((WorldEaterTamerRecipeLogic) tamer.getRecipeLogic()).getProgressionState()
+                            != WorldEaterTamerRecipeLogic.State.DORMANT
                             && WorldEaterTamerRecipeLogic.isCasingRecipe(recipe)) {
-                    var parallel = GTRecipeModifiers.hatchParallel(machine, recipe);
-                    return original -> {
-                        var modified = parallel.apply(original);
-                        if (modified != null) {
-                            // The standard modifier synthesizes a zero-EU tick entry even
-                            // for recipes without energy. Preserve genuinely power-free IO.
-                            modified.tickInputs.remove(EURecipeCapability.CAP);
-                            modified.tickOutputs.remove(EURecipeCapability.CAP);
-                        }
-                        return modified;
-                    };
+
+                        var parallel = GTRecipeModifiers.hatchParallel(machine, recipe);
+                        return original -> {
+                            var modified = parallel.apply(original);
+                            if (modified != null) {
+                                modified.tickInputs.remove(EURecipeCapability.CAP);
+                                modified.tickOutputs.remove(EURecipeCapability.CAP);
+                            }
+                            return modified;
+                        };
+                    }
+
+                    if (tamer.getIntention() == Intention.BRAVERY
+                            && WorldEaterTamerRecipeLogic.REAL_OPERATION.equals(
+                            recipe.data.getString("operation"))
+                            && WorldEaterTamerRecipeLogic.isDemandRecipe(recipe)) {
+
+                        return ModifierFunction.builder()
+                                .outputModifier(ContentModifier.multiplier(2))
+                                .build();
+                    }
                 }
+
                 return ModifierFunction.IDENTITY;
             })
             .pattern(definition -> {
                 var frame = Predicates.blocks(GreggyBlocks.WORLD_EATER_TAMER_CASING.get())
                         .or(Predicates.abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1).setPreviewCount(1))
-                        .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(5))
-                        .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(5))
-                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(5))
-                        .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(5));
+                        .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(5, 1))
+                        .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(5, 1))
+                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMaxGlobalLimited(5, 1))
+                        .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMaxGlobalLimited(5, 1));
                 if (GTCEu.Mods.isAE2Loaded()) frame = frame.or(Predicates.abilities(MEDemandHatchPartMachine.DEMAND)
                         .setMaxGlobalLimited(1).setPreviewCount(1));
                 var pattern = FactoryBlockPattern.start(RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.BACK);
@@ -155,17 +169,13 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
             var block = state.getBlockState().getBlock();
             int tier;
             if (block == GreggyBlocks.WORLD_EATER_TAMER_CASING.get()) tier = 1;
-            else if (block == GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.get()
-                    || block == GreggyBlocks.WORLD_EATER_TAMER_CASING_GREEN.get()
-                    || block == GreggyBlocks.WORLD_EATER_TAMER_CASING_ORANGE.get()) tier = 2;
+            else if (block == GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.get()) tier = 2;
             else return false;
             var context = state.getMatchContext();
             context.set(CASING_TIER, Math.min(context.getOrDefault(CASING_TIER, 2), tier));
             return true;
         }, () -> new BlockInfo[]{new BlockInfo(GreggyBlocks.WORLD_EATER_TAMER_CASING.getDefaultState()),
-                new BlockInfo(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.getDefaultState()),
-                new BlockInfo(GreggyBlocks.WORLD_EATER_TAMER_CASING_GREEN.getDefaultState()),
-                new BlockInfo(GreggyBlocks.WORLD_EATER_TAMER_CASING_ORANGE.getDefaultState())});
+                new BlockInfo(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE.getDefaultState())});
     }
 
     @Override
@@ -221,7 +231,16 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
     @Override
     public void addDisplayText(List<Component> text) {
         IDisplayUIMachine.super.addDisplayText(text);
-        if (isFormed()) text.add(((WorldEaterTamerRecipeLogic) getRecipeLogic()).getCustomProgressLine());
+        if (isFormed()) {
+            var logic = (WorldEaterTamerRecipeLogic) getRecipeLogic();
+
+            text.add(Component.translatable("gregecore.world_eater.ui1")
+                    .withStyle(ChatFormatting.AQUA)
+                    .append(Component.literal(logic.getProgressionState().name())
+                            .withStyle(ChatFormatting.AQUA)));
+
+            text.add(logic.getCustomProgressLine());
+        }
     }
 
     @Override

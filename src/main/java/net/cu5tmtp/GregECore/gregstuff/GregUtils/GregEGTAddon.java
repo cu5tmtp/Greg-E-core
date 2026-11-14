@@ -92,22 +92,6 @@ public class GregEGTAddon implements IGTAddon {
                 .addData("required_state", "ACTIVE")
                 .addData("operation", WorldEaterTamerRecipeLogic.CASING_OPERATION)
                 .save(provider);
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("green_casing"))
-                .inputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING.asItem(), 1)
-                .inputItems(Items.GREEN_TERRACOTTA, 16)
-                .outputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING_GREEN.asItem(), 1)
-                .duration(100)
-                .addData("required_state", "ACTIVE")
-                .addData("operation", WorldEaterTamerRecipeLogic.CASING_OPERATION)
-                .save(provider);
-        GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("orange_casing"))
-                .inputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING.asItem(), 1)
-                .inputItems(Items.ORANGE_TERRACOTTA, 16)
-                .outputItems(GreggyBlocks.WORLD_EATER_TAMER_CASING_ORANGE.asItem(), 1)
-                .duration(100)
-                .addData("required_state", "ACTIVE")
-                .addData("operation", WorldEaterTamerRecipeLogic.CASING_OPERATION)
-                .save(provider);
     }
 
     @Override

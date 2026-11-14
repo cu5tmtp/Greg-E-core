@@ -34,21 +34,13 @@ public final class WorldEaterDemands {
 
     static List<Entry> build(Function<ResourceLocation, Item> lookup) {
         var entries = new ArrayList<Entry>();
-        for (int tier = GTValues.LV; tier <= GTValues.UEV; tier++) {
+        for (int tier = GTValues.LV; tier <= GTValues.UIV; tier++) {
+            if (tier == GTValues.UEV) continue;
             for (String family : List.of("electric_motor", "electric_pump", "conveyor_module", "electric_piston",
                     "robot_arm", "sensor", "emitter", "field_generator")) {
                 var id = new ResourceLocation("gtceu", GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + family);
                 var item = lookup.apply(id);
                 if (item != null && item != Items.AIR) entries.add(new Entry(item, tier));
-            }
-        }
-        Material[] materials = {GTMaterials.Steel, GTMaterials.Aluminium, GTMaterials.StainlessSteel,
-                GTMaterials.Titanium, GTMaterials.TungstenSteel, GTMaterials.RhodiumPlatedPalladium,
-                GTMaterials.NaquadahAlloy, GTMaterials.Darmstadtium, GTMaterials.Neutronium};
-        for (int i = 0; i < materials.length; i++) {
-            for (TagPrefix prefix : List.of(TagPrefix.gear, TagPrefix.rodLong, TagPrefix.rotor)) {
-                var stack = ChemicalHelper.get(prefix, materials[i]);
-                if (!stack.isEmpty()) entries.add(new Entry(stack.getItem(), GTValues.LV + i));
             }
         }
         return List.copyOf(entries);
