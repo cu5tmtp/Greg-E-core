@@ -326,7 +326,7 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
             var pool = WorldEaterDemands.pool();
             var entry = pool.get(level.random.nextInt(pool.size()));
 
-            demand = entry.stack(1 + level.random.nextInt(5));
+            demand = entry.stack(5 + level.random.nextInt(5));
             demandTier = entry.tier();
             duration = entry.deadline();
 

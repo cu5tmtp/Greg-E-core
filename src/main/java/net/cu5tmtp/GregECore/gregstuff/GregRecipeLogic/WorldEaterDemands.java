@@ -22,7 +22,7 @@ public final class WorldEaterDemands {
     private WorldEaterDemands() {}
 
     public record Entry(Item item, int tier) {
-        public int deadline() { return 600 * tier; }
+        public int deadline() { return 200 * tier; }
         public ItemStack stack(int count) { return new ItemStack(item, count); }
     }
 

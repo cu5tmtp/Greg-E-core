@@ -40,7 +40,6 @@ import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.WorldEaterTamerRecipeLogi
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregERecipeTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.cu5tmtp.GregECore.gregstuff.GregUtils.WorldEaterLang;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -157,6 +156,8 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
             .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.0").withStyle(style -> style.withColor(0x90EE90)))
             .tooltips(Component.translatable("info.gregecore.dashline"))
             .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.1").withStyle(style -> style.withColor(0x90EE90)))
+            .tooltips(Component.translatable("info.gregecore.dashline"))
+            .tooltips(Component.translatable("gregecore.tooltip.world_eater_tamer.3").withStyle(style -> style.withColor(0x90EE90)))
             .register();
 
     public IncompleteWorldEaterTamer(IMachineBlockEntity holder, Object... args) { super(holder, args); }
@@ -260,5 +261,7 @@ public class IncompleteWorldEaterTamer extends WorkableMultiblockMachine impleme
         return new ModularUI(198, 208, this, player).widget(new FancyMachineUIWidget(this, 198, 208));
     }
 
-    public static void init() { WorldEaterLang.init(); }
+    public static void init() {
+
+    }
 }

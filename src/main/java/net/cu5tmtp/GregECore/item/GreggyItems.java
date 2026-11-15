@@ -13,7 +13,6 @@ public class GreggyItems {
     public static Material DEIONIZED_WATER, SUPERHEATED_SOLAR;
     public static Material MANASTEEL_CABLE, TWILIGHT_ALLOY_CABLE, DESH_CABLE, MALACHITE_CABLE, FORGOTTEN_INGOT_CABLE, BLOOD_INFUSED_CABLE, BACTERIAL_MATTER_CABLE, DRACONIUM_CABLE;
     public static Material AER, AQUA, IGNIS, TERRA, ORDO, PERDITIO;
-
     public static Material DESH_ROTOR, MALACHITE_ROTOR;
 
     public static Material buildFluidMaterial(String name, int color, String formula) {

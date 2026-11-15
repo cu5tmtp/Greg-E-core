@@ -159,7 +159,7 @@ public class AscencionAltar extends WorkableElectricMultiblockMachine implements
                         .aisle("aaccccaaa", "aacaacaaa", "aafaacaaa", "acccccaaa", "aaaaaccca", "aaaaaaccc", "aaaaaaaai", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa")
                         .aisle("aaaccaaaa", "aaacfaaaa", "aaaccaaaa", "aagccaaaa", "aaaaacgaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa")
                         .aisle("aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa", "aaaaaaaaa")
-                        .where("a", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("minecraft:air"))))
+                        .where("a", Predicates.any())
                         .where("c", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("bloodmagic:blankrune"))))
                         .where("d", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("bloodmagic:dislocationrune"))))
                         .where("e", Predicates.blocks(ForgeRegistries.BLOCKS.getValue(ResourceLocation.parse("bloodmagic:sacrificerune"))))
