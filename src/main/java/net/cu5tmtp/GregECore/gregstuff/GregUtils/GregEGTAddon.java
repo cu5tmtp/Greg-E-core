@@ -47,14 +47,14 @@ public class GregEGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) MEDemandHatchPartMachine.addRecipe(provider);
 
         GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("preparation_test"))
-                .inputItems(ChemicalHelper.get(TagPrefix.gem, GreggyItems.DESARIUM))
+                .inputItems("kubejs:animated/diacircuit")
                 .duration(600)
                 .addData("required_state", "PREPARED")
                 .addData("required_casing_tier", 2)
-                .addData("operation", WorldEaterTamerRecipeLogic.TEST_OPERATION).save(provider);
+                .addData("operation", WorldEaterTamerRecipeLogic.TEST_OPERATION)
+                .save(provider);
 
         GregERecipeTypes.WORLD_EATER_TAMER.recipeBuilder(GregECore.id("information_collection"))
                 .inputItems(GTItems.SENSOR_IV, 1)

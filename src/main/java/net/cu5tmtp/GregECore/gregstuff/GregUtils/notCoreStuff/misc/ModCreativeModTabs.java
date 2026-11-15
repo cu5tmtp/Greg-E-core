@@ -122,9 +122,6 @@ public class ModCreativeModTabs {
                         pOutput.accept(IntentionHatchPartMachine.BRAVERY.getItem());
                         if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) pOutput.accept(MEDemandHatchPartMachine.HATCH.getItem());
                         if (com.gregtechceu.gtceu.GTCEu.Mods.isAE2Loaded()) pOutput.accept(CreativeDemandPatternProviderMachine.PROVIDER.getItem());
-                        pOutput.accept(ChemicalHelper.get(TagPrefix.gem, GreggyItems.DESARIUM));
-                        pOutput.accept(ChemicalHelper.get(TagPrefix.gem, GreggyItems.IMPLEMENTIUM));
-                        pOutput.accept(ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE));
                         pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING);
                         pOutput.accept(GreggyBlocks.WORLD_EATER_TAMER_CASING_PURPLE);
                         pOutput.accept(ConvergenceMatrix.CONVERGENCEMATRIX.getItem());

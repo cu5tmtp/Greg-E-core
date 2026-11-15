@@ -16,13 +16,10 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.endgame.IncompleteWorldEaterTamer;
 import net.cu5tmtp.GregECore.particle.ModParticles;
-import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.IntentionHatchPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.endgame.IntentionHatchPartMachine.Intention;
 import net.minecraft.core.particles.ParticleTypes;
@@ -122,16 +119,11 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                 return true;
             }
 
-            if (!demand()) return true;
+            if (!demand()) {
+                return true;
+            }
 
-            if (recipe.ocLevel != 0
-                    || recipe.inputs.size() != 1
-                    || !isSingleItem(
-                    recipe.getInputContents(ItemRecipeCapability.CAP),
-                    ChemicalHelper.get(
-                            TagPrefix.gem,
-                            this == TEST ? GreggyItems.DESARIUM : GreggyItems.IMPLEMENTIUM
-                    ))) {
+            if (recipe.ocLevel != 0) {
                 return false;
             }
 
@@ -139,15 +131,11 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
                 return recipe.outputs.isEmpty();
             }
 
-            var outputs = recipe.getOutputContents(ItemRecipeCapability.CAP);
-            var essence = ChemicalHelper.get(
-                    TagPrefix.ingot,
-                    GreggyItems.TAMED_WORLD_EATER_ESSENSE
-            );
+            if (this == REAL) {
+                return !recipe.outputs.isEmpty();
+            }
 
-            return recipe.outputs.size() == 1
-                    && (isSingleItem(outputs, essence, 1)
-                    || isSingleItem(outputs, essence, 2));
+            return false;
         }
     }
 
@@ -226,12 +214,6 @@ public class WorldEaterTamerRecipeLogic extends RecipeLogic {
         Op op = Op.of(recipe);
         if (op == null || recipe.recipeType != controller.getRecipeType() || !stateMatches(recipe, op)) return false;
         if (op.needsTier && controller.getCasingTier() != REQUIRED_TIER) return false;
-        if (op == Op.REAL && !isSingleItem(
-                recipe.getOutputContents(ItemRecipeCapability.CAP),
-                ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE),
-                controller.getIntention() == Intention.BRAVERY ? 2 : 1)) {
-            return false;
-        }
         return !op.demand() || controller.getIntention() != Intention.NONE;
     }
 

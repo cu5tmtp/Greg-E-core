@@ -319,14 +319,5 @@ public class MEDemandHatchPartMachine extends MEStockingBusPartMachine {
     @Override
     public boolean canShared() { return false; }
 
-    public static void addRecipe(Consumer<FinishedRecipe> provider) {
-        var essence = ChemicalHelper.get(TagPrefix.ingot, GreggyItems.TAMED_WORLD_EATER_ESSENSE).getItem();
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, HATCH.getItem())
-                .requires(GTAEMachines.STOCKING_IMPORT_BUS_ME.getItem())
-                .requires(essence, 4)
-                .unlockedBy("has_essence", InventoryChangeTrigger.TriggerInstance.hasItems(essence))
-                .save(provider, GregECore.id("me_demand_hatch"));
-    }
-
     public static void init() {}
 }
