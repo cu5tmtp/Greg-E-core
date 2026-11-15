@@ -8,13 +8,17 @@ import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
+import net.cu5tmtp.GregECore.gregstuff.GregRecipeLogic.WorldEaterDemands;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.misc.GregEGUITextures;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.locale.Language;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,11 +29,53 @@ import java.util.List;
 public class GregERecipeTypes {
     public static final GTRecipeType WORLD_EATER_TAMER = GTRecipeTypes.register("world_eater_tamer", "endgame")
             .setMaxIOSize(9, 1, 0, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setProgressBar(GregEGUITextures.ASSEMBLY_HALL_PROGRESS, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> worldEaterCaption(data, 0))
-            .addDataInfo(data -> worldEaterCaption(data, 1));
+            .addDataInfo(data -> worldEaterCaption(data, 1))
+            .setUiBuilder((recipe, widgetGroup) -> {
+                List<WorldEaterDemands.Entry> items = WorldEaterDemands.pool();
 
-    /** Localized line {@code gregecore.world_eater.recipe.<operation>.<line>}; blank when the operation has none. */
+                if (!items.isEmpty()) {
+                    int xPos = 90;
+                    int yPos = 22;
+
+                    ItemStackTransfer dummyInventory = new ItemStackTransfer(1);
+                    dummyInventory.setStackInSlot(0, items.get(0).stack(1));
+
+                    PhantomSlotWidget fakeSlot = new PhantomSlotWidget(
+                            dummyInventory, 0, xPos, yPos
+                    ) {
+                        private int ticks = 0;
+                        private int currentIndex = 0;
+
+                        @Override
+                        public void updateScreen() {
+                            super.updateScreen();
+
+                            if (items.size() <= 1) return;
+
+                            if (++ticks >= 10) {
+                                ticks = 0;
+                                currentIndex = (currentIndex + 1) % items.size();
+
+                                dummyInventory.setStackInSlot(
+                                        0,
+                                        items.get(currentIndex).stack(1)
+                                );
+                            }
+                        }
+                    };
+
+                    fakeSlot.setBackgroundTexture(GuiTextures.SLOT);
+                    fakeSlot.setHoverTooltips(
+                            Component.literal("Possible World Eater demands.")
+                                    .withStyle(ChatFormatting.LIGHT_PURPLE)
+                    );
+
+                    widgetGroup.addWidget(fakeSlot);
+                }
+            });
+
     private static String worldEaterCaption(CompoundTag data, int line) {
         String key = "gregecore.world_eater.recipe." + data.getString("operation") + "." + line;
         return Language.getInstance().has(key) ? Component.translatable(key).getString() : "";
