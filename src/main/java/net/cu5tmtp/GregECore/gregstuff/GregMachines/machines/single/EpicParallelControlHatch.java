@@ -4,16 +4,14 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.CleaningMaintenanceHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.cleanroom.DimensionSimulator;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import static net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore.REGISTRATE;
 
-public class EpicParallelControllHatch {
+public class EpicParallelControlHatch {
 
     public static MachineDefinition EPIC_PARALLEL_HATCH = null;
 

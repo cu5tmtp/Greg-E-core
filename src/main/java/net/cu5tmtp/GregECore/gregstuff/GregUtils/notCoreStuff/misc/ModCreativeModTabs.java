@@ -1,8 +1,6 @@
 package net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.misc;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import net.cu5tmtp.GregECore.block.ModBlocks;
 import net.cu5tmtp.GregECore.block.GreggyBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.chillers.BigFreezer;
@@ -20,7 +18,7 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.BigChemica
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.EnhancedFusionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.FissionReactor;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.reactors.GiantChemicalReactor;
-import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.single.EpicParallelControllHatch;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.single.EpicParallelControlHatch;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.machines.uhvmulti.UHVMultiRegistry;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.AdvancedCoolantInputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.coolant.CoolantInputPartMachine;
@@ -36,7 +34,6 @@ import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT2Pa
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.threadParts.ThreadT3PartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.GregECore;
 import net.cu5tmtp.GregECore.item.ModItems;
-import net.cu5tmtp.GregECore.item.GreggyItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -163,7 +160,7 @@ public class ModCreativeModTabs {
                         pOutput.accept(DimensionalRelicsPartMachine.DIMENSIONAL_RELICS_MACHINE.getItem());
                         pOutput.accept(DysonSwarmEnergyOutputPartMachine.DYSON_SWARM_EN_OUTPUT_MACHINE.getItem());
                         pOutput.accept(DysonSwarmEuclidEnergyOutputPartMachine.DYSON_SWARM_EN_OUTPUT_EUCLID_MACHINE.getItem());
-                        pOutput.accept(EpicParallelControllHatch.EPIC_PARALLEL_HATCH.getItem());
+                        pOutput.accept(EpicParallelControlHatch.EPIC_PARALLEL_HATCH.getItem());
                         pOutput.accept(BloodStoragePartMachine.BLOOD_STORAGE_MACHINE.getItem());
 
                     })

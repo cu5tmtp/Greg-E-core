@@ -144,9 +144,9 @@ public class EnhancedBlastChiller extends WorkableElectricMultiblockMachine {
             }
         }
 
-        textList.add(Component.translatable("info.gregecore.enhancedblastchiller4" + this.numberOfCores).withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("info.gregecore.enhancedblastchiller5" + this.numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
-        textList.add(Component.translatable("info.gregecore.enhancedblastchiller6" + this.numberOfCores * 16).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("info.gregecore.enhancedblastchiller4").append(String.valueOf(this.numberOfCores)).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("info.gregecore.enhancedblastchiller5").append(this.numberOfCores * 6.5 + "%").withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("info.gregecore.enhancedblastchiller6").append(String.valueOf(this.numberOfCores * 16)).withStyle(ChatFormatting.AQUA));
     }
 
     public int getNumberOfCores() {

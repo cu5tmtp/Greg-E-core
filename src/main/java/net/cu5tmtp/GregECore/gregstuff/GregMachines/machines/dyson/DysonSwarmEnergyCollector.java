@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.managers.DysonSwarmManager;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DysonSwarmEnergyOutputPartMachine;
+import net.cu5tmtp.GregECore.gregstuff.GregMachines.parts.misc.DysonSwarmEuclidEnergyOutputPartMachine;
 import net.cu5tmtp.GregECore.gregstuff.GregMachines.renderer.renderRegistries.GregERenederRegistries;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregEModifiers;
 import net.cu5tmtp.GregECore.gregstuff.GregUtils.notCoreStuff.recipe.GregERecipeTypes;
@@ -66,7 +67,8 @@ public class DysonSwarmEnergyCollector extends WorkableElectricMultiblockMachine
                         .where('K', Predicates.blocks(GCYMBlocks.MOLYBDENUM_DISILICIDE_COIL_BLOCK.get()))
                         .where('L', Predicates.blocks(COMPUTER_CASING.get())
                                 .or(Predicates.abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(11).setPreviewCount(1))
-                                .or(Predicates.abilities(DysonSwarmEnergyOutputPartMachine.getPartAbility()).setMaxGlobalLimited(11, 1)))
+                                .or(Predicates.abilities(DysonSwarmEnergyOutputPartMachine.getPartAbility()).setMaxGlobalLimited(11, 1))
+                                .or(Predicates.abilities(DysonSwarmEuclidEnergyOutputPartMachine.getPartAbility()).setMaxGlobalLimited(11, 1)))
                         .where(' ', Predicates.any())
                         .build();
             })

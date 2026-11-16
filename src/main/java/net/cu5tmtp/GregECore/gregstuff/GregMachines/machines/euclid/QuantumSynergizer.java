@@ -122,7 +122,7 @@ public class QuantumSynergizer extends WorkableElectricMultiblockMachine {
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
-        textList.add(Component.translatable("info.gregecore.quantumsynergizer4" + comboCount).withStyle(ChatFormatting.AQUA));
+        textList.add(Component.translatable("info.gregecore.quantumsynergizer4").append(String.valueOf(comboCount)).withStyle(ChatFormatting.AQUA));
     }
 
     public int getComboCount() {
